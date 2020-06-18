@@ -31,8 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # Registering API
-    'dublinBusAPI.apps.DublinbusapiConfig', # Must follow this syntax
     # Boiler plate code
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Our app
+    'bus_app'
 ]
 
 MIDDLEWARE = [
