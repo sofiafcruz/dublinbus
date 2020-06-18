@@ -1,14 +1,14 @@
 # This effectively acts as the form
 
 # from rest_framework import serializers
-# from .models import Routes, BusStops
+# from .models import Route, BusStop
 
-# class RoutesSerializer(serializers.ModelSerializer):
+# class RouteSerializer(serializers.ModelSerializer):
 #     class Meta:
-#         model = Routes
+#         model = Route
 #         fields = ['id', 'name', 'origin', 'destination', 'date_created']
 
-# class BusStopsSerializer(serializers.ModelSerializer):
+# class BusStopSerializer(serializers.ModelSerializer):
 #     class Meta:
-#         model = Routes
+#         model = BusStop
 #         fields = ['id', 'pnum', 'stopID', 'stopname', 'lat', 'long']
