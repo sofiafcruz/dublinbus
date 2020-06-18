@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # Registering API
-    'dublinBusAPI.apps.DublinBusAPIConfig' # Must follow this syntax
+    'dublinBusAPI.apps.DublinBusAPIConfig', # Must follow this syntax
     # Boiler plate code
     'django.contrib.admin',
     'django.contrib.auth',
