@@ -37,19 +37,19 @@ $('#initial-dropdown').change(function(){
     // 
 
     // Problem - This appends EVERYTIME (instead should just do it once)
-    $("#search-elements-container").append("<div id='origin-and-dest-container'></div>"); 
+    $("#search-elements-container").append("<div id='start-and-end-container'></div>"); 
     // Instead we want it to just render new origin and bus stop options every time new option clicked
 
-    let origin_label = "<label for='origin'>Origin Stop:</label>";
-    let origin_select = "<select name='origin-dropdown' id='origin-dropdown'></select>";
-    let origin = "<div id='origin-portion>" + origin_label + origin_select + "</div>";
+    let start_stop_label = "<label for='start'>Starting Stop:</label>";
+    let start_stop_select = "<select name='start-dropdown' id='start-dropdown'></select>";
+    let start_stop = "<div id='start-portion>" + start_stop_label + start_stop_select + "</div>";
 
-    let destination_label = "<label for='destination'>Destination Stop:</label>";
-    let destination_select = "<select name='destination-dropdown' id='destination-dropdown'></select>"; 
-    let destination = "<div id='destination-portion>" + destination_label + destination_select + "</div>";
+    let end_stop_label = "<label for='end'>Ending Stop:</label>";
+    let end_stop_select = "<select name='end-dropdown' id='end-dropdown'></select>"; 
+    let end_stop = "<div id='end-portion>" + end_stop_label + end_stop_select + "</div>";
 
-    $("#origin-and-dest-container").append(origin);
-    $("#origin-and-dest-container").append(destination);
+    $("#start-and-end-container").append(start_stop);
+    $("#start-and-end-container").append(end_stop);
 });
 
 }); // END OF JQUERY BLOCK
