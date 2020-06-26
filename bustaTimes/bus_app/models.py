@@ -8,16 +8,15 @@ class Route(models.Model):
     destination = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return self.route_name
+class BusStop(models.Model):
+    stop_num = models.CharField(primary_key=True, max_length=20)
+    address = models.CharField(max_length=100)
+    latitude = models.CharField(max_length=100)
+    longitude = models.CharField(max_length=100)
 
-# class BusStop(models.Model):
-#     stop_num = models.CharField(max_length=20)
-#     address = models.CharField(max_length=100)
-#     latitude = models.CharField(max_length=100)
-#     longitude = models.CharField(max_length=100)
-
-#     def __str__(self):
-#         return self.stopID + ": " + self.stopname
+    def __str__(self):
+        return self.stop_num
 
 # class RouteAndStop(models.Model):
 #     route_name = models.ForeignKey('bus_app.Route', on_delete=models.CASCADE)
