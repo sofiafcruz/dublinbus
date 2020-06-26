@@ -3,13 +3,12 @@ from django.db import models
 # # Create your models here.
 
 class Route(models.Model):
-    route_id = models.CharField(primary_key=True, max_length=20)
-    name = models.CharField(max_length=20) 
+    name = models.CharField(primary_key=True, max_length=20) 
     origin = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
 
 # class BusStop(models.Model):
 #     # BusStop ID defined automatically
