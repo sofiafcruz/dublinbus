@@ -49,8 +49,45 @@
         <img src="{% static "images/example.jpg"%}" alt="This should be an Image of a Route 1 Dublin Bus">
     </div>
 
+    <!-- Messing around with template Injections -->
+
+    <!-- Storing the Routes in a dropdown -->
+    <div id="test-routes-select-container" class='container'>
+        <label for="route">Injected Route/ Bus Number:</label>
+        <br>
+        <!-- Using a form (in combo with forms.py) - Think needed for DB queries -->
+        <label for="route">Using a Form</label>
+        <form method='POST'>
+            {% csrf_token %}
+            {{ route_form.select_form }}
+        </form>
+        <!-- Using a select (not as interactive I think) -->
+        <label for="route">Using a Select</label>
+        <select name="route-injection-dropdown" id="route-injection-dropdown">
+            {% block test_select_routes_content %}
+                {% for route in routes %}
+                    <option value='{{route.route_name}}'>{{ route.route_name }}</option>
+                {% endfor %}
+            {% endblock %}
+        </select>
+        
+    </div>
+
+    <!-- Storing the Bus Stops of the Route in a table-->
+    <div id="test-busstops-select-container" class='container'>
+        <label for="route">Injected Route/ Bus Number:</label>
+        <select name="route-injection-dropdown" id="route-injection-dropdown">
+            {% block test_select_busstops_content %}
+                {% for route in routes %}
+                    <option>{{ route.route_name }}</option>
+                {% endfor %}
+            {% endblock %}
+        </select>
+    </div>
+
+    <!-- Using a for loop to render all the Route instances for testing purposes -->
     <div id="test-routes-container" class='container'>
-        {% block content %}
+        {% block test_routes_content %}
             {% for route in routes %}
                 <p>Route Name: {{ route.route_name }}</p>
                 <p>Origin: {{ route.origin }}</p>
