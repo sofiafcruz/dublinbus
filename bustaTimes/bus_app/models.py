@@ -24,3 +24,11 @@ class RouteAndStop(models.Model):
     route_name = models.ForeignKey(Route, on_delete=models.CASCADE)
     stop_num = models.ForeignKey(BusStop, on_delete=models.CASCADE)
     prog_num = models.IntegerField()
+
+# HOW WE CAN ACCESS ALL THE STOPS IN A ROUTE;
+# ===========================================
+# route_1 = Route.objects.get(pk=1)
+# route_1.bus_stops.all()
+# <QuerySet [<BusStop: 381>, <BusStop: 382>, <BusStop: 4451>, <BusStop: 383>, <BusStop: 384>, <BusStop: 385>, <BusStop: 387>, <BusStop: 388>, <BusStop: 389>, <BusStop: 393>, <BusStop: 371>, <BusStop: 391>, <BusStop: 392>, <BusStop: 395>, <BusStop: 396>, <BusStop: 397>, <BusStop: 398>, <BusStop: 399>, <BusStop: 400>, <BusStop: 319>, '...(remaining elements truncated)...']>
+# len(route_1.bus_stops.all())
+# 21
