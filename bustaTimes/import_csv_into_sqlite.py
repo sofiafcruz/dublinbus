@@ -46,22 +46,19 @@ with open(path_to_csv) as csvfile:
 
 # 3. ROUTES AND BUS STOPS;
 # ========================
-# path_to_csv = '/Users/conorginty/Desktop/project_static_data_exploration/final_niall_routes_and_stops.csv'
-
-# # open file & create csvreader
-# import csv
-
-# # import the relevant model
-# from bus_app.models import RouteAndStop
-
-# with open(path_to_csv) as csvfile:
-#     reader = csv.reader(csvfile)
-#     next(reader, None) # Skips the 1st line (header)
-#     for row in reader:
-
-#         route_and_stop = BusStop(route_name=row[0], stop_num=row[1], prog_num=row[2])
-
-#         try:
-#             route_and_stop.save()
-#         except:
-#             print("there was a problem somewhere...")
+path_to_csv = '/Users/conorginty/Desktop/project_static_data_exploration/final_niall_routes_and_stops.csv'
+# open file & create csvreader
+import csv
+# import the relevant model
+from bus_app.models import RouteAndStop, Route, BusStop
+with open(path_to_csv) as csvfile:
+    reader = csv.reader(csvfile)
+    next(reader, None) # Skips the 1st line (header)
+    for row in reader:
+        route_and_stop = RouteAndStop(route_name=Route.objects.get(pk=row[0]), # Instance of Route 
+                                      stop_num=BusStop.objects.get(pk=row[1]), # Instance of BusStop
+                                      prog_num=row[2])
+        try:
+            route_and_stop.save()
+        except:
+            print("there was a problem somewhere...")
