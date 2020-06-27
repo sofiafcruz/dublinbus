@@ -14,7 +14,7 @@ class Route(models.Model):
     route_name = models.CharField(primary_key=True, max_length=20) 
     origin = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
-    bus_stops = models.ManyToManyField(BusStop) # A Route can have Many Bus Stops and a Bus Stop can be on Many Routes
+    # bus_stops = models.ManyToManyField(BusStop) # A Route can have Many Bus Stops and a Bus Stop can be on Many Routes
     # The line above will create the interlinking table BUT how do we include a 3rd column for prog_num???
     def __str__(self):
         return self.route_name
