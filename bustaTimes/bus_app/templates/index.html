@@ -48,6 +48,17 @@
         <h3>The image below was injected in with template tagging</h3>
         <img src="{% static "images/example.jpg"%}" alt="This should be an Image of a Route 1 Dublin Bus">
     </div>
+
+    <div id="test-routes-container" class='container'>
+        {% block content %}
+            {% for route in routes %}
+                <p>Route Name: {{ route.route_name }}</p>
+                <p>Origin: {{ route.origin }}</p>
+                <p>Destination: {{ route.destination }}</p>
+                <hr style='height: 1px; color: #333; background-color: #333;'>
+            {% endfor %}
+        {% endblock %}
+    </div>
     
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script> <!-- Connected JS script needs to be down here or else can't "see" html elements -->
     
