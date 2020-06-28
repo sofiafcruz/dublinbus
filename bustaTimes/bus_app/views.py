@@ -20,3 +20,8 @@ def index(request):
         'route_form': route_form,
     }
     return render(request, 'index.html', context)
+
+from django.http import HttpResponse
+def show_route(request):
+    
+    return HttpResponse("Show Route Page")

@@ -16,27 +16,6 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Select by Route</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Select by Bus Stop <span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div id="search-elements-container">
-        <label for="route">Route/ Bus Number:</label>
-        <select name="initial-dropdown" id="initial-dropdown">
-            <!-- Where the route numbers go dynamically -->
-        </select>
-        <!-- WHERE THE ORIGIN, DESTINATION ETC INFO GOES upon option click-->
-    </div>
     
     <div class="container">  
         <!-- Map -->
@@ -46,7 +25,7 @@
         <p>Testing we are connected to JS file: </p>
         <p id="test-js-connection"></p>
         <h3>The image below was injected in with template tagging</h3>
-        <img src="{% static "images/example.jpg"%}" alt="This should be an Image of a Route 1 Dublin Bus">
+        <!-- <img src="{% static "images/example.jpg"%}" alt="This should be an Image of a Route 1 Dublin Bus"> -->
     </div>
 
     <!-- Messing around with template Injections -->
@@ -57,7 +36,7 @@
         <br>
         <!-- Using a form (in combo with forms.py) - Think needed for DB queries -->
         <label for="route">Using a Form</label>
-        <form action="/" method='post'>
+        <form action="show_route">
             {% csrf_token %}
             {{ route_form }}
             <input type=submit value="Select Route">
