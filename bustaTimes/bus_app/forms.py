@@ -3,4 +3,5 @@ from django import forms
 from .models import Route
 
 class RouteForm(forms.Form):
-    select_form = forms.ModelChoiceField(queryset=Route.objects.all())
+    select_form = forms.ModelChoiceField(queryset=Route.objects.all(),
+                                        widget=forms.Select(attrs={'class':'drop-down-list'}))

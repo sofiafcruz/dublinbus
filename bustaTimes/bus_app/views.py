@@ -12,14 +12,11 @@ google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 def index(request):
     all_routes = Route.objects.all()
     route_form = RouteForm()
-
+    # print(route_form)
+    # print(all_routes)
     context = {
         'google_maps_key':google_maps_key,
         'routes': all_routes,
         'route_form': route_form,
     }
     return render(request, 'index.html', context)
-
-# def get_route(request):
-#     value = request.["data"]
-#     Route.objects.filter("name"={})
