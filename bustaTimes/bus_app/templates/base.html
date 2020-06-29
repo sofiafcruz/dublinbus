@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <!-- Our CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> 
+   
+</head>
+
+<body>
+    
+    <div class="container">  
+        <!-- Map -->
+        <div id="map" style="height:500px; width:100%"></div>
+        
+        <h1 class="jumbotron">I am a test heading in a bootstrap jumbotron</h1>
+        <p>Testing we are connected to JS file: </p>
+        <p id="test-js-connection"></p>
+        <h3>The image below was injected in with template tagging</h3>
+        <!-- <img src="{% static "images/example.jpg"%}" alt="This should be an Image of a Route 1 Dublin Bus"> -->
+    </div>
+
+    <!-- Messing around with template Injections -->
+
+    <!-- Storing the Routes in a dropdown -->
+    {% block select_routes_content %}
+
+    {% endblock %}
+
+    <!-- Using a for loop to render all the Route instances for testing purposes -->
+    {% block test_routes_content %}
+
+    {% endblock %}
+    
+    
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script> <!-- Connected JS script needs to be down here or else can't "see" html elements -->
+    
+    <!-- Script for the map -->
+    <script type="text/javascript" src="{% static 'js/map.js' %}"></script>   
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&callback=initMap">
+    </script>
+
+</body>
+</html>
