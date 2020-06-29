@@ -1,6 +1,7 @@
 from django.db import models
 
-# # Create your models here.
+# Create your models here.
+# Class variables = Database fields
 class BusStop(models.Model):
     stop_num = models.CharField(primary_key=True, max_length=20)
     address = models.CharField(max_length=100)
@@ -18,6 +19,9 @@ class Route(models.Model):
 
     def __str__(self):
         return self.route_name
+
+    def get_all_bus_stops(self):
+        return self.bus_stops.all()
 
 # Can we do the following below INSTEAD to represent this Many-To-Many relationship???
 class RouteAndStop(models.Model):
