@@ -5,11 +5,25 @@
         <label for="route">Injected Route/ Bus Number:</label>
         <br>
         <!-- Using a form (in combo with forms.py) - Think needed for DB queries -->
-        <label for="route">Using a Form</label>
+        <label for="route">Using a Form with forms.py</label>
         <form action="show_route">
             {% csrf_token %}
             {{ route_form }}
             <input type=submit value="Select Route">
+        </form>
+
+        <!-- Using a form with a for loop (not as interactive I think) -->
+        <label for="route">Using a Form with for loop</label>
+        <form action="tell_route" method="post">
+            {% csrf_token %}
+            {% block test_select_routes_content %}
+                <select class="form-control" id="optRoute" name="route" required>
+                    {% for route in routes %}
+                        <option value='{{route.route_name}}'>{{ route.route_name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Select Route">
+            {% endblock %}
         </form>
 
         <!-- Using a select (not as interactive I think) -->

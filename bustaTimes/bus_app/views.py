@@ -23,5 +23,22 @@ def index(request):
 
 from django.http import HttpResponse
 def show_route(request):
-    
     return HttpResponse("Show Route Page")
+
+from django.http import JsonResponse
+
+# def tell_route(request, route_name):
+#     print("===============")
+#     print(route_name)
+#     print("===============")
+#     return JsonResponse({'route_name': route_name})
+
+def tell_route(request, route_name):
+
+    if request.method =='POST':
+        route_pk = request.POST.get('route')
+        print(request.POST)
+
+    print(route_pk)
+
+    return HttpResponse("We got: " + route_pk)
