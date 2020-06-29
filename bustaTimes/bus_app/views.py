@@ -22,7 +22,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 from django.http import HttpResponse
-
+from django.core import serializers
 def show_route(request):
     route_pk = "TEST"
     all_routes = Route.objects
@@ -36,16 +36,20 @@ def show_route(request):
         bus_stops_on_route = selected_route.get_all_bus_stops() # queryset of all the busstops of the chosen route
         print(bus_stops_on_route)
         print(bus_stops_on_route.values()) # prints a queryset of attributes of busstops as dictionaries
-        print("-------------------")
+        print("------------------------------------------------------")
     # elif request.method =='GET':
     #     print("Hello")
     #     route_pk = request.GET
     #     print(route_pk)
+    
+    bus_stop_data = serializers.serialize("json", bus_stops_on_route)
 
     context = {
         'selected_route': selected_route,
-        'bus_stops_on_route':bus_stops_on_route.values()
+        'bus_stops_on_route':bus_stops_on_route.values(),
+        'bus_stop_data': bus_stop_data,
     }
-
+    print("================================================================")
+    print(bus_stop_data)
     # return HttpResponse("We got: " + route_pk)
     return render(request, 'show_route.html', context)
