@@ -22,19 +22,8 @@ def index(request):
     return render(request, 'index.html', context)
 
 from django.http import HttpResponse
+
 def show_route(request):
-    return HttpResponse("Show Route Page")
-
-from django.http import JsonResponse
-
-# def tell_route(request, route_name):
-#     print("===============")
-#     print(route_name)
-#     print("===============")
-#     return JsonResponse({'route_name': route_name})
-
-import json
-def tell_route(request, route_name):
     route_pk = "TEST"
     all_routes = Route.objects
 
@@ -53,4 +42,10 @@ def tell_route(request, route_name):
     #     route_pk = request.GET
     #     print(route_pk)
 
-    return HttpResponse("We got: " + route_pk)
+    context = {
+        'selected_route': selected_route,
+        'bus_stops_on_route':bus_stops_on_route.values()
+    }
+
+    # return HttpResponse("We got: " + route_pk)
+    return render(request, 'show_route.html', context)

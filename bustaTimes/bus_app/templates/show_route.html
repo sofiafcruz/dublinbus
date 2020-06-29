@@ -1,3 +1,4 @@
+{% comment %} <!-- {% extends "base.html" %} --> Commented as it loads the map etc {% endcomment %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    
+    {% block show_routes_content %}
+        <h1>SHOW ROUTE PAGE</h1>
+        <h1>You are looking at the bus stops for Route: {{ selected_route }}</h1>
+        {% for bus_stop in bus_stops_on_route %}
+            <p>{{ bus_stop }}</p>
+        {% endfor %}
+        <p>{{ bus_stops_on_route }}</p>
+    {% endblock %}    
 </body>
 </html>

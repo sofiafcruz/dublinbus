@@ -14,7 +14,7 @@
 
         <!-- Using a form with a for loop (not as interactive I think) -->
         <label for="route">Using a Form with for loop</label>
-        <form action="tell_route" method="post">
+        <form action="show_route" method="post">
             {% csrf_token %}
             {% block test_select_routes_content %}
                 <select class="form-control" id="optRoute" name="route" required>
