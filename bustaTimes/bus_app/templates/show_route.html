@@ -18,7 +18,9 @@
     <script>
         console.log({{ selected_route }});
         console.log(typeof ({{ selected_route }}));
-        // console.log( {{ bus_stops_on_route }}); // Can't print this (probably coz it's a queryset obj?)
+        console.log( {{ bus_stops_on_route }}); // Can't print this (probably coz it's a queryset obj?)
+        console.log({{ selected_route }});
+        console.log({{ selected_route }});
     </script>
 </body>
 </html>

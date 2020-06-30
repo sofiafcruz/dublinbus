@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+{% block bus_stops_content %}
+{% for stop in bus_stops %}
+    <p>Bus Stop: {{ stop.stop_num }}</p>
+    <p>LAT: {{ stop.latitude }}</p>
+    <p>LONG: {{ stop.longitude }}</p>
+{% endfor %}
+{% endblock %}
+
 {% block select_routes_content %}
     <div id="test-routes-select-container" class='container'>
         <label for="route">Injected Route/ Bus Number:</label>
@@ -48,3 +56,9 @@
         {% endfor %}
     </div>
 {% endblock %}
+
+
+
+<script>
+
+</script>

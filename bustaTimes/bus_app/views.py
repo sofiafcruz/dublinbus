@@ -14,9 +14,11 @@ def index(request):
     route_form = RouteForm()
     # print(route_form)
     # print(all_routes)
+    all_bus_stops = BusStop.objects.all()
     context = {
         'google_maps_key':google_maps_key,
         'routes': all_routes,
+        'bus_stops': all_bus_stops,
         'route_form': route_form,
     }
     return render(request, 'index.html', context)
