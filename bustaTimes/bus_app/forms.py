@@ -17,4 +17,6 @@ class RouteModelForm(forms.ModelForm):
         fields = ['route_name']
         widgets = {
             'route_name': Select(choices=((route.pk, route.route_name) for route in CHOICES )),
+            # This maintains the 2-tuple requirement of a Select widget
+            # Grabs the route.pk and route.route_name (same thing) and stores the latter as options in the select
         }
