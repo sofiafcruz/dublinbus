@@ -48,6 +48,9 @@
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script> <!-- Connected JS script needs to be down here or else can't "see" html elements -->
     
     <!-- Script for the map -->
+    <script type="text/javascript"> 
+        var stops = JSON.parse('{{ bus_stops|escapejs }}');        
+    </script>
     <script type="text/javascript" src="{% static 'js/map.js' %}"></script>   
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&callback=initMap">

@@ -1,15 +1,15 @@
 function initMap() {
 
     var map = new google.maps.Map(document.getElementById('map'));
-  
+    
     navigator.geolocation.getCurrentPosition(function(position) {
       // Center map on user's current location if geolocation prompt allowed
-      var initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      map.setCenter(initialLocation);
+      var usersLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      map.setCenter(usersLocation);
       map.setZoom(15);
       
       var marker = new google.maps.Marker({
-        position: initialLocation,
+        position: usersLocation,
         map: map,
       });
     }, function(positionError) {
@@ -17,4 +17,12 @@ function initMap() {
       map.setCenter(new google.maps.LatLng(53.346, -6.26));
       map.setZoom(12);
     });
+    
+    addMarkers();
+  }
+
+  function addMarkers() {
+    for (i = 0; i < stops.length; i++) {
+      console.log(stops[i].number);
+  }
   }
