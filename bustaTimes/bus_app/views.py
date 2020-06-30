@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import json
 # From models.py file in the current folder, import the tables
 from .models import Route, BusStop, RouteAndStop
 # From forms.py file in the current folder, import the forms
@@ -14,14 +15,22 @@ def index(request):
     all_routes = Route.objects.all()
     route_form = RouteForm()
     route_model_form = RouteModelForm
+
     all_bus_stops = BusStop.objects.all()
+    stops=[]
+    for stop in all_bus_stops:
+        stop_temp={"number": stop.stop_num, "address": stop.address, "latitude": stop.latitude, "longitude": stop.longitude}
+        stops.append(stop_temp)
+    bus_stops_json = json.dumps(stops)
+
     context = {
         'google_maps_key':google_maps_key,
         'routes': all_routes,
-        'bus_stops': all_bus_stops,
+        'bus_stops': bus_stops_json,
         'route_form': route_form,
         'route_model_form': route_model_form,
     }
+    print(bus_stops_json)
     return render(request, 'index.html', context)
 
 from django.http import HttpResponse
