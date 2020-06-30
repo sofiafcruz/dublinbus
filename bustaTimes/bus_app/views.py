@@ -56,3 +56,13 @@ def show_route(request):
     print(bus_stop_data)
     # return HttpResponse("We got: " + route_pk)
     return render(request, 'show_route.html', context)
+
+def show_modelform_route(request):
+    if request.method =='POST':
+        print("IT'S A POST")
+        print(request.POST)
+    elif request.method =='GET':
+        print("IT'S A GET")
+    else:
+        print("Not a post or a get")
+    return HttpResponse("You selected a route from the Model Form Dropdown")
