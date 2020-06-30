@@ -3,6 +3,7 @@ from django.shortcuts import render
 from .models import Route, BusStop, RouteAndStop
 # From forms.py file in the current folder, import the forms
 from .forms import RouteForm
+from .forms import RouteModelForm
 import os
 
 google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
@@ -12,14 +13,14 @@ google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 def index(request):
     all_routes = Route.objects.all()
     route_form = RouteForm()
-    # print(route_form)
-    # print(all_routes)
+    route_model_form = RouteModelForm
     all_bus_stops = BusStop.objects.all()
     context = {
         'google_maps_key':google_maps_key,
         'routes': all_routes,
         'bus_stops': all_bus_stops,
         'route_form': route_form,
+        'route_model_form': route_model_form,
     }
     return render(request, 'index.html', context)
 

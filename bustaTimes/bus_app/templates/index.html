@@ -14,9 +14,17 @@
         <br>
         <!-- Using a form (in combo with forms.py) - Think needed for DB queries -->
         <label for="route">Using a Form with forms.py</label>
-        <form action="show_route">
+        <form action="/">
             {% csrf_token %}
             {{ route_form }}
+            <input type=submit value="Select Route">
+        </form>
+
+        <!-- Using a model form (in combo with forms.py) - Think needed for DB queries -->
+        <label for="route">Using a Model Form with forms.py</label>
+        <form action="/">
+            {% csrf_token %}
+            {{ route_model_form }}
             <input type=submit value="Select Route">
         </form>
 
