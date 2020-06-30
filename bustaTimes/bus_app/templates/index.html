@@ -1,13 +1,5 @@
 {% extends "base.html" %}
 
-{% block bus_stops_content %}
-{% for stop in bus_stops %}
-    <p>Bus Stop: {{ stop.stop_num }}</p>
-    <p>LAT: {{ stop.latitude }}</p>
-    <p>LONG: {{ stop.longitude }}</p>
-{% endfor %}
-{% endblock %}
-
 {% block select_routes_content %}
     <div id="test-routes-select-container" class='container'>
         <label for="route">Injected Route/ Bus Number:</label>
@@ -22,7 +14,7 @@
 
         <!-- Using a model form (in combo with forms.py) - Think needed for DB queries -->
         <label for="route">Using a Model Form with forms.py</label>
-        <form action="/">
+        <form action="show_modelform_route" method="POST">
             {% csrf_token %}
             {{ route_model_form }}
             <input type=submit value="Select Route">
@@ -30,7 +22,7 @@
 
         <!-- Using a form with a for loop (not as interactive I think) -->
         <label for="route">Using a Form with for loop</label>
-        <form action="show_route" method="post">
+        <form action="show_route" method="POST">
             {% csrf_token %}
             {% block test_select_routes_content %}
                 <select class="form-control" id="optRoute" name="route" required>
@@ -64,6 +56,16 @@
         {% endfor %}
     </div>
 {% endblock %}
+
+{% block bus_stops_content %}
+{% for stop in bus_stops %}
+    <p>Bus Stop: {{ stop.stop_num }}</p>
+    <p>LAT: {{ stop.latitude }}</p>
+    <p>LONG: {{ stop.longitude }}</p>
+{% endfor %}
+{% endblock %}
+
+
 
 
 

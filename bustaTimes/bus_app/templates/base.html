@@ -30,10 +30,6 @@
 
     <!-- Messing around with template Injections -->
 
-    {% block bus_stops_content %}
-
-    {% endblock %}
-
     <!-- Storing the Routes in a dropdown -->
     {% block select_routes_content %}
 
@@ -44,6 +40,10 @@
 
     {% endblock %}
     
+    <!-- Using a for loop to render all the BusStop instances for testing purposes -->
+    {% block bus_stops_content %}
+
+    {% endblock %}
     
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script> <!-- Connected JS script needs to be down here or else can't "see" html elements -->
     
