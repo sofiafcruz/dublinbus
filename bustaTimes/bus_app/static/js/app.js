@@ -1,6 +1,21 @@
 // Implementing jQuery below;
 $(document).ready(function(){ // START OF JQUERY BLOCK
 
+    console.log("Connected");
+    var test = fetch("/create_json_response_obj")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (myJson) {
+            return myJson;
+        })
+        .catch(function (error) {
+            console.log("Error: " + error);
+        })
+    
+        console.log(test);
+    
+
 var callum_all_routes = ['68', '25B', '45A', '25A', '14', '77A', '39', '16', '40D', '27B',
     '142', '83', '130', '15', '46A', '33', '7', '39A', '49', '1',
    '123', '41', '67X', '59', '9', '40', '239', '76', '84', '53',

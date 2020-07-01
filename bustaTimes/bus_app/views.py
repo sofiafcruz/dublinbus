@@ -13,6 +13,8 @@ google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 
 def index(request):
     all_routes = Route.objects.all()
+    all_stops = BusStop.objects.all()
+
     route_form = RouteForm()
     route_model_form = RouteModelForm
 
@@ -26,15 +28,27 @@ def index(request):
     context = {
         'google_maps_key':google_maps_key,
         'routes': all_routes,
+        "bus_stops": all_stops,
         # 'bus_stops': bus_stops_json,
         'route_form': route_form,
         'route_model_form': route_model_form,
     }
     # print(bus_stops_json)
+    print(all_routes)
     return render(request, 'index.html', context)
+
+from django.http import JsonResponse
+def create_json_response_obj(request):
+    route_objs_list = list(Route.objects.values())  # wrap in list(), because QuerySet is not JSON serializable
+    bus_stops_objs_list = list(BusStop.objects.values())  # wrap in list(), because QuerySet is not JSON serializable
+    return JsonResponse({
+                            'route_objs_list':route_objs_list,
+                            'bus_stops_objs_list':bus_stops_objs_list
+                        })
 
 from django.http import HttpResponse
 from django.core import serializers
+
 def show_route(request):
     route_pk = "TEST"
     all_routes = Route.objects
