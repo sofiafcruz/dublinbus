@@ -17,12 +17,18 @@ function initMap() {
       map.setCenter(new google.maps.LatLng(53.346, -6.26));
       map.setZoom(12);
     });
+
+    // for (i = 0; i < stops.length; i++) {
+    //   addMarkers(stops[i]);
+    // }
     
-    addMarkers();
+    // function addMarkers(newMarker) {
+    //   var stopCoords = new google.maps.LatLng(newMarker.latitude, newMarker.longitude);
+    //   var marker = new google.maps.Marker({
+    //     position: stopCoords,
+    //     map: map,
+    //   });
+    // }
   }
 
-  function addMarkers() {
-    for (i = 0; i < stops.length; i++) {
-      console.log(stops[i].number);
-  }
-  }
+  
