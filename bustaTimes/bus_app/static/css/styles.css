@@ -1,3 +1,11 @@
+.header {
+    background-color: rgb(248,249,250);
+}
+
+.weather-container {
+    padding-right: 20px;
+}
+
 #search-elements-container, #test-routes-select-container {
     background-color: lightblue;
     display: inline-block;
