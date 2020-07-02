@@ -27,7 +27,7 @@ def index(request):
     # bus_stops_json = json.dumps(stops)
 
     # WEATHER
-    url = 'https://api.darksky.net/forecast/313018b2afc91b7825d89c2740c19873/53.3498,-6.0'
+    url = 'https://api.darksky.net/forecast/313018b2afc91b7825d89c2740c19873/53.346,-6.26'
 
     json_dataset = requests.get(url).text
     json_temp = json.loads(json_dataset)
