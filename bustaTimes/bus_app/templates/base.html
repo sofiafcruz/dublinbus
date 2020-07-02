@@ -35,7 +35,7 @@
             </div>
         </nav>
         <div class="weather-container">  
-            <span>Dublin City, 18ºC </span> &nbsp
+            <span>Dublin City, <span id="temperature"></span>ºC </span> &nbsp
             <img src="./static/images/sun.png" alt="sun" style="width:40px">  
         </div>
     </div>
@@ -68,7 +68,10 @@
     {% endblock %}
     
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script> <!-- Connected JS script needs to be down here or else can't "see" html elements -->
-    
+    <script>
+        var weather = JSON.parse('{{ weather|escapejs }}'); 
+        document.getElementById('temperature').innerHTML += weather[0].temperature;    
+    </script>
     <!-- Script for the map -->
     <!-- <script type="text/javascript"> 
         var stops = JSON.parse('{{ bus_stops|escapejs }}');        

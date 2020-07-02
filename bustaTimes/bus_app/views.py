@@ -6,6 +6,7 @@ from .models import Route, BusStop, RouteAndStop
 from .forms import RouteForm
 from .forms import RouteModelForm
 import os
+import requests
 
 google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 
@@ -25,6 +26,20 @@ def index(request):
     #     stops.append(stop_temp)
     # bus_stops_json = json.dumps(stops)
 
+    # WEATHER
+    url = 'https://api.darksky.net/forecast/313018b2afc91b7825d89c2740c19873/53.3498,-6.0'
+
+    json_dataset = requests.get(url).text
+    json_temp = json.loads(json_dataset)
+
+    Temperature = round((json_temp['currently']['temperature']-32) * 5/9, 1)
+    Rainfall = json_temp['currently']['precipIntensity']
+    Icon = json_temp['currently']['icon']
+    WindSpeed = json_temp['currently']['windSpeed']
+
+    current_weather = [{"temperature": Temperature, "rainfall": Rainfall, "icon": Icon, "windspeed": WindSpeed}]
+    current_weather_js = json.dumps(current_weather)
+
     context = {
         'google_maps_key':google_maps_key,
         'routes': all_routes,
@@ -32,6 +47,7 @@ def index(request):
         # 'bus_stops': bus_stops_json,
         'route_form': route_form,
         'route_model_form': route_model_form,
+        'weather': current_weather_js
     }
     # print(bus_stops_json)
     print(all_routes)
