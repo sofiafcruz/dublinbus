@@ -2,18 +2,27 @@
 $(document).ready(function(){ // START OF JQUERY BLOCK
 
     console.log("Connected");
-    var test = fetch("/create_json_response_obj")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (myJson) {
-            return myJson;
-        })
-        .catch(function (error) {
-            console.log("Error: " + error);
-        })
+    // Fetches local json object====================================
+    fetch("static/data.json")
+        .then((response) => response.json()) // Convert from Promise Pending object to JSON obj
+        .then((data) => console.log(data)) // This gives us our data
+        .catch((err) => console.log(err))// Catch errors, if they arise
+        
+        
+    // Fetches create_json_response_obj view====================================
+    // fetch("/create_json_response_obj")
+    //     .then(function (response) {
+    //         return response.json();
+    //     })
+    //     .then(function (myJson) {
+    //         return myJson;
+    //         console.log(myJson)
+    //     })
+    //     .catch(function (error) {
+    //         console.log("Error: " + error);
+    //     })
     
-        console.log(test);
+    
     
 
 var callum_all_routes = ['68', '25B', '45A', '25A', '14', '77A', '39', '16', '40D', '27B',
