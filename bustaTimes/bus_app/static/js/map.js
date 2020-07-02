@@ -7,10 +7,17 @@ function initMap() {
       var usersLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       map.setCenter(usersLocation);
       map.setZoom(15);
-      
+
+      // Characteristics of the icon for the user's location
+      var icon = {
+        url: './static/images/gps.svg',
+        scaledSize: new google.maps.Size(25, 25), // scaled size
+        anchor: new google.maps.Point(12.5, 12.5) // anchor
+    };
       var marker = new google.maps.Marker({
         position: usersLocation,
         map: map,
+        icon: icon
       });
     }, function(positionError) {
       // Default to Dublin if user denied geolocation prompt
