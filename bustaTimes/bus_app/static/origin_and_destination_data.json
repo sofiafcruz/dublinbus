@@ -1,0 +1,522 @@
+{
+   "1": {
+      "origin": "Park Avenue",
+      "destination": "O'Connell St"
+   },
+   "102": {
+      "origin": "Dublin Airport",
+      "destination": "Sutton Station"
+   },
+   "104": {
+      "origin": "Clontarf Rd (Conquer Hill)",
+      "destination": "Santry (Shanard Rd)"
+   },
+   "11": {
+      "origin": "Blackthorn Road",
+      "destination": "O'Connell St"
+   },
+   "111": {
+      "origin": "Dun Laoghaire",
+      "destination": "Louhglinstown Park"
+   },
+   "114": {
+      "origin": "Blackrock Station",
+      "destination": "Ticknock"
+   },
+   "116": {
+      "origin": "Parnell Square",
+      "destination": "Whitechurch"
+   },
+   "118": {
+      "origin": "Enniskerry Rd",
+      "destination": "Eden Quay"
+   },
+   "120": {
+      "origin": "Ashtown Station",
+      "destination": "Parnell St"
+   },
+   "122": {
+      "origin": "Ashington",
+      "destination": "Drimnagh"
+   },
+   "123": {
+      "origin": "Griffith Avenue",
+      "destination": "Kilnamanagh Rd"
+   },
+   "13": {
+      "origin": "Grange Castle",
+      "destination": "Harristown"
+   },
+   "130": {
+      "origin": "Abbey St",
+      "destination": "Castle Ave"
+   },
+   "14": {
+      "origin": "Ardlea Rd (Beaumont)",
+      "destination": "Dundrum Luas Stn"
+   },
+   "140": {
+      "origin": "Finglas (Ikea)",
+      "destination": "Palmerston Park"
+   },
+   "142": {
+      "origin": "Portmarnock",
+      "destination": "Rathmines (Palmerston Park)"
+   },
+   "145": {
+      "origin": "Heuston Rail Station",
+      "destination": "Kilmacanogue"
+   },
+   "14C": {
+      "origin": "Dundrum",
+      "destination": "Eden Quay"
+   },
+   "15": {
+      "origin": "Ballycullen Rd",
+      "destination": "Clongriffin"
+   },
+   "150": {
+      "origin": "Fleet St",
+      "destination": "Rossmore"
+   },
+   "151": {
+      "origin": "Docklands (East Rd)",
+      "destination": "Foxborough (Balgaddy Rd)"
+   },
+   "15A": {
+      "origin": "Grand Canal Dock (Benson Street)",
+      "destination": "Limekiln Ave"
+   },
+   "15B": {
+      "origin": "Grand Canal Dock (Benson Street)",
+      "destination": "Stocking Avenue"
+   },
+   "15D": {
+      "origin": "Ringsend Road",
+      "destination": "Whitechurch Green"
+   },
+   "16": {
+      "origin": "Ballinteer",
+      "destination": "Dublin Airport"
+   },
+   "161": {
+      "origin": "Dundrum LUAS",
+      "destination": "Rockbrook / Tibradden"
+   },
+   "16C": {
+      "origin": "Brehon Field Rd",
+      "destination": "O'Connell St"
+   },
+   "16D": {
+      "origin": "Dublin Airport",
+      "destination": "Brehon Field Rd"
+   },
+   "17": {
+      "origin": "Blackrock",
+      "destination": "Rialto"
+   },
+   "17A": {
+      "origin": "Blancharstown Centre",
+      "destination": "Kilbarrack"
+   },
+   "18": {
+      "origin": "Palmerstown",
+      "destination": "Sandymount"
+   },
+   "184": {
+      "origin": "Bray Station",
+      "destination": "Newtownmountkennedy"
+   },
+   "185": {
+      "origin": "Bray Station",
+      "destination": "Shop River"
+   },
+   "220": {
+      "origin": "Ballymun (Shangan Rd)",
+      "destination": "Lady's Well Rd"
+   },
+   "236": {
+      "origin": "Blanchardstown",
+      "destination": "Damastown"
+   },
+   "238": {
+      "origin": "Lady's Well",
+      "destination": "Tyrrelstown"
+   },
+   "239": {
+      "origin": "Blanchardstown Centre",
+      "destination": "Liffey Valley Shopping Centre"
+   },
+   "25": {
+      "origin": "Dodsboro",
+      "destination": "Merrion Square"
+   },
+   "25A": {
+      "origin": "Lucan (Superquinn)",
+      "destination": "Merrion Square"
+   },
+   "25B": {
+      "origin": "Adamstown",
+      "destination": "Merrion Square"
+   },
+   "25D": {
+      "origin": "Adamstown Station",
+      "destination": "Merrion Square"
+   },
+   "25X": {
+      "origin": "Dodsboro Rd",
+      "destination": "UCD"
+   },
+   "26": {
+      "origin": "Fonthill Rd",
+      "destination": "Bachelors Walk"
+   },
+   "27": {
+      "origin": "Clare Hall",
+      "destination": "Jobstown"
+   },
+   "270": {
+      "origin": "Blanchardstown Shopping Centre",
+      "destination": "Dunboyne"
+   },
+   "27A": {
+      "origin": "Blunden Drive",
+      "destination": "Eden Quay"
+   },
+   "27B": {
+      "origin": "Ballyshannon Rd",
+      "destination": "Amiens Street"
+   },
+   "27X": {
+      "origin": "Clare Hall",
+      "destination": "UCD Belfield"
+   },
+   "29A": {
+      "origin": "Abbey St",
+      "destination": "Coast Road"
+   },
+   "31": {
+      "origin": "Howth Summit",
+      "destination": "Lower Abbey St"
+   },
+   "31A": {
+      "origin": "Howth Summit",
+      "destination": "Lower Abbey St"
+   },
+   "31B": {
+      "origin": "Howth Road",
+      "destination": "Talbot Street"
+   },
+   "31D": {
+      "origin": "DCU",
+      "destination": "Baldoyle"
+   },
+   "32": {
+      "origin": "Lower Abbey St",
+      "destination": "Malahide"
+   },
+   "32X": {
+      "origin": "Malahide",
+      "destination": "UCD Belfield"
+   },
+   "33": {
+      "origin": "Abbey St",
+      "destination": "Dublin St"
+   },
+   "33A": {
+      "origin": "Balbriggan / Skerries",
+      "destination": "Swords"
+   },
+   "33B": {
+      "origin": "Portrane",
+      "destination": "Swords"
+   },
+   "33D": {
+      "origin": "Burrow Rd",
+      "destination": "Merrion Row"
+   },
+   "33E": {
+      "origin": "Abbey St",
+      "destination": "North Cliff Heights"
+   },
+   "33X": {
+      "origin": "Custom House Quay",
+      "destination": "Dublin St"
+   },
+   "37": {
+      "origin": "Baggot St",
+      "destination": "Blanchardstown Cent"
+   },
+   "38": {
+      "origin": "Burlington Road",
+      "destination": "Damastown"
+   },
+   "38A": {
+      "origin": "Burlington Rd",
+      "destination": "Damastown via Navan Rd"
+   },
+   "38B": {
+      "origin": "Burlington Rd",
+      "destination": "Damastown via Ballycoolin Ind Est"
+   },
+   "38D": {
+      "origin": "Burlington Rd",
+      "destination": "IBM Damastown via N3"
+   },
+   "39": {
+      "origin": "Burlington Rd",
+      "destination": "Ongar"
+   },
+   "39A": {
+      "origin": "Ongar",
+      "destination": "Bachelors Walk"
+   },
+   "39X": {
+      "origin": "Burlington Road",
+      "destination": "Ongar"
+   },
+   "4": {
+      "origin": "Harristown",
+      "destination": "Monkstown Ave"
+   },
+   "40": {
+      "origin": "Charlestown Rd",
+      "destination": "Liffey Valley"
+   },
+   "40B": {
+      "origin": "Finglas Village",
+      "destination": "River Meade"
+   },
+   "40D": {
+      "origin": "Parnell Street",
+      "destination": "Church Road"
+   },
+   "40E": {
+      "origin": "Brombridge Luas",
+      "destination": "Tyrrelstown"
+   },
+   "41": {
+      "origin": "Abbey St",
+      "destination": "Brackenstown Rd"
+   },
+   "41A": {
+      "origin": "Swords Manor Via Glen Ellen Estate",
+      "destination": "Lower Abbey"
+   },
+   "41B": {
+      "origin": "Abbey St",
+      "destination": "Rolestown"
+   },
+   "41C": {
+      "origin": "Abbey St",
+      "destination": "Brackenstown Rd"
+   },
+   "41D": {
+      "origin": "Abbey St",
+      "destination": "Seatown"
+   },
+   "41X": {
+      "origin": "Knocksedan",
+      "destination": "UCD"
+   },
+   "42": {
+      "origin": "Eden Quay",
+      "destination": "Sand's Hotel Portmarnock"
+   },
+   "42D": {
+      "origin": "DCU",
+      "destination": "Portmarnock"
+   },
+   "43": {
+      "origin": "Eden Quay",
+      "destination": "Swords Business Park"
+   },
+   "44": {
+      "origin": "DCU",
+      "destination": "Enniskerry Village"
+   },
+   "44B": {
+      "origin": "Ballybrack Rd",
+      "destination": "Dundrum Road"
+   },
+   "45A": {
+      "origin": "Ballywaltrim",
+      "destination": "Dun Laoghaire"
+   },
+   "46A": {
+      "origin": "Crofton Road",
+      "destination": "Infirmary Rd"
+   },
+   "46E": {
+      "origin": "Blackrock",
+      "destination": "Mountjoy Square"
+   },
+   "47": {
+      "origin": "Belarmine",
+      "destination": "Fleet Street"
+   },
+   "49": {
+      "origin": "Fortunestown Rd",
+      "destination": "Pearse Street"
+   },
+   "51D": {
+      "origin": "Clondalkin",
+      "destination": "Hawkins St"
+   },
+   "51X": {
+      "origin": "Dunawley",
+      "destination": "UCD Belfield"
+   },
+   "53": {
+      "origin": "Alexandra Road",
+      "destination": "Talbot Street"
+   },
+   "54A": {
+      "origin": "Ellensborough",
+      "destination": "Pearse St"
+   },
+   "56A": {
+      "origin": "Ringsend Rd",
+      "destination": "Tallaght"
+   },
+   "59": {
+      "origin": "Dun Laoghaire",
+      "destination": "Mackintosh Park"
+   },
+   "61": {
+      "origin": "D'Olier St",
+      "destination": "Whitechurch"
+   },
+   "63": {
+      "origin": "Dun Laoghaire",
+      "destination": "Kilternan"
+   },
+   "65": {
+      "origin": "Ballyknockan Rd",
+      "destination": "Poolbeg Street"
+   },
+   "65B": {
+      "origin": "Citywest",
+      "destination": "Poolbeg Street"
+   },
+   "66": {
+      "origin": "Maynooth (Straffan Road)",
+      "destination": "Merrion Square"
+   },
+   "66A": {
+      "origin": "Captain's Hill",
+      "destination": "Merrion Square"
+   },
+   "66B": {
+      "origin": "Celbridge Rd",
+      "destination": "Bachelors Walk"
+   },
+   "66X": {
+      "origin": "Captain's Hill",
+      "destination": "UCD"
+   },
+   "67": {
+      "origin": "Maynooth (Via Celbridge)",
+      "destination": "Merrion Square"
+   },
+   "67X": {
+      "origin": "Celbridge / Maynooth",
+      "destination": "UCD Belfield"
+   },
+   "68": {
+      "origin": "Greenogue",
+      "destination": "Poolbeg Street"
+   },
+   "68A": {
+      "origin": "Bulfin Road",
+      "destination": "Burgh Quay"
+   },
+   "68X": {
+      "origin": "Newcastle/ Greenogue Business Park",
+      "destination": "Hawkins Street"
+   },
+   "69": {
+      "origin": "Hawkins St",
+      "destination": "Rathcoole"
+   },
+   "69X": {
+      "origin": "Hawkins St",
+      "destination": "Rathcoole"
+   },
+   "7": {
+      "origin": "Brides Glen",
+      "destination": "Mountjoy Square"
+   },
+   "70": {
+      "origin": "Burlington Rd",
+      "destination": "Dunboyne"
+   },
+   "70D": {
+      "origin": "DCU",
+      "destination": "Dunboyne"
+   },
+   "75": {
+      "origin": "Dun Laoghaire",
+      "destination": "Tallaght (The Square)"
+   },
+   "76": {
+      "origin": "Chapelizod",
+      "destination": "Tallaght (The Square)"
+   },
+   "76A": {
+      "origin": "Blanchardstown Centre",
+      "destination": "Tallaght (The Square)"
+   },
+   "77A": {
+      "origin": "Citywest",
+      "destination": "Ringsend"
+   },
+   "77X": {
+      "origin": "UCD Belfield",
+      "destination": "Tallaght"
+   },
+   "79": {
+      "origin": "Aston Quay",
+      "destination": "Oranmore Road"
+   },
+   "79A": {
+      "origin": "Aston Quay",
+      "destination": "Parkwest"
+   },
+   "7A": {
+      "origin": "Loughlinstown Pk",
+      "destination": "Mountjoy Square"
+   },
+   "7B": {
+      "origin": "Beechfield Mnr",
+      "destination": "Mountjoy Square"
+   },
+   "7D": {
+      "origin": "Dalkey",
+      "destination": "Mountjoy Square"
+   },
+   "83": {
+      "origin": "Charlestown Rd",
+      "destination": "Bachelors Walk"
+   },
+   "83A": {
+      "origin": "Charlestown Rd",
+      "destination": "Kimmage"
+   },
+   "84": {
+      "origin": "Blackrock",
+      "destination": "Newcastle"
+   },
+   "84A": {
+      "origin": "Blackrock",
+      "destination": "Bray Rail Station"
+   },
+   "84X": {
+      "origin": "Hawkins Street",
+      "destination": "Newcastle Rd"
+   },
+   "9": {
+      "origin": "Charelstown",
+      "destination": "Limekiln Avenue"
+   }
+}
