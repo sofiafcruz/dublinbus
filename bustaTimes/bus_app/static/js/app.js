@@ -3,24 +3,66 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
 
     console.log("Connected");
     // Fetches local json object====================================
-    fetch("static/data.json")
-        .then((response) => response.json()) // Convert from Promise Pending object to JSON obj
-        .then((data) => console.log(data)) // This gives us our data
-        .catch((err) => console.log(err))// Catch errors, if they arise
+    // fetch("static/data.json")
+    //     .then((response) => response.json()) // Convert from Promise Pending object to JSON obj
+    //     .then((data) => console.log(data)) // This gives us our data
+    //     .catch((err) => console.log(err))// Catch errors, if they arise
+
+    // On page load, populate the Route Dropdown in 'Search by Route' section
+    var json_routes_dropdown = document.getElementById("json-routes");
+    for (var key in main_table_object) {
+        // console.log(key + " -> " + main_table_object[key].length);
+        var opt = document.createElement('option');
+        opt.value = key;
+        opt.innerHTML = key;
+        json_routes_dropdown.appendChild(opt);
+    }
+}); // END OF JQUERY BLOCK
+
+    // Display div containing filled drop down options of bus stops
+    // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
+    function showAndLoadStartAndEndDrops() {
+
+        // Grab the route option selected
+        var selected_route = document.getElementById("json-routes").value;
         
+        // ORIGIN AND DESTINATION
+        let origin = route_origin_and_destination_object[selected_route]["origin"];
+        let destination = route_origin_and_destination_object[selected_route]["destination"];
         
-    // Fetches create_json_response_obj view====================================
-    // fetch("/create_json_response_obj")
-    //     .then(function (response) {
-    //         return response.json();
-    //     })
-    //     .then(function (myJson) {
-    //         return myJson;
-    //         console.log(myJson)
-    //     })
-    //     .catch(function (error) {
-    //         console.log("Error: " + error);
-    //     })
+        $('#origin-to-destination-header').html("From " + origin + " to " + destination);
+
+        // Target the starting and ending stops select dropdowns (which are hidden)
+        var json_starting_point_dropdown = document.getElementById("json-starting-stops");
+        var json_ending_point_dropdown = document.getElementById("json-ending-stops");
+
+        // Empty their contents EVERY call (or else value will be appended to them)
+        $(json_starting_point_dropdown).empty();
+        $(json_ending_point_dropdown).empty();
+
+        // Need a nested for loop to grab the Address of each bus stop of the selected route
+        for (index in main_table_object[selected_route]){
+            for (bus_stop in main_table_object[selected_route][index]){
+                // Grab the bus stop address
+                stop_address = main_table_object[selected_route][index][bus_stop]["stop_address"];
+
+                // Store it into an option element
+                var opt = document.createElement('option');
+                opt.value = stop_address;
+                opt.innerHTML = stop_address + " (" + bus_stop + ")";
+                // Then clone it to also append to the ending stop dropdown
+                var cloneOption = opt.cloneNode(true);
+                
+                // Append the given bus stop option to both starting and ending point dropdowns
+                json_ending_point_dropdown.appendChild(opt);
+                json_starting_point_dropdown.appendChild(cloneOption);
+            }
+        }
+        // At the end, make sure to display the container holding the starting and ending stop dropdowns
+        $('#stops-dropdowns-container').css('display', 'block');
+    }
+    
+    //==================================================================================
     
     
     
@@ -76,7 +118,7 @@ $('#initial-dropdown').change(function(){
     $("#start-and-end-container").append(end_stop);
 });
 
-}); // END OF JQUERY BLOCK
+
 
 // TEST CODE BELOW=========================================================================
 // console.log("Hello");

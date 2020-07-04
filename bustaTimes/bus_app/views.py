@@ -39,6 +39,21 @@ def index(request):
 
     current_weather = [{"temperature": Temperature, "rainfall": Rainfall, "icon": Icon, "windspeed": WindSpeed}]
     current_weather_js = json.dumps(current_weather)
+    # =======================================================
+
+    # Grabbing the JSON object containing the Main Table Info
+    main_table_json_file = open('bus_app/static/main_table_data.json')   
+    data1 = json.load(main_table_json_file) # deserialises it
+    main_table_data = json.dumps(data1) # json formatted string
+
+    main_table_json_file.close()
+
+    # Grabbing the JSON object containing the Route Origin and Destination Info
+    route_origin_and_destination_file = open('bus_app/static/origin_and_destination_data.json')   
+    data1 = json.load(route_origin_and_destination_file) # deserialises it
+    route_origin_and_destination_data = json.dumps(data1) # json formatted string
+
+    route_origin_and_destination_file.close()
 
     context = {
         'google_maps_key':google_maps_key,
@@ -47,10 +62,11 @@ def index(request):
         # 'bus_stops': bus_stops_json,
         'route_form': route_form,
         'route_model_form': route_model_form,
-        'weather': current_weather_js
+        'weather': current_weather_js,
+        'main_table_data': main_table_data,
+        'route_origin_and_destination_data': route_origin_and_destination_data,
     }
-    # print(bus_stops_json)
-    print(all_routes)
+    
     return render(request, 'index.html', context)
 
 from django.http import JsonResponse

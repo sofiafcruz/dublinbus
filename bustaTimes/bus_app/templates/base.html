@@ -12,7 +12,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> 
-   
 </head>
 
 <body>
@@ -50,7 +49,11 @@
     </div>
 
     <!-- Messing around with template Injections -->
-
+    
+    <!-- Storing JSON data in dropdowns -->
+    {% block test_json_content %}
+    {% endblock %}
+    
     <!-- Storing the Routes in a dropdown -->
     {% block select_routes_content %}
 
@@ -69,6 +72,10 @@
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script> <!-- Connected JS script needs to be down here or else can't "see" html elements -->
     <script>
         var weather = JSON.parse('{{ weather|escapejs }}'); 
+        
+        // ++++++++ Making JSON data available in app.js! ++++++++
+        var main_table_object = {{ main_table_data|safe }};
+        var route_origin_and_destination_object = {{ route_origin_and_destination_data|safe }};
     </script>
     <script type="text/javascript" src="{% static 'js/weather.js' %}"></script> 
     

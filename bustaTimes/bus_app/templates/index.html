@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 
+{% block test_json_content %}
+<div id='search-by-route-container' class="container">
+    <!-- Route Dropdown -->
+    <select onchange="showAndLoadStartAndEndDrops()" id="json-routes"></select>
+
+    <div id="stops-dropdowns-container" style="display: none;">
+        <!-- Origin to Destination -->
+        <h5 id="origin-to-destination-header"></h5>
+        <!-- Starting Point Dropdown -->
+        <select name="" id="json-starting-stops"></select>
+        <!-- Ending Point Dropdown -->
+        <select name="" id="json-ending-stops"></select>
+    </div>
+</div>
+{% endblock  %}
+
+
 {% block select_routes_content %}
     <div id="test-routes-select-container" class='container'>
         <label for="route">Injected Route/ Bus Number:</label>
@@ -70,5 +87,5 @@
 
 
 <script>
-
+    
 </script>
