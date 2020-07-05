@@ -11,9 +11,9 @@ function initMap() {
       // Characteristics of the icon for the user's location
       var icon = {
         url: './static/images/gps.svg',
-        scaledSize: new google.maps.Size(30, 30), // scaled size
-        anchor: new google.maps.Point(12.5, 12.5) // anchor
-    };
+        scaledSize: new google.maps.Size(30, 30), 
+        anchor: new google.maps.Point(12.5, 12.5) 
+      };
       var marker = new google.maps.Marker({
         position: usersLocation,
         map: map,
@@ -38,11 +38,17 @@ function initMap() {
       //     map: map,
       //   });
       // }
+      var busStopIcon = {
+        url: './static/images/bus_stop_icon.svg',
+        scaledSize: new google.maps.Size(25, 25), 
+        anchor: new google.maps.Point(12.5, 12.5) 
+      };
 
       var markers = stops.map(function(location, i) {
         var stopCoords = new google.maps.LatLng(location.latitude, location.longitude);
         return new google.maps.Marker({
           position: stopCoords,
+          icon: busStopIcon,
         });
       });
   
