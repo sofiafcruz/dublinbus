@@ -1,17 +1,29 @@
 {% extends "base.html" %}
 
 {% block test_json_content %}
-<div id='search-by-route-container' class="container">
+<div id='search-by-route-container' class="container centre-and-padding">
     <!-- Route Dropdown -->
-    <select onchange="showAndLoadStartAndEndDrops()" id="json-routes"></select>
+    <label for="route-dropdown">Select Route:</label>
+    <select onchange="showAndLoadStartAndEndDrops()" id="json-routes">
+        <option value="" disabled selected>Select a Route</option>
+    </select>
 
     <div id="stops-dropdowns-container" style="display: none;">
         <!-- Origin to Destination -->
-        <h5 id="origin-to-destination-header"></h5>
+        <div id="origin-to-destination-div">
+            <h5 id="origin-to-destination-header"></h5>
+        </div>
         <!-- Starting Point Dropdown -->
-        <select name="" id="json-starting-stops"></select>
+        <div>
+            <label for="starting-dropdown">Select Start Point:</label>
+            <select name="" id="json-starting-stops"></select>
+        </div>
         <!-- Ending Point Dropdown -->
-        <select name="" id="json-ending-stops"></select>
+        <div>
+            <label for="ending-dropdown">Select End Stop:</label>
+            <select name="" id="json-ending-stops"></select>
+        </div>
+        <button class='btn btn-primary' onclick="generateStopArray()">Show Journey</button>
     </div>
 </div>
 {% endblock  %}
@@ -19,6 +31,7 @@
 
 {% block select_routes_content %}
     <div id="test-routes-select-container" class='container'>
+    {% comment %}
         <label for="route">Injected Route/ Bus Number:</label>
         <br>
         <!-- Using a form (in combo with forms.py) - Think needed for DB queries -->
@@ -36,9 +49,10 @@
             {{ route_model_form }}
             <input type=submit value="Select Route">
         </form>
+    {% endcomment %}
 
         <!-- Using a form with a for loop (not as interactive I think) -->
-        <label for="route">Using a Form with for loop</label>
+        {% comment %} <label for="route">Using a Form with for loop</label>
         <form action="show_route" method="POST">
             {% csrf_token %}
             {% block test_select_routes_content %}
@@ -49,19 +63,19 @@
                 </select>
                 <input type="submit" value="Select Route">
             {% endblock %}
-        </form>
+        </form> {% endcomment %}
 
         <!-- Using a select (not as interactive I think) -->
-        {% comment %} <label for="route">Using a Select</label>
+        <!-- <label for="route">Using a Select</label>
         <select name="route-injection-dropdown" id="route-injection-dropdown">
             {% block test_select_routes_content %}
                 {% for route in routes %}
                     <option value='{{route.route_name}}'>{{ route.route_name }}</option>
                 {% endfor %}
             {% endblock %}
-        </select> {% endcomment %}
+        </select> -->
     </div>
-{% endblock %}
+{% endblock %} 
 
 {% block test_routes_content %}
     <div id="test-routes-container" class='container'>
@@ -75,17 +89,9 @@
 {% endblock %}
 
 {% block bus_stops_content %}
-{% for stop in bus_stops %}
-    <p>Bus Stop: {{ stop.stop_num }}</p>
-    <p>LAT: {{ stop.latitude }}</p>
-    <p>LONG: {{ stop.longitude }}</p>
-{% endfor %}
+    {% for stop in bus_stops %}
+        <p>Bus Stop: {{ stop.stop_num }}</p>
+        <p>LAT: {{ stop.latitude }}</p>
+        <p>LONG: {{ stop.longitude }}</p>
+    {% endfor %}
 {% endblock %}
-
-
-
-
-
-<script>
-    
-</script>

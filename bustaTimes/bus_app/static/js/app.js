@@ -17,6 +17,14 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
         opt.innerHTML = key;
         json_routes_dropdown.appendChild(opt);
     }
+
+    // TRYING TO LIMIT THE NUMBER OF OPTIONS SHOWN BY DROPDOWN TO 6 (not sure how)
+    // $('select').each(function(){
+    //     $(this).attr({onmousedown: "if(this.options.length>6){this.size=6;}",
+    //                  onchange: "this.blur()", 
+    //                  onblur: "this.size=0;"});
+    // });
+
 }); // END OF JQUERY BLOCK
 
     // Display div containing filled drop down options of bus stops
@@ -48,7 +56,7 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
 
                 // Store it into an option element
                 var opt = document.createElement('option');
-                opt.value = stop_address;
+                opt.value = index; // Value is the index of the bus stop
                 opt.innerHTML = stop_address + " (" + bus_stop + ")";
                 // Then clone it to also append to the ending stop dropdown
                 var cloneOption = opt.cloneNode(true);
@@ -62,6 +70,29 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
         $('#stops-dropdowns-container').css('display', 'block');
     }
     
+    // GRAB ALL THE STOPS BETWEEN STARTING AND ENDING POINTS OF THE JOURNEY!
+    function generateStopArray() {
+        var selected_route = document.getElementById("json-routes").value;
+        var selected_start = parseInt(document.getElementById("json-starting-stops").value);
+        var selected_end = parseInt(document.getElementById("json-ending-stops").value);
+        // console.log(selected_route + " - " + selected_start + " - " + selected_end);
+
+        var arrOfSelectedStops = main_table_object[selected_route].slice(selected_start, (selected_end+1));
+        console.log(arrOfSelectedStops);
+
+        arrOfCoords = []
+        for (i in arrOfSelectedStops){
+            for (stop_num in arrOfSelectedStops[i]){
+                let bus_stop = arrOfSelectedStops[i][stop_num];
+                let lat = bus_stop["latitude"];
+                let long = bus_stop["longitude"];
+                arrOfCoords.push({"latitude": lat, "longitude": long});
+            }
+        }
+        console.log(arrOfCoords);
+
+        // Now I think I should return the Stop coords?
+    }
     //==================================================================================
     
     

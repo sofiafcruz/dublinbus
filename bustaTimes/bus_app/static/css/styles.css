@@ -17,3 +17,27 @@
     color: red;
     font-size: 2rem;
 }
+
+#search-by-route-container{
+    background-color: lightblue;
+    width: 300px;
+    padding: 1em;
+}
+
+#origin-to-destination-div {
+    background-color: white;
+}
+
+.centre-and-padding {
+    padding: 0.2em;
+    text-align: center;
+    margin-top: 0.2em;
+}
+
+#search-by-route-container select {
+    background-color: blue;
+    color: gold;
+    padding: 0.4em;
+    border: none;
+    outline: none;
+}
