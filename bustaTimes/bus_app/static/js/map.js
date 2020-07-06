@@ -56,8 +56,45 @@ function initMap() {
       var markerCluster = new MarkerClusterer(map, markers,
           {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
     });
-    
-  }
+      
+}
 
+// Meant to remove all markers from the map each time a new journey is selected (but not working)
+// My Logic is wrong somewhere...
+// ----------------------------------------------------------------------------------------------
+// function clearOverlays(arr) {
+//   for (var i = 0; i < arr.length; i++ ) {
+//     arr[i].setMap(null);
+//   }
+//   arr.length = 0;
+// }
 
+// CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED (outside of init function) 
+var map = new google.maps.Map(document.getElementById('map'));
+function showJouneyOnMap(){
   
+  var markersArray = [];
+
+  // clearOverlays(markersArray);
+
+  console.log(markersArray);
+  // 'arrOfCoords' comes from app.js
+  for (var i = 0; i < arrOfCoords.length; i++) {
+    // initialise lat and long of each stop
+    let bus_stop_lat = arrOfCoords[i].latitude;
+    let bus_stop_long = arrOfCoords[i].longitude;
+
+    let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long };
+
+    // Create a marker of that lat and long
+    var marker = new google.maps.Marker({
+      position: busLatLng,
+      map: map,
+      title: "TESTING POPULATING BUS STOPS!"
+    });
+    
+    markersArray.push(marker);
+  }
+  map.setCenter(new google.maps.LatLng(arrOfCoords[0].latitude, arrOfCoords[0].longitude));
+  map.setZoom(14);
+}

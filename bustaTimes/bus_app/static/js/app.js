@@ -70,6 +70,8 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
         $('#stops-dropdowns-container').css('display', 'block');
     }
     
+    // Initialising Empty Array of Coords
+    var arrOfCoords = [];
     // GRAB ALL THE STOPS BETWEEN STARTING AND ENDING POINTS OF THE JOURNEY!
     function generateStopArray() {
         var selected_route = document.getElementById("json-routes").value;
@@ -80,7 +82,6 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
         var arrOfSelectedStops = main_table_object[selected_route].slice(selected_start, (selected_end+1));
         console.log(arrOfSelectedStops);
 
-        arrOfCoords = []
         for (i in arrOfSelectedStops){
             for (stop_num in arrOfSelectedStops[i]){
                 let bus_stop = arrOfSelectedStops[i][stop_num];
@@ -90,6 +91,12 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
             }
         }
         console.log(arrOfCoords);
+
+        // Call the 'showJouneyOnMap' function in 'map.js'
+        $.getScript("static/js/map.js", function(){
+            showJouneyOnMap();
+        });
+        
 
         // Now I think I should return the Stop coords?
     }
