@@ -41,21 +41,18 @@
             <span id="temperature" style="padding-right: 20px;"></span> 
         </div>
     </div>
-    <div class="container">  
-        <!-- Map -->
-        <div id="map" style="height:500px; width:100%"></div>
-        
-        <!-- <h1 class="jumbotron">I am a test heading in a bootstrap jumbotron</h1> -->
-        <!-- <p>Testing we are connected to JS file: </p> -->
-        <!-- <p id="test-js-connection"></p> -->
-        <!-- <h3>The image below was injected in with template tagging</h3> -->
-        <!-- <img src="{% static "images/example.jpg"%}" alt="This should be an Image of a Route 1 Dublin Bus"> -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <!-- Map -->
+                <div id="map" style="height:500px; width:100%"></div>
+            </div>
+            <div class="col-md-auto">
+                <!-- Storing JSON data in dropdowns -->
+                {% block test_json_content %} {% endblock %}
+            </div>
+        </div>
     </div>
-
-    <!-- Messing around with template Injections -->
-    
-    <!-- Storing JSON data in dropdowns -->
-    {% block test_json_content %} {% endblock %}
     
     <!-- Storing the Routes in a dropdown -->
     {% comment %} {% block select_routes_content %} {% endblock %} {% endcomment %}

@@ -52,11 +52,3 @@ html, body {
     border: none;
     outline: none;
 }
-
-.floating-panel {
-    position: absolute;
-    top: 60px;
-    left: 10px;
-    z-index: 5;
-    padding: 5px;
-}
