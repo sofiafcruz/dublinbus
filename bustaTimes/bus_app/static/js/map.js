@@ -67,15 +67,23 @@ function initMap() {
 
 // CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED (outside of init function) 
 var map = new google.maps.Map(document.getElementById('map'));
-function showJouneyOnMap(){
-  
+function showJouneyOnMap(arrOfStopObjs){
+  console.log("INSIDE showJouneyOnMap function!")
   var markersArray = [];
 
   // 'arrOfCoords' comes from app.js
-  for (var i = 0; i < arrOfCoords.length; i++) {
-    // initialise lat and long of each stop
-    let bus_stop_lat = arrOfCoords[i].latitude;
-    let bus_stop_long = arrOfCoords[i].longitude;
+  for (var i = 0; i < arrOfStopObjs.length; i++) {
+
+    console.log(Object.values(arrOfStopObjs[i])[0]); // Properties of bus stop (prog num, lat, long, address)
+    console.log(Object.keys(arrOfStopObjs[i])[0]); // Bus Stop number
+    console.log(arrOfStopObjs[i]); // Bus Stop object
+
+    let bus_stop_obj = arrOfStopObjs[i];
+    let bus_stop_num = Object.keys(bus_stop_obj)[0];
+    let bus_stop_properties = Object.values(bus_stop_obj)[0];
+
+    let bus_stop_lat = bus_stop_properties.latitude;
+    let bus_stop_long = bus_stop_properties.longitude;
 
     let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long };
 
@@ -83,16 +91,29 @@ function showJouneyOnMap(){
     var marker = new google.maps.Marker({
       position: busLatLng,
       map: map,
-      title: "TESTING POPULATING BUS STOPS!",
       icon: busStopIcon
     });
     
+    // Add info window to the bus stop
+    attachInfoWindow(marker, bus_stop_num, bus_stop_lat, bus_stop_long);
+    
     markersArray.push(marker);
-  }
-  
+
+  }  
   // Calls the function to display the directions on the map
   directionsRenderer.setMap(map); 
   calcRoute();
+}
+
+// Function to add info window to each marker;
+function attachInfoWindow(marker, stopNum, latitude, longitude) {
+  var infowindow = new google.maps.InfoWindow({
+    content: "BUS STOP NUM: " + stopNum + "<br>" + "LAT: " + latitude + "<br>" + "LONG: " + longitude
+  });
+
+  marker.addListener("click", function() {
+    infowindow.open(marker.get("map"), marker);
+  });
 }
 
 // Function to draw the directions on the map

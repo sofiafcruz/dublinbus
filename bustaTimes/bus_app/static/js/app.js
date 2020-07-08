@@ -94,7 +94,7 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
 
         // Call the 'showJouneyOnMap' function in 'map.js'
         $.getScript("static/js/map.js", function(){
-            showJouneyOnMap();
+            showJouneyOnMap(arrOfSelectedStops);
         });
         
 
