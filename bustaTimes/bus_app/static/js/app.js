@@ -204,9 +204,9 @@ function navbarDisplay(evt, searchType) {
     for (var i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
-    var navItems = document.getElementsByClassName("nav-items");
-    for (var i = 0; i < navItems.length; i++) {
-        navItems[i].className = navItems[i].className.replace(" active", "");
+    var navLink = document.getElementsByClassName("nav-link");
+    for (var i = 0; i < navLink.length; i++) {
+        navLink[i].className = navLink[i].className.replace(" active", "");
     }
     document.getElementById(searchType).style.display = "block";
     evt.currentTarget.className += " active";
