@@ -44,11 +44,3 @@ html, body {
     text-align: center;
     margin-top: 0.2em;
 }
-
-#search-by-route-container select {
-    background-color: blue;
-    color: gold;
-    padding: 0.4em;
-    border: none;
-    outline: none;
-}
