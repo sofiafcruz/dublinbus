@@ -64,7 +64,7 @@
                             <label for="destination">Destination:</label>
                             <input type="text" class="form-control" id="destination-home-search" placeholder="Choose destination">
                         </div>
-                        <button type="submit" class="btn btn-outline-light">Submit</button>
+                        <button type="submit" class="btn btn-outline-light" onclick="homeSearch()">Submit</button>
                     </form>
                     {% comment %} <form action="/">
                         <label for="origin">Origin:</label><br>
@@ -118,7 +118,8 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&callback=initMap">
     </script>
-    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script> 
+    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places"></script>
 
 </body>
 </html>
