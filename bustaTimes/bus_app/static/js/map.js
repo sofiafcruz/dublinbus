@@ -71,16 +71,11 @@ function showJouneyOnMap(arrOfStopObjs){
   // console.log("INSIDE showJouneyOnMap function!")
   var markersArray = [];
 
-  // 'arrOfCoords' comes from app.js
+  
   for (var i = 0; i < arrOfStopObjs.length; i++) {
-
-    // console.log(Object.values(arrOfStopObjs[i])[0]); // Properties of bus stop (prog num, lat, long, address)
-    // console.log(Object.keys(arrOfStopObjs[i])[0]); // Bus Stop number
-    // console.log(arrOfStopObjs[i]); // Bus Stop object
-
-    let bus_stop_obj = arrOfStopObjs[i];
-    let bus_stop_num = Object.keys(bus_stop_obj)[0];
-    let bus_stop_properties = Object.values(bus_stop_obj)[0];
+    let bus_stop_obj = arrOfStopObjs[i]; // Bus Stop object
+    let bus_stop_num = Object.keys(bus_stop_obj)[0]; // Bus Stop number
+    let bus_stop_properties = Object.values(bus_stop_obj)[0]; // Properties of bus stop (prog num, lat, long, address)
 
     let bus_stop_lat = bus_stop_properties.latitude;
     let bus_stop_long = bus_stop_properties.longitude;
@@ -103,6 +98,10 @@ function showJouneyOnMap(arrOfStopObjs){
   // Calls the function to display the directions on the map
   directionsRenderer.setMap(map); 
   calcRoute();
+  
+  // console.log(arrOfCoords[0]);
+  map.setCenter(new google.maps.LatLng(arrOfCoords[0].latitude, arrOfCoords[0].longitude));
+  map.setZoom(14);
 }
 
 // Function to add info window to each marker;
@@ -116,12 +115,19 @@ function attachInfoWindow(marker, stopNum, latitude, longitude) {
   });
 }
 
+// 'arrOfCoords' comes from app.js
 // Function to draw the directions on the map
 function calcRoute() {
   var start = new google.maps.LatLng(arrOfCoords[0].latitude,arrOfCoords[0].longitude);
   var end = new google.maps.LatLng(arrOfCoords[arrOfCoords.length - 1].latitude,arrOfCoords[arrOfCoords.length - 1].longitude);
+  
+  console.log("CALC-ROUTE START");
   console.log(arrOfCoords[0].latitude);
   console.log(arrOfCoords[0].longitude);
+  console.log("CALC-ROUTE END");
+  console.log(arrOfCoords[arrOfCoords.length - 1].latitude);
+  console.log(arrOfCoords[arrOfCoords.length - 1].longitude);
+  console.log("=================================================================================================");
   var request = {
     origin: start,
     destination: end,
@@ -135,7 +141,7 @@ function calcRoute() {
   directionsService.route(request, function(result, status) {
     // console.log(typeof result);
     // console.log(result);
-    console.log(result.routes);
+    // console.log(result.routes);
     // console.log(result.routes[0]);
     // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
     var selectedRoute = document.getElementById("json-routes").value;
@@ -145,7 +151,7 @@ function calcRoute() {
       var transitCount = 0;
       var busLine = '';
       for (j = 0; j < steps.length; j++) {
-        // console.log(steps[j]);
+        console.log(steps[j]);
         if (steps[j].travel_mode === "TRANSIT") {
           transitCount++;
           busLine = steps[j].transit.line.short_name;
@@ -161,6 +167,5 @@ function calcRoute() {
     }
   });
 
-map.setCenter(new google.maps.LatLng(arrOfCoords[0].latitude, arrOfCoords[0].longitude));
-map.setZoom(14);
+
 }

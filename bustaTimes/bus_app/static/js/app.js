@@ -33,7 +33,7 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
 
         // Grab the route option selected
         var selected_route = document.getElementById("json-routes").value;
-        
+        console.log(selected_route);
         // ORIGIN AND DESTINATION
         let origin = route_origin_and_destination_object[selected_route]["origin"];
         let destination = route_origin_and_destination_object[selected_route]["destination"];
@@ -82,6 +82,7 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
         var arrOfSelectedStops = main_table_object[selected_route].slice(selected_start, (selected_end+1));
         console.log(arrOfSelectedStops);
 
+        arrOfCoords = [];
         for (i in arrOfSelectedStops){
             for (stop_num in arrOfSelectedStops[i]){
                 let bus_stop = arrOfSelectedStops[i][stop_num];
@@ -90,7 +91,9 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
                 arrOfCoords.push({"latitude": lat, "longitude": long});
             }
         }
+        console.log("BEFORE ARR OF COORDS - APP.JS");
         console.log(arrOfCoords);
+        console.log("AFTER ARR OF COORDS - APP.JS");
 
         // Call the 'showJouneyOnMap' function in 'map.js'
         $.getScript("static/js/map.js", function(){
