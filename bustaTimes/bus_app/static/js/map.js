@@ -68,15 +68,15 @@ function initMap() {
 // CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED (outside of init function) 
 var map = new google.maps.Map(document.getElementById('map'));
 function showJouneyOnMap(arrOfStopObjs){
-  console.log("INSIDE showJouneyOnMap function!")
+  // console.log("INSIDE showJouneyOnMap function!")
   var markersArray = [];
 
   // 'arrOfCoords' comes from app.js
   for (var i = 0; i < arrOfStopObjs.length; i++) {
 
-    console.log(Object.values(arrOfStopObjs[i])[0]); // Properties of bus stop (prog num, lat, long, address)
-    console.log(Object.keys(arrOfStopObjs[i])[0]); // Bus Stop number
-    console.log(arrOfStopObjs[i]); // Bus Stop object
+    // console.log(Object.values(arrOfStopObjs[i])[0]); // Properties of bus stop (prog num, lat, long, address)
+    // console.log(Object.keys(arrOfStopObjs[i])[0]); // Bus Stop number
+    // console.log(arrOfStopObjs[i]); // Bus Stop object
 
     let bus_stop_obj = arrOfStopObjs[i];
     let bus_stop_num = Object.keys(bus_stop_obj)[0];
@@ -120,6 +120,8 @@ function attachInfoWindow(marker, stopNum, latitude, longitude) {
 function calcRoute() {
   var start = new google.maps.LatLng(arrOfCoords[0].latitude,arrOfCoords[0].longitude);
   var end = new google.maps.LatLng(arrOfCoords[arrOfCoords.length - 1].latitude,arrOfCoords[arrOfCoords.length - 1].longitude);
+  console.log(arrOfCoords[0].latitude);
+  console.log(arrOfCoords[0].longitude);
   var request = {
     origin: start,
     destination: end,
@@ -133,20 +135,29 @@ function calcRoute() {
   directionsService.route(request, function(result, status) {
     // console.log(typeof result);
     // console.log(result);
-    // console.log(result.routes);
+    console.log(result.routes);
     // console.log(result.routes[0]);
     // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
     var selectedRoute = document.getElementById("json-routes").value;
     var routes = result.routes;
     for(i = 0; i < routes.length; i++) {
-      if (result.routes[i].legs[0].steps[1].transit.line.short_name == selectedRoute) {
-        // console.log(selectedRoute);
+      var steps = result.routes[i].legs[0].steps;
+      var transitCount = 0;
+      var busLine = '';
+      for (j = 0; j < steps.length; j++) {
+        // console.log(steps[j]);
+        if (steps[j].travel_mode === "TRANSIT") {
+          transitCount++;
+          busLine = steps[j].transit.line.short_name;
+        }
+      }
+      if (transitCount == 1 && busLine == selectedRoute) {
         if (status == 'OK') {
           directionsRenderer.setDirections(result);
           directionsRenderer.setRouteIndex(i);
-          
         }
       }
+      break;
     }
   });
 
