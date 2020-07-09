@@ -28,10 +28,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                <a class="nav-link" href="#">Search by Route <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#" onclick="navbarDisplay(event, 'home-search-container')">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Search by Bus Stop</a>
+                <a class="nav-link" href="#" onclick="navbarDisplay(event, 'search-by-route-container')">Search by Route</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#" onclick="navbarDisplay(event, 'bus-stop-search-container')">Search by Bus Stop</a>
                 </li>
             </ul>
             
@@ -48,8 +51,31 @@
                 <div id="map" style="height:500px; width:100%"></div>
             </div>
             <div class="col-md-auto">
-                <!-- Storing JSON data in dropdowns -->
+                
+                <!-- Menu for the Home page -->
+                <div id='home-search-container' class="container centre-and-padding tabcontent">
+                    <h3>Plan Your Trip</h3>
+                    <form action="/">
+                        <label for="origin">Origin:</label><br>
+                        <input type="text" id="origin-default-search" name="origin"><br><br>
+                        <label for="destination">Destination:</label><br>
+                        <input type="text" id="destination-default-search" name="destination"><br><br>
+                        <button type="submit" value="Submit" class='btn btn-outline-light' onclick="defaultSearch()">Search</button> 
+                    </form>
+                </div>
+                <!-- Search by Route Menu -->
                 {% block test_json_content %} {% endblock %}
+                
+                <!-- Search by Bus Stop Menu -->
+                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent">
+                    <h3>Plan Your Trip</h3>
+                    <form action="/">
+                        <label for="origin">Bus Stop:</label><br>
+                        <input type="text" id="origin-default-search" name="origin"><br><br>
+                        
+                        <button type="submit" value="Submit" class='btn btn-outline-light' onclick="defaultSearch()">Search</button> 
+                    </form>
+                </div>
             </div>
         </div>
     </div>

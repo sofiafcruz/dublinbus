@@ -23,6 +23,12 @@ html, body {
     display: inline-block;
     padding: 1em;
 }
+#home-search-container {
+    display: block;
+    background-color: lightblue;
+    width: 300px;
+    padding: 1em;
+}
 
 /* Styling the ModelChoiceForm dropdown */
 .drop-down-list {
@@ -30,7 +36,8 @@ html, body {
     font-size: 2rem;
 }
 
-#search-by-route-container{
+#search-by-route-container {
+    display: none;
     background-color: lightblue;
     width: 300px;
     padding: 1em;
@@ -44,4 +51,12 @@ html, body {
     padding: 0.2em;
     text-align: center;
     margin-top: 0.2em;
+}
+
+
+#bus-stop-search-container {
+    display: none;
+    background-color: lightblue;
+    width: 300px;
+    padding: 1em;
 }

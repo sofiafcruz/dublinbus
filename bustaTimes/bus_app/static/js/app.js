@@ -197,3 +197,17 @@ $('#initial-dropdown').change(function(){
 
 //     document.getElementById("submit-id").removeEventListener('click', showInputs);
 // };
+
+
+function navbarDisplay(evt, searchType) {
+    var tabcontent = document.getElementsByClassName("tabcontent");
+    for (var i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    var navItems = document.getElementsByClassName("nav-items");
+    for (var i = 0; i < navItems.length; i++) {
+        navItems[i].className = navItems[i].className.replace(" active", "");
+    }
+    document.getElementById(searchType).style.display = "block";
+    evt.currentTarget.className += " active";
+}
