@@ -155,35 +155,39 @@ const showMatches = matches => {
         // Array of HTML string matches (converted to a single string)
         let num_of_results_shown = 10; // To limit the number of matches shown to the user to 1st 10
         const outputHTML = matches.slice(0, num_of_results_shown).map(match => `
-            <div id="search-by-busstop-options">
-                <p class="text-primary" id="searchname-option">${match.searchname}</p>
-                <small style="overflow-wrap:break-word; max-width:100%">${match.routes_through_stop}</small>
-                <hr>
+            <div id="${match.searchname}" class="search-by-busstop-options" onclick="populateInputWithStop(this.id)">
+                <p class="text-primary busstop-option" id="searchname-option">${match.searchname}</p>
+                <small class="busstop-option" style="overflow-wrap:break-word; max-width:100%">${match.routes_through_stop}</small>
             </div>
         `).join('');
         match_list.innerHTML = outputHTML;
 
         // Message at bottom of dropdown list to show how many of all possible results showing
+
+        // If the number of matches found is over 10, show 1 message
         if (matches.length > 10) {
             match_list.innerHTML += 
-                `<h5>${num_of_results_shown} of possible ${matches.length} matches shown</h5>`;
+                `<div class="total-matches-shown">
+                    <h5>${num_of_results_shown} of possible ${matches.length} matches shown</h5>
+                </div>`;
+        // Else, show a different message
         } else {
             match_list.innerHTML += 
-                `<h5>All ${matches.length} matches are being shown</h5>`;
+                `<div class="total-matches-shown">
+                    <h5>All ${matches.length} matches are being shown</h5>
+                </div>`;
         }
     }
 }
 
-// const busstop_search = document.getElementById("busstop-search");
 const match_list = document.getElementById("match-list");
 
-// // Search map_bus_stop_to_routes_data.json and filter it
-// function searchStops(all_stops) => {
-
-// }
-
-// busstop_search.addEventListener('input', () => searchStops(busstop_search.value))
-
+// Autofill the bus stop input box upon clicking an option
+function populateInputWithStop(clicked_busstop_searchname){
+    console.log(clicked_busstop_searchname);
+    let busstop_input = document.getElementById("busstop-search");
+    busstop_input.value = clicked_busstop_searchname;
+}
 //==================================================================================
 
 

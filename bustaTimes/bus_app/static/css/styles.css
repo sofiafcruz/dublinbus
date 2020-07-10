@@ -61,8 +61,23 @@ html, body {
     padding: 1em;
 }
 
-#search-by-busstop-options {
+.search-by-busstop-options {
     background:white;
+    border: 0.02em solid black;
+    padding: 0.5em;
+}
+
+.search-by-busstop-options:hover {
+    background-color: rgb(224, 213, 213);
+}
+
+.busstop-option {
+    margin: 0em;
+}
+
+.total-matches-shown {
+    background:black;
+    color: antiquewhite;
     border: 0.02em solid black;
     padding: 0.5em;
 }
