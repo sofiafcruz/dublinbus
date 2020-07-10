@@ -7,6 +7,7 @@ from .forms import RouteForm
 from .forms import RouteModelForm
 import os
 import requests
+# from bus_app.leap_card.test_leap_card_api import get_leap_card_details
 
 google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 
@@ -131,8 +132,9 @@ def leap_card_info(request):
         print(f"User entered the following credentials;\n=============================\nUsername: {leap_card_username}, Password: {leap_card_password}")
         # Pass the Username and Password into 
         # from leap_card.test_leap_card_api import get_leap_card_details
-        from test_leap_card_api import get_leap_card_details
-        get_leap_card_details(leap_card_username, leap_card_password)
+        # from test_leap_card_api import get_leap_card_details
+        # get_leap_card_details(leap_card_username, leap_card_password)
+
     elif request.method =='GET':
         print("IT'S A GET")
     else:
