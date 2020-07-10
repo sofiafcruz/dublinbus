@@ -60,3 +60,9 @@ html, body {
     width: 300px;
     padding: 1em;
 }
+
+#search-by-busstop-options {
+    background:white;
+    border: 0.02em solid black;
+    padding: 0.5em;
+}

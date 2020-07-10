@@ -1,34 +1,5 @@
 {% extends "base.html" %}
 
-{% block test_json_content %}
-<div id='search-by-route-container' class="container centre-and-padding tabcontent">
-    <h3>Plan Your Trip</h3>
-    <!-- Route Dropdown -->
-    <label for="route-dropdown">Select Route:</label>
-    <select onchange="showAndLoadStartAndEndDrops()" id="json-routes">
-        <option value="" disabled selected>Select a Route</option>
-    </select>
-
-    <div id="stops-dropdowns-container" style="display: none;">
-        <!-- Origin to Destination -->
-        <div id="origin-to-destination-div">
-            <h5 id="origin-to-destination-header"></h5>
-        </div>
-        <!-- Starting Point Dropdown -->
-        <div>
-            <label for="starting-dropdown">Select Start Point:</label><br>
-            <select name="" id="json-starting-stops"></select>
-        </div>
-        <!-- Ending Point Dropdown -->
-        <div>
-            <label for="ending-dropdown">Select End Stop:</label><br>
-            <select name="" id="json-ending-stops"></select>
-        </div>
-        <button class='btn btn-outline-light' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
-    </div>
-</div>
-{% endblock  %}
-
 
 {% block select_routes_content %}
     <div id="test-routes-select-container" class='container'>

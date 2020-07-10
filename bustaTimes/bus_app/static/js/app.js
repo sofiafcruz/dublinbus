@@ -27,86 +27,165 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
 
 }); // END OF JQUERY BLOCK
 
-    // Display div containing filled drop down options of bus stops
-    // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
-    function showAndLoadStartAndEndDrops() {
-
-        // Grab the route option selected
-        var selected_route = document.getElementById("json-routes").value;
-        console.log(selected_route);
-        // ORIGIN AND DESTINATION
-        let origin = route_origin_and_destination_object[selected_route]["origin"];
-        let destination = route_origin_and_destination_object[selected_route]["destination"];
+// ================================ SEARCH BY ROUTE ==============================================
+// Display div containing filled drop down options of bus stops
+// (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
+function showAndLoadStartAndEndDrops() {
+    // Grab the route option selected
+    var selected_route = document.getElementById("json-routes").value;
+    console.log(selected_route);
+    // ORIGIN AND DESTINATION
+    let origin = route_origin_and_destination_object[selected_route]["origin"];
+    let destination = route_origin_and_destination_object[selected_route]["destination"];
         
-        $('#origin-to-destination-header').html("From " + origin + " to " + destination);
+    $('#origin-to-destination-header').html("From " + origin + " to " + destination);
 
-        // Target the starting and ending stops select dropdowns (which are hidden)
-        var json_starting_point_dropdown = document.getElementById("json-starting-stops");
-        var json_ending_point_dropdown = document.getElementById("json-ending-stops");
+    // Target the starting and ending stops select dropdowns (which are hidden)
+    var json_starting_point_dropdown = document.getElementById("json-starting-stops");
+    var json_ending_point_dropdown = document.getElementById("json-ending-stops");
 
-        // Empty their contents EVERY call (or else value will be appended to them)
-        $(json_starting_point_dropdown).empty();
-        $(json_ending_point_dropdown).empty();
+    // Empty their contents EVERY call (or else value will be appended to them)
+    $(json_starting_point_dropdown).empty();
+    $(json_ending_point_dropdown).empty();
 
-        // Need a nested for loop to grab the Address of each bus stop of the selected route
-        for (index in main_table_object[selected_route]){
-            for (bus_stop in main_table_object[selected_route][index]){
-                // Grab the bus stop address
-                stop_address = main_table_object[selected_route][index][bus_stop]["stop_address"];
+    // Need a nested for loop to grab the Address of each bus stop of the selected route
+    for (index in main_table_object[selected_route]){
+        for (bus_stop in main_table_object[selected_route][index]){
+            // Grab the bus stop address
+            stop_address = main_table_object[selected_route][index][bus_stop]["stop_address"];
 
-                // Store it into an option element
-                var opt = document.createElement('option');
-                opt.value = index; // Value is the index of the bus stop
-                opt.innerHTML = stop_address + " (" + bus_stop + ")";
-                // Then clone it to also append to the ending stop dropdown
-                var cloneOption = opt.cloneNode(true);
+            // Store it into an option element
+            var opt = document.createElement('option');
+            opt.value = index; // Value is the index of the bus stop
+            opt.innerHTML = stop_address + " (" + bus_stop + ")";
+            // Then clone it to also append to the ending stop dropdown
+            var cloneOption = opt.cloneNode(true);
                 
-                // Append the given bus stop option to both starting and ending point dropdowns
-                json_ending_point_dropdown.appendChild(opt);
-                json_starting_point_dropdown.appendChild(cloneOption);
-            }
+            // Append the given bus stop option to both starting and ending point dropdowns
+            json_ending_point_dropdown.appendChild(opt);
+            json_starting_point_dropdown.appendChild(cloneOption);
         }
-        // At the end, make sure to display the container holding the starting and ending stop dropdowns
-        $('#stops-dropdowns-container').css('display', 'block');
     }
+    // At the end, make sure to display the container holding the starting and ending stop dropdowns
+    $('#stops-dropdowns-container').css('display', 'block');
+}
     
-    // Initialising Empty Array of Coords
-    var arrOfCoords = [];
-    // GRAB ALL THE STOPS BETWEEN STARTING AND ENDING POINTS OF THE JOURNEY!
-    function generateStopArray() {
-        var selected_route = document.getElementById("json-routes").value;
-        var selected_start = parseInt(document.getElementById("json-starting-stops").value);
-        var selected_end = parseInt(document.getElementById("json-ending-stops").value);
-        // console.log(selected_route + " - " + selected_start + " - " + selected_end);
+// Initialising Empty Array of Coords
+var arrOfCoords = [];
+// GRAB ALL THE STOPS BETWEEN STARTING AND ENDING POINTS OF THE JOURNEY!
+function generateStopArray() {
+    var selected_route = document.getElementById("json-routes").value;
+    var selected_start = parseInt(document.getElementById("json-starting-stops").value);
+    var selected_end = parseInt(document.getElementById("json-ending-stops").value);
+    // console.log(selected_route + " - " + selected_start + " - " + selected_end);
 
-        var arrOfSelectedStops = main_table_object[selected_route].slice(selected_start, (selected_end+1));
-        console.log(arrOfSelectedStops);
+    var arrOfSelectedStops = main_table_object[selected_route].slice(selected_start, (selected_end+1));
+    console.log(arrOfSelectedStops);
 
-        arrOfCoords = [];
-        for (i in arrOfSelectedStops){
-            for (stop_num in arrOfSelectedStops[i]){
-                let bus_stop = arrOfSelectedStops[i][stop_num];
-                let lat = bus_stop["latitude"];
-                let long = bus_stop["longitude"];
-                arrOfCoords.push({"latitude": lat, "longitude": long});
-            }
+    arrOfCoords = [];
+    for (i in arrOfSelectedStops){
+        for (stop_num in arrOfSelectedStops[i]){
+            let bus_stop = arrOfSelectedStops[i][stop_num];
+            let lat = bus_stop["latitude"];
+            let long = bus_stop["longitude"];
+            arrOfCoords.push({"latitude": lat, "longitude": long});
         }
-        console.log("BEFORE ARR OF COORDS - APP.JS");
-        console.log(arrOfCoords);
-        console.log("AFTER ARR OF COORDS - APP.JS");
+    }
+    console.log("BEFORE ARR OF COORDS - APP.JS");
+    console.log(arrOfCoords);
+    console.log("AFTER ARR OF COORDS - APP.JS");
 
-        // Call the 'showJouneyOnMap' function in 'map.js'
-        $.getScript("static/js/map.js", function(){
-            showJouneyOnMap(arrOfSelectedStops);
-        });
+    // Call the 'showJouneyOnMap' function in 'map.js'
+    $.getScript("static/js/map.js", function(){
+        showJouneyOnMap(arrOfSelectedStops);
+    });
         
 
-        // Now I think I should return the Stop coords?
+    // Now I think I should return the Stop coords?
+}
+
+// ================================ SEARCH BY BUSSTOP ==============================================
+// var national_stops = {};
+// On clicking "Search by Bus Stop" nav option, load JSON file.
+$("#search-by-stop-nav").click(function() {
+    console.log("SEARCH BY STOP NAV SELECTED");
+
+    // Return all stops and make them available to other functions (i.e. onkeyup function below)
+    $.ajax({
+        url: './static/map_bus_stop_to_routes_data.json',
+        async: false,
+        dataType: 'json',
+        success: function (json) {
+            national_stops = json;
+        }
+    });
+});
+
+// On keyup, show all relevant/matching stops that match what keys are entered
+$("#busstop-search").keyup(function (event) {
+    console.log("KEY WAS PRESSED");
+    // console.log(national_stops);
+    console.log(event.target.value);
+
+    let current_value = event.target.value;
+    
+    let arr_of_stop_vals = Object.values(national_stops);
+    // Get matches to current text input
+    let matches = arr_of_stop_vals.filter(stop => {
+        // g = global, i = case-insensitive
+        const regex = new RegExp(`^${current_value}`, 'gi');
+        // console.log(stop);
+        return stop.searchname.match(regex);
+    });
+    // SHOW ALL MACTHES
+    // console.log(matches);
+
+    // When search/input box is empty, we want there to be NO matches
+    if (current_value.length === 0){
+        matches = [];
+        match_list.innerHTML = '';
     }
-    //==================================================================================
-    
-    
-    
+
+    showMatches(matches);
+});
+
+// Show all matches in html
+const showMatches = matches => {
+    if (matches.length > 0) {
+        // Array of HTML string matches (converted to a single string)
+        let num_of_results_shown = 10; // To limit the number of matches shown to the user to 1st 10
+        const outputHTML = matches.slice(0, num_of_results_shown).map(match => `
+            <div id="search-by-busstop-options">
+                <p class="text-primary" id="searchname-option">${match.searchname}</p>
+                <small style="overflow-wrap:break-word; max-width:100%">${match.routes_through_stop}</small>
+                <hr>
+            </div>
+        `).join('');
+        match_list.innerHTML = outputHTML;
+
+        // Message at bottom of dropdown list to show how many of all possible results showing
+        if (matches.length > 10) {
+            match_list.innerHTML += 
+                `<h5>${num_of_results_shown} of possible ${matches.length} matches shown</h5>`;
+        } else {
+            match_list.innerHTML += 
+                `<h5>All ${matches.length} matches are being shown</h5>`;
+        }
+    }
+}
+
+// const busstop_search = document.getElementById("busstop-search");
+const match_list = document.getElementById("match-list");
+
+// // Search map_bus_stop_to_routes_data.json and filter it
+// function searchStops(all_stops) => {
+
+// }
+
+// busstop_search.addEventListener('input', () => searchStops(busstop_search.value))
+
+//==================================================================================
+
 
 var callum_all_routes = ['68', '25B', '45A', '25A', '14', '77A', '39', '16', '40D', '27B',
     '142', '83', '130', '15', '46A', '33', '7', '39A', '49', '1',
