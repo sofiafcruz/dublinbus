@@ -55,13 +55,24 @@
                 <!-- Menu for the Home page -->
                 <div id='home-search-container' class="container centre-and-padding tabcontent">
                     <h3>Plan Your Trip</h3>
-                    <form action="/">
-                        <label for="origin">Origin:</label><br>
-                        <input type="text" id="origin-default-search" name="origin"><br><br>
-                        <label for="destination">Destination:</label><br>
-                        <input type="text" id="destination-default-search" name="destination"><br><br>
-                        <button type="submit" value="Submit" class='btn btn-outline-light' onclick="defaultSearch()">Search</button> 
+                    <form>
+                        <div class="form-group">
+                            <label for="origin">Origin:</label>
+                            <input type="text" class="form-control" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point">
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">Destination:</label>
+                            <input type="text" class="form-control" id="destination-home-search" placeholder="Choose destination">
+                        </div>
+                        <button type="submit" class="btn btn-outline-light" onclick="homeSearch()">Submit</button>
                     </form>
+                    {% comment %} <form action="/">
+                        <label for="origin">Origin:</label><br>
+                        <input type="text" id="origin-home-search" name="origin"><br><br>
+                        <label for="destination">Destination:</label><br>
+                        <input type="text" id="destination-home-search" name="destination"><br><br>
+                        <input type="submit" value="Submit" class='btn btn-outline-light' onclick="homeSearch()">Search</button> 
+                    </form> {% endcomment %}
                 </div>
                 <!-- Search by Route Menu -->
                 <div id='search-by-route-container' class="container centre-and-padding tabcontent">
@@ -108,9 +119,6 @@
             </div>
         </div>
     </div>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut diam quam nulla porttitor massa id neque aliquam. Pretium vulputate sapien nec sagittis aliquam malesuada. Est ullamcorper eget nulla facilisi etiam dignissim diam. Nec feugiat nisl pretium fusce. Urna id volutpat lacus laoreet non curabitur gravida arcu ac. Facilisi nullam vehicula ipsum a arcu cursus vitae. Sed blandit libero volutpat sed cras. Urna neque viverra justo nec ultrices dui sapien eget. Orci ac auctor augue mauris augue neque gravida in fermentum. Pellentesque pulvinar pellentesque habitant morbi tristique senectus. Odio ut sem nulla pharetra diam sit amet. Fringilla phasellus faucibus scelerisque eleifend. Lorem ipsum dolor sit amet consectetur adipiscing elit ut aliquam. Dignissim enim sit amet venenatis urna cursus eget.
-    Risus nec feugiat in fermentum. Tempus egestas sed sed risus. Amet mauris commodo quis imperdiet massa tincidunt nunc. Tellus integer feugiat scelerisque varius morbi enim. Tincidunt augue interdum velit euismod in. Varius quam quisque id diam vel quam elementum pulvinar etiam. Platea dictumst vestibulum rhoncus est. Egestas egestas fringilla phasellus faucibus scelerisque eleifend. Volutpat consequat mauris nunc congue nisi vitae. Et leo duis ut diam quam.
-    Aliquam etiam erat velit scelerisque in dictum non consectetur a. Pellentesque elit eget gravida cum sociis natoque penatibus. Est ultricies integer quis auctor elit sed. A condimentum vitae sapien pellentesque habitant morbi. Elementum nisi quis eleifend quam. Egestas sed tempus urna et. Viverra ipsum nunc aliquet bibendum enim facilisis gravida neque convallis. Eget arcu dictum varius duis at consectetur lorem donec. Lectus magna fringilla urna porttitor rhoncus dolor purus non enim. Sed sed risus pretium quam vulputate dignissim. Consectetur libero id faucibus nisl tincidunt. Molestie at elementum eu facilisis sed. Lorem ipsum dolor sit amet consectetur adipiscing elit. Lectus quam id leo in vitae turpis. Curabitur vitae nunc sed velit dignissim sodales ut eu. Eget felis eget nunc lobortis mattis aliquam faucibus.</p>
     
     <!-- Storing the Routes in a dropdown -->
     {% comment %} {% block select_routes_content %} {% endblock %} {% endcomment %}
@@ -139,7 +147,8 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&callback=initMap">
     </script>
-    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script> 
+    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places"></script>
 
 </body>
 </html>
