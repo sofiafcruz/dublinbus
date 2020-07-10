@@ -119,6 +119,19 @@
             </div>
         </div>
     </div>
+    <!-- Leap Card Registration/Login -->
+    <div id="login-div" class="container">
+        <h2>Fill in Leap Card Credentials to see Balance</h2>
+        <form method="POST" action="leap_card_info" >
+            {% csrf_token %}
+            <p>Username</p>
+            <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
+            <p>Password</p>
+            <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
+            <input type="submit" value="Login">
+            <a href="#">Not registered on Leap Card?</a>
+        </form>
+    </div>
     
     <!-- Storing the Routes in a dropdown -->
     {% comment %} {% block select_routes_content %} {% endblock %} {% endcomment %}

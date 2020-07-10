@@ -121,3 +121,20 @@ def show_modelform_route(request):
     else:
         print("Not a post or a get")
     return HttpResponse("You selected a route from the Model Form Dropdown")
+
+def leap_card_info(request):
+    if request.method =='POST':
+        print("IT'S A POST")
+        print(request.POST)
+        leap_card_username = request.POST["inputUsername"]
+        leap_card_password = request.POST["inputPassword"]
+        print(f"User entered the following credentials;\n=============================\nUsername: {leap_card_username}, Password: {leap_card_password}")
+        # Pass the Username and Password into 
+        # from leap_card.test_leap_card_api import get_leap_card_details
+        from test_leap_card_api import get_leap_card_details
+        get_leap_card_details(leap_card_username, leap_card_password)
+    elif request.method =='GET':
+        print("IT'S A GET")
+    else:
+        print("Not a post or a get")
+    return HttpResponse("LEAP CARD INFO VIEW")
