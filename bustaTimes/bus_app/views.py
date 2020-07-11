@@ -7,7 +7,7 @@ from .forms import RouteForm
 from .forms import RouteModelForm
 import os
 import requests
-# from bus_app.leap_card.test_leap_card_api import get_leap_card_details
+from bus_app.leap_card.test_leap_card_api import get_leap_card_details
 
 google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 
@@ -131,12 +131,11 @@ def leap_card_info(request):
         leap_card_password = request.POST["inputPassword"]
         print(f"User entered the following credentials;\n=============================\nUsername: {leap_card_username}, Password: {leap_card_password}")
         # Pass the Username and Password into 
-        # from leap_card.test_leap_card_api import get_leap_card_details
-        # from test_leap_card_api import get_leap_card_details
-        # get_leap_card_details(leap_card_username, leap_card_password)
+        users_leapcard_details = get_leap_card_details(leap_card_username, leap_card_password)
+        balance = users_leapcard_details["balance"]
 
     elif request.method =='GET':
         print("IT'S A GET")
     else:
         print("Not a post or a get")
-    return HttpResponse("LEAP CARD INFO VIEW")
+    return HttpResponse(f"Your Leap Card Balance is: \n{balance}")
