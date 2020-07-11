@@ -1,3 +1,15 @@
+$(document).ready(function() {
+  // Onclick Event for Button to Toggle the Map View;
+  // BUT DOESN'T WORK WHEN YOU PLAN YOUR ROUTE WITH SEARCH BY ROUTE!
+  $('#toggle-nightmode').click(function() {
+    if (map.mapTypeId !== "hybrid") {
+      map.setMapTypeId(google.maps.MapTypeId.HYBRID);  
+    } else{
+      map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+    }
+  });
+});
+
 var map;
 var directionsService;
 var directionsRenderer;
@@ -53,6 +65,8 @@ function initMap() {
   });
   
 }
+
+
 
 
 // Meant to remove all markers from the map each time a new journey is selected (but not working)

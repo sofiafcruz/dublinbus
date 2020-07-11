@@ -293,4 +293,7 @@ function navbarDisplay(evt, searchType) {
     }
     document.getElementById(searchType).style.display = "block";
     evt.currentTarget.className += " active";
+
+    // Hide the burger span (Not working fully, as when in full screen, clicking a nav option causes a click too.. Need to debug later) 
+    $(".navbar-toggler").click();
 }
