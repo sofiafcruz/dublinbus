@@ -19,7 +19,9 @@ function initMap() {
   
   // Variables to be used for the directions 
   directionsService = new google.maps.DirectionsService();
-  directionsRenderer = new google.maps.DirectionsRenderer();
+  directionsRenderer = new google.maps.DirectionsRenderer({
+    preserveViewport: false
+  });
 
   navigator.geolocation.getCurrentPosition(function(position) {
     // Center map on user's current location if geolocation prompt allowed
@@ -65,8 +67,6 @@ function initMap() {
   });
   
 }
-
-
 
 
 // Meant to remove all markers from the map each time a new journey is selected (but not working)
@@ -116,10 +116,6 @@ function showJouneyOnMap(arrOfStopObjs){
   // Calls the function to display the directions on the map
   directionsRenderer.setMap(map); 
   calcRoute();
-  
-  // console.log(arrOfCoords[0]);
-  map.setCenter(new google.maps.LatLng(arrOfCoords[0].latitude, arrOfCoords[0].longitude));
-  map.setZoom(14);
 }
 
 // Function to add info window to each marker;
@@ -184,6 +180,40 @@ function calcRoute() {
       break;
     }
   });
-
-
 }
+
+// function homeSearch() {
+//   var start = new google.maps.LatLng(53.345941, -6.276008999999999);
+//   var end = new google.maps.LatLng(53.31832389, -6.23055);
+  
+//   console.log("CALC-ROUTE START");
+//   console.log(start);
+  
+//   console.log("CALC-ROUTE END");
+//   console.log(end);
+  
+//   console.log("=================================================================================================");
+//   var request = {
+//     origin: start,
+//     destination: end,
+//     travelMode: 'TRANSIT',
+//     transitOptions: {
+//       modes: ['BUS']
+//     }
+    
+//   };
+
+//   directionsService.route(request, function(result, status) {
+//     if (status == 'OK') {
+      
+//       directionsRenderer.setDirections(result);
+      
+//     }
+//     console.log(typeof result);
+//     console.log(result);
+//     // console.log(result.routes);
+//     // console.log(result.routes[0]);
+//     // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
+    
+//   });
+// }
