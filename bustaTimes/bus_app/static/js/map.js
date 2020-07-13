@@ -11,11 +11,23 @@ $(document).ready(function() {
 });
 
 var map;
+var destinationMarkers = [];
 var directionsService;
 var directionsRenderer;
 
+
+// Sets the map on all Destination markers in the array.
+function setMapOnAll(map) {
+  for (var i = 0; i < destinationMarkers.length; i++) {
+    destinationMarkers[i].setMap(map);
+  }
+}
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'));
+  
+  // Disabling double-clicking zoom feature;
+  map.setOptions({disableDoubleClickZoom: true });
   
   // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
   map.addListener('dblclick', function(e) {
@@ -345,12 +357,17 @@ function placeDestinationMarker(latLng, map) {
     map: map,
     icon: icon
   });
+  
+  // Clear destination marker when new location double clicked
+  setMapOnAll(null);
+  destinationMarkers = [];
+  destinationMarkers.push(marker);
 
   var geocoder = new google.maps.Geocoder();
   var infowindow = new google.maps.InfoWindow();
 
   geocodeLatLng(latLng.lat(), latLng.lng(), geocoder, map, infowindow, marker);
-  
+
 }
 
 // Converts the coordinate information of a double-clicked location on the map to its placename
@@ -361,6 +378,9 @@ function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
       if (results[0]) {
         infowindow.setContent(results[0].formatted_address);
         infowindow.open(map, marker);
+        // Set the value of geocodeLatLng to the inner HTML of destination
+        document.getElementById("destination-home-search").value = results[0].formatted_address;
+        
       } else {
         window.alert("No results found");
       }
