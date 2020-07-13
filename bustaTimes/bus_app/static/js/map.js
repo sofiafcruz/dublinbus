@@ -195,10 +195,10 @@ function calcRoute() {
 
 function homeSearch() {
   var map = new google.maps.Map(document.getElementById('map'));
-  var start = new google.maps.LatLng(53.345941, -6.276008999999999);
-  var end = new google.maps.LatLng(53.31832389, -6.23055);
-  // var start = document.getElementById('origin-home-search').value;
-  // var end = document.getElementById('destination-home-search').value;
+  // var start = new google.maps.LatLng(53.345941, -6.276008999999999);
+  // var end = new google.maps.LatLng(53.31832389, -6.23055);
+  var start = document.getElementById('origin-home-search').value;
+  var end = document.getElementById('destination-home-search').value;
   console.log("CALC-ROUTE START");
   console.log(start);
   
@@ -206,43 +206,43 @@ function homeSearch() {
   console.log(end);
   
   console.log("=================================================================================================");
-  // var request = {
-  //   query: start,
-  //   fields: ['name', 'geometry'],
-  // };
-  // console.log(request);
-
-  // var service = new google.maps.places.PlacesService(map);
-
-  // service.findPlaceFromQuery(request, function(results, status) {
-  //   if (status === google.maps.places.PlacesServiceStatus.OK) {
-  //     for (var i = 0; i < results.length; i++) {
-  //       console.log(results);
-  //       // createMarker(results[i]);
-  //     }
-  //     map.setCenter(results[0].geometry.location);
-  //   }
-  // });
-
   var request = {
-    origin: start,
-    destination: end,
-    travelMode: 'TRANSIT',
-    transitOptions: {
-      modes: ['BUS']
-    } 
+    query: start,
+    fields: ['name', 'geometry'],
   };
+  console.log(request);
 
-  directionsService.route(request, function(result, status) {
-    if (status == 'OK') {
-      directionsRenderer.setDirections(result);
+  var service = new google.maps.places.PlacesService(map);
+
+  service.findPlaceFromQuery(request, function(results, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      for (var i = 0; i < results.length; i++) {
+        console.log(results);
+        // createMarker(results[i]);
+      }
+      map.setCenter(results[0].geometry.location);
     }
-    console.log(typeof result);
-    console.log(result);
-    // console.log(result.routes);
-    // console.log(result.routes[0]);
-    // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
   });
+
+  // var request = {
+  //   origin: start,
+  //   destination: end,
+  //   travelMode: 'TRANSIT',
+  //   transitOptions: {
+  //     modes: ['BUS']
+  //   } 
+  // };
+
+  // directionsService.route(request, function(result, status) {
+  //   if (status == 'OK') {
+  //     directionsRenderer.setDirections(result);
+  //   }
+  //   console.log(typeof result);
+  //   console.log(result);
+  //   // console.log(result.routes);
+  //   // console.log(result.routes[0]);
+  //   // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
+  // });
 }
 
 var attractionsArray = []
@@ -262,31 +262,6 @@ function displayAttractions() {
   }
 }
 
-
-
-//   console.log("=================================================================================================");
-//   var request = {
-//     origin: start,
-//     destination: end,
-//     travelMode: 'TRANSIT',
-//     transitOptions: {
-//       modes: ['BUS']
-//     }
-    
-//   };
-
-//   directionsService.route(request, function(result, status) {
-//     if (status == 'OK') {
-//       directionsRenderer.setDirections(result);
-//     }
-//     console.log(typeof result);
-//     console.log(result);
-//     // console.log(result.routes);
-//     // console.log(result.routes[0]);
-//     // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
-    
-//   });
-// }
 
 // For setting destination marker (in Home tab):
 function placeDestinationMarker(latLng, map) {
