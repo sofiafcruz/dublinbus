@@ -153,10 +153,10 @@ function calcRoute() {
   };
 
   directionsService.route(request, function(result, status) {
-    // console.log(typeof result);
-    // console.log(result);
-    // console.log(result.routes);
-    // console.log(result.routes[0]);
+    console.log(typeof result);
+    console.log(result);
+    console.log(result.routes);
+    console.log(result.routes[0]);
     var selectedRoute = document.getElementById("json-routes").value;
     var routes = result.routes;
     for(i = 0; i < routes.length; i++) {
@@ -177,6 +177,9 @@ function calcRoute() {
         } else {
           window.alert('Directions request failed due to ' + status);
         }
+      } else {
+        initMap();
+        window.alert('Directions not found.');
       }
       break;
     }
