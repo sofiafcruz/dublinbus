@@ -13,11 +13,6 @@ $(document).ready(function() {
 var map;
 var directionsService;
 var directionsRenderer;
-var busStopIcon = {
-  url: './static/images/bus_stop_icon.svg',
-  scaledSize: new google.maps.Size(25, 25), 
-  anchor: new google.maps.Point(12.5, 12.5) 
-};
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'));
@@ -49,6 +44,11 @@ function initMap() {
     map.setZoom(12);
   });
 
+  var busStopIcon = {
+    url: './static/images/bus_stop_icon.svg',
+    scaledSize: new google.maps.Size(25, 25), 
+    anchor: new google.maps.Point(12.5, 12.5) 
+  };
   // Loading the bus stops and adding them to the map
   $.getJSON("./static/bus_stops.json", function(stops) {
     var markers = stops.map(function(location, i) {
@@ -80,12 +80,11 @@ function initMap() {
 // }
 
 // CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED (outside of init function) 
-var map = new google.maps.Map(document.getElementById('map'));
+// var map = new google.maps.Map(document.getElementById('map'));
 function showJouneyOnMap(arrOfStopObjs){
   // console.log("INSIDE showJouneyOnMap function!")
   var markersArray = [];
 
-  
   for (var i = 0; i < arrOfStopObjs.length; i++) {
     let bus_stop_obj = arrOfStopObjs[i]; // Bus Stop object
     let bus_stop_num = Object.keys(bus_stop_obj)[0]; // Bus Stop number
@@ -96,6 +95,11 @@ function showJouneyOnMap(arrOfStopObjs){
 
     let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long };
 
+    var busStopIcon = {
+      url: './static/images/bus_stop_icon.svg',
+      scaledSize: new google.maps.Size(25, 25), 
+      anchor: new google.maps.Point(12.5, 12.5) 
+    };
     // Create a marker of that lat and long
     var marker = new google.maps.Marker({
       position: busLatLng,
