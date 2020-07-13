@@ -193,7 +193,10 @@ function calcRoute() {
   });
 }
 
-function homeSearch() {
+$("#home-submit").click(function(e) {
+  // Disable submit button from reloading the page when clicked
+  e.preventDefault();
+
   var map = new google.maps.Map(document.getElementById('map'));
   // var start = new google.maps.LatLng(53.345941, -6.276008999999999);
   // var end = new google.maps.LatLng(53.31832389, -6.23055);
@@ -223,6 +226,38 @@ function homeSearch() {
       map.setCenter(results[0].geometry.location);
     }
   });
+});
+
+// function homeSearch() {
+//   var map = new google.maps.Map(document.getElementById('map'));
+//   // var start = new google.maps.LatLng(53.345941, -6.276008999999999);
+//   // var end = new google.maps.LatLng(53.31832389, -6.23055);
+//   var start = document.getElementById('origin-home-search').value;
+//   var end = document.getElementById('destination-home-search').value;
+//   console.log("CALC-ROUTE START");
+//   console.log(start);
+  
+//   console.log("CALC-ROUTE END");
+//   console.log(end);
+  
+//   console.log("=================================================================================================");
+//   var request = {
+//     query: start,
+//     fields: ['name', 'geometry'],
+//   };
+//   console.log(request);
+
+//   var service = new google.maps.places.PlacesService(map);
+
+//   service.findPlaceFromQuery(request, function(results, status) {
+//     if (status === google.maps.places.PlacesServiceStatus.OK) {
+//       for (var i = 0; i < results.length; i++) {
+//         console.log(results);
+//         // createMarker(results[i]);
+//       }
+//       map.setCenter(results[0].geometry.location);
+//     }
+//   });
 
   // var request = {
   //   origin: start,
