@@ -17,6 +17,11 @@ var directionsRenderer;
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'));
   
+  // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
+  map.addListener('dblclick', function(e) {
+    placeMarkerAndPanTo(e.latLng, map);
+  });
+
   // Variables to be used for the directions 
   directionsService = new google.maps.DirectionsService();
   directionsRenderer = new google.maps.DirectionsRenderer({
@@ -259,3 +264,56 @@ function displayAttractions() {
 
 
 
+//   console.log("=================================================================================================");
+//   var request = {
+//     origin: start,
+//     destination: end,
+//     travelMode: 'TRANSIT',
+//     transitOptions: {
+//       modes: ['BUS']
+//     }
+    
+//   };
+
+//   directionsService.route(request, function(result, status) {
+//     if (status == 'OK') {
+//       directionsRenderer.setDirections(result);
+//     }
+//     console.log(typeof result);
+//     console.log(result);
+//     // console.log(result.routes);
+//     // console.log(result.routes[0]);
+//     // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
+    
+//   });
+// }
+
+// For origin and destination (in Home tab):
+function placeMarkerAndPanTo(latLng, map) {
+  var icon = {
+    url: './static/images/target.png',
+    scaledSize: new google.maps.Size(50, 50), 
+    anchor: new google.maps.Point(12.5, 12.5) 
+  };
+
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: map,
+    icon: icon
+  });
+
+  var infowindow = new google.maps.InfoWindow({
+    content: `DESTINATION COORDS:<br>
+              LAT: ${latLng.lat()},<br> 
+              LONG: ${latLng.lng()}`
+  });
+
+  marker.addListener("click", function() {
+    infowindow.open(map, marker);
+  });
+
+  map.panTo(latLng);
+
+  console.log(marker);
+  console.log(latLng);
+}
