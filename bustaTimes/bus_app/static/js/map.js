@@ -22,6 +22,39 @@ function initMap() {
     placeDestinationMarker(e.latLng, map);
   });
 
+  // For autocomplete on Home Search Boxes;
+  // (Origin)
+  origin_autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById("origin-home-search"),
+    {
+      componentRestrictions: {"country": ["IE"]},
+      fields: ["place_id", "geometry", "name"]
+    }
+  );
+  // origin_autocomplete.addListener('place_changed', onPlaceChanged(origin_autocomplete));
+
+  // (Destination)
+  destination_autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById("destination-home-search"),
+    {
+      componentRestrictions: {"country": ["IE"]},
+      fields: ["place_id", "geometry", "name"]
+    }
+  );
+  // destination_autocomplete.addListener('place_changed', onPlaceChanged(destination_autocomplete));
+  
+  // function onPlaceChanged(autocomplete) {
+  //   var place = autocomplete.getPlace();
+
+  //   if (!place.geometry) {
+  //     // User didn't select a prediction or entered an incorrect result, so reset the input field
+  //     document.getElementById(autocomplete).placeholder = "Enter a place";
+  //   } else{
+  //     // Display details about the valid place
+  //     document.getElementById(autocomplete).innerHTML = place.name;
+  //   }
+  // }
+
   // Variables to be used for the directions 
   directionsService = new google.maps.DirectionsService();
   directionsRenderer = new google.maps.DirectionsRenderer({
@@ -278,7 +311,7 @@ $("#home-submit").click(function(e) {
   //   // console.log(result.routes[0]);
   //   // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
   // });
-}
+// }
 
 var attractionsArray = []
 
