@@ -157,7 +157,6 @@ function calcRoute() {
     // console.log(result);
     // console.log(result.routes);
     // console.log(result.routes[0]);
-    // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
     var selectedRoute = document.getElementById("json-routes").value;
     var routes = result.routes;
     for(i = 0; i < routes.length; i++) {
@@ -175,6 +174,8 @@ function calcRoute() {
         if (status == 'OK') {
           directionsRenderer.setDirections(result);
           directionsRenderer.setRouteIndex(i);
+        } else {
+          window.alert('Directions request failed due to ' + status);
         }
       }
       break;
@@ -205,9 +206,7 @@ function calcRoute() {
 
 //   directionsService.route(request, function(result, status) {
 //     if (status == 'OK') {
-      
 //       directionsRenderer.setDirections(result);
-      
 //     }
 //     console.log(typeof result);
 //     console.log(result);
