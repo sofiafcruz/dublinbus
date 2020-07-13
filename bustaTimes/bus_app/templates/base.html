@@ -49,6 +49,11 @@
             <div class="col">
                 <!-- Map -->
                 <div id="map" style="height:500px; width:100%"></div>
+                <!-- Switch button to show the attractions -->
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1" onchange="displayAttractions()">
+                    <label class="custom-control-label" for="customSwitch1">Display Attractions</label>
+                </div>
             </div>
             <div class="col-md-auto">
                 
@@ -164,6 +169,6 @@
     src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initMap">
     </script>
     <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
-
+ 
 </body>
 </html>

@@ -19,7 +19,7 @@ function initMap() {
   
   // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
   map.addListener('dblclick', function(e) {
-    placeMarkerAndPanTo(e.latLng, map);
+    placeDestinationMarker(e.latLng, map);
   });
 
   // Variables to be used for the directions 
@@ -27,6 +27,8 @@ function initMap() {
   directionsRenderer = new google.maps.DirectionsRenderer({
     preserveViewport: false
   });
+  // map.setCenter(new google.maps.LatLng(53.346, -6.26));
+  // map.setZoom(12);
 
   navigator.geolocation.getCurrentPosition(function(position) {
     // Center map on user's current location if geolocation prompt allowed
@@ -191,16 +193,77 @@ function calcRoute() {
   });
 }
 
-// function homeSearch() {
-//   var start = new google.maps.LatLng(53.345941, -6.276008999999999);
-//   var end = new google.maps.LatLng(53.31832389, -6.23055);
+function homeSearch() {
+  var map = new google.maps.Map(document.getElementById('map'));
+  var start = new google.maps.LatLng(53.345941, -6.276008999999999);
+  var end = new google.maps.LatLng(53.31832389, -6.23055);
+  // var start = document.getElementById('origin-home-search').value;
+  // var end = document.getElementById('destination-home-search').value;
+  console.log("CALC-ROUTE START");
+  console.log(start);
   
-//   console.log("CALC-ROUTE START");
-//   console.log(start);
+  console.log("CALC-ROUTE END");
+  console.log(end);
   
-//   console.log("CALC-ROUTE END");
-//   console.log(end);
-  
+  console.log("=================================================================================================");
+  // var request = {
+  //   query: start,
+  //   fields: ['name', 'geometry'],
+  // };
+  // console.log(request);
+
+  // var service = new google.maps.places.PlacesService(map);
+
+  // service.findPlaceFromQuery(request, function(results, status) {
+  //   if (status === google.maps.places.PlacesServiceStatus.OK) {
+  //     for (var i = 0; i < results.length; i++) {
+  //       console.log(results);
+  //       // createMarker(results[i]);
+  //     }
+  //     map.setCenter(results[0].geometry.location);
+  //   }
+  // });
+
+  var request = {
+    origin: start,
+    destination: end,
+    travelMode: 'TRANSIT',
+    transitOptions: {
+      modes: ['BUS']
+    } 
+  };
+
+  directionsService.route(request, function(result, status) {
+    if (status == 'OK') {
+      directionsRenderer.setDirections(result);
+    }
+    console.log(typeof result);
+    console.log(result);
+    // console.log(result.routes);
+    // console.log(result.routes[0]);
+    // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
+  });
+}
+
+var attractionsArray = []
+
+function displayAttractions() {
+  var switchValue = document.getElementsByClassName("custom-control-input")[0].checked ? true : false
+  if (switchValue) {
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(53.342990, -6.267411),
+      map: map
+    });
+    attractionsArray.push(marker);
+  } else {
+    for (i = 0; i < attractionsArray.length; i++) {
+      attractionsArray[i].setMap(null);
+    }
+  }
+}
+
+
+
 //   console.log("=================================================================================================");
 //   var request = {
 //     origin: start,
