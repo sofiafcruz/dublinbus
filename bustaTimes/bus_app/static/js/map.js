@@ -225,8 +225,9 @@ function calcRoute() {
 //   });
 // }
 
-// For origin and destination (in Home tab):
-function placeMarkerAndPanTo(latLng, map) {
+// For setting destination marker (in Home tab):
+function placeDestinationMarker(latLng, map) {
+
   var icon = {
     url: './static/images/target.png',
     scaledSize: new google.maps.Size(50, 50), 
@@ -239,18 +240,26 @@ function placeMarkerAndPanTo(latLng, map) {
     icon: icon
   });
 
-  var infowindow = new google.maps.InfoWindow({
-    content: `DESTINATION COORDS:<br>
-              LAT: ${latLng.lat()},<br> 
-              LONG: ${latLng.lng()}`
+  var geocoder = new google.maps.Geocoder();
+  var infowindow = new google.maps.InfoWindow();
+
+  geocodeLatLng(latLng.lat(), latLng.lng(), geocoder, map, infowindow, marker);
+  
+}
+
+// Converts the coordinate information of a double-clicked location on the map to its placename
+function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
+  var latlng = { lat: latitude, lng: longitude };
+  geocoder.geocode({ location: latlng }, function(results, status) {
+    if (status === "OK") {
+      if (results[0]) {
+        infowindow.setContent(results[0].formatted_address);
+        infowindow.open(map, marker);
+      } else {
+        window.alert("No results found");
+      }
+    } else {
+      window.alert("Geocoder failed due to: " + status);
+    }
   });
-
-  marker.addListener("click", function() {
-    infowindow.open(map, marker);
-  });
-
-  map.panTo(latLng);
-
-  console.log(marker);
-  console.log(latLng);
 }
