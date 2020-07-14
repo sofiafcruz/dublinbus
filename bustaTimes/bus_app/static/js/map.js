@@ -110,8 +110,28 @@ function initMap() {
       return new google.maps.Marker({
         position: stopCoords,
         icon: busStopIcon,
+        title: location.stop_num // Title is each marker's stop num (which we can use to generate time table for info window)
       });
     });
+
+    
+    // var infowindow = new google.maps.InfoWindow({
+    //   content: location.stop_num
+    // });
+    
+    // google.maps.event.addListener(marker, 'click', function() {
+    //   // infowindow.open(map,marker);
+    //   console.log("CLICKED");
+    // });
+
+    // console.log(stops);
+
+    // stops.forEach()
+    // attachInfoWindow(marker, bus_stop_num, bus_stop_lat, bus_stop_long);
+  
+    // marker.addListener("click", function() {
+    //   infowindow.open(marker.get("map"), marker);
+    // });
 
     // Add a marker clusterer to manage the markers.
     var markerCluster = new MarkerClusterer(map, markers,
@@ -119,7 +139,6 @@ function initMap() {
   });
   
 }
-
 
 // Meant to remove all markers from the map each time a new journey is selected (but not working)
 // My Logic is wrong somewhere...
@@ -318,8 +337,16 @@ const calculateAndRenderDirections = (origin, destination) => {
 
     journey_details_div = document.getElementById('journey-details')
 
+    let today = new Date();
+    let suffix = "am";
+    if (today.getHours() >= 12) {
+      suffix = "pm";
+    }
+    let current_time = today.getHours()-12 + "." + today.getMinutes() + suffix;
+
     journey_details_div.innerHTML = `
       <h6>Total Journey Details</h6>
+      <p>Current Time: ${current_time}</p>
       <p>Departure Time: ${departure_time}</p>
       <p>Arrival Time: ${arrival_time}</p>
       <p>Total Duration: ${duration}</p>
@@ -328,16 +355,17 @@ const calculateAndRenderDirections = (origin, destination) => {
     `;
 
     steps.forEach(function (step, index) {
-      console.log("Step:", index+1);
-      console.log("========");
-      console.log("Distance:", step.distance.text);
-      console.log("Duration:", step.duration.text);
-      console.log("Instructions:", step.instructions);
-
+      // console.log("Step:", index+1);
+      // console.log("========");
+      // console.log("Distance:", step.distance.text);
+      // console.log("Duration:", step.duration.text);
+      // console.log("Instructions:", step.instructions);
       journey_details_div.innerHTML += `
-        <b>Step: ${index+1} (${step.travel_mode} for ${step.duration.text})</b>
-        <p>Instructions: ${step.instructions}</p>
+        <div>
+        <b>Step: ${index+1} (${step.travel_mode} for ~${step.duration.text})</b>
+        <p>${step.instructions}</p>
         <p>Distance: ${step.distance.text}</p>
+        </div>
       `;
     });
 
@@ -504,3 +532,10 @@ function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
     }
   });
 }
+
+// google.maps.event.addListener(marker, 'click', function () {
+//   // do something with this marker ...
+//   this.getTitle();
+//   console.log(this.getTitle());
+//   console.log("Clicked");
+// });
