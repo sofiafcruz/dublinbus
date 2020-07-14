@@ -81,3 +81,8 @@ html, body {
     border: 0.02em solid black;
     padding: 0.5em;
 }
+
+#my-location-btn-img {
+    height: 2rem;
+    width: 2.2rem;
+}

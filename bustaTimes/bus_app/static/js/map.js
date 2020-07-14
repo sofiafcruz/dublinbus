@@ -238,6 +238,57 @@ function calcRoute() {
   });
 }
 
+// Get User's Geolocation and plug its Geocode into Origin;
+$("#my-location-btn-img").click(function(e) {
+  e.preventDefault();
+  console.log("clicked");
+  if (navigator.geolocation) {
+    console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
+  } else { 
+    console.log("Geolocation is not supported by this browser.");
+  }
+});
+
+function logSuccessAndPopulateOrigin(pos) {
+  var coordinates = pos.coords;
+
+  console.log('Your current position is:');
+  console.log(`Latitude : ${coordinates.latitude}`);
+  console.log(`Longitude: ${coordinates.longitude}`);
+  console.log(`More or less ${coordinates.accuracy} meters.`);
+
+  // Reverse Geocode the Coordinates into the Place name;
+  var geocoder = new google.maps.Geocoder();
+
+  var latlng = { lat: coordinates.latitude, lng: coordinates.longitude };
+  geocoder.geocode({ location: latlng }, function(results, status) {
+    if (status === "OK") {
+      if (results[0]) {
+        // Set the value of the user's coordinated to the inner HTML of origin
+        document.getElementById("origin-home-search").value = results[0].formatted_address;
+      }
+    }
+  });
+}
+
+// Render directions based on origin and destination (COORDINATES, NOT PLACE NAMES) on home tab;
+const calculateAndRenderDirections = (origin, destination) => {
+  let directionsService = new google.maps.DirectionsService();
+  let directionsDisplay = new google.maps.DirectionsRenderer();
+  let request = {
+    origin: origin,
+    destination: destination,
+    travelMode: 'TRANSIT'
+  };
+
+  directionsDisplay.setMap(map);
+  directionsService.route(request, (result, status) = {
+    if (status == "OK") {
+      directionsDisplay.setDirections(result);
+    }
+  })
+}
+
 $("#home-submit").click(function(e) {
   // Disable submit button from reloading the page when clicked
   e.preventDefault();
