@@ -15,6 +15,17 @@ var destinationMarkers = [];
 var directionsService;
 var directionsRenderer;
 
+// Reads the JSON with the attractions info
+var xmlhttp = new XMLHttpRequest();
+var url = "./static/attractions.json";
+var attractions = null;
+xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+      attractions = JSON.parse(xmlhttp.responseText);
+    }
+};
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
 
 // Sets the map on all Destination markers in the array.
 function setMapOnAll(map) {
@@ -398,18 +409,22 @@ var attractionsArray = []
 
 function displayAttractions() {
   var switchValue = document.getElementsByClassName("custom-control-input")[0].checked ? true : false
-  if (switchValue) {
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(53.342990, -6.267411),
-      map: map
-    });
-    attractionsArray.push(marker);
+  if (switchValue) { 
+    for (i = 0; i < attractions.length; i++) {
+      var latitude = parseFloat(attractions[i].latitude);
+      var longitude = parseFloat(attractions[i].longitude);
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(latitude, longitude),
+        map: map
+      });
+      attractionsArray.push(marker);
+    };
   } else {
     for (i = 0; i < attractionsArray.length; i++) {
       attractionsArray[i].setMap(null);
-    }
-  }
-}
+    };
+  };
+};
 
 
 // For setting destination marker (in Home tab):
