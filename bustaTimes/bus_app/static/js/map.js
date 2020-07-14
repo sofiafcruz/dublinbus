@@ -121,8 +121,28 @@ function initMap() {
       return new google.maps.Marker({
         position: stopCoords,
         icon: busStopIcon,
+        title: location.stop_num // Title is each marker's stop num (which we can use to generate time table for info window)
       });
     });
+
+    
+    // var infowindow = new google.maps.InfoWindow({
+    //   content: location.stop_num
+    // });
+    
+    // google.maps.event.addListener(marker, 'click', function() {
+    //   // infowindow.open(map,marker);
+    //   console.log("CLICKED");
+    // });
+
+    // console.log(stops);
+
+    // stops.forEach()
+    // attachInfoWindow(marker, bus_stop_num, bus_stop_lat, bus_stop_long);
+  
+    // marker.addListener("click", function() {
+    //   infowindow.open(marker.get("map"), marker);
+    // });
 
     // Add a marker clusterer to manage the markers.
     var markerCluster = new MarkerClusterer(map, markers,
@@ -130,7 +150,6 @@ function initMap() {
   });
   
 }
-
 
 // Meant to remove all markers from the map each time a new journey is selected (but not working)
 // My Logic is wrong somewhere...
@@ -306,8 +325,62 @@ const calculateAndRenderDirections = (origin, destination) => {
     if (status == "OK") {
       directionsDisplay.setDirections(result);
     }
-    console.log(result);
-    console.log(status);
+    
+    // DEALING WITH MESSAGE PRINTOUT FOR USERS
+    // console.log(result);
+    // console.log(result.routes[0].legs[0]);
+    let legs = result.routes[0].legs[0];
+    let departure_time = legs.departure_time.text;
+    let arrival_time = legs.arrival_time.text;
+    let duration = legs.duration.text;
+    let distance = legs.distance.text;
+
+    let steps = legs.steps;
+
+    console.log(legs);
+    console.log("Total Journey Details");
+    console.log("=====================");
+    console.log("Departure Time:", departure_time);
+    console.log("Arrival Time:", arrival_time);
+    console.log("Total Duration:", duration);
+    console.log("Total Distance:", distance);
+    console.log(steps);
+
+    journey_details_div = document.getElementById('journey-details')
+
+    let today = new Date();
+    let suffix = "am";
+    if (today.getHours() >= 12) {
+      suffix = "pm";
+    }
+    let current_time = today.getHours()-12 + "." + today.getMinutes() + suffix;
+
+    journey_details_div.innerHTML = `
+      <h6>Total Journey Details</h6>
+      <p>Current Time: ${current_time}</p>
+      <p>Departure Time: ${departure_time}</p>
+      <p>Arrival Time: ${arrival_time}</p>
+      <p>Total Duration: ${duration}</p>
+      <p>Total Distance: ${distance}</p>
+      <h6>Details of Each Step:</h6>
+    `;
+
+    steps.forEach(function (step, index) {
+      // console.log("Step:", index+1);
+      // console.log("========");
+      // console.log("Distance:", step.distance.text);
+      // console.log("Duration:", step.duration.text);
+      // console.log("Instructions:", step.instructions);
+      journey_details_div.innerHTML += `
+        <div>
+        <b>Step: ${index+1} (${step.travel_mode} for ~${step.duration.text})</b>
+        <p>${step.instructions}</p>
+        <p>Distance: ${step.distance.text}</p>
+        </div>
+      `;
+    });
+
+    document.getElementById("journey-details").className = "journey-details"
   });
 
   
@@ -327,6 +400,7 @@ $("#home-submit").click(function(e) {
   var end = document.getElementById('destination-home-search').value;
 
   calculateAndRenderDirections(start, end);
+
   // console.log("CALC-ROUTE START");
   // console.log(start);
   
@@ -473,3 +547,10 @@ function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
     }
   });
 }
+
+// google.maps.event.addListener(marker, 'click', function () {
+//   // do something with this marker ...
+//   this.getTitle();
+//   console.log(this.getTitle());
+//   console.log("Clicked");
+// });
