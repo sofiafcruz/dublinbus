@@ -86,3 +86,14 @@ html, body {
     height: 2rem;
     width: 2.2rem;
 }
+
+.journey-details {
+    background: white;
+    font-size: 0.75rem;
+    margin-top: 20px;
+    padding: 1em;
+}
+
+.journey-details h6 {
+    text-decoration: underline;
+}
