@@ -16,6 +16,8 @@ var directionsService;
 var directionsRenderer;
 // Variable to keep track of the current opened info window for the attractions
 var lastOpenedAttraction;
+// Variable to keep track of the current opened info window for the bus stops
+var lastOpenedBusStop;
 
 // Reads the JSON with the attractions info
 var xmlhttp = new XMLHttpRequest();
@@ -121,12 +123,13 @@ function initMap() {
   $.getJSON("./static/bus_stops.json", function(stops) {
     var markers = stops.map(function(location, i) {
       var stopCoords = new google.maps.LatLng(location.latitude, location.longitude);
-      stopsInfowindow(location);
-      return new google.maps.Marker({
+      var marker = new google.maps.Marker({
         position: stopCoords,
         icon: busStopIcon,
         title: location.stop_num // Title is each marker's stop num (which we can use to generate time table for info window)
       });
+      stopsInfowindow(marker);
+      return marker;
     });
 
     // Add a marker clusterer to manage the markers.
@@ -135,8 +138,14 @@ function initMap() {
   });
 }
 
-function stopsInfowindow(location) {
-  console.log(location);
+function stopsInfowindow(marker) {
+  var infowindow = new google.maps.InfoWindow();
+  marker.addListener('click', function() {
+    closeLastOpenedInfoWindow(lastOpenedBusStop);
+    infowindow.setContent('content');
+    infowindow.open(map, marker);
+    lastOpenedBusStop = infowindow;
+  })
 }
 
 // Meant to remove all markers from the map each time a new journey is selected (but not working)
@@ -502,7 +511,7 @@ function attractionsInfowindow (marker) {
   var infowindow = new google.maps.InfoWindow();
   marker.addListener('click', function() {
     // Function to check whether there is an opened info window, if so closes it
-    closeLastOpenedAttraction();
+    closeLastOpenedInfoWindow(lastOpenedAttraction);
     // Content to display in the info window
     var contentString = '<div id="infowindow">' + marker.title + '</div>';
     infowindow.setContent(contentString);
@@ -511,10 +520,11 @@ function attractionsInfowindow (marker) {
   });
 }
 
-// Close the previous info window when a new attraction is clicked
-function closeLastOpenedAttraction() {
-  if (lastOpenedAttraction) {
-    lastOpenedAttraction.close();
+// Close the previous info window when a new marker is clicked
+// Both the attractions and the bus stops info windows are using this function
+function closeLastOpenedInfoWindow(lastOpened) {
+  if (lastOpened) {
+    lastOpened.close();
   }
 }
 
