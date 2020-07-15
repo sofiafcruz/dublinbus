@@ -139,3 +139,46 @@ def leap_card_info(request):
     else:
         print("Not a post or a get")
     return HttpResponse(f"Your Leap Card Balance is: \n{balance}")
+
+def trying_to_access_third_party_api(request):
+    if request.method =='POST':
+        print("IT'S A POST")
+        print(request.POST)
+        stopNum = request.POST["inputStopNum"]
+    elif request.method =='GET':
+        print("IT'S A GET")
+        print(request.GET)
+        stopNum = request.GET["inputStopNum"]
+    else:
+        print("Not a post or a get")
+
+    real_time_url = 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + stopNum
+    print(real_time_url)
+
+    # sending get request and saving the response as response object 
+    r = requests.get(url = real_time_url) 
+  
+    # extracting data in json format 
+    data = r.json()
+    # print(data)
+
+    # Getting all the details:
+    datetime_request_made = data["timestamp"]
+    results = data["results"]
+
+    print(datetime_request_made)
+
+    for result in results:
+        # print(result)
+        print("==============START==============")
+        print("Route:", result["route"])
+        print("Direction:", result["direction"])
+        print("Origin:", result["origin"])
+        print("Destination:", result["destination"])
+        print("Scheduled Date Time:", result["scheduledarrivaldatetime"])
+        print("Arrival Date Time:", result["arrivaldatetime"])
+        print("Due:", result["duetime"])
+        
+
+
+    return HttpResponse("Trying to access 3rd Party data")

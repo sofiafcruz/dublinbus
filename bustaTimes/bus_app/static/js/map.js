@@ -141,11 +141,16 @@ function initMap() {
 function stopsInfowindow(marker) {
   var infowindow = new google.maps.InfoWindow();
   marker.addListener('click', function() {
+    eventuallySetInfoWindowContent(marker.title);
     closeLastOpenedInfoWindow(lastOpenedBusStop);
-    infowindow.setContent('content');
+    infowindow.setContent(marker.title);
     infowindow.open(map, marker);
     lastOpenedBusStop = infowindow;
   })
+}
+
+function eventuallySetInfoWindowContent(stopNum) {
+  console.log("This stop's number is:", stopNum);
 }
 
 // Meant to remove all markers from the map each time a new journey is selected (but not working)

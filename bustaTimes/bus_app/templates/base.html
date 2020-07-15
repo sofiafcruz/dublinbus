@@ -128,6 +128,13 @@
     </div>
     <!-- Trying to call the RTPI API, but struggling due to CORS -->
     <button id="bus-stop-marker" value="905">CLICK ME TO CALL REAL TIME API!</button>
+
+    <form method="GET" action="trying_to_access_third_party_api">
+        {% csrf_token %}
+        <input type="text" id="inputStopNum" name="inputStopNum" placeholder="Enter Bus Number">
+        <input type="submit" value="Interact with 3rd Party API via Backend">
+    </form>
+
     <!-- Toggle Map View Buttons -->
     <button id="toggle-nightmode">Hybrid Mode</button>
 
