@@ -495,7 +495,7 @@ function displayAttractions() {
         map: map
       });
       // Function to add an on click event to display an info window
-      attractionsInfowindow(marker);
+      attractionsInfowindow(marker, attractions[i].title);
       
       attractionsArray.push(marker);
     };
@@ -507,13 +507,35 @@ function displayAttractions() {
 };
 
 // Display the info window for each attraction
-function attractionsInfowindow (marker) {
-  var infowindow = new google.maps.InfoWindow();
+function attractionsInfowindow (marker, title) {
+  var infowindow = new google.maps.InfoWindow({
+    maxWidth: 250
+  });
   marker.addListener('click', function() {
     // Function to check whether there is an opened info window, if so closes it
     closeLastOpenedInfoWindow(lastOpenedAttraction);
+
+    var summary, image, url, latitude, longitude;
+
+    for (i = 0; i < attractions.length; i++) {
+      if (title == attractions[i].title) {
+        summary = attractions[i].summary;
+        image = attractions[i].image;
+        url = attractions[i].url;
+        latitude = attractions[i].latitude;
+        longitude = attractions[i].longitude;
+      }
+    }
     // Content to display in the info window
-    var contentString = '<div id="infowindow">' + marker.title + '</div>';
+    var contentString = '<div class="attractions-infowindow">' +
+    '<div class="attractions-content">'+
+    '<h4 class="attractions-title">' + title + '</h4>'+
+    '<a href="#" onclick="">Directions</a>'+
+    '<div class="attractions-image"><img src="' + image + '" alt="' + title + '" style="max-width:250px; max-height:250px;"></div>' + 
+    '<div id="attractions-bodyContent">'+
+    '<p class="attractions-summary">' + summary + '&nbsp;<a href="' + url + '">More Info</a></p>'+
+    '</div>'+
+    '</div>';
     infowindow.setContent(contentString);
     infowindow.open(map, marker);
     lastOpenedAttraction = infowindow;

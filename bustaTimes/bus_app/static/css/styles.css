@@ -97,3 +97,12 @@ html, body {
 .journey-details h6 {
     text-decoration: underline;
 }
+
+.attractions-summary {
+    text-align: justify;
+}
+
+.attractions-image {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
