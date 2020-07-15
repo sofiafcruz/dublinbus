@@ -168,17 +168,30 @@ def trying_to_access_third_party_api(request):
 
     print(datetime_request_made)
 
+    realtime_info_response = []
+
     for result in results:
         # print(result)
+        d = {}
+        d["route"] = result["route"]
+        d["direction"] = result["direction"]
+        d["origin"] = result["origin"]
+        d["destination"] = result["destination"]
+        d["scheduled_arrival_datetime"] = result["scheduledarrivaldatetime"]
+        d["arrival_datetime"] = result["arrivaldatetime"]
+        d["due"] = result["duetime"]
         print("==============START==============")
-        print("Route:", result["route"])
-        print("Direction:", result["direction"])
-        print("Origin:", result["origin"])
-        print("Destination:", result["destination"])
-        print("Scheduled Date Time:", result["scheduledarrivaldatetime"])
-        print("Arrival Date Time:", result["arrivaldatetime"])
-        print("Due:", result["duetime"])
-        
-
-
-    return HttpResponse("Trying to access 3rd Party data")
+        # print("Route:", result["route"])
+        # print("Direction:", result["direction"])
+        # print("Origin:", result["origin"])
+        # print("Destination:", result["destination"])
+        # print("Scheduled Date Time:", result["scheduledarrivaldatetime"])
+        # print("Arrival Date Time:", result["arrivaldatetime"])
+        # print("Due:", result["duetime"])
+        print(d)
+        realtime_info_response.append(d)
+    
+    print(realtime_info_response)
+    json_string = json.dumps(realtime_info_response)
+    return JsonResponse(json_string, safe=False)
+    # return HttpResponse("Trying to access 3rd Party data")
