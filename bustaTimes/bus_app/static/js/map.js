@@ -603,3 +603,57 @@ function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
 //   console.log(this.getTitle());
 //   console.log("Clicked");
 // });
+
+$("#bus-stop-marker").click(function(e) {
+  // Go to realtime SD API and pull relevant info (about buses due etc)
+  console.log("MARKER CLICKED!");
+  let value = e.target.value; // Stop Num (i.e. 905)
+
+  let real_time_url = 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + value;
+  
+  // ***********ISSUE WITH CORS!!!!!!!!!*************** // Info on CORS: https://web.dev/cross-origin-resource-sharing/
+
+  // VERSION 1 (Worked at the beginning, BUT NOT ANYMORE)==========================================================================
+  let cors_heroku_url = 'https://cors-anywhere.herokuapp.com/'; 
+  let main_url = cors_heroku_url + real_time_url
+  $.ajax({
+      url: main_url,
+      async: false,
+      dataType: 'json',
+      success: function (json) {
+          data = json; // Real Time Info
+      }
+  });
+
+  data["results"].forEach(extractInfo)
+
+  function extractInfo(result, index) {
+    let route = result.route;
+    let origin = result.origin;
+    let destination = result.destination;
+    let scheduledArrivalTime = result.scheduledarrivaldatetime;
+    let likelyArrivalTime = result.arrivaldatetime;
+    let dueTime = result.duetime;
+
+    console.log(route, origin, destination, scheduledArrivalTime, likelyArrivalTime, dueTime);
+  }
+
+  // VERSION 2 (Doesn't work)==========================================================================
+  var settings = {
+    'cache': false,
+    'dataType': "jsonp",
+    'async': true,
+    "crossDomain": true,
+    "url": real_time_url,
+    "method": "GET",
+    "headers": {
+      "accept": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    }
+  }
+
+  $.ajax(settings).done(function (response) {
+    console.log(response);
+  })
+
+});
