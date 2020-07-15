@@ -14,6 +14,8 @@ var map;
 var destinationMarkers = [];
 var directionsService;
 var directionsRenderer;
+// Variable to keep track of the current opened info window for the attractions
+var lastOpenedAttraction;
 
 // Reads the JSON with the attractions info
 var xmlhttp = new XMLHttpRequest();
@@ -479,18 +481,27 @@ $("#home-submit").click(function(e) {
   // });
 // }
 
+// Array that will be used for the switch button that displays the attractions
+// When the switch is off, it uses this array to remove the markers
 var attractionsArray = []
 
+// The switch button calls this function on change to display the attractions on the map
 function displayAttractions() {
+  // Check the value of the switch button
   var switchValue = document.getElementsByClassName("custom-control-input")[0].checked ? true : false
   if (switchValue) { 
+    // Loop through the attractions in the JSON file
     for (i = 0; i < attractions.length; i++) {
       var latitude = parseFloat(attractions[i].latitude);
       var longitude = parseFloat(attractions[i].longitude);
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(latitude, longitude),
+        title: attractions[i].title,
         map: map
       });
+      // Function to add an on click event to display an info window
+      attractionsInfowindow(marker);
+      
       attractionsArray.push(marker);
     };
   } else {
@@ -500,6 +511,26 @@ function displayAttractions() {
   };
 };
 
+// Display the info window for each attraction
+function attractionsInfowindow (marker) {
+  var infowindow = new google.maps.InfoWindow();
+  marker.addListener('click', function() {
+    // Function to check whether there is an opened info window, if so closes it
+    closeLastOpenedAttraction();
+    // Content to display in the info window
+    var contentString = '<div id="infowindow">' + marker.title + '</div>';
+    infowindow.setContent(contentString);
+    infowindow.open(map, marker);
+    lastOpenedAttraction = infowindow;
+  });
+}
+
+// Close the previous info window when a new attraction is clicked
+function closeLastOpenedAttraction() {
+  if (lastOpenedAttraction) {
+    lastOpenedAttraction.close();
+  }
+}
 
 // For setting destination marker (in Home tab):
 function placeDestinationMarker(latLng, map) {
