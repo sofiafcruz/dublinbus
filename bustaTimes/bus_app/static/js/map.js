@@ -614,46 +614,56 @@ $("#bus-stop-marker").click(function(e) {
   // ***********ISSUE WITH CORS!!!!!!!!!*************** // Info on CORS: https://web.dev/cross-origin-resource-sharing/
 
   // VERSION 1 (Worked at the beginning, BUT NOT ANYMORE)==========================================================================
-  let cors_heroku_url = 'https://cors-anywhere.herokuapp.com/'; 
-  let main_url = cors_heroku_url + real_time_url
-  $.ajax({
-      url: main_url,
-      async: false,
-      dataType: 'json',
-      success: function (json) {
-          data = json; // Real Time Info
-      }
-  });
+  // let cors_heroku_url = 'https://cors-anywhere.herokuapp.com/'; 
+  // let main_url = cors_heroku_url + real_time_url + "&format=json";
+  // // let main_url = 'https://jsonplaceholder.typicode.com/posts'; // THIS DIFFERENT 3RD-PARTY API WORKS WITH NO ISSUES AND I AM NOT SURE WHY???!!!
+  // $.ajax({
+  //     url: main_url,
+  //     dataType: 'json',
+  //     contentType: "application/json",
+  //     // set the request header authorization to the bearer token that is generated
+  //     headers: {
+  //       "X-Requested-With": "XMLHttpRequest"
+  //     },
+  //     success: function(result) {
+  //       console.log(result);
+  //       data = result;
+  //       data["results"].forEach(extractInfo);
+  //     },
+  //     error: function(error) {
+  //       console.log(`Error ${error}`)
+  //     },
+  // });
 
-  data["results"].forEach(extractInfo)
+  // function extractInfo(result, index) {
+  //   let route = result.route;
+  //   let origin = result.origin;
+  //   let destination = result.destination;
+  //   let scheduledArrivalTime = result.scheduledarrivaldatetime;
+  //   let likelyArrivalTime = result.arrivaldatetime;
+  //   let dueTime = result.duetime;
 
-  function extractInfo(result, index) {
-    let route = result.route;
-    let origin = result.origin;
-    let destination = result.destination;
-    let scheduledArrivalTime = result.scheduledarrivaldatetime;
-    let likelyArrivalTime = result.arrivaldatetime;
-    let dueTime = result.duetime;
+  //   console.log(route, origin, destination, scheduledArrivalTime, likelyArrivalTime, dueTime);
+  // }
 
-    console.log(route, origin, destination, scheduledArrivalTime, likelyArrivalTime, dueTime);
-  }
+  // // VERSION 2 (Doesn't work)==========================================================================
+  // var settings = {
+  //   'cache': false,
+  //   'dataType': "jsonp",
+  //   'async': true,
+  //   "crossDomain": true,
+  //   "url": real_time_url,
+  //   "method": "GET",
+  //   "headers": {
+  //     "accept": "application/json",
+  //     "Access-Control-Allow-Origin": "*"
+  //   }
+  // }
 
-  // VERSION 2 (Doesn't work)==========================================================================
-  var settings = {
-    'cache': false,
-    'dataType': "jsonp",
-    'async': true,
-    "crossDomain": true,
-    "url": real_time_url,
-    "method": "GET",
-    "headers": {
-      "accept": "application/json",
-      "Access-Control-Allow-Origin": "*"
-    }
-  }
+  // $.ajax(settings).done(function (response) {
+  //   console.log(response);
+  // })
 
-  $.ajax(settings).done(function (response) {
-    console.log(response);
-  })
-
+  // VERSION 3 (Doesn't work)==========================================================================
+  // fetch('https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=905');
 });
