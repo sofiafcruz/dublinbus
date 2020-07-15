@@ -116,10 +116,12 @@ function initMap() {
     scaledSize: new google.maps.Size(25, 25), 
     anchor: new google.maps.Point(12.5, 12.5) 
   };
+
   // Loading the bus stops and adding them to the map
   $.getJSON("./static/bus_stops.json", function(stops) {
     var markers = stops.map(function(location, i) {
       var stopCoords = new google.maps.LatLng(location.latitude, location.longitude);
+      stopsInfowindow(location);
       return new google.maps.Marker({
         position: stopCoords,
         icon: busStopIcon,
@@ -127,30 +129,14 @@ function initMap() {
       });
     });
 
-    
-    // var infowindow = new google.maps.InfoWindow({
-    //   content: location.stop_num
-    // });
-    
-    // google.maps.event.addListener(marker, 'click', function() {
-    //   // infowindow.open(map,marker);
-    //   console.log("CLICKED");
-    // });
-
-    // console.log(stops);
-
-    // stops.forEach()
-    // attachInfoWindow(marker, bus_stop_num, bus_stop_lat, bus_stop_long);
-  
-    // marker.addListener("click", function() {
-    //   infowindow.open(marker.get("map"), marker);
-    // });
-
     // Add a marker clusterer to manage the markers.
     var markerCluster = new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
   });
-  
+}
+
+function stopsInfowindow(location) {
+  console.log(location);
 }
 
 // Meant to remove all markers from the map each time a new journey is selected (but not working)
