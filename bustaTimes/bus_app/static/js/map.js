@@ -401,10 +401,12 @@ const calculateAndRenderDirections = (origin, destination) => {
 
     let today = new Date();
     let suffix = "am";
-    if (today.getHours() >= 12) {
+    let hours = today.getHours()
+    if (hours >= 12) {
       suffix = "pm";
+      hours -= 12
     }
-    let current_time = today.getHours()-12 + "." + today.getMinutes() + suffix;
+    let current_time = hours + "." + today.getMinutes() + suffix;
 
     journey_details_div.innerHTML = `
       <h6>Total Journey Details</h6>
