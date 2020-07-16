@@ -191,7 +191,7 @@ def trying_to_access_third_party_api(request):
         print(d)
         realtime_info_response.append(d)
     
-    print(realtime_info_response)
-    json_string = json.dumps(realtime_info_response)
+    # print(realtime_info_response)
+    # json_string = json.dumps(realtime_info_response)
     return JsonResponse(json_string, safe=False)
     # return HttpResponse("Trying to access 3rd Party data")

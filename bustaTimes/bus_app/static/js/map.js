@@ -141,21 +141,53 @@ function initMap() {
 function stopsInfowindow(marker) {
   var infowindow = new google.maps.InfoWindow();
   marker.addListener('click', function() {
-    // eventuallySetInfoWindowContent(marker.title);
+    grabRealTimeContent(marker.title);
     closeLastOpenedInfoWindow(lastOpenedBusStop);
+    console.log("A");
+    console.log(parsed_realtime_info);
+    console.log("B");
+
+    let realtime_content = setWindowContentHTML(parsed_realtime_info, marker.title);
     // Set Window to due info;
-    infowindow.setContent(eventuallySetInfoWindowContent(marker.title));
+    infowindow.setContent(realtime_content);
     // console.log(eventuallySetInfoWindowContent(marker.title));
+    // infowindow.setContent(grabRealTimeContent(marker.title));
     infowindow.open(map, marker);
     lastOpenedBusStop = infowindow;
   })
 }
 
-function eventuallySetInfoWindowContent(stopNum) {
+function setWindowContentHTML(objects, stopNum){
+  let outputHTML = "";
+  if (objects.length > 0){
+    for (i = 0; i < objects.length; i++){
+      console.log(objects[i]);
+      outputHTML += `
+        <div>
+          <b>${objects[i]["route"]}</b>
+          <p>Origin: ${objects[i]["origin"]}</p>
+          <p>Destination: ${objects[i]["destination"]}</p>
+          <p>Due: ${objects[i]["due"]}</p>
+          <p>Scheduled Arrival: ${objects[i]["scheduled_arrival_datetime"]}</p>
+          <p>Actual Arrival: ${objects[i]["arrival_datetime"]}</p>
+          <hr>
+        </div>
+      `
+    }
+  } else{
+    outputHTML = "No Information available for Stop: " + stopNum;
+  }
+  
+  return outputHTML;
+}
+
+// ************************ NEED TO GET THIS FIXED!!! ************************
+function grabRealTimeContent(stopNum) {
   console.log("This stop's number is:", stopNum);
 
   $.ajax({
       url: 'trying_to_access_third_party_api',
+      async: false,
       type: 'GET',
       data: {
         inputStopNum: stopNum
@@ -163,18 +195,11 @@ function eventuallySetInfoWindowContent(stopNum) {
       success: function(result) {
         parsed_realtime_info = JSON.parse(result)
         console.log(parsed_realtime_info);
-        let InfoWindowHTML;
       },
       error: function(error) {
         console.log(`Error ${error}`)
       },
-  }).done(function(parsed_realtime_info) {
-    return(parsed_realtime_info); // Not sure what the use of this is!
   });
-  console.log("BEFORE");
-  // console.log(parsed_realtime_info);
-  console.log("AFTER");
-  // return(parsed_realtime_info); // NOT WORKING!
 }
 
 // Meant to remove all markers from the map each time a new journey is selected (but not working)
