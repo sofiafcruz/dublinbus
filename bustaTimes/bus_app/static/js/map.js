@@ -165,23 +165,22 @@ function setWindowContentHTML(objects, stopNum){
   // 1. The array of objects (info about buses coming to the clicked bus stop)
   // 2. The number of the stop marker that is clicked.
   let outputHTML = "";
-  // If the API call was successful, and we got an array of objects
+  // If the API call was successful, and we got an array of objects, then fill the info window content with the data
   if (objects.length > 0){
     for (i = 0; i < objects.length; i++){
       console.log(objects[i]);
       outputHTML += `
-        <div>
-          <b>${objects[i]["route"]}</b>
-          <p>Origin: ${objects[i]["origin"]}</p>
-          <p>Destination: ${objects[i]["destination"]}</p>
+        <div id="marker-window-realtime-content">
+          <h6>${objects[i]["route"]}</h6>
+          <p><b>${objects[i]["origin"]}</b> to <b>${objects[i]["destination"]}</b></p>
           <p>Due: ${objects[i]["due"]}</p>
           <p>Scheduled Arrival: ${objects[i]["scheduled_arrival_datetime"]}</p>
           <p>Actual Arrival: ${objects[i]["arrival_datetime"]}</p>
           <hr>
         </div>
       `
-    } // else, the API call didn't get any data, so we must inform the user of the same.
-  } else{
+    } // else, the API call didn't get any data, so we fill the info window with this info to inform the user of the same.
+  } else {
     outputHTML = "No Information available for Stop: " + stopNum;
   }
   
@@ -332,7 +331,7 @@ function logSuccessAndPopulateOrigin(pos) {
   geocoder.geocode({ location: latlng }, function(results, status) {
     if (status === "OK") {
       if (results[0]) {
-        // Set the value of the user's coordinated to the inner HTML of origin
+        // Set the value of the user's coordinates to the inner HTML of "Origin" text input
         document.getElementById("origin-home-search").value = results[0].formatted_address;
       } else {
         alert("No location results found for the User's current location");
@@ -344,31 +343,37 @@ function logSuccessAndPopulateOrigin(pos) {
 // Render directions based on origin and destination (COORDINATES, NOT PLACE NAMES) on home tab;
 const calculateAndRenderDirections = (origin, destination) => {
 
+  // Initialise a Directions Service object (computes directions between 2 or more places by sending direction queries to Google's servers).
   let directionsService = new google.maps.DirectionsService();
+  // Initialise a Directions Renderer object TO NULL (every time the route is calculated (done in an attempt to remove the previous journey every time the function is called BUT NOT WORKING!!!!!!!!!!!!!!!))
   let directionsDisplay = null;
+  
   let request = {
     origin: origin,
     destination: destination,
-    travelMode: 'TRANSIT'
+    travelMode: 'TRANSIT' // Show how to get from A to B by bus (where posssible???)
   };
 
-  // This is meant to clear past rendered routes (BUT NOT WORKING!)
+  // Below is meant to clear past rendered routes (BUT NOT WORKING!) - NEEDS TO BE FIXED!
   // if (directionsDisplay != null) {
   //   directionsDisplay.setMap(null);
   //   directionsDisplay = null;
   // }
 
+  // Instantiate a Directions Renderer object (Renders directions obtained from the DirectionsService.)
   directionsDisplay = new google.maps.DirectionsRenderer();
 
   directionsDisplay.setMap(map);
+  // .route takes 2 parameters:
+  // 1. a Directions Request
+  // 2. a Callback function (which takes in the Result of the Directions Query and a status (to show if query to Google servers was successful))
   directionsService.route(request, (result, status) => {
     if (status == "OK") {
+      // server request is OK, set the renderer to use the result to display the directions on the renderer's designated map and panel.
       directionsDisplay.setDirections(result);
     }
     
-    // DEALING WITH MESSAGE PRINTOUT FOR USERS
-    // console.log(result);
-    // console.log(result.routes[0].legs[0]);
+    // ************* Message Printout for users in Div (Directions, Instructions etc) *************
     let legs = result.routes[0].legs[0];
     let departure_time = legs.departure_time.text;
     let arrival_time = legs.arrival_time.text;
@@ -377,149 +382,106 @@ const calculateAndRenderDirections = (origin, destination) => {
 
     let steps = legs.steps;
 
-    console.log(legs);
-    console.log("Total Journey Details");
-    console.log("=====================");
-    console.log("Departure Time:", departure_time);
-    console.log("Arrival Time:", arrival_time);
-    console.log("Total Duration:", duration);
-    console.log("Total Distance:", distance);
-    console.log(steps);
+    // console.log(legs);
+    // console.log("Total Journey Details");
+    // console.log("=====================");
+    // console.log("Departure Time:", departure_time);
+    // console.log("Arrival Time:", arrival_time);
+    // console.log("Total Duration:", duration);
+    // console.log("Total Distance:", distance);
+    // console.log(steps);
 
     journey_details_div = document.getElementById('journey-details')
 
     let today = new Date();
     let suffix = "am";
     let hours = today.getHours()
+    // Logic to make Current time fit with 12-hour clock format of the Google Map's Service object (instead of 24 hour format)
     if (hours >= 12) {
       suffix = "pm";
       hours -= 12
     }
+    // Creating 12-hour format for current time
     let current_time = hours + "." + today.getMinutes() + suffix;
 
+    // Total Journey info (at the top of the div)
     journey_details_div.innerHTML = `
-      <h6>Total Journey Details</h6>
-      <p>Current Time: ${current_time}</p>
-      <p>Departure Time: ${departure_time}</p>
-      <p>Arrival Time: ${arrival_time}</p>
-      <p>Total Duration: ${duration}</p>
-      <p>Total Distance: ${distance}</p>
-      <h6>Details of Each Step:</h6>
+      <div>
+        <h6>Total Journey Details</h6>
+        <p>Current Time: ${current_time}</p>
+        <p>Departure Time: ${departure_time}</p>
+        <p>Arrival Time: ${arrival_time}</p>
+        <p>Total Duration: ${duration}</p>
+        <p>Total Distance: ${distance}</p>
+        <h6>Details of Each Step:</h6>
+      </div>
     `;
 
+    // Subsequent info consists of the "Steps" that make up the total journey (e.g. Step 1, walk to X, Step 2. From X, get a bus to Y etc)
     steps.forEach(function (step, index) {
-      // console.log("Step:", index+1);
-      // console.log("========");
-      // console.log("Distance:", step.distance.text);
-      // console.log("Duration:", step.duration.text);
-      // console.log("Instructions:", step.instructions);
       journey_details_div.innerHTML += `
         <div>
-        <b>Step: ${index+1} (${step.travel_mode} for ~${step.duration.text})</b>
-        <p>${step.instructions}</p>
-        <p>Distance: ${step.distance.text}</p>
+          <b>Step: ${index+1} (${step.travel_mode} for ~${step.duration.text})</b>
+          <p>${step.instructions}</p>
+          <p>Distance: ${step.distance.text}</p>
         </div>
       `;
     });
-
+    // Add a class to the div containing the journey details to make it visible
     document.getElementById("journey-details").className = "journey-details"
-  });
-
-  
+  });  
 }
-
-// When the submit button is clicked;
-// document.getElementById("home-submit")
 
 $("#home-submit").click(function(e) {
   // Disable submit button from reloading the page when clicked
   e.preventDefault();
 
-  // var map = new google.maps.Map(document.getElementById('map'));
-  // var start = new google.maps.LatLng(53.345941, -6.276008999999999);
-  // var end = new google.maps.LatLng(53.31832389, -6.23055);
-  var start = document.getElementById('origin-home-search').value;
+  // Grab the values of the "Origin" and "Destination" input boxes
+  // Maybe it's better to use Lat and Long coordinates to improve accuracy?
+  var start = document.getElementById('origin-home-search').value; 
   var end = document.getElementById('destination-home-search').value;
+  // If the user filled in both the Origin and Destination inputs correctly
+  if (start.length > 0 && end.length > 0){
+    calculateAndRenderDirections(start, end);
+  } else {
+    // else, alert user with an appropriate error message
+    // LOGIC HERE IS VERY BAD... CODE IS NOT DRY! NEED TO FIGURE OUT BETTER ALTERNATIVE
+    let alert_message = "ERROR: Missing Details: ";
 
-  calculateAndRenderDirections(start, end);
+    let duration_of_error_class = 1500;
 
-  // console.log("CALC-ROUTE START");
-  // console.log(start);
+    if (start.length > 0) {
+      alert_message += "Destination";
+      alert(alert_message);
+      // Add and remove error class to highlight problematic input for user
+      $("#destination-home-search").addClass('error');
+      setTimeout(function(){
+        $("#destination-home-search").removeClass('error');
+      }, duration_of_error_class);
+    } else if (end.length > 0) {
+      alert_message += "Origin";
+      alert(alert_message);
+      // Add and remove error class to highlight problematic input for user
+      $("#origin-home-search").addClass('error');
+      setTimeout(function(){
+        $("#origin-home-search").removeClass('error');
+      }, duration_of_error_class);
+    } else {
+      alert_message += "Origin and Destination";
+      alert(alert_message);
+      // Add and remove error class to highlight problematic input for user
+      $("#origin-home-search").addClass('error');
+      setTimeout(function(){
+        $("#origin-home-search").removeClass('error');
+      }, duration_of_error_class);
+      $("#destination-home-search").addClass('error');
+      setTimeout(function(){
+        $("#destination-home-search").removeClass('error');
+      }, duration_of_error_class);
+    }
+  }
   
-  // console.log("CALC-ROUTE END");
-  // console.log(end);
-  
-  // console.log("=================================================================================================");
-  // var request = {
-  //   query: start,
-  //   fields: ['name', 'geometry'],
-  // };
-  // console.log(request);
-
-  // var service = new google.maps.places.PlacesService(map);
-
-  // service.findPlaceFromQuery(request, function(results, status) {
-  //   if (status === google.maps.places.PlacesServiceStatus.OK) {
-  //     for (var i = 0; i < results.length; i++) {
-  //       console.log(results);
-  //       // createMarker(results[i]);
-  //     }
-  //     map.setCenter(results[0].geometry.location);
-  //   }
-  // });
 });
-
-// function homeSearch() {
-//   var map = new google.maps.Map(document.getElementById('map'));
-//   // var start = new google.maps.LatLng(53.345941, -6.276008999999999);
-//   // var end = new google.maps.LatLng(53.31832389, -6.23055);
-//   var start = document.getElementById('origin-home-search').value;
-//   var end = document.getElementById('destination-home-search').value;
-//   console.log("CALC-ROUTE START");
-//   console.log(start);
-  
-//   console.log("CALC-ROUTE END");
-//   console.log(end);
-  
-//   console.log("=================================================================================================");
-//   var request = {
-//     query: start,
-//     fields: ['name', 'geometry'],
-//   };
-//   console.log(request);
-
-//   var service = new google.maps.places.PlacesService(map);
-
-//   service.findPlaceFromQuery(request, function(results, status) {
-//     if (status === google.maps.places.PlacesServiceStatus.OK) {
-//       for (var i = 0; i < results.length; i++) {
-//         console.log(results);
-//         // createMarker(results[i]);
-//       }
-//       map.setCenter(results[0].geometry.location);
-//     }
-//   });
-
-  // var request = {
-  //   origin: start,
-  //   destination: end,
-  //   travelMode: 'TRANSIT',
-  //   transitOptions: {
-  //     modes: ['BUS']
-  //   } 
-  // };
-
-  // directionsService.route(request, function(result, status) {
-  //   if (status == 'OK') {
-  //     directionsRenderer.setDirections(result);
-  //   }
-  //   console.log(typeof result);
-  //   console.log(result);
-  //   // console.log(result.routes);
-  //   // console.log(result.routes[0]);
-  //   // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
-  // });
-// }
 
 // Array that will be used for the switch button that displays the attractions
 // When the switch is off, it uses this array to remove the markers
