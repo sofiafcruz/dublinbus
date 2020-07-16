@@ -2,11 +2,6 @@
 $(document).ready(function(){ // START OF JQUERY BLOCK
 
     console.log("Connected");
-    // Fetches local json object====================================
-    // fetch("static/data.json")
-    //     .then((response) => response.json()) // Convert from Promise Pending object to JSON obj
-    //     .then((data) => console.log(data)) // This gives us our data
-    //     .catch((err) => console.log(err))// Catch errors, if they arise
 
     // On page load, populate the Route Dropdown in 'Search by Route' section
     var json_routes_dropdown = document.getElementById("json-routes");
@@ -17,13 +12,6 @@ $(document).ready(function(){ // START OF JQUERY BLOCK
         opt.innerHTML = key;
         json_routes_dropdown.appendChild(opt);
     }
-
-    // TRYING TO LIMIT THE NUMBER OF OPTIONS SHOWN BY DROPDOWN TO 6 (not sure how)
-    // $('select').each(function(){
-    //     $(this).attr({onmousedown: "if(this.options.length>6){this.size=6;}",
-    //                  onchange: "this.blur()", 
-    //                  onblur: "this.size=0;"});
-    // });
 
 }); // END OF JQUERY BLOCK
 

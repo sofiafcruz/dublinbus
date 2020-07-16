@@ -1,26 +1,26 @@
-$(document).ready(function() {
-  // Onclick Event for Button to Toggle the Map View;
+
+$(document).ready(function() { // (Not sure why but only works when inside this document.ready jQuery function)
+  // Onclick Event for Button to Toggle the Map View
   // BUT DOESN'T WORK WHEN YOU PLAN YOUR ROUTE WITH SEARCH BY ROUTE!
   $('#toggle-nightmode').click(function() {
     if (map.mapTypeId !== "hybrid") {
-      map.setMapTypeId(google.maps.MapTypeId.HYBRID);  
+      map.setMapTypeId(google.maps.MapTypeId.HYBRID); // Hybrid = Satelite view of map
     } else{
-      map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+      map.setMapTypeId(google.maps.MapTypeId.ROADMAP); // Roadmap = default/regular view of map
     }
   });
 });
 
+// **************** Initialise many of the variables (to make them global and accessible by different functions that don't have scope on them) ****************
 var map;
-var destinationMarkers = [];
-var directionsService;
-var directionsRenderer;
-// Variable to keep track of the current opened info window for the attractions
-var lastOpenedAttraction;
-// Variable to keep track of the current opened info window for the bus stops
-var lastOpenedBusStop;
+var destinationMarkers = []; // Stores the destination marker generated each dbl click (used to remove the previous marker each time)
+var directionsService; // 
+var directionsRenderer; // 
+var lastOpenedAttraction; // Variable to keep track of the current opened info window for the attractions
+var lastOpenedBusStop; // Variable to keep track of the current opened info window for the bus stops
 
-// Reads the JSON with the attractions info
-var xmlhttp = new XMLHttpRequest();
+// Reads the local JSON file with the attractions info
+var xmlhttp = new XMLHttpRequest(); // Initialise request object
 var url = "./static/attractions.json";
 var attractions = null;
 xmlhttp.onreadystatechange = function() {
@@ -31,17 +31,19 @@ xmlhttp.onreadystatechange = function() {
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
 
-// Sets the map on all Destination markers in the array.
+// Sets the map on all Destination markers in the array (used in order to set all previous destination markers to null and delete them, so only 1 destination marker can exist at any time).
+// THERE MUST BE A BETTER WAY TO DO THIS (WILL COME BACK TO LATER)
 function setMapOnAll(map) {
   for (var i = 0; i < destinationMarkers.length; i++) {
     destinationMarkers[i].setMap(map);
   }
 }
 
+// **************** Initialising the Map ****************
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'));
   
-  // Disabling double-clicking zoom feature;
+  // Disabling double-clicking zoom feature when setting a destination marker
   map.setOptions({disableDoubleClickZoom: true });
   
   // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
@@ -58,7 +60,7 @@ function initMap() {
       fields: ["place_id", "geometry", "name"]
     }
   );
-  // origin_autocomplete.addListener('place_changed', onPlaceChanged(origin_autocomplete));
+  // origin_autocomplete.addListener('place_changed', onPlaceChanged(origin_autocomplete)); // ------------CAN BE REMOVED?
 
   // (Destination)
   destination_autocomplete = new google.maps.places.Autocomplete(
@@ -68,8 +70,9 @@ function initMap() {
       fields: ["place_id", "geometry", "name"]
     }
   );
-  // destination_autocomplete.addListener('place_changed', onPlaceChanged(destination_autocomplete));
+  // destination_autocomplete.addListener('place_changed', onPlaceChanged(destination_autocomplete)); // ------------CAN BE REMOVED?
   
+  // ------------CAN BE REMOVED?
   // function onPlaceChanged(autocomplete) {
   //   var place = autocomplete.getPlace();
 
@@ -82,7 +85,7 @@ function initMap() {
   //   }
   // }
 
-  // Variables to be used for the directions 
+  // Variables to be used for the directions  // ------------CAN BE REMOVED?
   directionsService = new google.maps.DirectionsService();
   directionsRenderer = new google.maps.DirectionsRenderer({
     preserveViewport: false
@@ -102,6 +105,7 @@ function initMap() {
       scaledSize: new google.maps.Size(30, 30), 
       anchor: new google.maps.Point(12.5, 12.5) 
     };
+    // ------------CAN MARKER BE REMOVED, AS DOES NOT APPEAR TO BE BEING USED?
     var marker = new google.maps.Marker({
       position: usersLocation,
       map: map,
@@ -113,6 +117,7 @@ function initMap() {
     map.setZoom(12);
   });
 
+  // Characteristics of the icon for Bus Stops
   var busStopIcon = {
     url: './static/images/bus_stop_icon.svg',
     scaledSize: new google.maps.Size(25, 25), 
@@ -126,7 +131,7 @@ function initMap() {
       var marker = new google.maps.Marker({
         position: stopCoords,
         icon: busStopIcon,
-        title: location.stop_num // Title is each marker's stop num (which we can use to generate time table for info window)
+        title: location.stop_num // Title is each marker's stop num (which we use to generate timetable data for the info window that is unique to each bus stop)
       });
       stopsInfowindow(marker);
       return marker;
@@ -141,24 +146,26 @@ function initMap() {
 function stopsInfowindow(marker) {
   var infowindow = new google.maps.InfoWindow();
   marker.addListener('click', function() {
-    grabRealTimeContent(marker.title);
+    grabRealTimeContent(marker.title); // Makes a call to the RPTI API via the backend based on the stop number (marker.title)
     closeLastOpenedInfoWindow(lastOpenedBusStop);
-    console.log("A");
-    console.log(parsed_realtime_info);
-    console.log("B");
+    // console.log(parsed_realtime_info); // Shows the array of objects that is gotten from 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + BusStopNumber
 
     let realtime_content = setWindowContentHTML(parsed_realtime_info, marker.title);
-    // Set Window to due info;
+    // Set Window to real-time info relevant to the clicked bus stop
     infowindow.setContent(realtime_content);
-    // console.log(eventuallySetInfoWindowContent(marker.title));
-    // infowindow.setContent(grabRealTimeContent(marker.title));
+    
     infowindow.open(map, marker);
     lastOpenedBusStop = infowindow;
   })
 }
 
+// **************** Sets the content of the info window of the marker that is clicked to relevant real-time info generated on backend ****************
 function setWindowContentHTML(objects, stopNum){
+  // Function takes 2 parameters: 
+  // 1. The array of objects (info about buses coming to the clicked bus stop)
+  // 2. The number of the stop marker that is clicked.
   let outputHTML = "";
+  // If the API call was successful, and we got an array of objects
   if (objects.length > 0){
     for (i = 0; i < objects.length; i++){
       console.log(objects[i]);
@@ -173,7 +180,7 @@ function setWindowContentHTML(objects, stopNum){
           <hr>
         </div>
       `
-    }
+    } // else, the API call didn't get any data, so we must inform the user of the same.
   } else{
     outputHTML = "No Information available for Stop: " + stopNum;
   }
@@ -181,54 +188,47 @@ function setWindowContentHTML(objects, stopNum){
   return outputHTML;
 }
 
-// ************************ NEED TO GET THIS FIXED!!! ************************
+// ************************ Used to make call to the backend to handle RPTI API request (as can't be done solely on frontend due to CORS security issues) ************************
 function grabRealTimeContent(stopNum) {
-  console.log("This stop's number is:", stopNum);
-
+  // Function takes in the clicked bus marker's stop number as a parameter, and feeds this into the backend to use as a parameter for the RPTI API call
   $.ajax({
-      url: 'trying_to_access_third_party_api',
-      async: false,
-      type: 'GET',
+      url: 'make_rpti_realtime_api_request', // Name of the function in views.py in the backend that requests the API
+      async: false, // AJAX call needs to be asynchronous to make the result variable (on success) available to the 'stopsInfowindow' function
+      type: 'GET', // We are making a GET request, as there is no security issues with the data we're retrieving
       data: {
-        inputStopNum: stopNum
+        inputStopNum: stopNum // This is the data that is passed into by the backend via a GET request, which the backend can then use to make the relevant RPTI API call 
       },
-      success: function(result) {
-        parsed_realtime_info = JSON.parse(result)
+      success: function(result) { // If the Request is successful (i.e. There was a request made in the backend that returned "something", BUT N.B. the response may return an EMPTY array, as no results were found)
+        // 'result' is a JsonResponse object returned from the 'make_rpti_realtime_api_request' func in views.py (effectively a json-string). 
+        console.log(result);
+        // We must now parse the string into a JSON object here.
+        parsed_realtime_info = JSON.parse(result) 
         console.log(parsed_realtime_info);
+        // This 'parsed_realtime_info' variable is now available anywhere in the code (because the ajax function was NOT aynschronous)
       },
-      error: function(error) {
+      error: function(error) { // An most likely won't arise unless the API goes down (Or perhaps is requested too many times?)
         console.log(`Error ${error}`)
       },
   });
 }
 
-// Meant to remove all markers from the map each time a new journey is selected (but not working)
-// My Logic is wrong somewhere...
-// ----------------------------------------------------------------------------------------------
-// function clearOverlays(arr) {
-//   for (var i = 0; i < arr.length; i++ ) {
-//     arr[i].setMap(null);
-//   }
-//   arr.length = 0;
-// }
+// ************************ CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED in "Search By Route" (outside of init function) ************************
+function showJouneyOnMap(arrOfSelectedStopObjs){
+  // Function takes an array of selected Stop Objects (referring to all the stops from start stop A to ending stop B inclusive decided by the user)
+  // This function is called by 'app.js', as app.js is where the array of selected routes is generated.
+  var markersArray = []; // variable that will hold all the markers of the journey (should (hopefully) be cleared each time so old journeys are removed from map)
 
-// CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED (outside of init function) 
-// var map = new google.maps.Map(document.getElementById('map'));
-function showJouneyOnMap(arrOfStopObjs){
-  // console.log("INSIDE showJouneyOnMap function!")
-  var markersArray = [];
-
-  for (var i = 0; i < arrOfStopObjs.length; i++) {
-    let bus_stop_obj = arrOfStopObjs[i]; // Bus Stop object
-    let bus_stop_num = Object.keys(bus_stop_obj)[0]; // Bus Stop number
+  for (var i = 0; i < arrOfSelectedStopObjs.length; i++) {
+    let bus_stop_obj = arrOfSelectedStopObjs[i]; // Bus Stop object
+    // let bus_stop_num = Object.keys(bus_stop_obj)[0]; // Bus Stop number
     let bus_stop_properties = Object.values(bus_stop_obj)[0]; // Properties of bus stop (prog num, lat, long, address)
 
-    let bus_stop_lat = bus_stop_properties.latitude;
-    let bus_stop_long = bus_stop_properties.longitude;
+    let bus_stop_lat = bus_stop_properties.latitude; // Bus Stop Latitude
+    let bus_stop_long = bus_stop_properties.longitude; // Bus Stop Longitude
 
-    let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long };
+    let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long }; // Bus Stop LatLng object
 
-    var busStopIcon = {
+    var busStopIcon = { // WAS THINKING MAYBE WE SHOULD HAVE A DIFFERENT ICON HERE TO HIGHLIGHT THE STOPS OF THE JOURNEY
       url: './static/images/bus_stop_icon.svg',
       scaledSize: new google.maps.Size(25, 25), 
       anchor: new google.maps.Point(12.5, 12.5) 
@@ -239,10 +239,7 @@ function showJouneyOnMap(arrOfStopObjs){
       map: map,
       icon: busStopIcon
     });
-    
-    // Add info window to the bus stop
-    attachInfoWindow(marker, bus_stop_num, bus_stop_lat, bus_stop_long);
-    
+    // Push each marker of the journey to the array
     markersArray.push(marker);
 
   }  
@@ -251,18 +248,7 @@ function showJouneyOnMap(arrOfStopObjs){
   calcRoute();
 }
 
-// Function to add info window to each marker;
-function attachInfoWindow(marker, stopNum, latitude, longitude) {
-  var infowindow = new google.maps.InfoWindow({
-    content: "BUS STOP NUM: " + stopNum + "<br>" + "LAT: " + latitude + "<br>" + "LONG: " + longitude
-  });
-
-  marker.addListener("click", function() {
-    infowindow.open(marker.get("map"), marker);
-  });
-}
-
-// 'arrOfCoords' comes from app.js
+// 'arrOfCoords' comes from app.js (effectively stores the same info as 'arrOfSelectedStopObjs' (i.e. All the stops between starting and ending points of the route journey))
 // Function to draw the directions on the map
 function calcRoute() {
   var start = new google.maps.LatLng(arrOfCoords[0].latitude,arrOfCoords[0].longitude);
@@ -321,16 +307,17 @@ function calcRoute() {
 
 // Get User's Geolocation and plug its Geocode into Origin;
 $("#my-location-btn-img").click(function(e) {
-  e.preventDefault();
-  console.log("clicked");
+  e.preventDefault(); // Stops clicking the image from reloading the page
+  // If the user has enabled geolocation, then call a function that populates the "Origin" input with the user's location
   if (navigator.geolocation) {
     console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
   } else { 
-    console.log("Geolocation is not supported by this browser.");
+    alert("Geolocation is not supported or enabled.");
   }
 });
 
 function logSuccessAndPopulateOrigin(pos) {
+  // Populates the "Origin" input on Home screen with the user's position (text, NOT actual coordinates, so possibly not too accurate)
   var coordinates = pos.coords;
 
   console.log('Your current position is:');
@@ -338,7 +325,7 @@ function logSuccessAndPopulateOrigin(pos) {
   console.log(`Longitude: ${coordinates.longitude}`);
   console.log(`More or less ${coordinates.accuracy} meters.`);
 
-  // Reverse Geocode the Coordinates into the Place name;
+  // Reverse Geocode the Coordinates into the Place name, so that it can then be pasted into the "Origin" input text box
   var geocoder = new google.maps.Geocoder();
 
   var latlng = { lat: coordinates.latitude, lng: coordinates.longitude };
@@ -347,6 +334,8 @@ function logSuccessAndPopulateOrigin(pos) {
       if (results[0]) {
         // Set the value of the user's coordinated to the inner HTML of origin
         document.getElementById("origin-home-search").value = results[0].formatted_address;
+      } else {
+        alert("No location results found for the User's current location");
       }
     }
   });
@@ -652,74 +641,3 @@ function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
     }
   });
 }
-
-// google.maps.event.addListener(marker, 'click', function () {
-//   // do something with this marker ...
-//   this.getTitle();
-//   console.log(this.getTitle());
-//   console.log("Clicked");
-// });
-
-$("#bus-stop-marker").click(function(e) {
-  // Go to realtime SD API and pull relevant info (about buses due etc)
-  console.log("MARKER CLICKED!");
-  let value = e.target.value; // Stop Num (i.e. 905)
-
-  let real_time_url = 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + value;
-  
-  // ***********ISSUE WITH CORS!!!!!!!!!*************** // Info on CORS: https://web.dev/cross-origin-resource-sharing/
-
-  // VERSION 1 (Worked at the beginning, BUT NOT ANYMORE)==========================================================================
-  // let cors_heroku_url = 'https://cors-anywhere.herokuapp.com/'; 
-  // let main_url = cors_heroku_url + real_time_url + "&format=json";
-  // // let main_url = 'https://jsonplaceholder.typicode.com/posts'; // THIS DIFFERENT 3RD-PARTY API WORKS WITH NO ISSUES AND I AM NOT SURE WHY???!!!
-  // $.ajax({
-  //     url: main_url,
-  //     dataType: 'json',
-  //     contentType: "application/json",
-  //     // set the request header authorization to the bearer token that is generated
-  //     headers: {
-  //       "X-Requested-With": "XMLHttpRequest"
-  //     },
-  //     success: function(result) {
-  //       console.log(result);
-  //       data = result;
-  //       data["results"].forEach(extractInfo);
-  //     },
-  //     error: function(error) {
-  //       console.log(`Error ${error}`)
-  //     },
-  // });
-
-  // function extractInfo(result, index) {
-  //   let route = result.route;
-  //   let origin = result.origin;
-  //   let destination = result.destination;
-  //   let scheduledArrivalTime = result.scheduledarrivaldatetime;
-  //   let likelyArrivalTime = result.arrivaldatetime;
-  //   let dueTime = result.duetime;
-
-  //   console.log(route, origin, destination, scheduledArrivalTime, likelyArrivalTime, dueTime);
-  // }
-
-  // // VERSION 2 (Doesn't work)==========================================================================
-  // var settings = {
-  //   'cache': false,
-  //   'dataType': "jsonp",
-  //   'async': true,
-  //   "crossDomain": true,
-  //   "url": real_time_url,
-  //   "method": "GET",
-  //   "headers": {
-  //     "accept": "application/json",
-  //     "Access-Control-Allow-Origin": "*"
-  //   }
-  // }
-
-  // $.ajax(settings).done(function (response) {
-  //   console.log(response);
-  // })
-
-  // VERSION 3 (Doesn't work)==========================================================================
-  // fetch('https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=905');
-});

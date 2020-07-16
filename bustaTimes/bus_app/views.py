@@ -126,7 +126,7 @@ def show_modelform_route(request):
 def leap_card_info(request):
     if request.method =='POST':
         print("IT'S A POST")
-        print(request.POST)
+        print(request.POST) 
         leap_card_username = request.POST["inputUsername"]
         leap_card_password = request.POST["inputPassword"]
         print(f"User entered the following credentials;\n=============================\nUsername: {leap_card_username}, Password: {leap_card_password}")
@@ -140,15 +140,11 @@ def leap_card_info(request):
         print("Not a post or a get")
     return HttpResponse(f"Your Leap Card Balance is: \n{balance}")
 
-def trying_to_access_third_party_api(request):
-    if request.method =='POST':
-        print("IT'S A POST")
-        print(request.POST)
-        stopNum = request.POST["inputStopNum"]
-    elif request.method =='GET':
+def make_rpti_realtime_api_request(request):
+    if request.method =='GET':
         print("IT'S A GET")
-        print(request.GET)
-        stopNum = request.GET["inputStopNum"]
+        print(request.GET) # e.g. <QueryDict: {'csrfmiddlewaretoken': ['mfh1Pjs9WiIp0pDuCtQfKMDXNuDgoHVIPNsys3U0Nvq1MwMzguJopn9fLX5wkIl4'], 'inputStopNum': ['905']}>
+        stopNum = request.GET["inputStopNum"] # Grabs the value of the inputStopNum key in the request.GET QueryDict
     else:
         print("Not a post or a get")
 
