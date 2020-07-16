@@ -559,13 +559,13 @@ function closeLastOpenedInfoWindow(lastOpened) {
 
 // For setting destination marker (in Home tab):
 function placeDestinationMarker(latLng, map) {
-
+  // Destination Marker icon (currently a bullseye - will be updated at some stage)
   var icon = {
     url: './static/images/target.png',
     scaledSize: new google.maps.Size(50, 50), 
     anchor: new google.maps.Point(12.5, 12.5) 
   };
-
+  // Destination Marker
   var marker = new google.maps.Marker({
     position: latLng,
     map: map,
@@ -575,11 +575,17 @@ function placeDestinationMarker(latLng, map) {
   // Clear destination marker when new location double clicked
   setMapOnAll(null);
   destinationMarkers = [];
+  // Add destination marker to the destination markers array (initialised at top of the script)
   destinationMarkers.push(marker);
 
+  // Reverse Geocode the Coordinates into the Place name, so that it can then be pasted into the "Destination" input text box
   var geocoder = new google.maps.Geocoder();
+  // Window to show place name of the destination location that was selected (double-clicked)
+  // Info window probably not important for Final Product 
   var infowindow = new google.maps.InfoWindow();
 
+  // Function used to reverse Geocode the Coordinates into the Place name
+  // Also sets the "Destination" value to the place name and sets the content of the destination marker's info window
   geocodeLatLng(latLng.lat(), latLng.lng(), geocoder, map, infowindow, marker);
 
 }
@@ -594,7 +600,6 @@ function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
         infowindow.open(map, marker);
         // Set the value of geocodeLatLng to the inner HTML of destination
         document.getElementById("destination-home-search").value = results[0].formatted_address;
-        
       } else {
         window.alert("No results found");
       }
@@ -603,3 +608,10 @@ function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
     }
   });
 }
+
+// Function to display the full journeys of all routes serviced by the bus stop
+$("#show-all-routes-serviced").click(function(e) {
+  // Disable submit button from reloading the page when clicked
+  e.preventDefault();
+  console.log("BUTTON CLICKED! - SHOW ALL ROUTES SERVICED BY THE SELECTED BUS STOP")
+});

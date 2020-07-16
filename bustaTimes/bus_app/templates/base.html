@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
+    <!-- Browser Tab Title -->
+    <title>Busta Times</title>
+    <!-- Browser Tab Icon -->
+    <link rel="icon" href='./static/images/bus_stop_icon.svg'>
+    <!-- set the page width to the size of the device and set the zoom to 1-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    
-    <!-- Selectize -->
-    {% comment %} <script src='https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js'></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap2.css" rel="stylesheet"> {% endcomment %}
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
@@ -19,6 +20,7 @@
 </head>
 
 <body>
+    <!-- *************** NAVIGATION BAR ***************-->
     <div class="d-flex justify-content-between header align-items-center fixed-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,24 +28,24 @@
             </button>
         
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                <a class="nav-link active" href="#" onclick="navbarDisplay(event, 'home-search-container')">Home<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item ">
-                <a class="nav-link" href="#" onclick="navbarDisplay(event, 'search-by-route-container')">Search by Route</a>
-                </li>
-                <li class="nav-item ">
-                <a class="nav-link" href="#" id="search-by-stop-nav" onclick="navbarDisplay(event, 'bus-stop-search-container')">Search by Bus Stop</a>
-                </li>
-            </ul>
-            
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                    <a class="nav-link active" href="#" onclick="navbarDisplay(event, 'home-search-container')">Home<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item ">
+                    <a class="nav-link" href="#" onclick="navbarDisplay(event, 'search-by-route-container')">Search by Route</a>
+                    </li>
+                    <li class="nav-item ">
+                    <a class="nav-link" href="#" id="search-by-stop-nav" onclick="navbarDisplay(event, 'bus-stop-search-container')">Search by Bus Stop</a>
+                    </li>
+                </ul>
             </div>
         </nav>
         <div id="weather-container">  
             <span id="temperature" style="padding-right: 20px;"></span> 
         </div>
     </div>
+    <!-- *************** MAIN BODY (Map, Menu etc) ***************-->
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -55,11 +57,12 @@
                     <label class="custom-control-label" for="customSwitch1">Display Attractions</label>
                 </div>
             </div>
+            <!-- *************** Container for content of ALL Tabs *************** -->
             <div class="col-md-auto">
-                
-                <!-- Menu for the Home page -->
+                <!-- ********** Home Menu ********** -->
                 <div id='home-search-container' class="container centre-and-padding tabcontent">
                     <h3>Plan Your Trip</h3>
+                    <!-- Form containing "Origin" and "Destination" text inputs -->
                     <form>
                         <div class="form-group">
                             <label for="origin">Origin:</label>
@@ -72,16 +75,10 @@
                         </div>
                         <button id="home-submit" type="submit" class="btn btn-outline-light">Submit</button>
                     </form>
+                    <!-- Container for the selected journey's trip details-->
                     <div id="journey-details" class="container"></div>
-                    {% comment %} <form action="/">
-                        <label for="origin">Origin:</label><br>
-                        <input type="text" id="origin-home-search" name="origin"><br><br>
-                        <label for="destination">Destination:</label><br>
-                        <input type="text" id="destination-home-search" name="destination"><br><br>
-                        <input type="submit" value="Submit" class='btn btn-outline-light' onclick="homeSearch()">Search</button> 
-                    </form> {% endcomment %}
                 </div>
-                <!-- Search by Route Menu -->
+                <!-- ********** Search by Route Menu ********** -->
                 <div id='search-by-route-container' class="container centre-and-padding tabcontent">
                     <h3>Plan Your Trip</h3>
                     <!-- Route Dropdown -->
@@ -90,8 +87,9 @@
                         <option value="" disabled selected>Select a Route</option>
                     </select>
 
+                    <!-- Select "Starting Point" and "Ending Point" div (initially hidden) -->
                     <div id="stops-dropdowns-container" style="display: none;">
-                        <!-- Origin to Destination -->
+                        <!-- From Origin to Destination header -->
                         <div id="origin-to-destination-div">
                             <h5 id="origin-to-destination-header"></h5>
                         </div>
@@ -109,38 +107,38 @@
                     </div>
                 </div>
                 
-                <!-- Search by Bus Stop Menu -->
+                <!-- ********** Search by Bus Stop Menu ********** -->
                 <div id='bus-stop-search-container' class="container centre-and-padding tabcontent">
                     <h3>Plan Your Trip</h3>
                     <form>
                         <label for="origin">Bus Stop:</label><br>
                         <input type="text" id="busstop-search" name="busstop-input" placeholder="Enter Stop number or address">
-                        
-                        <button type="submit" value="Submit" class='btn btn-outline-light' onclick="defaultSearch()">Search</button> 
-
-                        <div class="container" id="match-list">
-                        
-                        </div>
+                        <!-- Button -->
+                        <button type="submit" id="show-all-routes-serviced" value="Submit" class='btn btn-outline-light'>Search</button> 
+                        <!-- Container for all the regex matches of the user's search-->
+                        <div class="container" id="match-list"></div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toggle Map View Buttons -->
+    <!-- Toggle Map View Button -->
+    <!-- LATER WILL INCORPORATE "NIGHT-MODE" RATHER THAN "HYBRID", AS THIS IS ALREADY AVAILABLE ON THE PHYSICAL MAP (i.e. Satellite) -->
     <button id="toggle-nightmode">Hybrid Mode</button>
 
-    <!-- Leap Card Registration/Login -->
+    <!-- ********** Leap Card Registration/Login ********** -->
+    <!-- PERHAPS SHOULD BE INCLUDED AS A TAB INSTEAD -->
     <div id="login-div" class="container">
         <h2>Fill in Leap Card Credentials to see Balance</h2>
         <form method="POST" action="leap_card_info" >
-            {% csrf_token %}
+            {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
             <p>Username</p>
             <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
             <p>Password</p>
             <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
             <input type="submit" value="Login">
-            <a href="#">Not registered on Leap Card?</a>
+            <a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a>
         </form>
     </div>
     
@@ -153,7 +151,8 @@
     <!-- Using a for loop to render all the BusStop instances for testing purposes -->
     <!-- {% block bus_stops_content %} {% endblock %} -->
     
-    <script type="text/javascript" src="{% static 'js/app.js' %}"></script> <!-- Connected JS script needs to be down here or else can't "see" html elements -->
+    <!-- Connected JS script needs to be down here (rather than in the <head> section) or else can't "see" html elements -->
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
     <script>
         var weather = JSON.parse('{{ weather|escapejs }}'); 
         
@@ -164,14 +163,10 @@
     <script type="text/javascript" src="{% static 'js/weather.js' %}"></script> 
     
     <!-- Script for the map -->
-    <!-- <script type="text/javascript"> 
-        var stops = JSON.parse('{{ bus_stops|escapejs }}');        
-    </script> -->
     <script type="text/javascript" src="{% static 'js/map.js' %}"></script>   
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initMap">
     </script>
     <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
- 
 </body>
 </html>
