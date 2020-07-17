@@ -113,8 +113,7 @@ function initMap() {
     });
   }, function(positionError) {
     // Default to Dublin if user denied geolocation prompt
-    map.setCenter(new google.maps.LatLng(53.346, -6.26));
-    map.setZoom(12);
+    setMapDublin();
   });
 
   // Characteristics of the icon for Bus Stops
@@ -141,6 +140,12 @@ function initMap() {
     var markerCluster = new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
   });
+}
+
+
+function setMapDublin() {
+  map.setCenter(new google.maps.LatLng(53.346, -6.26));
+  map.setZoom(13);
 }
 
 function stopsInfowindow(marker) {
@@ -489,6 +494,7 @@ var attractionsArray = []
 
 // The switch button calls this function on change to display the attractions on the map
 function displayAttractions() {
+  setMapDublin();
   // Check the value of the switch button
   var switchValue = document.getElementsByClassName("custom-control-input")[0].checked ? true : false
   if (switchValue) { 
@@ -550,12 +556,20 @@ function attractionsInfowindow (marker, title) {
 }
 
 function calcRouteToAttraction(lat, long) {
-  var start;
-  var end = new google.maps.LatLng(lat,long);
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
-      start = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-      renderDirections();
+      var start = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+      var end = new google.maps.LatLng(lat,long);
+      var request = {
+        origin: start,
+        destination: end,
+        travelMode: 'TRANSIT'
+      };
+      directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+          directionsRenderer.setDirections(result);
+        }
+      });
     }, function() {
       window.alert('Error. Geolocation service failed.');
     });
@@ -564,29 +578,29 @@ function calcRouteToAttraction(lat, long) {
     window.alert('Error. Browser doesn\'t support Geolocation.');
   };
 
-  function renderDirections() {
-    console.log(start);
-    document.getElementById('origin-home-search').value = 'Current Location';
-    document.getElementById('destination-home-search').value = lat + ', ' + long;
+  // function renderDirections() {
+  //   console.log(start);
+  //   document.getElementById('origin-home-search').value = 'Current Location';
+  //   document.getElementById('destination-home-search').value = lat + ', ' + long;
 
-    var request = {
-      origin: start,
-      destination: end,
-      travelMode: 'TRANSIT',
-      transitOptions: {
-        modes: ['BUS']
-      },
-      provideRouteAlternatives: true
-    };
+  //   var request = {
+  //     origin: start,
+  //     destination: end,
+  //     travelMode: 'TRANSIT',
+  //     transitOptions: {
+  //       modes: ['BUS']
+  //     },
+  //     provideRouteAlternatives: true
+  //   };
 
-    directionsService.route(request, function(result, status) {
-      if (status == 'OK') {
-        directionsRenderer.setDirections(result);
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
-    });
-  }
+  //   directionsService.route(request, function(result, status) {
+  //     if (status == 'OK') {
+  //       directionsRenderer.setDirections(result);
+  //     } else {
+  //       window.alert('Directions request failed due to ' + status);
+  //     }
+  //   });
+  // }
 }
 
 // Close the previous info window when a new marker is clicked
