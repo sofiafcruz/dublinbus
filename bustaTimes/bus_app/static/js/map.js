@@ -309,40 +309,22 @@ function calcRoute() {
   });
 }
 
-// // Get User's Geolocation and plug its Geocode into Origin;
-// $("#my-location-btn-img").click(function(e) {
-//   e.preventDefault(); // Stops clicking the image from reloading the page
-//   // If the user has enabled geolocation, then call a function that populates the "Origin" input with the user's location
-//   if (navigator.geolocation) {
-//     console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
-//   } else { 
-//     alert("Geolocation is not supported or enabled.");
-//   }
-// });
-
-// $(".users-location-switch").change(function(e) {
-//   e.preventDefault(); // Stops clicking the image from reloading the page
-//   // If the user has enabled geolocation, then call a function that populates the "Origin" input with the user's location
-  // if (navigator.geolocation) {
-  //   console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
-  // } else { 
-  //   alert("Geolocation is not supported or enabled.");
-  // }
-// });
-
+// Display the user's location when switch button is on, clear the origin field when off
+// Called when switch button changes
 function fillUsersLocation() {
   // Check the value of the switch button
   var switchValue = document.getElementsByClassName("users-location-switch")[0].checked ? true : false
+  // If switch button on
   if (switchValue) { 
-    console.log('sim');
-    // document.getElementById("origin-home-search").value = 'valor';
+    // If geolocation allowed
     if (navigator.geolocation) {
+      // Call logSuccessAndPopulateOrigin function
       console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
     } else { 
       alert("Geolocation is not supported or enabled.");
     }
   } else {
-    console.log('nao');
+    // Clear the origin field
     document.getElementById("origin-home-search").value = null;
   };
 };
@@ -521,11 +503,11 @@ var attractionsArray = []
 
 // The switch button calls this function on change to display the attractions on the map
 function displayAttractions() {
-  setMapDublin();
+  setMapDublin(); // Center the map in Dublin
   // Check the value of the switch button
   var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false
   if (switchValue) { 
-    // Loop through the attractions in the JSON file
+    // Loop through the attractions in the JSON file and add marker for each to the map
     for (i = 0; i < attractions.length; i++) {
       var latitude = parseFloat(attractions[i].latitude);
       var longitude = parseFloat(attractions[i].longitude);
@@ -534,19 +516,20 @@ function displayAttractions() {
         title: attractions[i].title,
         map: map
       });
-      // Function to add an on click event to display an info window
+      // Add on click info windows to each attraction
       attractionsInfowindow(marker, attractions[i].title);
       
       attractionsArray.push(marker);
     };
   } else {
+    // When switch is off, remove all the attraction makers from the map
     for (i = 0; i < attractionsArray.length; i++) {
       attractionsArray[i].setMap(null);
     };
   };
 };
 
-// Display the info window for each attraction
+// Display info window for each attraction
 function attractionsInfowindow (marker, title) {
   var infowindow = new google.maps.InfoWindow({
     maxWidth: 250
@@ -557,6 +540,7 @@ function attractionsInfowindow (marker, title) {
 
     var summary, image, url, latitude, longitude;
 
+    // Loop through the JSON file to get attractions information
     for (i = 0; i < attractions.length; i++) {
       if (title == attractions[i].title) {
         summary = attractions[i].summary;
