@@ -309,16 +309,43 @@ function calcRoute() {
   });
 }
 
-// Get User's Geolocation and plug its Geocode into Origin;
-$("#my-location-btn-img").click(function(e) {
-  e.preventDefault(); // Stops clicking the image from reloading the page
-  // If the user has enabled geolocation, then call a function that populates the "Origin" input with the user's location
-  if (navigator.geolocation) {
-    console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
-  } else { 
-    alert("Geolocation is not supported or enabled.");
-  }
-});
+// // Get User's Geolocation and plug its Geocode into Origin;
+// $("#my-location-btn-img").click(function(e) {
+//   e.preventDefault(); // Stops clicking the image from reloading the page
+//   // If the user has enabled geolocation, then call a function that populates the "Origin" input with the user's location
+//   if (navigator.geolocation) {
+//     console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
+//   } else { 
+//     alert("Geolocation is not supported or enabled.");
+//   }
+// });
+
+// $(".users-location-switch").change(function(e) {
+//   e.preventDefault(); // Stops clicking the image from reloading the page
+//   // If the user has enabled geolocation, then call a function that populates the "Origin" input with the user's location
+  // if (navigator.geolocation) {
+  //   console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
+  // } else { 
+  //   alert("Geolocation is not supported or enabled.");
+  // }
+// });
+
+function fillUsersLocation() {
+  // Check the value of the switch button
+  var switchValue = document.getElementsByClassName("users-location-switch")[0].checked ? true : false
+  if (switchValue) { 
+    console.log('sim');
+    // document.getElementById("origin-home-search").value = 'valor';
+    if (navigator.geolocation) {
+      console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
+    } else { 
+      alert("Geolocation is not supported or enabled.");
+    }
+  } else {
+    console.log('nao');
+    document.getElementById("origin-home-search").value = null;
+  };
+};
 
 function logSuccessAndPopulateOrigin(pos) {
   // Populates the "Origin" input on Home screen with the user's position (text, NOT actual coordinates, so possibly not too accurate)
@@ -496,7 +523,7 @@ var attractionsArray = []
 function displayAttractions() {
   setMapDublin();
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("custom-control-input")[0].checked ? true : false
+  var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false
   if (switchValue) { 
     // Loop through the attractions in the JSON file
     for (i = 0; i < attractions.length; i++) {
@@ -556,51 +583,7 @@ function attractionsInfowindow (marker, title) {
 }
 
 function calcRouteToAttraction(lat, long) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var start = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-      var end = new google.maps.LatLng(lat,long);
-      var request = {
-        origin: start,
-        destination: end,
-        travelMode: 'TRANSIT'
-      };
-      directionsService.route(request, function(result, status) {
-        if (status == 'OK') {
-          directionsRenderer.setDirections(result);
-        }
-      });
-    }, function() {
-      window.alert('Error. Geolocation service failed.');
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    window.alert('Error. Browser doesn\'t support Geolocation.');
-  };
-
-  // function renderDirections() {
-  //   console.log(start);
-  //   document.getElementById('origin-home-search').value = 'Current Location';
-  //   document.getElementById('destination-home-search').value = lat + ', ' + long;
-
-  //   var request = {
-  //     origin: start,
-  //     destination: end,
-  //     travelMode: 'TRANSIT',
-  //     transitOptions: {
-  //       modes: ['BUS']
-  //     },
-  //     provideRouteAlternatives: true
-  //   };
-
-  //   directionsService.route(request, function(result, status) {
-  //     if (status == 'OK') {
-  //       directionsRenderer.setDirections(result);
-  //     } else {
-  //       window.alert('Directions request failed due to ' + status);
-  //     }
-  //   });
-  // }
+  
 }
 
 // Close the previous info window when a new marker is clicked

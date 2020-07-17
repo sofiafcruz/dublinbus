@@ -53,7 +53,7 @@
                 <div id="map" style="height:500px; width:100%"></div>
                 <!-- Switch button to show the attractions -->
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1" onchange="displayAttractions()">
+                    <input type="checkbox" class="custom-control-input attractions-switch" id="customSwitch1" onchange="displayAttractions()">
                     <label class="custom-control-label" for="customSwitch1">Display Attractions</label>
                 </div>
             </div>
@@ -67,11 +67,16 @@
                         <div class="form-group">
                             <label for="origin">Origin:</label>
                             <input type="text" class="form-control" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point" required>
-                            <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />
+                            {% comment %} <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />  {% endcomment %}
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input users-location-switch" id="customSwitch2" onchange="fillUsersLocation()">
+                                <label class="custom-control-label text-muted" for="customSwitch2"><small>Use Current Location</small></label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="destination">Destination:</label>
                             <input type="text" class="form-control" id="destination-home-search" placeholder="Choose destination" required>
+                            <p><small class="text-muted">Double click on the map to set destination</small></p>
                         </div>
                         <button id="home-submit" type="submit" class="btn btn-outline-light">Submit</button>
                     </form>
