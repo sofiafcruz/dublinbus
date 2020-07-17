@@ -335,17 +335,22 @@ function fillUsersLocation() {
   var switchValue = document.getElementsByClassName("users-location-switch")[0].checked ? true : false
   if (switchValue) { 
     console.log('sim');
-    // document.getElementById("origin-home-search").value = 'valor';
-    if (navigator.geolocation) {
-      console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
-    } else { 
-      alert("Geolocation is not supported or enabled.");
-    }
+    getUsersLocation()
   } else {
     console.log('nao');
     document.getElementById("origin-home-search").value = null;
   };
 };
+
+// Function to get User's Location
+function getUsersLocation(){
+  // If the user has enabled geolocation, then call a function that populates the "Origin" input with the user's location
+  if (navigator.geolocation) {
+    console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
+  } else { 
+    alert("Geolocation is not supported or enabled.");
+  }
+}
 
 function logSuccessAndPopulateOrigin(pos) {
   // Populates the "Origin" input on Home screen with the user's position (text, NOT actual coordinates, so possibly not too accurate)
@@ -579,11 +584,30 @@ function attractionsInfowindow (marker, title) {
     infowindow.setContent(contentString);
     infowindow.open(map, marker);
     lastOpenedAttraction = infowindow;
+
   });
 }
 
-function calcRouteToAttraction(lat, long) {
-  
+function calcRouteToAttraction(latitude, longitude) {
+  // set 'origin-home-search' to the User's current location
+  getUsersLocation() 
+  // set 'destination-home-search' to the User's current location
+  var geocoder = new google.maps.Geocoder();
+  var latlng = { lat: latitude, lng: longitude };
+  geocoder.geocode({ location: latlng }, function(results, status) {
+    if (status === "OK") {
+      if (results[0]) {
+        // Set the value of geocodeLatLng to the inner HTML of destination
+        document.getElementById("destination-home-search").value = results[0].formatted_address;
+        // Click the submit button to show the journey/directions from the User's location to the attraction
+        document.getElementById("home-submit").click();
+      } else {
+        window.alert("No results found");
+      }
+    } else {
+      window.alert("Geocoder failed due to: " + status);
+    }
+  });
 }
 
 // Close the previous info window when a new marker is clicked
