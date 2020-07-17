@@ -1,76 +1,75 @@
-// Implementing jQuery below;
-$(document).ready(function(){ // START OF JQUERY BLOCK
-
-    console.log("Connected");
-
+// ================================ SEARCH BY ROUTE ==============================================
+// ********** Route Dropdown **********
+$(document).ready(function(){
     // On page load, populate the Route Dropdown in 'Search by Route' section
     var json_routes_dropdown = document.getElementById("json-routes");
     for (var key in main_table_object) {
-        // console.log(key + " -> " + main_table_object[key].length);
         var opt = document.createElement('option');
-        opt.value = key;
+        opt.value = key; 
         opt.innerHTML = key;
         json_routes_dropdown.appendChild(opt);
     }
+});
 
-}); // END OF JQUERY BLOCK
-
-// ================================ SEARCH BY ROUTE ==============================================
+// ********** Div containing Journey Info, Starting and Ending Stop Dropdowns  **********
 // Display div containing filled drop down options of bus stops
 // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
 function showAndLoadStartAndEndDrops() {
     // Grab the route option selected
     var selected_route = document.getElementById("json-routes").value;
     console.log(selected_route);
-    // ORIGIN AND DESTINATION
+    // Grab the selected Route's Origin (From) and Destination (To) data
     let origin = route_origin_and_destination_object[selected_route]["origin"];
     let destination = route_origin_and_destination_object[selected_route]["destination"];
-        
+    // Set the header (From X to Y)
     $('#origin-to-destination-header').html("From " + origin + " to " + destination);
-
-    // Target the starting and ending stops select dropdowns (which are hidden)
+    // Target the starting and ending stops select dropdowns
     var json_starting_point_dropdown = document.getElementById("json-starting-stops");
     var json_ending_point_dropdown = document.getElementById("json-ending-stops");
-
-    // Empty their contents EVERY call (or else value will be appended to them)
+    // Empty their contents EVERY call (or else values (stops) will be appended to them, rather than replacing them)
     $(json_starting_point_dropdown).empty();
     $(json_ending_point_dropdown).empty();
-
     // Need a nested for loop to grab the Address of each bus stop of the selected route
     for (index in main_table_object[selected_route]){
         for (bus_stop in main_table_object[selected_route][index]){
             // Grab the bus stop address
             stop_address = main_table_object[selected_route][index][bus_stop]["stop_address"];
-
             // Store it into an option element
             var opt = document.createElement('option');
             opt.value = index; // Value is the index of the bus stop
             opt.innerHTML = stop_address + " (" + bus_stop + ")";
-            // Then clone it to also append to the ending stop dropdown
+            // Then clone it so it can also be appended to the Ending Stop dropdown
             var cloneOption = opt.cloneNode(true);
-                
-            // Append the given bus stop option to both starting and ending point dropdowns
+            // Append the current iteration's bus stop option to both starting and ending point dropdowns
             json_ending_point_dropdown.appendChild(opt);
             json_starting_point_dropdown.appendChild(cloneOption);
         }
     }
-    // At the end, make sure to display the container holding the starting and ending stop dropdowns
+    // At the end, make sure to display the container holding the starting and ending stop dropdowns (as it's initially hidden)
     $('#stops-dropdowns-container').css('display', 'block');
 }
-    
-// Initialising Empty Array of Coords
+
+// ********** Logic to grab all the Stops between the selected Starting and Ending Stops INCLUSIVE  **********
+// Initialising Empty Array of Coords (initialised outside so can also be used in 'map.js')
 var arrOfCoords = [];
-// GRAB ALL THE STOPS BETWEEN STARTING AND ENDING POINTS OF THE JOURNEY!
+
 function generateStopArray() {
+    // Function to grab all the stops between Starting and Ending Points of Journey
+    // Grab all selected dropdown components
     var selected_route = document.getElementById("json-routes").value;
     var selected_start = parseInt(document.getElementById("json-starting-stops").value);
     var selected_end = parseInt(document.getElementById("json-ending-stops").value);
     // console.log(selected_route + " - " + selected_start + " - " + selected_end);
 
+    // Grab all the stops from the selected route from Starting Stop to Ending Stop INCLUSIVE
     var arrOfSelectedStops = main_table_object[selected_route].slice(selected_start, (selected_end+1));
-    console.log(arrOfSelectedStops);
+    // console.log(arrOfSelectedStops);
 
+    // arrOfCoords reinitialised to empty array (Can't remember why??)
     arrOfCoords = [];
+
+    // Iterate over the array of selected stops, grab their coordinates, and store them as Coord objects in arrOfCoords 
+    // (To be used in map.js for some reason I think?)
     for (i in arrOfSelectedStops){
         for (stop_num in arrOfSelectedStops[i]){
             let bus_stop = arrOfSelectedStops[i][stop_num];
@@ -79,44 +78,43 @@ function generateStopArray() {
             arrOfCoords.push({"latitude": lat, "longitude": long});
         }
     }
-    console.log("BEFORE ARR OF COORDS - APP.JS");
-    console.log(arrOfCoords);
-    console.log("AFTER ARR OF COORDS - APP.JS");
+    // console.log("BEFORE ARR OF COORDS - APP.JS");
+    // console.log(arrOfCoords);
+    // console.log("AFTER ARR OF COORDS - APP.JS");
 
-    // Call the 'showJouneyOnMap' function in 'map.js'
+    // Call the 'showJouneyOnMap' function in 'map.js' on the selected stops array to show the journey to the user
     $.getScript("static/js/map.js", function(){
         showJouneyOnMap(arrOfSelectedStops);
-    });
-        
+    }); 
 
     // Now I think I should return the Stop coords?
 }
 
 // ================================ SEARCH BY BUSSTOP ==============================================
-// var national_stops = {};
-// On clicking "Search by Bus Stop" nav option, load JSON file.
+// ********** On clicking "Search by Bus Stop" nav option, load JSON file (i.e. grab all the stops) **********
 $("#search-by-stop-nav").click(function() {
-    console.log("SEARCH BY STOP NAV SELECTED");
-
-    // Return all stops and make them available to other functions (i.e. onkeyup function below)
+    // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
     $.ajax({
         url: './static/map_bus_stop_to_routes_data.json',
         async: false,
         dataType: 'json',
         success: function (json) {
             national_stops = json;
-        }
+        },
+        error: function(error) { // An error most likely won't arise unless we mess with the JSON data or path
+          console.log(`Error ${error}`);
+        },
     });
 });
 
-// On keyup, show all relevant/matching stops that match what keys are entered
+// ********** On keyup, show all relevant/matching stops that match what keystrokes are entered **********
 $("#busstop-search").keyup(function (event) {
-    console.log("KEY WAS PRESSED");
     // console.log(national_stops);
     console.log(event.target.value);
-
+    // Grab the total value being entered into the text input each time a key is pressed (e.g. '1', '14', '145',) 
     let current_value = event.target.value;
-    
+    // Grab all the values of the bus stop JSON objects returned in the above AJAX call
+    // N.B. - THIS IS CALLED EVERY TIME KEY IS CLICKED, WHICH IS PROBABLY A BAD IDEA
     let arr_of_stop_vals = Object.values(national_stops);
     // Get matches to current text input
     let matches = arr_of_stop_vals.filter(stop => {
