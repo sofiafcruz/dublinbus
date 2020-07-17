@@ -537,7 +537,7 @@ function attractionsInfowindow (marker, title) {
     var contentString = '<div class="attractions-infowindow">' +
     '<div class="attractions-content">'+
     '<h4 class="attractions-title">' + title + '</h4>'+
-    '<a href="#" onclick="">Directions</a>'+
+    '<a href="#" onclick="calcRouteToAttraction(' + latitude + ', ' + longitude + ')">Directions</a>'+
     '<div class="attractions-image"><img src="' + image + '" alt="' + title + '" style="max-width:250px; max-height:250px;"></div>' + 
     '<div id="attractions-bodyContent">'+
     '<p class="attractions-summary">' + summary + '&nbsp;<a href="' + url + '">More Info</a></p>'+
@@ -547,6 +547,46 @@ function attractionsInfowindow (marker, title) {
     infowindow.open(map, marker);
     lastOpenedAttraction = infowindow;
   });
+}
+
+function calcRouteToAttraction(lat, long) {
+  var start;
+  var end = new google.maps.LatLng(lat,long);
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      start = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+      renderDirections();
+    }, function() {
+      window.alert('Error. Geolocation service failed.');
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    window.alert('Error. Browser doesn\'t support Geolocation.');
+  };
+
+  function renderDirections() {
+    console.log(start);
+    document.getElementById('origin-home-search').value = 'Current Location';
+    document.getElementById('destination-home-search').value = lat + ', ' + long;
+
+    var request = {
+      origin: start,
+      destination: end,
+      travelMode: 'TRANSIT',
+      transitOptions: {
+        modes: ['BUS']
+      },
+      provideRouteAlternatives: true
+    };
+
+    directionsService.route(request, function(result, status) {
+      if (status == 'OK') {
+        directionsRenderer.setDirections(result);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
 }
 
 // Close the previous info window when a new marker is clicked
