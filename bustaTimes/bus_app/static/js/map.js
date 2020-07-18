@@ -13,7 +13,6 @@ $(document).ready(function() { // (Not sure why but only works when inside this 
 
 // **************** Initialise many of the variables (to make them global and accessible by different functions that don't have scope on them) ****************
 var map;
-var destinationMarkers = []; // Stores the destination marker generated each dbl click (used to remove the previous marker each time)
 // Next 2 variables will be used to render directions;
 var directionsService; 
 var directionsDisplay; 
@@ -35,14 +34,6 @@ xmlhttp.onreadystatechange = function() {
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
 
-// Sets the map on all Destination markers in the array (used in order to set all previous destination markers to null and delete them, so only 1 destination marker can exist at any time).
-// THERE MUST BE A BETTER WAY TO DO THIS (WILL COME BACK TO LATER)
-function setMapOnAll(map) {
-  for (var i = 0; i < destinationMarkers.length; i++) {
-    destinationMarkers[i].setMap(map);
-  }
-}
-
 // **************** Initialising the Map ****************
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'));
@@ -50,9 +41,23 @@ function initMap() {
   // Disabling double-clicking zoom feature when setting a destination marker
   map.setOptions({disableDoubleClickZoom: true });
   
+  // DESTINATION MARKER
+  // Destination Marker icon (currently a bullseye - will be updated at some stage)
+  var icon = {
+    url: './static/images/target.png',
+    scaledSize: new google.maps.Size(50, 50), 
+    anchor: new google.maps.Point(12.5, 12.5) 
+  };
+  // Destination Marker
+  var destinationMarker = new google.maps.Marker({
+    position: null, // Initially set to null (until map double clicked)
+    map: map,
+    icon: icon
+  });
+
   // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
   map.addListener('dblclick', function(e) {
-    placeDestinationMarker(e.latLng, map);
+    placeDestinationMarker(e.latLng, map, destinationMarker);
   });
 
   // For autocomplete on Home Search Boxes;
@@ -278,25 +283,10 @@ function closeLastOpenedInfoWindow(lastOpened) {
 
 // ================================ DESTINATION MARKER ==============================================
 // For setting destination marker (in Home tab):
-function placeDestinationMarker(latLng, map) {
-  // Destination Marker icon (currently a bullseye - will be updated at some stage)
-  var icon = {
-    url: './static/images/target.png',
-    scaledSize: new google.maps.Size(50, 50), 
-    anchor: new google.maps.Point(12.5, 12.5) 
-  };
-  // Destination Marker
-  var marker = new google.maps.Marker({
-    position: latLng,
-    map: map,
-    icon: icon
-  });
+function placeDestinationMarker(latLng, map, destMarker) {
   
-  // Clear destination marker when new location double clicked
-  setMapOnAll(null);
-  destinationMarkers = [];
-  // Add destination marker to the destination markers array (initialised at top of the script)
-  destinationMarkers.push(marker);
+  // Set the destination marker's coordinates to the selected
+  destMarker.setPosition(latLng);
 
   // Reverse Geocode the Coordinates into the Place name, so that it can then be pasted into the "Destination" input text box
   var geocoder = new google.maps.Geocoder();
@@ -306,7 +296,7 @@ function placeDestinationMarker(latLng, map) {
 
   // Function used to reverse Geocode the Coordinates into the Place name
   // Also sets the "Destination" value to the place name and sets the content of the destination marker's info window
-  geocodeLatLng(latLng.lat(), latLng.lng(), geocoder, map, infowindow, marker);
+  geocodeLatLng(latLng.lat(), latLng.lng(), geocoder, map, infowindow, destMarker);
 
 }
 
@@ -536,8 +526,10 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
 
 // ************************ "Exit" the journey generated in "Home" ************************
 function setJourneyToNull(){
+  // Remove the rendered Journey
   directionsDisplay.setMap(null);
-  
+  // Remove the Destination Marker
+  // destinationMarker.setPosition(null); // Not working (No scope on destination marker)
 }
   
 
