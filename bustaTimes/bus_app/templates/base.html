@@ -56,6 +56,11 @@
                     <input type="checkbox" class="custom-control-input attractions-switch" id="customSwitch1" onchange="displayAttractions()">
                     <label class="custom-control-label" for="customSwitch1">Display Attractions</label>
                 </div>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input markers-switch" id="customSwitch3" onchange="clearMarkers()">
+                    <label class="custom-control-label" for="customSwitch3">Hide Markers</label>
+                </div>
+                <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />
             </div>
             <!-- *************** Container for content of ALL Tabs *************** -->
             <div class="col-md-auto">
@@ -67,7 +72,6 @@
                         <div class="form-group">
                             <label for="origin">Origin:</label>
                             <input type="text" class="form-control" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point" required>
-                            {% comment %} <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />  {% endcomment %}
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input users-location-switch" id="customSwitch2" onchange="fillUsersLocation()">
                                 <label class="custom-control-label text-muted" for="customSwitch2"><small>Use Current Location</small></label>

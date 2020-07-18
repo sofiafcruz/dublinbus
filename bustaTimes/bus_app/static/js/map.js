@@ -20,6 +20,8 @@ var directionsDisplay;
 // Next 2 variables are to control window closure;
 var lastOpenedAttraction; // Variable to keep track of the current opened info window for the attractions
 var lastOpenedBusStop; // Variable to keep track of the current opened info window for the bus stops
+// Global Markers for hiding
+var global_markers = [];
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
@@ -62,7 +64,6 @@ function initMap() {
       fields: ["place_id", "geometry", "name"]
     }
   );
-  // origin_autocomplete.addListener('place_changed', onPlaceChanged); // ------------CAN BE REMOVED?
 
   // (Destination)
   destination_autocomplete = new google.maps.places.Autocomplete(
@@ -72,20 +73,6 @@ function initMap() {
       fields: ["place_id", "geometry", "name"]
     }
   );
-  // ------------ CAN BELOW BE REMOVED?
-  // destination_autocomplete.addListener('place_changed', onPlaceChanged); 
-  
-  // function onPlaceChanged() {
-  //   var place = autocomplete.getPlace();
-
-  //   if (!place.geometry) {
-  //     // User didn't select a prediction or entered an incorrect result, so reset the input field
-  //     document.getElementById(autocomplete).placeholder = "Enter a place";
-  //   } else{
-  //     // Display details about the valid place
-  //     document.getElementById(autocomplete).innerHTML = place.name;
-  //   }
-  // }
 
   // Single instances to be used for the directions (displaying journey and rendering)
   // 1. Initialise a Directions Service object (computes directions between 2 or more places by sending direction queries to Google's servers). 
@@ -135,13 +122,49 @@ function initMap() {
         title: location.stop_num // Title is each marker's stop num (which we use to generate timetable data for the info window that is unique to each bus stop)
       });
       stopsInfowindow(marker);
+      global_markers.push(marker);
       return marker;
     });
 
     // Add a marker clusterer to manage the markers.
     var markerCluster = new MarkerClusterer(map, markers,
-        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+      {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
+    );
   });
+
+  // Sets the map on all markers in the array.
+  function setMapOnAll(map, markersToHide) {
+    for (var i = 0; i < markersToHide.length; i++) {
+      markersToHide[i].setMap(map);
+    }
+  }
+}
+
+// Removes the markers from the map, but keeps them in the array. (NOT WORKING)
+function clearMarkers() {
+  console.log("Hello");
+  setMapOnAll(null, global_markers);
+  console.log("Goodbye");
+}
+
+// Toggles to User's Location
+$('#my-location-btn-img').click(function() {
+  // map.panTo(panToUsersLocation())
+  panToUsersLocation();
+});
+
+// Pan to User's Location
+function panToUsersLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      let user_coords = position.coords;
+      var userLatLng = new google.maps.LatLng(user_coords.latitude, user_coords.longitude);
+      // console.log(userLatLng);
+      map.panTo(userLatLng);
+    });
+  } else { 
+    alert("Geolocation is not supported or enabled.");
+  }
 }
 
 // ================================ ATTRACTIONS ==============================================
@@ -253,7 +276,7 @@ function closeLastOpenedInfoWindow(lastOpened) {
   }
 }
 
-// ================================ DESTIONATION MARKER ==============================================
+// ================================ DESTINATION MARKER ==============================================
 // For setting destination marker (in Home tab):
 function placeDestinationMarker(latLng, map) {
   // Destination Marker icon (currently a bullseye - will be updated at some stage)
@@ -430,7 +453,6 @@ function logSuccessAndPopulateOrigin(pos) {
 
 // Render directions based on origin and destination (COORDINATES, NOT PLACE NAMES) on home tab;
 const calculateAndRenderDirections = (origin, destination, directionsService, directionsDisplay) => {
-
   let request = {
     origin: origin,
     destination: destination,
@@ -444,7 +466,10 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
   directionsService.route(request, (result, status) => {
     if (status == "OK") {
       // server request is OK, set the renderer to use the result to display the directions on the renderer's designated map and panel.
+      directionsDisplay.setMap(map);
       directionsDisplay.setDirections(result);
+    } else {
+      alert("There was a problem with calculating your route");
     }
     
     // ************* Message Printout for users in Div (Directions, Instructions etc) *************
@@ -455,15 +480,6 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
     let distance = legs.distance.text;
 
     let steps = legs.steps;
-
-    // console.log(legs);
-    // console.log("Total Journey Details");
-    // console.log("=====================");
-    // console.log("Departure Time:", departure_time);
-    // console.log("Arrival Time:", arrival_time);
-    // console.log("Total Duration:", duration);
-    // console.log("Total Distance:", distance);
-    // console.log(steps);
 
     journey_details_div = document.getElementById('journey-details')
 
@@ -491,6 +507,13 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
       </div>
     `;
 
+    // Add Button to "Exit" the journey
+    journey_details_div.innerHTML += `
+    <div>
+      <button onclick="setJourneyToNull()">Exit Journey</button>
+    </div>
+    `
+
     // Subsequent info consists of the "Steps" that make up the total journey (e.g. Step 1, walk to X, Step 2. From X, get a bus to Y etc)
     steps.forEach(function (step, index) {
       journey_details_div.innerHTML += `
@@ -501,10 +524,22 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
         </div>
       `;
     });
+    
+    // Add container at the end with a directions panel
+    journey_details_div.innerHTML += `<div id="directions-panel"></div>`;
+    directionsDisplay.setPanel(document.getElementById("directions-panel"));
+
     // Add a class to the div containing the journey details to make it visible
-    document.getElementById("journey-details").className = "journey-details"
-  });  
+    document.getElementById("journey-details").className = "journey-details";
+  }); 
 }
+
+// ************************ "Exit" the journey generated in "Home" ************************
+function setJourneyToNull(){
+  directionsDisplay.setMap(null);
+  
+}
+  
 
 $("#home-submit").click(function(e) {
   // Disable submit button from reloading the page when clicked
