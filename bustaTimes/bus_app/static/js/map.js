@@ -14,10 +14,11 @@ $(document).ready(function() { // (Not sure why but only works when inside this 
 // **************** Initialise many of the variables (to make them global and accessible by different functions that don't have scope on them) ****************
 var map;
 var destinationMarkers = []; // Stores the destination marker generated each dbl click (used to remove the previous marker each time)
-var directionsService; // 
-var directionsRenderer; // 
+// Next 2 variables will be used to render directions;
+var directionsService; 
+var directionsDisplay; 
+// Next 2 variables are to control window closure;
 var lastOpenedAttraction; // Variable to keep track of the current opened info window for the attractions
-var lastOpenedBusStop; // Variable to keep track of the current opened info window for the bus stops
 var lastOpenedBusStop; // Variable to keep track of the current opened info window for the bus stops
 
 // Reads the local JSON file with the attractions info
@@ -61,7 +62,7 @@ function initMap() {
       fields: ["place_id", "geometry", "name"]
     }
   );
-  // origin_autocomplete.addListener('place_changed', onPlaceChanged(origin_autocomplete)); // ------------CAN BE REMOVED?
+  // origin_autocomplete.addListener('place_changed', onPlaceChanged); // ------------CAN BE REMOVED?
 
   // (Destination)
   destination_autocomplete = new google.maps.places.Autocomplete(
@@ -71,10 +72,10 @@ function initMap() {
       fields: ["place_id", "geometry", "name"]
     }
   );
-  // destination_autocomplete.addListener('place_changed', onPlaceChanged(destination_autocomplete)); // ------------CAN BE REMOVED?
+  // ------------ CAN BELOW BE REMOVED?
+  // destination_autocomplete.addListener('place_changed', onPlaceChanged); 
   
-  // ------------CAN BE REMOVED?
-  // function onPlaceChanged(autocomplete) {
+  // function onPlaceChanged() {
   //   var place = autocomplete.getPlace();
 
   //   if (!place.geometry) {
@@ -86,13 +87,13 @@ function initMap() {
   //   }
   // }
 
-  // Variables to be used for the directions  // ------------CAN BE REMOVED?
+  // Single instances to be used for the directions (displaying journey and rendering)
+  // 1. Initialise a Directions Service object (computes directions between 2 or more places by sending direction queries to Google's servers). 
   directionsService = new google.maps.DirectionsService();
-  directionsRenderer = new google.maps.DirectionsRenderer({
+  // 2. Instantiate a Directions Renderer object (Renders directions obtained from the DirectionsService.)
+  directionsDisplay = new google.maps.DirectionsRenderer({
     preserveViewport: false
   });
-  // map.setCenter(new google.maps.LatLng(53.346, -6.26));
-  // map.setZoom(12);
 
   navigator.geolocation.getCurrentPosition(function(position) {
     // Center map on user's current location if geolocation prompt allowed
@@ -249,7 +250,7 @@ function showJouneyOnMap(arrOfSelectedStopObjs){
 
   }  
   // Calls the function to display the directions on the map
-  directionsRenderer.setMap(map); 
+  directionsDisplay.setMap(map); 
   calcRoute();
 }
 
@@ -296,8 +297,8 @@ function calcRoute() {
       }
       if (transitCount == 1 && busLine == selectedRoute) {
         if (status == 'OK') {
-          directionsRenderer.setDirections(result);
-          directionsRenderer.setRouteIndex(i);
+          directionsDisplay.setDirections(result);
+          directionsDisplay.setRouteIndex(i);
         } else {
           window.alert('Directions request failed due to ' + status);
         }
@@ -361,27 +362,13 @@ function logSuccessAndPopulateOrigin(pos) {
 }
 
 // Render directions based on origin and destination (COORDINATES, NOT PLACE NAMES) on home tab;
-const calculateAndRenderDirections = (origin, destination) => {
+const calculateAndRenderDirections = (origin, destination, directionsService, directionsDisplay) => {
 
-  // Initialise a Directions Service object (computes directions between 2 or more places by sending direction queries to Google's servers).
-  let directionsService = new google.maps.DirectionsService();
-  // Initialise a Directions Renderer object TO NULL (every time the route is calculated (done in an attempt to remove the previous journey every time the function is called BUT NOT WORKING!!!!!!!!!!!!!!!))
-  let directionsDisplay = null;
-  
   let request = {
     origin: origin,
     destination: destination,
     travelMode: 'TRANSIT' // Show how to get from A to B by bus (where posssible???)
   };
-
-  // Below is meant to clear past rendered routes (BUT NOT WORKING!) - NEEDS TO BE FIXED!
-  // if (directionsDisplay != null) {
-  //   directionsDisplay.setMap(null);
-  //   directionsDisplay = null;
-  // }
-
-  // Instantiate a Directions Renderer object (Renders directions obtained from the DirectionsService.)
-  directionsDisplay = new google.maps.DirectionsRenderer();
 
   directionsDisplay.setMap(map);
   // .route takes 2 parameters:
@@ -462,7 +449,7 @@ $("#home-submit").click(function(e) {
   var end = document.getElementById('destination-home-search').value;
   // If the user filled in both the Origin and Destination inputs correctly
   if (start.length > 0 && end.length > 0){
-    calculateAndRenderDirections(start, end);
+    calculateAndRenderDirections(start, end, directionsService, directionsDisplay);
   } else {
     // else, alert user with an appropriate error message
     // LOGIC HERE IS VERY BAD... CODE IS NOT DRY! NEED TO FIGURE OUT BETTER ALTERNATIVE
@@ -644,7 +631,7 @@ function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
     if (status === "OK") {
       if (results[0]) {
         infowindow.setContent(results[0].formatted_address);
-        infowindow.open(map, marker);
+        // infowindow.open(map, marker); // Open the Destination marker info window
         // Set the value of geocodeLatLng to the inner HTML of destination
         document.getElementById("destination-home-search").value = results[0].formatted_address;
       } else {
