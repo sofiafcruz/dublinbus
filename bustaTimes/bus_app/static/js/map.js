@@ -144,29 +144,195 @@ function initMap() {
   });
 }
 
+// ================================ ATTRACTIONS ==============================================
 
+// Array that will be used for the switch button that displays the attractions
+// When the switch is off, it uses this array to remove the markers
+var attractionsArray = []
+
+// The switch button calls this function on change to display the attractions on the map
+function displayAttractions() {
+  setMapDublin(); // Center the map in Dublin
+  // Check the value of the switch button
+  var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false
+  if (switchValue) { 
+    // Loop through the attractions in the JSON file and add marker for each to the map
+    for (i = 0; i < attractions.length; i++) {
+      var latitude = parseFloat(attractions[i].latitude);
+      var longitude = parseFloat(attractions[i].longitude);
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(latitude, longitude),
+        title: attractions[i].title,
+        map: map
+      });
+      // Add on click info windows to each attraction
+      attractionsInfowindow(marker, attractions[i].title);
+      
+      attractionsArray.push(marker);
+    };
+  } else {
+    // When switch is off, remove all the attraction makers from the map
+    for (i = 0; i < attractionsArray.length; i++) {
+      attractionsArray[i].setMap(null);
+    };
+  };
+};
+
+// Display info window for each attraction
+function attractionsInfowindow (marker, title) {
+  var infowindow = new google.maps.InfoWindow({
+    maxWidth: 250
+  });
+  marker.addListener('click', function() {
+    // Function to check whether there is an opened info window, if so closes it
+    closeLastOpenedInfoWindow(lastOpenedAttraction);
+
+    var summary, image, url, latitude, longitude;
+
+    // Loop through the JSON file to get attractions information
+    for (i = 0; i < attractions.length; i++) {
+      if (title == attractions[i].title) {
+        summary = attractions[i].summary;
+        image = attractions[i].image;
+        url = attractions[i].url;
+        latitude = attractions[i].latitude;
+        longitude = attractions[i].longitude;
+      }
+    }
+    // Content to display in the info window
+    var contentString = '<div class="attractions-infowindow">' +
+    '<div class="attractions-content">'+
+    '<h4 class="attractions-title">' + title + '</h4>'+
+    '<a href="#" onclick="calcRouteToAttraction(' + latitude + ', ' + longitude + ')">Directions</a>'+
+    '<div class="attractions-image"><img src="' + image + '" alt="' + title + '" style="max-width:250px; max-height:250px;"></div>' + 
+    '<div id="attractions-bodyContent">'+
+    '<p class="attractions-summary">' + summary + '&nbsp;<a href="' + url + '">More Info</a></p>'+
+    '</div>'+
+    '</div>';
+    infowindow.setContent(contentString);
+    infowindow.open(map, marker);
+    lastOpenedAttraction = infowindow;
+
+  });
+}
+
+function calcRouteToAttraction(latitude, longitude) {
+  closeLastOpenedInfoWindow(lastOpenedAttraction);
+  // set 'origin-home-search' to the User's current location
+  getUsersLocation();
+  // set 'destination-home-search' to the User's current location
+  var geocoder = new google.maps.Geocoder();
+  var latlng = { lat: latitude, lng: longitude };
+  geocoder.geocode({ location: latlng }, function(results, status) {
+    if (status === "OK") {
+      if (results[0]) {
+        // Set the value of geocodeLatLng to the inner HTML of destination
+        document.getElementById("destination-home-search").value = results[0].formatted_address;
+        // Click the submit button to show the journey/directions from the User's location to the attraction
+        document.getElementById("home-submit").click();
+      } else {
+        window.alert("No results found");
+      }
+    } else {
+      window.alert("Geocoder failed due to: " + status);
+    }
+  });
+}
+
+// ================================ OTHER ==============================================
 function setMapDublin() {
   map.setCenter(new google.maps.LatLng(53.346, -6.26));
   map.setZoom(13);
 }
 
-function stopsInfowindow(marker) {
-  var infowindow = new google.maps.InfoWindow();
-  marker.addListener('click', function() {
-    grabRealTimeContent(marker.title); // Makes a call to the RPTI API via the backend based on the stop number (marker.title)
-    closeLastOpenedInfoWindow(lastOpenedBusStop);
-    // console.log(parsed_realtime_info); // Shows the array of objects that is gotten from 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + BusStopNumber
-
-    let realtime_content = setWindowContentHTML(parsed_realtime_info, marker.title);
-    // Set Window to real-time info relevant to the clicked bus stop
-    infowindow.setContent(realtime_content);
-    
-    infowindow.open(map, marker);
-    lastOpenedBusStop = infowindow;
-  })
+// Close the previous info window when a new marker is clicked
+// Both the attractions and the bus stops info windows are using this function
+function closeLastOpenedInfoWindow(lastOpened) {
+  if (lastOpened) {
+    lastOpened.close();
+  }
 }
 
-// **************** Sets the content of the info window of the marker that is clicked to relevant real-time info generated on backend ****************
+// ================================ DESTIONATION MARKER ==============================================
+// For setting destination marker (in Home tab):
+function placeDestinationMarker(latLng, map) {
+  // Destination Marker icon (currently a bullseye - will be updated at some stage)
+  var icon = {
+    url: './static/images/target.png',
+    scaledSize: new google.maps.Size(50, 50), 
+    anchor: new google.maps.Point(12.5, 12.5) 
+  };
+  // Destination Marker
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: map,
+    icon: icon
+  });
+  
+  // Clear destination marker when new location double clicked
+  setMapOnAll(null);
+  destinationMarkers = [];
+  // Add destination marker to the destination markers array (initialised at top of the script)
+  destinationMarkers.push(marker);
+
+  // Reverse Geocode the Coordinates into the Place name, so that it can then be pasted into the "Destination" input text box
+  var geocoder = new google.maps.Geocoder();
+  // Window to show place name of the destination location that was selected (double-clicked)
+  // Info window probably not important for Final Product 
+  var infowindow = new google.maps.InfoWindow();
+
+  // Function used to reverse Geocode the Coordinates into the Place name
+  // Also sets the "Destination" value to the place name and sets the content of the destination marker's info window
+  geocodeLatLng(latLng.lat(), latLng.lng(), geocoder, map, infowindow, marker);
+
+}
+
+// Converts the coordinate information of a double-clicked location on the map to its placename
+function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
+  var latlng = { lat: latitude, lng: longitude };
+  geocoder.geocode({ location: latlng }, function(results, status) {
+    if (status === "OK") {
+      if (results[0]) {
+        infowindow.setContent(results[0].formatted_address);
+        // infowindow.open(map, marker); // Open the Destination marker info window
+        // Set the value of geocodeLatLng to the inner HTML of destination
+        document.getElementById("destination-home-search").value = results[0].formatted_address;
+      } else {
+        window.alert("No results found");
+      }
+    } else {
+      window.alert("Geocoder failed due to: " + status);
+    }
+  });
+}
+
+// ================================ MARKER WINDOW REALTIME CONTENT ==============================================
+// ************************ Used to make call to the backend to handle RPTI API request (as can't be done solely on frontend due to CORS security issues) ************************
+function grabRealTimeContent(stopNum) {
+  // Function takes in the clicked bus marker's stop number as a parameter, and feeds this into the backend to use as a parameter for the RPTI API call
+  // API returns Realtime Bus info for a stop (e.g. )
+  $.ajax({
+      url: 'make_rpti_realtime_api_request', // Name of the function in views.py in the backend that requests the API
+      async: false, // AJAX call needs to be asynchronous to make the result variable (on success) available to the 'stopsInfowindow' function
+      type: 'GET', // We are making a GET request, as there is no security issues with the data we're retrieving
+      data: {
+        inputStopNum: stopNum // This is the data that is passed into by the backend via a GET request, which the backend can then use to make the relevant RPTI API call 
+      },
+      success: function(result) { // If the Request is successful (i.e. There was a request made in the backend that returned "something", BUT N.B. the response may return an EMPTY array, as no results were found)
+        // 'result' is a JsonResponse object returned from the 'make_rpti_realtime_api_request' func in views.py (effectively a json-string). 
+        console.log(result);
+        // We must now parse the string into a JSON object here.
+        parsed_realtime_info = JSON.parse(result) 
+        console.log(parsed_realtime_info);
+        // This 'parsed_realtime_info' variable is now available anywhere in the code (because the ajax function was NOT aynschronous)
+      },
+      error: function(error) { // An most likely won't arise unless the API goes down (Or perhaps is requested too many times?)
+        console.log(`Error ${error}`)
+      },
+  });
+}
+
+// **************** Creates the content of the info window of the marker that is clicked to relevant real-time info generated on backend ****************
 function setWindowContentHTML(objects, stopNum){
   // Function takes 2 parameters: 
   // 1. The array of objects (info about buses coming to the clicked bus stop)
@@ -194,123 +360,24 @@ function setWindowContentHTML(objects, stopNum){
   return outputHTML;
 }
 
-// ************************ Used to make call to the backend to handle RPTI API request (as can't be done solely on frontend due to CORS security issues) ************************
-function grabRealTimeContent(stopNum) {
-  // Function takes in the clicked bus marker's stop number as a parameter, and feeds this into the backend to use as a parameter for the RPTI API call
-  $.ajax({
-      url: 'make_rpti_realtime_api_request', // Name of the function in views.py in the backend that requests the API
-      async: false, // AJAX call needs to be asynchronous to make the result variable (on success) available to the 'stopsInfowindow' function
-      type: 'GET', // We are making a GET request, as there is no security issues with the data we're retrieving
-      data: {
-        inputStopNum: stopNum // This is the data that is passed into by the backend via a GET request, which the backend can then use to make the relevant RPTI API call 
-      },
-      success: function(result) { // If the Request is successful (i.e. There was a request made in the backend that returned "something", BUT N.B. the response may return an EMPTY array, as no results were found)
-        // 'result' is a JsonResponse object returned from the 'make_rpti_realtime_api_request' func in views.py (effectively a json-string). 
-        console.log(result);
-        // We must now parse the string into a JSON object here.
-        parsed_realtime_info = JSON.parse(result) 
-        console.log(parsed_realtime_info);
-        // This 'parsed_realtime_info' variable is now available anywhere in the code (because the ajax function was NOT aynschronous)
-      },
-      error: function(error) { // An most likely won't arise unless the API goes down (Or perhaps is requested too many times?)
-        console.log(`Error ${error}`)
-      },
-  });
+// **************** Sets the content of the info window of the marker that is clicked to relevant real-time info generated on backend ****************
+function stopsInfowindow(marker) {
+  var infowindow = new google.maps.InfoWindow();
+  marker.addListener('click', function() {
+    grabRealTimeContent(marker.title); // Makes a call to the RPTI API via the backend based on the stop number (marker.title)
+    closeLastOpenedInfoWindow(lastOpenedBusStop);
+    // console.log(parsed_realtime_info); // Shows the array of objects that is gotten from 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + BusStopNumber
+
+    let realtime_content = setWindowContentHTML(parsed_realtime_info, marker.title);
+    // Set Window to real-time info relevant to the clicked bus stop
+    infowindow.setContent(realtime_content);
+    
+    infowindow.open(map, marker);
+    lastOpenedBusStop = infowindow;
+  })
 }
 
-// ************************ CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED in "Search By Route" (outside of init function) ************************
-function showJouneyOnMap(arrOfSelectedStopObjs){
-  // Function takes an array of selected Stop Objects (referring to all the stops from start stop A to ending stop B inclusive decided by the user)
-  // This function is called by 'app.js', as app.js is where the array of selected routes is generated.
-  var markersArray = []; // variable that will hold all the markers of the journey (should (hopefully) be cleared each time so old journeys are removed from map)
-
-  for (var i = 0; i < arrOfSelectedStopObjs.length; i++) {
-    let bus_stop_obj = arrOfSelectedStopObjs[i]; // Bus Stop object
-    // let bus_stop_num = Object.keys(bus_stop_obj)[0]; // Bus Stop number
-    let bus_stop_properties = Object.values(bus_stop_obj)[0]; // Properties of bus stop (prog num, lat, long, address)
-
-    let bus_stop_lat = bus_stop_properties.latitude; // Bus Stop Latitude
-    let bus_stop_long = bus_stop_properties.longitude; // Bus Stop Longitude
-
-    let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long }; // Bus Stop LatLng object
-
-    var busStopIcon = { // WAS THINKING MAYBE WE SHOULD HAVE A DIFFERENT ICON HERE TO HIGHLIGHT THE STOPS OF THE JOURNEY
-      url: './static/images/bus_stop_icon.svg',
-      scaledSize: new google.maps.Size(25, 25), 
-      anchor: new google.maps.Point(12.5, 12.5) 
-    };
-    // Create a marker of that lat and long
-    var marker = new google.maps.Marker({
-      position: busLatLng,
-      map: map,
-      icon: busStopIcon
-    });
-    // Push each marker of the journey to the array
-    markersArray.push(marker);
-
-  }  
-  // Calls the function to display the directions on the map
-  directionsDisplay.setMap(map); 
-  calcRoute();
-}
-
-// 'arrOfCoords' comes from app.js (effectively stores the same info as 'arrOfSelectedStopObjs' (i.e. All the stops between starting and ending points of the route journey))
-// Function to draw the directions on the map
-function calcRoute() {
-  var start = new google.maps.LatLng(arrOfCoords[0].latitude,arrOfCoords[0].longitude);
-  var end = new google.maps.LatLng(arrOfCoords[arrOfCoords.length - 1].latitude,arrOfCoords[arrOfCoords.length - 1].longitude);
-  
-  console.log("CALC-ROUTE START");
-  console.log(arrOfCoords[0].latitude);
-  console.log(arrOfCoords[0].longitude);
-  console.log("CALC-ROUTE END");
-  console.log(arrOfCoords[arrOfCoords.length - 1].latitude);
-  console.log(arrOfCoords[arrOfCoords.length - 1].longitude);
-  console.log("=================================================================================================");
-  var request = {
-    origin: start,
-    destination: end,
-    travelMode: 'TRANSIT',
-    transitOptions: {
-      modes: ['BUS']
-    },
-    provideRouteAlternatives: true
-  };
-
-  directionsService.route(request, function(result, status) {
-    console.log(typeof result);
-    console.log(result);
-    console.log(result.routes);
-    console.log(result.routes[0]);
-    var selectedRoute = document.getElementById("json-routes").value;
-    var routes = result.routes;
-    for(i = 0; i < routes.length; i++) {
-      var steps = result.routes[i].legs[0].steps;
-      var transitCount = 0;
-      var busLine = '';
-      for (j = 0; j < steps.length; j++) {
-        console.log(steps[j]);
-        if (steps[j].travel_mode === "TRANSIT") {
-          transitCount++;
-          busLine = steps[j].transit.line.short_name;
-        }
-      }
-      if (transitCount == 1 && busLine == selectedRoute) {
-        if (status == 'OK') {
-          directionsDisplay.setDirections(result);
-          directionsDisplay.setRouteIndex(i);
-        } else {
-          window.alert('Directions request failed due to ' + status);
-        }
-      } else {
-        initMap();
-        window.alert('Directions not found.');
-      }
-      break;
-    }
-  });
-}
-
+// ================================ HOME ==============================================
 // Display the user's location when switch button is on, clear the origin field when off
 // Called when switch button changes
 function fillUsersLocation() {
@@ -489,159 +556,102 @@ $("#home-submit").click(function(e) {
   }
   
 });
+// ================================ SEARCH BY ROUTE ==============================================
 
-// Array that will be used for the switch button that displays the attractions
-// When the switch is off, it uses this array to remove the markers
-var attractionsArray = []
+// ************************ CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED in "Search By Route" (outside of init function) ************************
+function showJouneyOnMap(arrOfSelectedStopObjs){
+  // Function takes an array of selected Stop Objects (referring to all the stops from start stop A to ending stop B inclusive decided by the user)
+  // This function is called by 'app.js', as app.js is where the array of selected routes is generated.
+  var markersArray = []; // variable that will hold all the markers of the journey (should (hopefully) be cleared each time so old journeys are removed from map)
 
-// The switch button calls this function on change to display the attractions on the map
-function displayAttractions() {
-  setMapDublin(); // Center the map in Dublin
-  // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false
-  if (switchValue) { 
-    // Loop through the attractions in the JSON file and add marker for each to the map
-    for (i = 0; i < attractions.length; i++) {
-      var latitude = parseFloat(attractions[i].latitude);
-      var longitude = parseFloat(attractions[i].longitude);
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(latitude, longitude),
-        title: attractions[i].title,
-        map: map
-      });
-      // Add on click info windows to each attraction
-      attractionsInfowindow(marker, attractions[i].title);
-      
-      attractionsArray.push(marker);
+  for (var i = 0; i < arrOfSelectedStopObjs.length; i++) {
+    let bus_stop_obj = arrOfSelectedStopObjs[i]; // Bus Stop object
+    // let bus_stop_num = Object.keys(bus_stop_obj)[0]; // Bus Stop number
+    let bus_stop_properties = Object.values(bus_stop_obj)[0]; // Properties of bus stop (prog num, lat, long, address)
+
+    let bus_stop_lat = bus_stop_properties.latitude; // Bus Stop Latitude
+    let bus_stop_long = bus_stop_properties.longitude; // Bus Stop Longitude
+
+    let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long }; // Bus Stop LatLng object
+
+    var busStopIcon = { // WAS THINKING MAYBE WE SHOULD HAVE A DIFFERENT ICON HERE TO HIGHLIGHT THE STOPS OF THE JOURNEY
+      url: './static/images/bus_stop_icon.svg',
+      scaledSize: new google.maps.Size(25, 25), 
+      anchor: new google.maps.Point(12.5, 12.5) 
     };
-  } else {
-    // When switch is off, remove all the attraction makers from the map
-    for (i = 0; i < attractionsArray.length; i++) {
-      attractionsArray[i].setMap(null);
-    };
-  };
-};
+    // Create a marker of that lat and long
+    var marker = new google.maps.Marker({
+      position: busLatLng,
+      map: map,
+      icon: busStopIcon
+    });
+    // Push each marker of the journey to the array
+    markersArray.push(marker);
 
-// Display info window for each attraction
-function attractionsInfowindow (marker, title) {
-  var infowindow = new google.maps.InfoWindow({
-    maxWidth: 250
-  });
-  marker.addListener('click', function() {
-    // Function to check whether there is an opened info window, if so closes it
-    closeLastOpenedInfoWindow(lastOpenedAttraction);
-
-    var summary, image, url, latitude, longitude;
-
-    // Loop through the JSON file to get attractions information
-    for (i = 0; i < attractions.length; i++) {
-      if (title == attractions[i].title) {
-        summary = attractions[i].summary;
-        image = attractions[i].image;
-        url = attractions[i].url;
-        latitude = attractions[i].latitude;
-        longitude = attractions[i].longitude;
-      }
-    }
-    // Content to display in the info window
-    var contentString = '<div class="attractions-infowindow">' +
-    '<div class="attractions-content">'+
-    '<h4 class="attractions-title">' + title + '</h4>'+
-    '<a href="#" onclick="calcRouteToAttraction(' + latitude + ', ' + longitude + ')">Directions</a>'+
-    '<div class="attractions-image"><img src="' + image + '" alt="' + title + '" style="max-width:250px; max-height:250px;"></div>' + 
-    '<div id="attractions-bodyContent">'+
-    '<p class="attractions-summary">' + summary + '&nbsp;<a href="' + url + '">More Info</a></p>'+
-    '</div>'+
-    '</div>';
-    infowindow.setContent(contentString);
-    infowindow.open(map, marker);
-    lastOpenedAttraction = infowindow;
-
-  });
+  }  
+  // Calls the function to display the directions on the map
+  directionsDisplay.setMap(map); 
+  calcRoute();
 }
 
-function calcRouteToAttraction(latitude, longitude) {
-  closeLastOpenedInfoWindow(lastOpenedAttraction);
-  // set 'origin-home-search' to the User's current location
-  getUsersLocation();
-  // set 'destination-home-search' to the User's current location
-  var geocoder = new google.maps.Geocoder();
-  var latlng = { lat: latitude, lng: longitude };
-  geocoder.geocode({ location: latlng }, function(results, status) {
-    if (status === "OK") {
-      if (results[0]) {
-        // Set the value of geocodeLatLng to the inner HTML of destination
-        document.getElementById("destination-home-search").value = results[0].formatted_address;
-        // Click the submit button to show the journey/directions from the User's location to the attraction
-        document.getElementById("home-submit").click();
-      } else {
-        window.alert("No results found");
-      }
-    } else {
-      window.alert("Geocoder failed due to: " + status);
-    }
-  });
-}
-
-// Close the previous info window when a new marker is clicked
-// Both the attractions and the bus stops info windows are using this function
-function closeLastOpenedInfoWindow(lastOpened) {
-  if (lastOpened) {
-    lastOpened.close();
-  }
-}
-
-// For setting destination marker (in Home tab):
-function placeDestinationMarker(latLng, map) {
-  // Destination Marker icon (currently a bullseye - will be updated at some stage)
-  var icon = {
-    url: './static/images/target.png',
-    scaledSize: new google.maps.Size(50, 50), 
-    anchor: new google.maps.Point(12.5, 12.5) 
-  };
-  // Destination Marker
-  var marker = new google.maps.Marker({
-    position: latLng,
-    map: map,
-    icon: icon
-  });
+// 'arrOfCoords' comes from app.js (effectively stores the same info as 'arrOfSelectedStopObjs' (i.e. All the stops between starting and ending points of the route journey))
+// Function to draw the directions on the map
+function calcRoute() {
+  var start = new google.maps.LatLng(arrOfCoords[0].latitude,arrOfCoords[0].longitude);
+  var end = new google.maps.LatLng(arrOfCoords[arrOfCoords.length - 1].latitude,arrOfCoords[arrOfCoords.length - 1].longitude);
   
-  // Clear destination marker when new location double clicked
-  setMapOnAll(null);
-  destinationMarkers = [];
-  // Add destination marker to the destination markers array (initialised at top of the script)
-  destinationMarkers.push(marker);
+  console.log("CALC-ROUTE START");
+  console.log(arrOfCoords[0].latitude);
+  console.log(arrOfCoords[0].longitude);
+  console.log("CALC-ROUTE END");
+  console.log(arrOfCoords[arrOfCoords.length - 1].latitude);
+  console.log(arrOfCoords[arrOfCoords.length - 1].longitude);
+  console.log("=================================================================================================");
+  var request = {
+    origin: start,
+    destination: end,
+    travelMode: 'TRANSIT',
+    transitOptions: {
+      modes: ['BUS']
+    },
+    provideRouteAlternatives: true
+  };
 
-  // Reverse Geocode the Coordinates into the Place name, so that it can then be pasted into the "Destination" input text box
-  var geocoder = new google.maps.Geocoder();
-  // Window to show place name of the destination location that was selected (double-clicked)
-  // Info window probably not important for Final Product 
-  var infowindow = new google.maps.InfoWindow();
-
-  // Function used to reverse Geocode the Coordinates into the Place name
-  // Also sets the "Destination" value to the place name and sets the content of the destination marker's info window
-  geocodeLatLng(latLng.lat(), latLng.lng(), geocoder, map, infowindow, marker);
-
-}
-
-// Converts the coordinate information of a double-clicked location on the map to its placename
-function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
-  var latlng = { lat: latitude, lng: longitude };
-  geocoder.geocode({ location: latlng }, function(results, status) {
-    if (status === "OK") {
-      if (results[0]) {
-        infowindow.setContent(results[0].formatted_address);
-        // infowindow.open(map, marker); // Open the Destination marker info window
-        // Set the value of geocodeLatLng to the inner HTML of destination
-        document.getElementById("destination-home-search").value = results[0].formatted_address;
-      } else {
-        window.alert("No results found");
+  directionsService.route(request, function(result, status) {
+    console.log(typeof result);
+    console.log(result);
+    console.log(result.routes);
+    console.log(result.routes[0]);
+    var selectedRoute = document.getElementById("json-routes").value;
+    var routes = result.routes;
+    for(i = 0; i < routes.length; i++) {
+      var steps = result.routes[i].legs[0].steps;
+      var transitCount = 0;
+      var busLine = '';
+      for (j = 0; j < steps.length; j++) {
+        console.log(steps[j]);
+        if (steps[j].travel_mode === "TRANSIT") {
+          transitCount++;
+          busLine = steps[j].transit.line.short_name;
+        }
       }
-    } else {
-      window.alert("Geocoder failed due to: " + status);
+      if (transitCount == 1 && busLine == selectedRoute) {
+        if (status == 'OK') {
+          directionsDisplay.setDirections(result);
+          directionsDisplay.setRouteIndex(i);
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      } else {
+        initMap();
+        window.alert('Directions not found.');
+      }
+      break;
     }
   });
 }
+
+// ================================ SEARCH BY BUS STOP ==============================================
 
 // Function to display the full journeys of all routes serviced by the bus stop
 $("#show-all-routes-serviced").click(function(e) {
