@@ -1,15 +1,19 @@
-
-$(document).ready(function() { // (Not sure why but only works when inside this document.ready jQuery function)
-  // Onclick Event for Button to Toggle the Map View
-  // BUT DOESN'T WORK WHEN YOU PLAN YOUR ROUTE WITH SEARCH BY ROUTE!
-  $('#toggle-nightmode').click(function() {
-    if (map.mapTypeId !== "hybrid") {
-      map.setMapTypeId(google.maps.MapTypeId.HYBRID); // Hybrid = Satelite view of map
-    } else{
-      map.setMapTypeId(google.maps.MapTypeId.ROADMAP); // Roadmap = default/regular view of map
-    }
+// **************** Change Map Style ****************
+function changeMapStyle(json_filename) {
+  // Onclick Event for Button to Toggle the Map Style Dynamically
+  // Function used by a button elements
+  $.ajax({
+      url: './static/google_map_styles/' + json_filename + '.json', 
+      async: false,
+      dataType: 'json',
+      success: function (json_style) {
+        map.setOptions({styles: json_style});
+      },
+      error: function(error) { // An error most likely won't arise unless we mess with the JSON data or path
+        console.log(`Error ${error}`);
+      },
   });
-});
+}
 
 // **************** Initialise many of the variables (to make them global and accessible by different functions that don't have scope on them) ****************
 var map;

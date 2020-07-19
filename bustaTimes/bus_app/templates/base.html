@@ -29,14 +29,21 @@
         
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    <!-- Home -->
                     <li class="nav-item">
-                    <a class="nav-link active" href="#" onclick="navbarDisplay(event, 'home-search-container')">Home<span class="sr-only">(current)</span></a>
+                        <a class="nav-link active" href="#" onclick="navbarDisplay(event, 'home-search-container')">Home<span class="sr-only">(current)</span></a>
                     </li>
+                    <!-- Search by Route -->
                     <li class="nav-item ">
-                    <a class="nav-link" href="#" onclick="navbarDisplay(event, 'search-by-route-container')">Search by Route</a>
+                        <a class="nav-link" href="#" onclick="navbarDisplay(event, 'search-by-route-container')">Search by Route</a>
                     </li>
+                    <!-- Search by Bus Stop -->
                     <li class="nav-item ">
-                    <a class="nav-link" href="#" id="search-by-stop-nav" onclick="navbarDisplay(event, 'bus-stop-search-container')">Search by Bus Stop</a>
+                        <a class="nav-link" href="#" id="search-by-stop-nav" onclick="navbarDisplay(event, 'bus-stop-search-container')">Search by Bus Stop</a>
+                    </li>
+                    <!-- Check Leap Card Balance -->
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#" id="check-balance-nav" onclick="navbarDisplay(event, 'leap-card-balance-container')">Check Balance</a>
                     </li>
                 </ul>
             </div>
@@ -64,8 +71,9 @@
             </div>
             <!-- *************** Container for content of ALL Tabs *************** -->
             <div class="col-md-auto">
+
                 <!-- ********** Home Menu ********** -->
-                <div id='home-search-container' class="container centre-and-padding tabcontent">
+                <div id='home-search-container' class="container centre-and-padding tabcontent display-container">
                     <h3>Plan Your Trip</h3>
                     <!-- Form containing "Origin" and "Destination" text inputs -->
                     <form>
@@ -87,8 +95,9 @@
                     <!-- Container for the selected journey's trip details-->
                     <div id="journey-details" class="container"></div>
                 </div>
+                
                 <!-- ********** Search by Route Menu ********** -->
-                <div id='search-by-route-container' class="container centre-and-padding tabcontent">
+                <div id='search-by-route-container' class="container centre-and-padding tabcontent hidden-display-container">
                     <h3>Plan Your Trip</h3>
                     <!-- Route Dropdown -->
                     <label for="route-dropdown">Select Route:</label>
@@ -117,7 +126,7 @@
                 </div>
                 
                 <!-- ********** Search by Bus Stop Menu ********** -->
-                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent">
+                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent hidden-display-container">
                     <h3>Plan Your Trip</h3>
                     <form>
                         <label for="origin">Bus Stop:</label><br>
@@ -128,15 +137,37 @@
                         <div class="container" id="match-list"></div>
                     </form>
                 </div>
+
+                <!-- ********** See Leap Card ********** -->
+                <div id="leap-card-balance-container" class="container centre-and-padding tabcontent hidden-display-container">
+                    <h2>Fill in Leap Card Credentials to see Balance</h2>
+                    <form id="leap-card-form" method="POST" action="leap_card_info" >
+                        {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
+                        <p>Username</p>
+                        <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
+                        <p>Password</p>
+                        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
+                        <!-- Testing out Submit Buttons below -->
+                        <input id="show-balance" type="submit" class='btn btn-outline-light' value="Show Balance">
+
+                        <p id="balance-paragraph"></p>
+                        <a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Toggle Map View Button -->
-    <!-- LATER WILL INCORPORATE "NIGHT-MODE" RATHER THAN "HYBRID", AS THIS IS ALREADY AVAILABLE ON THE PHYSICAL MAP (i.e. Satellite) -->
-    <button id="toggle-nightmode">Hybrid Mode</button>
-
-    <!-- ********** Leap Card Registration/Login ********** -->
+    <!-- ********** Toggle Map Style Buttons ********** -->
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <!-- <button id="standard" onclick="changeMapStyle(this.id)" class="">Standard</button> -->
+        <button id="night_mode" onclick="changeMapStyle(this.id)" class="btn btn-dark" data-toggle="button">Night</button>
+        <button id="subtle_grayscale" onclick="changeMapStyle(this.id)" class="btn btn-light" data-toggle="button">Grayscale</button>
+        <button id="retro" onclick="changeMapStyle(this.id)" class="btn btn-warning" data-toggle="button">Retro</button>
+        <button id="green" onclick="changeMapStyle(this.id)" class="btn btn-success" data-toggle="button">Green</button>
+    </div>
+    
+    {% comment %} <!-- ********** Leap Card Registration/Login ********** -->
     <!-- PERHAPS SHOULD BE INCLUDED AS A TAB INSTEAD -->
     <div id="leap-card-div" class="container">
         <h2>Fill in Leap Card Credentials to see Balance</h2>
@@ -152,7 +183,7 @@
             <p id="balance-paragraph"></p>
             <a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a>
         </form>
-    </div>
+    </div> {% endcomment %}
     
     <!-- Storing the Routes in a dropdown -->
     {% comment %} {% block select_routes_content %} {% endblock %} {% endcomment %}
