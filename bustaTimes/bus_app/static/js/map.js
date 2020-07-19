@@ -17,8 +17,7 @@ var map;
 var directionsService; 
 var directionsDisplay; 
 // Next 2 variables are to control window closure;
-var lastOpenedAttraction; // Variable to keep track of the current opened info window for the attractions
-var lastOpenedBusStop; // Variable to keep track of the current opened info window for the bus stops
+var lastOpenedInfoWindow; // Variable to keep track of the current opened info window
 // Global Markers for hiding
 var global_markers = [];
 
@@ -213,7 +212,7 @@ function attractionsInfowindow (marker, title) {
   });
   marker.addListener('click', function() {
     // Function to check whether there is an opened info window, if so closes it
-    closeLastOpenedInfoWindow(lastOpenedAttraction);
+    closeLastOpenedInfoWindow(lastOpenedInfoWindow);
 
     var summary, image, url, latitude, longitude;
 
@@ -239,13 +238,13 @@ function attractionsInfowindow (marker, title) {
     '</div>';
     infowindow.setContent(contentString);
     infowindow.open(map, marker);
-    lastOpenedAttraction = infowindow;
+    lastOpenedInfoWindow = infowindow;
 
   });
 }
 
 function calcRouteToAttraction(latitude, longitude) {
-  closeLastOpenedInfoWindow(lastOpenedAttraction);
+  closeLastOpenedInfoWindow(lastOpenedInfoWindow);
   // set 'origin-home-search' to the User's current location
   getUsersLocation();
   // set 'destination-home-search' to the User's current location
@@ -378,7 +377,7 @@ function stopsInfowindow(marker) {
   var infowindow = new google.maps.InfoWindow();
   marker.addListener('click', function() {
     grabRealTimeContent(marker.title); // Makes a call to the RPTI API via the backend based on the stop number (marker.title)
-    closeLastOpenedInfoWindow(lastOpenedBusStop);
+    closeLastOpenedInfoWindow(lastOpenedInfoWindow);
     // console.log(parsed_realtime_info); // Shows the array of objects that is gotten from 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + BusStopNumber
 
     let realtime_content = setWindowContentHTML(parsed_realtime_info, marker.title);
@@ -386,7 +385,7 @@ function stopsInfowindow(marker) {
     infowindow.setContent(realtime_content);
     
     infowindow.open(map, marker);
-    lastOpenedBusStop = infowindow;
+    lastOpenedInfoWindow = infowindow;
   })
 }
 
