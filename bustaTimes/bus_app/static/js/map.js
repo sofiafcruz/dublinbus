@@ -21,6 +21,7 @@ var lastOpenedInfoWindow; // Variable to keep track of the current opened info w
 // Global Markers for hiding
 var global_markers = [];
 var markerCluster;
+var journeyMarker;
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
@@ -602,6 +603,10 @@ function showJouneyOnMap(arrOfSelectedStopObjs){
   // Function takes an array of selected Stop Objects (referring to all the stops from start stop A to ending stop B inclusive decided by the user)
   // This function is called by 'app.js', as app.js is where the array of selected routes is generated.
   var markersArray = []; // variable that will hold all the markers of the journey (should (hopefully) be cleared each time so old journeys are removed from map)
+  console.log(markersArray);
+  for (var i = 0; i < markersArray.length; i++) {
+    markersArray[i].setMap(null);
+  }
 
   for (var i = 0; i < arrOfSelectedStopObjs.length; i++) {
     let bus_stop_obj = arrOfSelectedStopObjs[i]; // Bus Stop object
@@ -619,13 +624,13 @@ function showJouneyOnMap(arrOfSelectedStopObjs){
       anchor: new google.maps.Point(12.5, 12.5) 
     };
     // Create a marker of that lat and long
-    var marker = new google.maps.Marker({
+    journeyMarker = new google.maps.Marker({
       position: busLatLng,
       map: map,
       icon: busStopIcon
     });
     // Push each marker of the journey to the array
-    markersArray.push(marker);
+    markersArray.push(journeyMarker);
 
   }  
   // Calls the function to display the directions on the map
@@ -638,13 +643,12 @@ function showJouneyOnMap(arrOfSelectedStopObjs){
 function calcRoute() {
   var start = new google.maps.LatLng(arrOfCoords[0].latitude,arrOfCoords[0].longitude);
   var end = new google.maps.LatLng(arrOfCoords[arrOfCoords.length - 1].latitude,arrOfCoords[arrOfCoords.length - 1].longitude);
-  
-  console.log("CALC-ROUTE START");
-  console.log(arrOfCoords[0].latitude);
-  console.log(arrOfCoords[0].longitude);
-  console.log("CALC-ROUTE END");
-  console.log(arrOfCoords[arrOfCoords.length - 1].latitude);
-  console.log(arrOfCoords[arrOfCoords.length - 1].longitude);
+  // console.log("Calc-Route-Start");
+  // console.log(arrOfCoords[0].latitude);
+  // console.log(arrOfCoords[0].longitude);
+  // console.log("Calc-Route-End");
+  // console.log(arrOfCoords[arrOfCoords.length - 1].latitude);
+  // console.log(arrOfCoords[arrOfCoords.length - 1].longitude);
   console.log("=================================================================================================");
   var request = {
     origin: start,
@@ -657,10 +661,10 @@ function calcRoute() {
   };
 
   directionsService.route(request, function(result, status) {
-    console.log(typeof result);
-    console.log(result);
-    console.log(result.routes);
-    console.log(result.routes[0]);
+    // console.log(typeof result);
+    // console.log(result);
+    console.log(result.routes); // GETS AN ARRAY OF 4 RESULTS EVERY TIME??? ((4) [{…}, {…}, {…}, {…}])
+    // console.log(result.routes[0]);
     var selectedRoute = document.getElementById("json-routes").value;
     var routes = result.routes;
     for(i = 0; i < routes.length; i++) {
