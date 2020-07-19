@@ -20,6 +20,7 @@ var directionsDisplay;
 var lastOpenedInfoWindow; // Variable to keep track of the current opened info window
 // Global Markers for hiding
 var global_markers = [];
+var markerCluster;
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
@@ -131,24 +132,35 @@ function initMap() {
     });
 
     // Add a marker clusterer to manage the markers.
-    var markerCluster = new MarkerClusterer(map, markers,
-      {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
+    markerCluster = new MarkerClusterer(map, markers,
+      {ignoreHidden: true,
+        imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
     );
   });
-
-  // Sets the map on all markers in the array.
-  function setMapOnAll(map, markersToHide) {
-    for (var i = 0; i < markersToHide.length; i++) {
-      markersToHide[i].setMap(map);
-    }
-  }
 }
 
-// Removes the markers from the map, but keeps them in the array. (NOT WORKING)
+// **************** Toggle Hide/Show all map markers (and clusters) ****************
+// Calls another function to remove the markers from the map
 function clearMarkers() {
-  console.log("Hello");
-  setMapOnAll(null, global_markers);
-  console.log("Goodbye");
+  // console.log(global_markers[0]["visible"]);
+  toggleMarkerVisibility(global_markers);
+}
+
+// Sets the map on all markers in the array.
+function toggleMarkerVisibility(markersToHide) {
+  // If the first marker in the array of markers is visible, then they are all visible
+  if (markersToHide[0]["visible"]) {
+    // Therefore, set each marker in the array's visibility to false
+    for (var i = 0; i < markersToHide.length; i++) {
+      markersToHide[i].setVisible(false);
+    }
+  } else {
+    // else they're all not visible, so make them visible
+    for (var i = 0; i < markersToHide.length; i++) {
+      markersToHide[i].setVisible(true);
+    }
+  }
+  markerCluster.repaint(); // Show OR Hide the Marker cluster (depending on whichever condition passed)
 }
 
 // Toggles to User's Location
@@ -164,6 +176,7 @@ function panToUsersLocation() {
       let user_coords = position.coords;
       var userLatLng = new google.maps.LatLng(user_coords.latitude, user_coords.longitude);
       // console.log(userLatLng);
+      // FOR SOME REASON WE CAN'T JUST RETURN THE USERS' LOCATION
       map.panTo(userLatLng);
     });
   } else { 
