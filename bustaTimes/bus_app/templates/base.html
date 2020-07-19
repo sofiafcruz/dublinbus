@@ -138,15 +138,18 @@
 
     <!-- ********** Leap Card Registration/Login ********** -->
     <!-- PERHAPS SHOULD BE INCLUDED AS A TAB INSTEAD -->
-    <div id="login-div" class="container">
+    <div id="leap-card-div" class="container">
         <h2>Fill in Leap Card Credentials to see Balance</h2>
-        <form method="POST" action="leap_card_info" >
+        <form id="leap-card-form" method="POST" action="leap_card_info" >
             {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
             <p>Username</p>
             <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
             <p>Password</p>
             <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
-            <input type="submit" value="Login">
+            <!-- Testing out Submit Buttons below -->
+            <input id="show-balance" type="submit" value="Show Balance">
+
+            <p id="balance-paragraph"></p>
             <a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a>
         </form>
     </div>

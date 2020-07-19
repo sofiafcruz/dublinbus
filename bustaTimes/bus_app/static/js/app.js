@@ -1,4 +1,25 @@
-// ================================ SEARCH BY ROUTE ==============================================
+// ================================ OTHER ================================
+// ********** On clicking "Show Balance" show User's Leap Card Balance (i.e. grab all the stops) **********
+var leap_card_form = $('#leap-card-form');
+leap_card_form.submit(function () {
+    $.ajax({
+        type: leap_card_form.attr('method'), // POST
+        url: leap_card_form.attr('action'), // leap_card_info
+        data: leap_card_form.serialize(), // Get values of both inputUsername and inputPassword
+        async: false,
+        success: function (data) {
+            $("#balance-paragraph").text("Your Balance is: " + data);
+        },
+        error: function(error) {
+            console.log("Something went wrong!");
+            console.log(error);
+            $("#balance-paragraph").innerHTML = "Something went wrong...";
+        }
+    });
+    return false; // Stop the page from Reloading
+});
+
+// ================================ SEARCH BY ROUTE ================================
 // ********** Route Dropdown **********
 $(document).ready(function(){
     // On page load, populate the Route Dropdown in 'Search by Route' section

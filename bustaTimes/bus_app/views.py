@@ -126,7 +126,7 @@ def show_modelform_route(request):
 def leap_card_info(request):
     if request.method =='POST':
         print("IT'S A POST")
-        print(request.POST) 
+        print(request.POST) # <QueryDict: {'csrfmiddlewaretoken': ['iGxFd71LhQcFutlpl65rExOFsGK2wgipLeIcQRtC83UhgAuuZ7YAj8kXq9cishIL'], 'inputUsername': ['X'], 'inputPassword': ['Y']}>
         leap_card_username = request.POST["inputUsername"]
         leap_card_password = request.POST["inputPassword"]
         print(f"User entered the following credentials;\n=============================\nUsername: {leap_card_username}, Password: {leap_card_password}")
@@ -138,7 +138,8 @@ def leap_card_info(request):
         print("IT'S A GET")
     else:
         print("Not a post or a get")
-    return HttpResponse(f"Your Leap Card Balance is: \n{balance}")
+
+    return JsonResponse(balance, safe=False)
 
 def make_rpti_realtime_api_request(request):
     if request.method =='GET':
