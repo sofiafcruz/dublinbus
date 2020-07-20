@@ -111,6 +111,28 @@ function generateStopArray() {
     // Now I think I should return the Stop coords?
 }
 
+// ********** DateTime Dropdown **********
+// ***** DATE *****
+// Create dates for today and next 4 days
+var day1 = new Date(); // i.e. Today's date
+var day2 = new Date();
+day2.setDate(day1.getDate() + 1) // i.e. Tomorrow's date etc
+var day3 = new Date();
+day3.setDate(day2.getDate() + 1)
+var day4 = new Date();
+day4.setDate(day3.getDate() + 1)
+var day5 = new Date();
+day5.setDate(day4.getDate() + 1)
+
+// Display dates in select options        
+document.getElementById("prediction-date-1").innerHTML = day1.toDateString() + " (Today)";
+document.getElementById("prediction-date-2").innerHTML = day2.toDateString() + " (Tomorrow)";
+document.getElementById("prediction-date-3").innerHTML = day3.toDateString();
+document.getElementById("prediction-date-4").innerHTML = day4.toDateString();
+document.getElementById("prediction-date-5").innerHTML = day5.toDateString();
+
+// ***** TIME *****
+
 // ================================ SEARCH BY BUSSTOP ================================
 // ********** On clicking "Search by Bus Stop" nav option, load JSON file (i.e. grab all the stops) **********
 $("#search-by-stop-nav").click(function() {

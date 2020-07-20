@@ -121,6 +121,22 @@
                             <label for="ending-dropdown">Select End Stop:</label><br>
                             <select name="" id="json-ending-stops"></select>
                         </div>
+                        <!-- Choose Date Dropdown -->
+                        <div id="date-selector-container">
+                            <label for="date-dropdown">Select Date:</label><br>
+                            <select id="date-selector">
+                                <option id="prediction-date-1"></option>
+                                <option id="prediction-date-2"></option>
+                                <option id="prediction-date-3"></option>
+                                <option id="prediction-date-4"></option>
+                                <option id="prediction-date-5"></option>
+                            </select>
+                        </div>
+                        <div id="time-selector-container" class="md-form md-outline input-with-post-icon timepicker" twelvehour="true">
+                            <label for="choose-time">Select a time:</label>
+                            <input type="time" id="choose-time" name="choose-time">
+                        </div>
+
                         <button class='btn btn-outline-light' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
                     </div>
                 </div>
