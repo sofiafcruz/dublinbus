@@ -206,10 +206,18 @@ function displayAttractions() {
     for (i = 0; i < attractions.length; i++) {
       var latitude = parseFloat(attractions[i].latitude);
       var longitude = parseFloat(attractions[i].longitude);
+      var iconName = attractions[i].icon;
+      var url = './static/images/attractions/' + iconName + '.svg';
+      var icon = {
+        url: url,
+        scaledSize: new google.maps.Size(50, 50), 
+        anchor: new google.maps.Point(20, 40) 
+      };
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(latitude, longitude),
         title: attractions[i].title,
-        map: map
+        map: map,
+        icon: icon
       });
       // Add on click info windows to each attraction
       attractionsInfowindow(marker, attractions[i].title);
