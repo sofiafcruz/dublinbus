@@ -47,6 +47,15 @@
                     </li>
                 </ul>
             </div>
+            <!-- Login/Logout and Greeting Banner-->
+            <div>
+                {% if user.is_authenticated %}
+                    <span id="greeting-banner">Hello, {{ request.user }}</span>
+                    <li><a class="navbar-link" href="{% url 'logoutUser' %}">Logout</a></li>
+                {% else %}
+                    <li><a class="navbar-link" href="{% url 'loginPage' %}">Login</a></li>
+                {% endif %}
+            </div>
         </nav>
         <div id="weather-container">  
             <span id="temperature" style="padding-right: 20px;"></span> 

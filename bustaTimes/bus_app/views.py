@@ -13,6 +13,7 @@ google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 
 # Create your views here.
 
+# @login_required(login_url='login) # DON'T THINK WE'LL NEED THIS
 def index(request):
     all_routes = Route.objects.all()
     all_stops = BusStop.objects.all()
@@ -192,3 +193,90 @@ def make_rpti_realtime_api_request(request):
     json_string = json.dumps(realtime_info_response)
     return JsonResponse(json_string, safe=False)
     # return HttpResponse("Trying to access 3rd Party data")
+
+# ===================================================
+# USER LOGIN AND REGISTRATION (To be worked on later)
+# ===================================================
+
+from django.contrib.auth.forms import UserCreationForm 
+# ^ Handles things like making sure no duplicate usernames, that passwords are hashed etc
+# HOWEVER, only issue is it doesn't require a password.
+# Therefore, we'll create a variation of it in our forms.py file.
+from .forms import CreateUserForm
+
+from django.shortcuts import redirect
+# ^ redirect to new webpage
+
+from django.contrib import messages
+# ^ Flash message is a way to send one-time message to the template
+
+from django.contrib.auth import authenticate, login, logout
+
+from django.contrib.auth.decorators import login_required
+# ^
+
+def registerPage(request):
+    # If the user is authenticated, then redirect them to the home page
+    if request.user.is_authenticated:
+        return redirect('HOME_PAGE')
+        # return redirect('index.html')
+    else:
+        # create_form = UserCreationForm()
+        create_form = CreateUserForm()
+
+        if request.method == 'POST':
+            # Post data = Username, Password and Conrfirmed password
+            # Render the form again and pass in the user data into the form
+            # create_form = UserCreationForm(request.POST)
+
+            # Post data = Username, Password, Conrfirmed password AND EMAIL!!
+            # Render the form again and pass in the user data into the form
+            create_form = CreateUserForm(request.POST)
+
+            if create_form.is_valid():
+                # Then save the User
+                create_form.save() 
+                # Show appropriate Success Message
+                username = create_form.cleaned_data["username"]
+                print(create_form.cleaned_data)
+                print(username)
+                messages.success(request, "Account was created for:", username)
+
+                # Then redirect them to the login page
+                return redirect('loginPage')
+
+        context = {'create_form': create_form}
+        return render(request, 'register.html', context)
+
+def loginPage(request):
+    # If the user is authenticated, then redirect them to the home page
+    if request.user.is_authenticated:
+        return redirect('index')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            # If user IS authenticated, then attach them to the current sessopm
+            if user is not None:
+                login(request, user) # Saves user's ID in the session
+                return redirect('index')
+            else:
+                # Message below for debugging purposes
+                print("Someone tried to login and failed")
+                print("**************************************")
+                print(f"Tried logging in with;\nUsername: {username}\nPassword: {password}")
+                print("**************************************")
+                # return flash message
+                messages.info(request, "Username OR password is incorrect")
+        
+        context = {}
+        return render(request, 'login.html', context)
+
+@login_required
+def logoutUser(request):
+    logout(request) # doesn’t throw any errors if the user wasn’t logged in (so need to make sure it works perfectly)
+    # return redirect('loginPage')
+    return redirect('index')
