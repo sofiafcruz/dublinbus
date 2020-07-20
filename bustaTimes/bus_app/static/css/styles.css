@@ -117,3 +117,8 @@ html, body {
       right: -5px;
     }
   }
+
+#greeting-banner {
+    margin: 1rem;
+    color: red;
+}

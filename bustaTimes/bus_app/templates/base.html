@@ -49,12 +49,25 @@
             </div>
             <!-- Login/Logout and Greeting Banner-->
             <div>
+                <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
+                    <!-- Greeting Banner -->
                     <span id="greeting-banner">Hello, {{ request.user }}</span>
-                    <li><a class="navbar-link" href="{% url 'logoutUser' %}">Logout</a></li>
+                    <!-- Logout Link -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
+                    </li>
                 {% else %}
-                    <li><a class="navbar-link" href="{% url 'loginPage' %}">Login</a></li>
+                    <!-- Login Link -->
+                    <li>
+                        <a class="nav-link" href="{% url 'loginPage' %}">Login</a>
+                    </li>
+                    <!-- Register Link -->
+                    <li>
+                        <a class="nav-link" href="{% url 'registerPage' %}">Register</a>
+                    </li>
                 {% endif %}
+                </ul>
             </div>
         </nav>
         <div id="weather-container">  
