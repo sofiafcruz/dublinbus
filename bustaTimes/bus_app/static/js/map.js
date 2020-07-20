@@ -26,6 +26,7 @@ var lastOpenedInfoWindow; // Variable to keep track of the current opened info w
 var global_markers = [];
 var markerCluster;
 var journeyMarker;
+var destinationMarker;
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
@@ -54,7 +55,7 @@ function initMap() {
     anchor: new google.maps.Point(12.5, 12.5) 
   };
   // Destination Marker
-  var destinationMarker = new google.maps.Marker({
+  destinationMarker = new google.maps.Marker({
     position: null, // Initially set to null (until map double clicked)
     map: map,
     icon: icon
@@ -554,7 +555,7 @@ function setJourneyToNull(){
   // Remove the rendered Journey
   directionsDisplay.setMap(null);
   // Remove the Destination Marker
-  // destinationMarker.setPosition(null); // Not working (No scope on destination marker)
+  destinationMarker.setPosition(null); // Not working (No scope on destination marker)
 }
   
 
