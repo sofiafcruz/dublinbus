@@ -16,9 +16,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> 
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
+    <!-- Nav Bar -->
     <div class="d-flex justify-content-between header align-items-center fixed-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,27 +47,37 @@
             <span id="temperature" style="padding-right: 20px;"></span> 
         </div>
     </div>
-    <div class="container-fluid">
+    <div id="window_size" class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="Main_container col-12">
                 <!-- Map -->
-                <div id="map" style="height:500px; width:100%"></div>
+                <div id="map"></div>
                 <!-- Switch button to show the attractions -->
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input" id="customSwitch1" onchange="displayAttractions()">
                     <label class="custom-control-label" for="customSwitch1">Display Attractions</label>
                 </div>
-            </div>
-            <div class="col-md-auto">
+            <!-- </div> -->
+            <!-- <div class="col-md-auto"> -->
                 
                 <!-- Menu for the Home page -->
-                <div id='home-search-container' class="container centre-and-padding tabcontent">
+
+                <div class="Search-Menu-Container">
+                    <div class="tab">
+                        <button class="tablinks" onclick="openCity(event, 'ByLocation')" id="defaultOpen">By Location</button>
+                        <button class="tablinks" onclick="openCity(event, 'ByRoute')">By Route</button>
+                        <button class="tablinks" onclick="openCity(event, 'ByStop')">By Bus Stop</button>
+                    </div> 
+
+                <div id='ByLocation' class="container centre-and-padding tabcontent">
                     <h3>Plan Your Trip</h3>
                     <form>
                         <div class="form-group">
                             <label for="origin">Origin:</label>
-                            <input type="text" class="form-control" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point">
-                            <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />
+                            <div id="Location_Set">
+                                <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />
+                                <input type="text" class="form-control" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="destination">Destination:</label>
@@ -82,7 +95,7 @@
                     </form> {% endcomment %}
                 </div>
                 <!-- Search by Route Menu -->
-                <div id='search-by-route-container' class="container centre-and-padding tabcontent">
+                <div id='ByRoute' class="container centre-and-padding tabcontent">
                     <h3>Plan Your Trip</h3>
                     <!-- Route Dropdown -->
                     <label for="route-dropdown">Select Route:</label>
@@ -110,7 +123,7 @@
                 </div>
                 
                 <!-- Search by Bus Stop Menu -->
-                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent">
+                <div id='ByStop' class="container centre-and-padding tabcontent">
                     <h3>Plan Your Trip</h3>
                     <form>
                         <label for="origin">Bus Stop:</label><br>
@@ -123,6 +136,7 @@
                         </div>
                     </form>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -144,6 +158,117 @@
             <a href="#">Not registered on Leap Card?</a>
         </form>
     </div>
+
+    <!-- testing animation -->
+    <!-- <div class="loader">
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        <lottie-player src="./static/BusAnimation.json"  background="transparent"  speed="2"  style="width: 500px; height: 500px;"  loop autoplay></lottie-player>
+    </div> -->
+
+    
+         
+
+        <div id="ByLocation" class="tabcontent">
+            <h3>Plan Your Trip</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="origin">Origin:</label>
+                            <input type="text" class="form-control" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point">
+                            <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">Destination:</label>
+                            <input type="text" class="form-control" id="destination-home-search" placeholder="Choose destination">
+                        </div>
+                        <button id="home-submit" type="submit" class="btn btn-outline-light">Submit</button>
+                    </form>
+                    <!-- Div containing journey details when submitted -->
+                    <div id="journey-details" class="container"></div>
+                    {% comment %} <form action="/">
+                        <label for="origin">Origin:</label><br>
+                        <input type="text" id="origin-home-search" name="origin"><br><br>
+                        <label for="destination">Destination:</label><br>
+                        <input type="text" id="destination-home-search" name="destination"><br><br>
+                        <input type="submit" value="Submit" class='btn btn-outline-light' onclick="homeSearch()">Search</button> 
+                    </form> {% endcomment %}
+        </div>
+      
+        <div id="ByRoute" class="tabcontent">
+            <h3>Plan Your Trip</h3>
+                    <!-- Route Dropdown -->
+                    <label for="route-dropdown">Select Route:</label>
+                    <select onchange="showAndLoadStartAndEndDrops()" id="json-routes">
+                        <option value="" disabled selected>Select a Route</option>
+                    </select>
+
+                    <div id="stops-dropdowns-container" style="display: none;">
+                        <!-- Origin to Destination -->
+                        <div id="origin-to-destination-div">
+                            <h5 id="origin-to-destination-header"></h5>
+                        </div>
+                        <!-- Starting Point Dropdown -->
+                        <div>
+                            <label for="starting-dropdown">Select Start Point:</label><br>
+                            <select name="" id="json-starting-stops"></select>
+                        </div>
+                        <!-- Ending Point Dropdown -->
+                        <div>
+                            <label for="ending-dropdown">Select End Stop:</label><br>
+                            <select name="" id="json-ending-stops"></select>
+                        </div>
+                        <button class='btn btn-outline-light' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
+                    </div>
+        </div>
+      
+        <div id="ByStop" class="tabcontent">
+            <h3>Plan Your Trip</h3>
+                    <form>
+                        <label for="origin">Bus Stop:</label><br>
+                        <input type="text" id="busstop-search" name="busstop-input" placeholder="Enter Stop number or address">
+                        
+                        <button type="submit" value="Submit" class='btn btn-outline-light' onclick="defaultSearch()">Search</button> 
+
+                        <div class="container" id="match-list">
+                        
+                        </div>
+                    </form>
+        </div>
+
+    </div>
+    <div class="Timeline">
+        <div id="time_dist" class="col_left">
+            
+            <!-- <div id="step1" class="step_left">
+                <div class="journey_details">Distance</div>
+                <div class="journey_details">Time</div>
+            </div>
+            <div id="step2" class="step_left">
+                <div class="journey_details">Distance</div>
+                <div class="journey_details">Time</div>
+            </div>
+            <div id="step3" class="step_left">
+                <div class="journey_details">Distance</div>
+                <div class="journey_details">Time</div> -->
+            </div>
+        
+        <div id="start_stop" class="col_right">
+            <!-- <div id="right_step1" class="step_right">
+                <div id="right_step1">Start Location <br> Instruction </div>
+            </div>
+             <div id="right_step2" class="step_right">
+                <div id="right_step2">Location <br> Instruction </div>
+             </div>
+            <div id="right_step3" class="step_right">
+                <div id="right_step3">Location <br> Instruction </div>
+            </div> -->
+            <!-- <div id="last">
+                <div> Final Location </div>
+            </div> -->
+        </div>
+    </div>
+
+    </div>
+    
     
     <!-- Storing the Routes in a dropdown -->
     {% comment %} {% block select_routes_content %} {% endblock %} {% endcomment %}
@@ -161,6 +286,31 @@
         // ++++++++ Making JSON data available in app.js! ++++++++
         var main_table_object = {{ main_table_data|safe }};
         var route_origin_and_destination_object = {{ route_origin_and_destination_data|safe }};
+
+        // splash screen animation
+        window.addEventListener("load", function () {
+            const loader = document.querySelector(".loader");
+            loader.className += " hidden"; // class "loader hidden"
+        });
+        // Tabs
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+
+
     </script>
     <script type="text/javascript" src="{% static 'js/weather.js' %}"></script> 
     

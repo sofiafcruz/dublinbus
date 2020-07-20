@@ -1,10 +1,10 @@
-$(document).ready(function() {
+$(document).ready(function () {
   // Onclick Event for Button to Toggle the Map View;
   // BUT DOESN'T WORK WHEN YOU PLAN YOUR ROUTE WITH SEARCH BY ROUTE!
-  $('#toggle-nightmode').click(function() {
+  $("#toggle-nightmode").click(function () {
     if (map.mapTypeId !== "hybrid") {
-      map.setMapTypeId(google.maps.MapTypeId.HYBRID);  
-    } else{
+      map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+    } else {
       map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
     }
   });
@@ -23,10 +23,10 @@ var lastOpenedBusStop;
 var xmlhttp = new XMLHttpRequest();
 var url = "./static/attractions.json";
 var attractions = null;
-xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      attractions = JSON.parse(xmlhttp.responseText);
-    }
+xmlhttp.onreadystatechange = function () {
+  if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+    attractions = JSON.parse(xmlhttp.responseText);
+  }
 };
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
@@ -39,13 +39,13 @@ function setMapOnAll(map) {
 }
 
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'));
-  
+  map = new google.maps.Map(document.getElementById("map"));
+
   // Disabling double-clicking zoom feature;
-  map.setOptions({disableDoubleClickZoom: true });
-  
+  map.setOptions({ disableDoubleClickZoom: true });
+
   // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
-  map.addListener('dblclick', function(e) {
+  map.addListener("dblclick", function (e) {
     placeDestinationMarker(e.latLng, map);
   });
 
@@ -54,8 +54,8 @@ function initMap() {
   origin_autocomplete = new google.maps.places.Autocomplete(
     document.getElementById("origin-home-search"),
     {
-      componentRestrictions: {"country": ["IE"]},
-      fields: ["place_id", "geometry", "name"]
+      componentRestrictions: { country: ["IE"] },
+      fields: ["place_id", "geometry", "name"],
     }
   );
   // origin_autocomplete.addListener('place_changed', onPlaceChanged(origin_autocomplete));
@@ -64,12 +64,12 @@ function initMap() {
   destination_autocomplete = new google.maps.places.Autocomplete(
     document.getElementById("destination-home-search"),
     {
-      componentRestrictions: {"country": ["IE"]},
-      fields: ["place_id", "geometry", "name"]
+      componentRestrictions: { country: ["IE"] },
+      fields: ["place_id", "geometry", "name"],
     }
   );
   // destination_autocomplete.addListener('place_changed', onPlaceChanged(destination_autocomplete));
-  
+
   // function onPlaceChanged(autocomplete) {
   //   var place = autocomplete.getPlace();
 
@@ -82,70 +82,81 @@ function initMap() {
   //   }
   // }
 
-  // Variables to be used for the directions 
+  // Variables to be used for the directions
   directionsService = new google.maps.DirectionsService();
   directionsRenderer = new google.maps.DirectionsRenderer({
-    preserveViewport: false
+    preserveViewport: false,
   });
   // map.setCenter(new google.maps.LatLng(53.346, -6.26));
   // map.setZoom(12);
 
-  navigator.geolocation.getCurrentPosition(function(position) {
-    // Center map on user's current location if geolocation prompt allowed
-    var usersLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    map.setCenter(usersLocation);
-    map.setZoom(15);
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      // Center map on user's current location if geolocation prompt allowed
+      var usersLocation = new google.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      map.setCenter(usersLocation);
+      map.setZoom(15);
 
-    // Characteristics of the icon for the user's location
-    var icon = {
-      url: './static/images/gps.svg',
-      scaledSize: new google.maps.Size(30, 30), 
-      anchor: new google.maps.Point(12.5, 12.5) 
-    };
-    var marker = new google.maps.Marker({
-      position: usersLocation,
-      map: map,
-      icon: icon
-    });
-  }, function(positionError) {
-    // Default to Dublin if user denied geolocation prompt
-    map.setCenter(new google.maps.LatLng(53.346, -6.26));
-    map.setZoom(12);
-  });
+      // Characteristics of the icon for the user's location
+      var icon = {
+        url: "./static/images/gps.svg",
+        scaledSize: new google.maps.Size(30, 30),
+        anchor: new google.maps.Point(12.5, 12.5),
+      };
+      var marker = new google.maps.Marker({
+        position: usersLocation,
+        map: map,
+        icon: icon,
+      });
+    },
+    function (positionError) {
+      // Default to Dublin if user denied geolocation prompt
+      map.setCenter(new google.maps.LatLng(53.346, -6.26));
+      map.setZoom(12);
+    }
+  );
 
   var busStopIcon = {
-    url: './static/images/bus_stop_icon.svg',
-    scaledSize: new google.maps.Size(25, 25), 
-    anchor: new google.maps.Point(12.5, 12.5) 
+    url: "./static/images/bus_stop_icon.svg",
+    scaledSize: new google.maps.Size(25, 25),
+    anchor: new google.maps.Point(12.5, 12.5),
   };
 
   // Loading the bus stops and adding them to the map
-  $.getJSON("./static/bus_stops.json", function(stops) {
-    var markers = stops.map(function(location, i) {
-      var stopCoords = new google.maps.LatLng(location.latitude, location.longitude);
+  $.getJSON("./static/bus_stops.json", function (stops) {
+    var markers = stops.map(function (location, i) {
+      var stopCoords = new google.maps.LatLng(
+        location.latitude,
+        location.longitude
+      );
       var marker = new google.maps.Marker({
         position: stopCoords,
         icon: busStopIcon,
-        title: location.stop_num // Title is each marker's stop num (which we can use to generate time table for info window)
+        title: location.stop_num, // Title is each marker's stop num (which we can use to generate time table for info window)
       });
       stopsInfowindow(marker);
       return marker;
     });
 
     // Add a marker clusterer to manage the markers.
-    var markerCluster = new MarkerClusterer(map, markers,
-        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+    var markerCluster = new MarkerClusterer(map, markers, {
+      imagePath:
+        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+    });
   });
 }
 
 function stopsInfowindow(marker) {
   var infowindow = new google.maps.InfoWindow();
-  marker.addListener('click', function() {
+  marker.addListener("click", function () {
     closeLastOpenedInfoWindow(lastOpenedBusStop);
-    infowindow.setContent('content');
+    infowindow.setContent("content");
     infowindow.open(map, marker);
     lastOpenedBusStop = infowindow;
-  })
+  });
 }
 
 // Meant to remove all markers from the map each time a new journey is selected (but not working)
@@ -158,9 +169,9 @@ function stopsInfowindow(marker) {
 //   arr.length = 0;
 // }
 
-// CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED (outside of init function) 
+// CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED (outside of init function)
 // var map = new google.maps.Map(document.getElementById('map'));
-function showJouneyOnMap(arrOfStopObjs){
+function showJouneyOnMap(arrOfStopObjs) {
   // console.log("INSIDE showJouneyOnMap function!")
   var markersArray = [];
 
@@ -175,35 +186,42 @@ function showJouneyOnMap(arrOfStopObjs){
     let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long };
 
     var busStopIcon = {
-      url: './static/images/bus_stop_icon.svg',
-      scaledSize: new google.maps.Size(25, 25), 
-      anchor: new google.maps.Point(12.5, 12.5) 
+      url: "./static/images/bus_stop_icon.svg",
+      scaledSize: new google.maps.Size(25, 25),
+      anchor: new google.maps.Point(12.5, 12.5),
     };
     // Create a marker of that lat and long
     var marker = new google.maps.Marker({
       position: busLatLng,
       map: map,
-      icon: busStopIcon
+      icon: busStopIcon,
     });
-    
+
     // Add info window to the bus stop
     attachInfoWindow(marker, bus_stop_num, bus_stop_lat, bus_stop_long);
-    
-    markersArray.push(marker);
 
-  }  
+    markersArray.push(marker);
+  }
   // Calls the function to display the directions on the map
-  directionsRenderer.setMap(map); 
+  directionsRenderer.setMap(map);
   calcRoute();
 }
 
 // Function to add info window to each marker;
 function attachInfoWindow(marker, stopNum, latitude, longitude) {
   var infowindow = new google.maps.InfoWindow({
-    content: "BUS STOP NUM: " + stopNum + "<br>" + "LAT: " + latitude + "<br>" + "LONG: " + longitude
+    content:
+      "BUS STOP NUM: " +
+      stopNum +
+      "<br>" +
+      "LAT: " +
+      latitude +
+      "<br>" +
+      "LONG: " +
+      longitude,
   });
 
-  marker.addListener("click", function() {
+  marker.addListener("click", function () {
     infowindow.open(marker.get("map"), marker);
   });
 }
@@ -211,37 +229,45 @@ function attachInfoWindow(marker, stopNum, latitude, longitude) {
 // 'arrOfCoords' comes from app.js
 // Function to draw the directions on the map
 function calcRoute() {
-  var start = new google.maps.LatLng(arrOfCoords[0].latitude,arrOfCoords[0].longitude);
-  var end = new google.maps.LatLng(arrOfCoords[arrOfCoords.length - 1].latitude,arrOfCoords[arrOfCoords.length - 1].longitude);
-  
+  var start = new google.maps.LatLng(
+    arrOfCoords[0].latitude,
+    arrOfCoords[0].longitude
+  );
+  var end = new google.maps.LatLng(
+    arrOfCoords[arrOfCoords.length - 1].latitude,
+    arrOfCoords[arrOfCoords.length - 1].longitude
+  );
+
   console.log("CALC-ROUTE START");
   console.log(arrOfCoords[0].latitude);
   console.log(arrOfCoords[0].longitude);
   console.log("CALC-ROUTE END");
   console.log(arrOfCoords[arrOfCoords.length - 1].latitude);
   console.log(arrOfCoords[arrOfCoords.length - 1].longitude);
-  console.log("=================================================================================================");
+  console.log(
+    "================================================================================================="
+  );
   var request = {
     origin: start,
     destination: end,
-    travelMode: 'TRANSIT',
+    travelMode: "TRANSIT",
     transitOptions: {
-      modes: ['BUS']
+      modes: ["BUS"],
     },
-    provideRouteAlternatives: true
+    provideRouteAlternatives: true,
   };
 
-  directionsService.route(request, function(result, status) {
+  directionsService.route(request, function (result, status) {
     console.log(typeof result);
     console.log(result);
     console.log(result.routes);
     console.log(result.routes[0]);
     var selectedRoute = document.getElementById("json-routes").value;
     var routes = result.routes;
-    for(i = 0; i < routes.length; i++) {
+    for (i = 0; i < routes.length; i++) {
       var steps = result.routes[i].legs[0].steps;
       var transitCount = 0;
-      var busLine = '';
+      var busLine = "";
       for (j = 0; j < steps.length; j++) {
         console.log(steps[j]);
         if (steps[j].travel_mode === "TRANSIT") {
@@ -250,15 +276,15 @@ function calcRoute() {
         }
       }
       if (transitCount == 1 && busLine == selectedRoute) {
-        if (status == 'OK') {
+        if (status == "OK") {
           directionsRenderer.setDirections(result);
           directionsRenderer.setRouteIndex(i);
         } else {
-          window.alert('Directions request failed due to ' + status);
+          window.alert("Directions request failed due to " + status);
         }
       } else {
         initMap();
-        window.alert('Directions not found.');
+        window.alert("Directions not found.");
       }
       break;
     }
@@ -266,12 +292,14 @@ function calcRoute() {
 }
 
 // Get User's Geolocation and plug its Geocode into Origin;
-$("#my-location-btn-img").click(function(e) {
+$("#my-location-btn-img").click(function (e) {
   e.preventDefault();
   console.log("clicked");
   if (navigator.geolocation) {
-    console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
-  } else { 
+    console.log(
+      navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin)
+    );
+  } else {
     console.log("Geolocation is not supported by this browser.");
   }
 });
@@ -279,7 +307,7 @@ $("#my-location-btn-img").click(function(e) {
 function logSuccessAndPopulateOrigin(pos) {
   var coordinates = pos.coords;
 
-  console.log('Your current position is:');
+  console.log("Your current position is:");
   console.log(`Latitude : ${coordinates.latitude}`);
   console.log(`Longitude: ${coordinates.longitude}`);
   console.log(`More or less ${coordinates.accuracy} meters.`);
@@ -288,11 +316,12 @@ function logSuccessAndPopulateOrigin(pos) {
   var geocoder = new google.maps.Geocoder();
 
   var latlng = { lat: coordinates.latitude, lng: coordinates.longitude };
-  geocoder.geocode({ location: latlng }, function(results, status) {
+  geocoder.geocode({ location: latlng }, function (results, status) {
     if (status === "OK") {
       if (results[0]) {
         // Set the value of the user's coordinated to the inner HTML of origin
-        document.getElementById("origin-home-search").value = results[0].formatted_address;
+        document.getElementById("origin-home-search").value =
+          results[0].formatted_address;
       }
     }
   });
@@ -300,13 +329,12 @@ function logSuccessAndPopulateOrigin(pos) {
 
 // Render directions based on origin and destination (COORDINATES, NOT PLACE NAMES) on home tab;
 const calculateAndRenderDirections = (origin, destination) => {
-
   let directionsService = new google.maps.DirectionsService();
   let directionsDisplay = null;
   let request = {
     origin: origin,
     destination: destination,
-    travelMode: 'TRANSIT'
+    travelMode: "TRANSIT",
   };
 
   // This is meant to clear past rendered routes (BUT NOT WORKING!)
@@ -317,22 +345,43 @@ const calculateAndRenderDirections = (origin, destination) => {
 
   directionsDisplay = new google.maps.DirectionsRenderer();
 
+  // Function to get the size of an object - used to get number of steps on journey
+  Object.size = function (obj) {
+    var size = 0,
+      key;
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+  };
+
   directionsDisplay.setMap(map);
   directionsService.route(request, (result, status) => {
     if (status == "OK") {
       directionsDisplay.setDirections(result);
     }
-    
+
     // DEALING WITH MESSAGE PRINTOUT FOR USERS
-    // console.log(result);
-    // console.log(result.routes[0].legs[0]);
+    // console.log("result", result);
+    // console.log(result.routes[0]);
+    // Need some way of handling when there is only walking - Need to set arrival and departure time [i.e. current time and departure = duration + current time]
     let legs = result.routes[0].legs[0];
+    console.log("legs test:", legs);
     let departure_time = legs.departure_time.text;
     let arrival_time = legs.arrival_time.text;
     let duration = legs.duration.text;
     let distance = legs.distance.text;
-
+    let start_address = legs.start_address;
+    start_address = start_address.replace(", Dublin, Ireland", "");
+    let end_address = legs.end_address;
+    end_address = end_address.replace(", Dublin, Ireland", "");
+    console.log("Start/stop address", start_address, end_address);
     let steps = legs.steps;
+
+    // get number of steps
+    let step_number = Object.size(steps);
+
+    console.log(step_number);
 
     console.log(legs);
     console.log("Total Journey Details");
@@ -343,67 +392,234 @@ const calculateAndRenderDirections = (origin, destination) => {
     console.log("Total Distance:", distance);
     console.log(steps);
 
-    journey_details_div = document.getElementById('journey-details')
+    // journey_details_div = document.getElementById("journey-details");
+
+    // Create array for each side storing string for HTML content of each step
+    let left_side = [];
+    let right_side = [];
+    steps.forEach(function (step, index) {
+      // Remember to add </div> at the end!!
+      left_side.push(`<div id="left_step${index + 1}" class="step_left">`);
+      right_side.push(
+        `<div id="right_step${
+          index + 1
+        }" class="step_right"><div class="direction_content">`
+      );
+    });
+
+    // Will have to find out step number before defining these
+    // timeline_left_step1 = document.getElementById("step1");
+    // timeline_left_step2 = document.getElementById("step2");
+    // timeline_left_step3 = document.getElementById("step3");
+
+    // timeline_right_step1 = document.getElementById("right_step1");
+    // timeline_right_step2 = document.getElementById("right_step2");
+    // timeline_right_step3 = document.getElementById("right_step3");
+
+    // var left_steps = [
+    //   timeline_left_step1,
+    //   timeline_left_step2,
+    //   timeline_left_step3,
+    // ];
+    // var right_steps = [
+    //   timeline_right_step1,
+    //   timeline_right_step2,
+    //   timeline_right_step3,
+    // ];
 
     let today = new Date();
     let suffix = "am";
     if (today.getHours() >= 12) {
       suffix = "pm";
     }
-    let current_time = today.getHours()-12 + "." + today.getMinutes() + suffix;
+    let current_time =
+      today.getHours() - 12 + "." + today.getMinutes() + suffix;
 
-    journey_details_div.innerHTML = `
-      <h6>Total Journey Details</h6>
-      <p>Current Time: ${current_time}</p>
-      <p>Departure Time: ${departure_time}</p>
-      <p>Arrival Time: ${arrival_time}</p>
-      <p>Total Duration: ${duration}</p>
-      <p>Total Distance: ${distance}</p>
-      <h6>Details of Each Step:</h6>
-    `;
+    // journey_details_div.innerHTML = `
+    //   <h6>Total Journey Details</h6>
+    //   <p>Current Time: ${current_time}</p>
+    //   <p>Departure Time: ${departure_time}</p>
+    //   <p>Arrival Time: ${arrival_time}</p>
+    //   <p>Total Duration: ${duration}</p>
+    //   <p>Total Distance: ${distance}</p>
+    //   <h6>Details of Each Step:</h6>
+    // `;
 
+    // Array for storing indexes for walking
+    let walk_arr = [];
+    // For each one add content then </div> then combine right and left sides into one string and put into right/left element
     steps.forEach(function (step, index) {
+      // For getting the starting destination at the last step and if there is walking in the middle (walking doesn't prived start and end stops)
+
+      console.log("rightside", right_side[index]);
+      console.log("leftside", left_side[index]);
       // console.log("Step:", index+1);
       // console.log("========");
       // console.log("Distance:", step.distance.text);
       // console.log("Duration:", step.duration.text);
       // console.log("Instructions:", step.instructions);
-      journey_details_div.innerHTML += `
-        <div>
-        <b>Step: ${index+1} (${step.travel_mode} for ~${step.duration.text})</b>
-        <p>${step.instructions}</p>
-        <p>Distance: ${step.distance.text}</p>
-        </div>
-      `;
+
+      // Check for first index
+      if (step.travel_mode == "WALKING") {
+        walk_arr.push(index + 1);
+        console.log("In walking ");
+        // For the first step
+        if (index == 0) {
+          console.log("In walking 0");
+          // Add info to left side
+          left_side[
+            index
+          ] += `<div class="journey_details">${step.distance.text}</div>
+          <div class="journey_details">${step.duration.text}</div>`;
+
+          // Add info to right side
+          right_side[
+            index
+          ] += `${start_address} <br> <div class="instruction"> <i class="material-icons">directions_walk</i></div>`;
+
+          console.log("right index 0: ", right_side[index]);
+          console.log("left index 0: ", left_side[index]);
+        }
+        // for the last step
+        else if (index == step_number - 1) {
+          console.log("In walking last");
+          // Add info to left side
+          left_side[
+            index
+          ] += `<div class="journey_details">${step.distance.text}</div>
+          <div class="journey_details">${step.duration.text}</div>`;
+
+          let prev_transit_stop = steps[index - 1].transit.arrival_stop.name;
+          // Add info to right side - transit end is the destination stop of the
+          right_side[
+            index
+          ] += ` ${prev_transit_stop} <br> <div class="instruction"> <i class="material-icons">directions_walk</i> </div>`;
+
+          console.log("right index last: ", right_side[index]);
+          console.log("left index last: ", left_side[index]);
+        }
+        // Finally if walking is between two transit forms along the journey
+        else {
+          left_side[
+            index
+          ] += `<div class="journey_details">${step.distance.text}</div>
+          <div class="journey_details">${step.duration.text}</div>`;
+          let prev_transit_stop = steps[index - 1].transit.arrival_stop.name;
+          right_side[
+            index
+          ] += `${prev_transit_stop} <br> <div class="instruction"> <i class="material-icons">directions_walk</i> </div>`;
+        }
+      }
+      // check for bus - walking step has no key called 'transit'
+      else if ("transit" in step) {
+        console.log("In transit ");
+        // Add info to left side
+        left_side[
+          index
+        ] += `<div class="journey_details">${step.distance.text}</div>
+        <div class="journey_details">${step.duration.text}</div>`;
+
+        let start_stop = step.transit.departure_stop.name;
+        let route = step.transit.line.short_name;
+        let transit_type = step.transit.line.vehicle.name;
+        if (transit_type.includes("Bus")) {
+          var icon = "directions_bus";
+        } else if (transit_type.includes("Train")) {
+          var icon = "train";
+        }
+        // Backup
+        else {
+          var icon = "arrow_downward";
+        }
+        console.log("TYPE   ", transit_type);
+        // Add info to right side
+        right_side[
+          index
+        ] += `${start_stop} <br> <i class="material-icons">${icon}</i> ${route} `;
+
+        console.log("right index transit: ", right_side[index]);
+        console.log("left index transit: ", left_side[index]);
+
+        // console.log("Start_stop : ", start_stop);
+        // console.log("end_stop : ", end_stop);
+        // console.log("route : ", route);
+      }
     });
+    // get elements
+    right_step = document.getElementById("start_stop");
+    left_step = document.getElementById("time_dist");
 
-    document.getElementById("journey-details").className = "journey-details"
+    steps.forEach(function (step, index) {
+      console.log("index check: ", index);
+      right_step.innerHTML += right_side[index] + "</div>";
+      left_step.innerHTML += left_side[index];
+    });
+    // Add last stop to right_step and closing div
+    right_step.innerHTML += `<div id="last" class="step_right"> ${end_address} </div> </div>`;
+    left_step.innerHTML += "</div>";
+
+    // Desing div borders (i.e. timeline design) if walking or not
+    console.log(walk_arr);
+    let count = 1;
+    console.log(3 in walk_arr);
+    console.log(0 in walk_arr);
+    while (count < step_number + 1) {
+      console.log(walk_arr, count);
+      if (walk_arr.includes(count)) {
+        console.log("YUP! ", count);
+        document.getElementById(`right_step${count}`).style.borderLeftStyle =
+          "dashed";
+      }
+      count += 1;
+    }
+    // journey_details_div.innerHTML += `
+    //   <div>
+    //   <b>Step: ${index + 1} (${step.travel_mode} for ~${
+    //   step.duration.text
+    // })</b>
+    //   <p>${step.instructions}</p>
+    //   <p>Distance: ${step.distance.text}</p>
+    //   </div>
+    // `;
+
+    // right_steps[index].innerHTML += `Start Location <br> Instruction`;
+    // document.getElementById("step1").className = left_steps[index];
+
+    // left_steps[
+    //   index
+    // ].innerHTML += `<div class="journey_details"> ${step.distance.text} </div>
+    //   <div class="journey_details"> ${step.duration.text} </div>`;
+    // document.getElementById("step1").className = left_steps[index];
+
+    // console.log("steps::  ", left_steps[index]);
+
+    // Need to rethink as its all dependent on the number
+
+    // document.getElementById("journey-details").className = "journey-details";
   });
-
-  
-}
+};
 
 // When the submit button is clicked;
 // document.getElementById("home-submit")
 
-$("#home-submit").click(function(e) {
+$("#home-submit").click(function (e) {
   // Disable submit button from reloading the page when clicked
   e.preventDefault();
 
   // var map = new google.maps.Map(document.getElementById('map'));
   // var start = new google.maps.LatLng(53.345941, -6.276008999999999);
   // var end = new google.maps.LatLng(53.31832389, -6.23055);
-  var start = document.getElementById('origin-home-search').value;
-  var end = document.getElementById('destination-home-search').value;
+  var start = document.getElementById("origin-home-search").value;
+  var end = document.getElementById("destination-home-search").value;
 
   calculateAndRenderDirections(start, end);
 
   // console.log("CALC-ROUTE START");
   // console.log(start);
-  
+
   // console.log("CALC-ROUTE END");
   // console.log(end);
-  
+
   // console.log("=================================================================================================");
   // var request = {
   //   query: start,
@@ -432,10 +648,10 @@ $("#home-submit").click(function(e) {
 //   var end = document.getElementById('destination-home-search').value;
 //   console.log("CALC-ROUTE START");
 //   console.log(start);
-  
+
 //   console.log("CALC-ROUTE END");
 //   console.log(end);
-  
+
 //   console.log("=================================================================================================");
 //   var request = {
 //     query: start,
@@ -455,36 +671,39 @@ $("#home-submit").click(function(e) {
 //     }
 //   });
 
-  // var request = {
-  //   origin: start,
-  //   destination: end,
-  //   travelMode: 'TRANSIT',
-  //   transitOptions: {
-  //     modes: ['BUS']
-  //   } 
-  // };
+// var request = {
+//   origin: start,
+//   destination: end,
+//   travelMode: 'TRANSIT',
+//   transitOptions: {
+//     modes: ['BUS']
+//   }
+// };
 
-  // directionsService.route(request, function(result, status) {
-  //   if (status == 'OK') {
-  //     directionsRenderer.setDirections(result);
-  //   }
-  //   console.log(typeof result);
-  //   console.log(result);
-  //   // console.log(result.routes);
-  //   // console.log(result.routes[0]);
-  //   // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
-  // });
+// directionsService.route(request, function(result, status) {
+//   if (status == 'OK') {
+//     directionsRenderer.setDirections(result);
+//   }
+//   console.log(typeof result);
+//   console.log(result);
+//   // console.log(result.routes);
+//   // console.log(result.routes[0]);
+//   // console.log(result.routes[0].legs[0].steps[1].transit.line.short_name);
+// });
 // }
 
 // Array that will be used for the switch button that displays the attractions
 // When the switch is off, it uses this array to remove the markers
-var attractionsArray = []
+var attractionsArray = [];
 
 // The switch button calls this function on change to display the attractions on the map
 function displayAttractions() {
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("custom-control-input")[0].checked ? true : false
-  if (switchValue) { 
+  var switchValue = document.getElementsByClassName("custom-control-input")[0]
+    .checked
+    ? true
+    : false;
+  if (switchValue) {
     // Loop through the attractions in the JSON file
     for (i = 0; i < attractions.length; i++) {
       var latitude = parseFloat(attractions[i].latitude);
@@ -492,26 +711,26 @@ function displayAttractions() {
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(latitude, longitude),
         title: attractions[i].title,
-        map: map
+        map: map,
       });
       // Function to add an on click event to display an info window
       attractionsInfowindow(marker, attractions[i].title);
-      
+
       attractionsArray.push(marker);
-    };
+    }
   } else {
     for (i = 0; i < attractionsArray.length; i++) {
       attractionsArray[i].setMap(null);
-    };
-  };
-};
+    }
+  }
+}
 
 // Display the info window for each attraction
-function attractionsInfowindow (marker, title) {
+function attractionsInfowindow(marker, title) {
   var infowindow = new google.maps.InfoWindow({
-    maxWidth: 250
+    maxWidth: 250,
   });
-  marker.addListener('click', function() {
+  marker.addListener("click", function () {
     // Function to check whether there is an opened info window, if so closes it
     closeLastOpenedInfoWindow(lastOpenedAttraction);
 
@@ -527,15 +746,26 @@ function attractionsInfowindow (marker, title) {
       }
     }
     // Content to display in the info window
-    var contentString = '<div class="attractions-infowindow">' +
-    '<div class="attractions-content">'+
-    '<h4 class="attractions-title">' + title + '</h4>'+
-    '<a href="#" onclick="">Directions</a>'+
-    '<div class="attractions-image"><img src="' + image + '" alt="' + title + '" style="max-width:250px; max-height:250px;"></div>' + 
-    '<div id="attractions-bodyContent">'+
-    '<p class="attractions-summary">' + summary + '&nbsp;<a href="' + url + '">More Info</a></p>'+
-    '</div>'+
-    '</div>';
+    var contentString =
+      '<div class="attractions-infowindow">' +
+      '<div class="attractions-content">' +
+      '<h4 class="attractions-title">' +
+      title +
+      "</h4>" +
+      '<a href="#" onclick="">Directions</a>' +
+      '<div class="attractions-image"><img src="' +
+      image +
+      '" alt="' +
+      title +
+      '" style="max-width:250px; max-height:250px;"></div>' +
+      '<div id="attractions-bodyContent">' +
+      '<p class="attractions-summary">' +
+      summary +
+      '&nbsp;<a href="' +
+      url +
+      '">More Info</a></p>' +
+      "</div>" +
+      "</div>";
     infowindow.setContent(contentString);
     infowindow.open(map, marker);
     lastOpenedAttraction = infowindow;
@@ -552,19 +782,18 @@ function closeLastOpenedInfoWindow(lastOpened) {
 
 // For setting destination marker (in Home tab):
 function placeDestinationMarker(latLng, map) {
-
   var icon = {
-    url: './static/images/target.png',
-    scaledSize: new google.maps.Size(50, 50), 
-    anchor: new google.maps.Point(12.5, 12.5) 
+    url: "./static/images/target.png",
+    scaledSize: new google.maps.Size(50, 50),
+    anchor: new google.maps.Point(12.5, 12.5),
   };
 
   var marker = new google.maps.Marker({
     position: latLng,
     map: map,
-    icon: icon
+    icon: icon,
   });
-  
+
   // Clear destination marker when new location double clicked
   setMapOnAll(null);
   destinationMarkers = [];
@@ -574,20 +803,19 @@ function placeDestinationMarker(latLng, map) {
   var infowindow = new google.maps.InfoWindow();
 
   geocodeLatLng(latLng.lat(), latLng.lng(), geocoder, map, infowindow, marker);
-
 }
 
 // Converts the coordinate information of a double-clicked location on the map to its placename
 function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
   var latlng = { lat: latitude, lng: longitude };
-  geocoder.geocode({ location: latlng }, function(results, status) {
+  geocoder.geocode({ location: latlng }, function (results, status) {
     if (status === "OK") {
       if (results[0]) {
         infowindow.setContent(results[0].formatted_address);
         infowindow.open(map, marker);
         // Set the value of geocodeLatLng to the inner HTML of destination
-        document.getElementById("destination-home-search").value = results[0].formatted_address;
-        
+        document.getElementById("destination-home-search").value =
+          results[0].formatted_address;
       } else {
         window.alert("No results found");
       }
@@ -604,17 +832,19 @@ function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
 //   console.log("Clicked");
 // });
 
-$("#bus-stop-marker").click(function(e) {
+$("#bus-stop-marker").click(function (e) {
   // Go to realtime SD API and pull relevant info (about buses due etc)
   console.log("MARKER CLICKED!");
   let value = e.target.value; // Stop Num (i.e. 905)
 
-  let real_time_url = 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + value;
-  
+  let real_time_url =
+    "https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=" +
+    value;
+
   // ***********ISSUE WITH CORS!!!!!!!!!*************** // Info on CORS: https://web.dev/cross-origin-resource-sharing/
 
   // VERSION 1 (Worked at the beginning, BUT NOT ANYMORE)==========================================================================
-  // let cors_heroku_url = 'https://cors-anywhere.herokuapp.com/'; 
+  // let cors_heroku_url = 'https://cors-anywhere.herokuapp.com/';
   // let main_url = cors_heroku_url + real_time_url + "&format=json";
   // // let main_url = 'https://jsonplaceholder.typicode.com/posts'; // THIS DIFFERENT 3RD-PARTY API WORKS WITH NO ISSUES AND I AM NOT SURE WHY???!!!
   // $.ajax({
