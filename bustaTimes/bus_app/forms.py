@@ -35,4 +35,14 @@ class CreateUserForm(UserCreationForm): # Gonna be slightly customised version o
         model = User
         # Below gives us the same form as provided by UserCreationForm EXCEPT with the addition of 'email'
         fields = ['username', 'email', 'password1', 'password2']
-        
+    
+# Tutorial 2===================
+
+from .models import AdditionalUserInfo
+class AdditionalUserInfoForm(forms.ModelForm):
+    class Meta:
+        model = AdditionalUserInfo
+        widgets = {
+            'leapcard_password': forms.PasswordInput(),
+        }
+        fields = ['leapcard_username', 'leapcard_password']

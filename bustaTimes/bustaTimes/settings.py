@@ -70,6 +70,9 @@ TEMPLATES = [
     },
 ]
 
+# For the Custom User (Overrides the default behaviour for a default User, and instead says that we are authorising users in the following way)
+# AUTH_USER_MODEL = 'bus_app.CustomUser'
+
 WSGI_APPLICATION = 'bustaTimes.wsgi.application'
 
 
