@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
     
@@ -37,22 +39,14 @@
 		}
 
 		#form-title{
-			color: #fff;
-		}
-		.login_btn {
-			width: 100%;
-			background: #33ccff !important;
-			color: white !important;
-		}
-		.login_btn:focus {
-			box-shadow: none !important;
-			outline: 0px !important;
+			color: black;
+			text-decoration: underline;
 		}
 		.login_container {
 			padding: 0 2rem;
 		}
 		.input-group-text {
-			background: #f7ba5b !important;
+			background: blue !important;
 			color: white !important;
 			border: 0 !important;
 			border-radius: 0.25rem 0 0 0.25rem !important;
@@ -71,12 +65,13 @@
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
 				<div class="d-flex justify-content-center">
-					<h3 id="form-title">REGISTER ACCOUNT</h3>
+					<h3 id="form-title">Register Your Account</h3>
 				</div>
 				<div class="d-flex justify-content-center form_container">
 
 					<form method="POST" action="">
                         {% csrf_token %}
+						<!-- Required Data-->
 						<div class="input-group mb-3">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -101,9 +96,23 @@
 							</div>
 							{{create_form.password2}}
 						</div>
-
+						<!-- Optional Leap Card Data -->
+						<h6>Optionally fill Leap Card Info:</h6>
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							{{additional_info_form.leapcard_username}}
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							{{additional_info_form.leapcard_password}}
+						</div>
+						<!-- Submit Button -->
 				   		<div class="d-flex justify-content-center mt-3 login_container">
-				 			<input class="btn login_btn" type="submit" value="Register Account">
+				 			<input class="btn btn-primary" type="submit" value="Register Account">
 				   		</div>
 					</form>
 				</div>
@@ -130,6 +139,8 @@
 		form_fields[2].placeholder='Email..';
 		form_fields[3].placeholder='Enter password...';
 		form_fields[4].placeholder='Re-enter Password...';
+		form_fields[5].placeholder='Leap Card Username...';
+		form_fields[6].placeholder='Leap Card Password...';
 
 
 		for (var field in form_fields){	
@@ -137,12 +148,12 @@
 		}
 	</script>
 </body>
-</html>
+</html> 
 
 
-{% comment %} 
 
-<h1>REGISTRATION PAGE</h1>
+
+{% comment %} <h1>REGISTRATION PAGE</h1>
 
 <form method="POST" action="">
     {% csrf_token %}
@@ -162,7 +173,8 @@
     <!-- ***** Username ***** -->
     {{create_form.email.label}}
     {{create_form.email}}
-    <input type="submit" name="Create User">
-</form>
-
-{% endcomment %}
+    
+	<!-- ADDITIONAL INFO -->
+    {{additional_info_form}}
+	<input type="submit" name="Create User">
+</form> {% endcomment %}

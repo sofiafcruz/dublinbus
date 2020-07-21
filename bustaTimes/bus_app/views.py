@@ -202,7 +202,7 @@ from django.contrib.auth.forms import UserCreationForm
 # ^ Handles things like making sure no duplicate usernames, that passwords are hashed etc
 # HOWEVER, only issue is it doesn't require a password.
 # Therefore, we'll create a variation of it in our forms.py file.
-from .forms import CreateUserForm
+from .forms import CreateUserForm, AdditionalUserInfoForm
 
 from django.shortcuts import redirect
 # ^ redirect to new webpage
@@ -223,6 +223,8 @@ def registerPage(request):
     else:
         # create_form = UserCreationForm()
         create_form = CreateUserForm()
+        # ADDITIONAL_INFO
+        additional_info_form = AdditionalUserInfoForm()
 
         if request.method == 'POST':
             # Post data = Username, Password and Conrfirmed password
@@ -232,10 +234,18 @@ def registerPage(request):
             # Post data = Username, Password, Conrfirmed password AND EMAIL!!
             # Render the form again and pass in the user data into the form
             create_form = CreateUserForm(request.POST)
+            # ADDITIONAL_INFO
+            additional_info_form = AdditionalUserInfoForm(request.POST)
 
-            if create_form.is_valid():
+            if create_form.is_valid() and additional_info_form.is_valid():
                 # Then save the User
-                create_form.save() 
+                user = create_form.save() 
+                # ADDITIONAL_INFO
+                # And create the additional info for the user
+                additional_info = additional_info_form.save(commit=False)
+                additional_info.user = user
+                additional_info.save()
+
                 # Show appropriate Success Message
                 username = create_form.cleaned_data["username"]
                 print(create_form.cleaned_data)
@@ -245,7 +255,11 @@ def registerPage(request):
                 # Then redirect them to the login page
                 return redirect('loginPage')
 
-        context = {'create_form': create_form}
+        context = {
+            'create_form': create_form,
+            # ADDITIONAL_INFO
+            'additional_info_form': additional_info_form,
+        }
         return render(request, 'register.html', context)
 
 def loginPage(request):
