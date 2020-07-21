@@ -35,6 +35,7 @@ class CreateUserForm(UserCreationForm): # Gonna be slightly customised version o
         model = User
         # Below gives us the same form as provided by UserCreationForm EXCEPT with the addition of 'email'
         fields = ['username', 'email', 'password1', 'password2']
+        # RIGHT NOW, THE EMAIL USED FOR REGISTRATION DOES NOT HAVE TO BE UNIQUE!
     
 # Tutorial 2===================
 
