@@ -260,7 +260,7 @@ def registerPage(request):
                 username = create_form.cleaned_data["username"]
                 print(create_form.cleaned_data)
                 print(username)
-                messages.success(request, "Account was created for:", username)
+                messages.success(request, f"Account was created for: {username}")
 
                 # Then redirect them to the login page
                 return redirect('loginPage')
@@ -330,11 +330,11 @@ def registerUser(request):
             print(create_form.cleaned_data)
             print(username)
             messages.success(request, "Account was created for:", username)
-
-            # Then redirect them to the login page
-            return redirect('index')
         else:
+            messages.error(request, f"ERROR: in creating account")
             print("ERROR IN REGISTERING THE USER WITH THE POPUP METHOD")
+        # Then redirect them to the login page
+        return redirect('index')
 
 from django.contrib.auth.hashers import make_password
 # ^ For hashing the password that's stored
@@ -374,12 +374,15 @@ def registerUserPopup(request):
                 username = create_form.cleaned_data["username"]
                 print(create_form.cleaned_data)
                 print(username)
-                messages.success(request, "Account was created for:", username)
+                messages.success(request, f"Account was created for: {username}")
 
                 # Then redirect them to the login page
                 return redirect('index')
             else:
+                messages.error(request, f"ERROR: in creating account")
                 print("ERROR IN REGISTERING THE USER WITH THE POPUP METHOD")
+            # Then redirect them to the login page
+            return redirect('index')
 
 def loginUserPopup(request):
     # If the user is authenticated, then redirect them to the home page

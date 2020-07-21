@@ -70,6 +70,18 @@
                     </li>
                 {% endif %}
                 </ul>
+                <!-- Show message which shows whether or not Registration was successful (Either success or failure) -->
+                {% for message in messages %}
+                    <!-- If Success Message -->
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <p id="message-alert" style="color:green">{{message}}</p>
+                    <!-- Else if Error Message -->
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <p id="message-alert" style="color:red">{{message}}</p>
+                    {% else %}
+                        <p id="message-alert">{{message}}</p>
+                    {% endif %}
+                {% endfor %}
             </div>
         </nav>
         <div id="weather-container">  
