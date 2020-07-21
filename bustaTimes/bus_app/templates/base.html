@@ -65,6 +65,7 @@
                     <!-- Register Link -->
                     <li>
                         <a class="nav-link" href="{% url 'registerPage' %}">Register</a>
+                        <a class="nav-link" data-target='#signup-popup' data-toggle="modal" href="">REGISTER POPUP</a>
                     </li>
                 {% endif %}
                 </ul>
@@ -73,6 +74,46 @@
         <div id="weather-container">  
             <span id="temperature" style="padding-right: 20px;"></span> 
         </div>
+    </div>
+    <!-- ********** Sign Up PopUp ********** -->
+    <div class="modal" tabindex="-1" role="dialog" id="signup-popup">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Register an Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" method="POST">
+                    <div class="modal-body">
+                            {% csrf_token %}
+
+                            <!-- REQUIRED INFO -->
+                            <!-- ***** Username ***** -->
+                            {{create_form.username.label}}
+                            {{create_form.username}}
+                            <!-- ***** Username ***** -->
+                            {{create_form.password1.label}}
+                            {{create_form.password1}}
+                            <!-- ***** Username ***** -->
+                            {{create_form.password2.label}}
+                            {{create_form.password2}}
+                            <!-- ***** Username ***** -->
+                            {{create_form.email.label}}
+                            {{create_form.email}}
+                            
+                            <!-- ADDITIONAL INFO -->
+                            {{additional_info_form}}
+                    </div>
+                    <div class="modal-footer">
+                        <input class="btn btn-primary" type="submit" value="Register Account">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     </div>
     <!-- *************** MAIN BODY (Map, Menu etc) ***************-->
     <div class="container-fluid">

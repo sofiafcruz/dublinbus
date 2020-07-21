@@ -13,8 +13,15 @@ google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 
 # Create your views here.
 
-# @login_required(login_url='login) # DON'T THINK WE'LL NEED THIS
 def index(request):
+
+    # USER CREATION FORM
+    create_form = CreateUserForm()
+    additional_info_form = AdditionalUserInfoForm()
+
+    if request.method == 'POST':
+        registerUser(request)
+
     all_routes = Route.objects.all()
     all_stops = BusStop.objects.all()
 
@@ -67,6 +74,9 @@ def index(request):
         'weather': current_weather_js,
         'main_table_data': main_table_data,
         'route_origin_and_destination_data': route_origin_and_destination_data,
+        # USER REGISTRATION DETAILS
+        'create_form': create_form,
+        'additional_info_form': additional_info_form,
     }
     
     return render(request, 'index.html', context)
@@ -218,8 +228,7 @@ from django.contrib.auth.decorators import login_required
 def registerPage(request):
     # If the user is authenticated, then redirect them to the home page
     if request.user.is_authenticated:
-        return redirect('HOME_PAGE')
-        # return redirect('index.html')
+        return redirect('index.html')
     else:
         # create_form = UserCreationForm()
         create_form = CreateUserForm()
@@ -294,3 +303,34 @@ def logoutUser(request):
     logout(request) # doesn’t throw any errors if the user wasn’t logged in (so need to make sure it works perfectly)
     # return redirect('loginPage')
     return redirect('index')
+
+def registerUser(request):
+    # If the user is authenticated, then redirect them to the home page
+    if request.user.is_authenticated:
+        return redirect('index.html')
+    else:
+        # Post data = Username, Password, Conrfirmed password AND EMAIL!!
+        # Render the form again and pass in the user data into the form
+        create_form = CreateUserForm(request.POST)
+        # ADDITIONAL_INFO
+        additional_info_form = AdditionalUserInfoForm(request.POST)
+
+        if create_form.is_valid() and additional_info_form.is_valid():
+            # Then save the User
+            user = create_form.save() 
+            # ADDITIONAL_INFO
+            # And create the additional info for the user
+            additional_info = additional_info_form.save(commit=False)
+            additional_info.user = user
+            additional_info.save()
+
+            # Show appropriate Success Message
+            username = create_form.cleaned_data["username"]
+            print(create_form.cleaned_data)
+            print(username)
+            messages.success(request, "Account was created for:", username)
+
+            # Then redirect them to the login page
+            return redirect('index')
+        else:
+            print("ERROR IN REGISTERING THE USER WITH THE POPUP METHOD")
