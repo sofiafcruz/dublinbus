@@ -13,4 +13,7 @@ urlpatterns = [
     path('registerPage', views.registerPage, name="registerPage"),
     path('loginPage', views.loginPage, name="loginPage"),
     path('logoutUser', views.logoutUser, name="logoutUser"),
+    # REGISTRATION POP-UP
+    path('registerUserPopup', views.registerUserPopup, name="registerUserPopup"),
+    path('loginUserPopup', views.loginUserPopup, name="loginUserPopup"),
 ]

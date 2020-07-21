@@ -19,8 +19,9 @@ def index(request):
     create_form = CreateUserForm()
     additional_info_form = AdditionalUserInfoForm()
 
-    if request.method == 'POST':
-        registerUser(request)
+    # if request.method == 'POST':
+
+    #     registerUser(request)
 
     all_routes = Route.objects.all()
     all_stops = BusStop.objects.all()
@@ -334,3 +335,72 @@ def registerUser(request):
             return redirect('index')
         else:
             print("ERROR IN REGISTERING THE USER WITH THE POPUP METHOD")
+
+from django.contrib.auth.hashers import make_password
+# ^ For hashing the password that's stored
+       
+def registerUserPopup(request):
+    # If the user is authenticated, then redirect them to the home page
+    if request.user.is_authenticated:
+        return redirect('index')
+    else:
+        # REQUIRED INFO
+        create_form = CreateUserForm()
+        # ADDITIONAL INFO
+        additional_info_form = AdditionalUserInfoForm()
+
+        if request.method == 'POST':
+
+            # Post data = Username, Password, Confirmed password, email, AND Additional info
+            # Render the form again and pass in the user data into the form
+            create_form = CreateUserForm(request.POST)
+            # ADDITIONAL_INFO
+            additional_info_form = AdditionalUserInfoForm(request.POST)
+
+            if create_form.is_valid() and additional_info_form.is_valid():
+                # Then save the User
+                user = create_form.save() 
+                # ADDITIONAL_INFO
+                # And create the additional info for the user
+                additional_info = additional_info_form.save(commit=False)
+                additional_info.user = user
+                # Hasing the password
+                print(f"Before Hashing: {additional_info.leapcard_password}")
+                additional_info.leapcard_password = make_password(additional_info.leapcard_password)
+                print(f"After Hashing: {additional_info.leapcard_password}")
+                additional_info.save()
+
+                # Show appropriate Success Message
+                username = create_form.cleaned_data["username"]
+                print(create_form.cleaned_data)
+                print(username)
+                messages.success(request, "Account was created for:", username)
+
+                # Then redirect them to the login page
+                return redirect('index')
+            else:
+                print("ERROR IN REGISTERING THE USER WITH THE POPUP METHOD")
+
+def loginUserPopup(request):
+    # If the user is authenticated, then redirect them to the home page
+    if request.user.is_authenticated:
+        return redirect('index')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            # If user IS authenticated, then attach them to the current sessopm
+            if user is not None:
+                login(request, user) # Saves user's ID in the session
+                return redirect('index')
+            else:
+                # Message below for debugging purposes
+                print("Someone tried to login and failed")
+                print("**************************************")
+                print(f"Tried logging in with;\nUsername: {username}\nPassword: {password}")
+                print("**************************************")
+                # return flash message
+                # messages.info(request, "Username OR password is incorrect")

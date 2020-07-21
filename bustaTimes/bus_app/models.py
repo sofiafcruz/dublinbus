@@ -126,7 +126,7 @@ class AdditionalUserInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) # Whenever we delete the user, also delete its additional info
     # Adding the fields of interest
     leapcard_username = models.CharField(max_length=50, blank=True) # Won't be required (i.e. will be optional)
-    leapcard_password = models.CharField(max_length=50, blank=True) # Won't be required (i.e. will be optional)
+    leapcard_password = models.CharField(max_length=256, blank=True) # Won't be required (i.e. will be optional)
 
     def __str__(self):
         return self.user.username
