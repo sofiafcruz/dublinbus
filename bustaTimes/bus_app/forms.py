@@ -47,3 +47,5 @@ class AdditionalUserInfoForm(forms.ModelForm):
             'leapcard_password': forms.PasswordInput(),
         }
         fields = ['leapcard_username', 'leapcard_password']
+        # Updated fields:
+        # fields = ['leapcard_username', 'height_in_cm', 'weight_in_kg']

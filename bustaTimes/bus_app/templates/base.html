@@ -60,12 +60,12 @@
                 {% else %}
                     <!-- Login Link -->
                     <li>
-                        <a class="nav-link" href="{% url 'loginPage' %}">Login</a>
+                        <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
                         <a class="nav-link" data-target='#login-popup' data-toggle="modal" href="">LOGIN POPUP</a>
                     </li>
                     <!-- Register Link -->
                     <li>
-                        <a class="nav-link" href="{% url 'registerPage' %}">Register</a>
+                        <!-- <a class="nav-link" href="{% url 'registerPage' %}">Register</a> -->
                         <a class="nav-link" data-target='#signup-popup' data-toggle="modal" href="">REGISTER POPUP</a>
                     </li>
                 {% endif %}
@@ -262,9 +262,11 @@
                     <h2>Fill in Leap Card Credentials to see Balance</h2>
                     <form id="leap-card-form" method="POST" action="leap_card_info" >
                         {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
-                        <p>Username</p>
-                        <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
-                        <p>Password</p>
+                        {% if user.is_authenticated %}
+                            <input type="text" id="inputUsername" name="inputUsername" class="form-control" value="{{user.additionaluserinfo.leapcard_username}}" required>    
+                        {% else %}
+                            <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
+                        {% endif %}
                         <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
                         <!-- Testing out Submit Buttons below -->
                         <input id="show-balance" type="submit" class='btn btn-outline-light' value="Show Balance">
@@ -285,24 +287,6 @@
         <button id="retro" onclick="changeMapStyle(this.id)" class="btn btn-warning" data-toggle="button">Retro</button>
         <button id="green" onclick="changeMapStyle(this.id)" class="btn btn-success" data-toggle="button">Green</button>
     </div>
-    
-    {% comment %} <!-- ********** Leap Card Registration/Login ********** -->
-    <!-- PERHAPS SHOULD BE INCLUDED AS A TAB INSTEAD -->
-    <div id="leap-card-div" class="container">
-        <h2>Fill in Leap Card Credentials to see Balance</h2>
-        <form id="leap-card-form" method="POST" action="leap_card_info" >
-            {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
-            <p>Username</p>
-            <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
-            <p>Password</p>
-            <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
-            <!-- Testing out Submit Buttons below -->
-            <input id="show-balance" type="submit" value="Show Balance">
-
-            <p id="balance-paragraph"></p>
-            <a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a>
-        </form>
-    </div> {% endcomment %}
     
     <!-- Storing the Routes in a dropdown -->
     {% comment %} {% block select_routes_content %} {% endblock %} {% endcomment %}

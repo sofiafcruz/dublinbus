@@ -120,6 +120,7 @@ class RouteAndStop(models.Model):
 # We'll use a separate table to store the additional user info in a 1-to-1 relationship
 
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class AdditionalUserInfo(models.Model):
     # 1-to-1 field used to extend the original Django User table BUT NOT modify it
@@ -127,6 +128,10 @@ class AdditionalUserInfo(models.Model):
     # Adding the fields of interest
     leapcard_username = models.CharField(max_length=50, blank=True) # Won't be required (i.e. will be optional)
     leapcard_password = models.CharField(max_length=256, blank=True) # Won't be required (i.e. will be optional)
+
+    # Calories Burning Info
+    # height_in_cm = models.models.IntegerField(validators=[MinValueValidator(50), MaxValueValidator(250)], blank=True)
+    # weight_in_kg = models.models.IntegerField(validators=[MinValueValidator(20), MaxValueValidator(140)], blank=True)
 
     def __str__(self):
         return self.user.username
