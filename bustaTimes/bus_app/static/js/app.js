@@ -20,17 +20,49 @@ leap_card_form.submit(function () {
 });
 
 // ================================ SEARCH BY ROUTE ================================
-// ********** Route Dropdown **********
-$(document).ready(function(){
-    // On page load, populate the Route Dropdown in 'Search by Route' section
-    var json_routes_dropdown = document.getElementById("json-routes");
-    for (var key in main_table_object) {
-        var opt = document.createElement('option');
-        opt.value = key; 
-        opt.innerHTML = key;
-        json_routes_dropdown.appendChild(opt);
-    }
+
+// ********** On clicking "Search by Bus Stop" nav option, load JSON file (i.e. grab all the stops) **********
+$("#search-by-route-nav").click(function() {
+    // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
+    $.ajax({
+        // url: './static/map_bus_stop_to_routes_data.json',
+        url: './static/HD_routes_Frontend.json',
+        async: false,
+        dataType: 'json',
+        success: function (json) {
+            hd_routes = json;
+            console.log(hd_routes);
+            // ********** Populate Route Dropdown **********
+            var json_routes_dropdown = document.getElementById("json-routes");
+            for (var key in hd_routes) {
+            // for (var key in routes_frontend_object) {
+                var opt = document.createElement('option');
+                opt.value = key; 
+                opt.innerHTML = key;
+                json_routes_dropdown.appendChild(opt);
+            }
+        },
+        error: function(error) { // An error most likely won't arise unless we mess with the JSON data or path
+          console.log(`Error ${error}`);
+        },
+    });
 });
+
+// ********** Route Dropdown **********
+// $(document).ready(function(){
+//     // On page load, populate the Route Dropdown in 'Search by Route' section
+//     console.log("Before");
+//     // console.log(routes_frontend_object);
+//     console.log("After");
+//     var json_routes_dropdown = document.getElementById("json-routes");
+//     for (var key in main_table_object) {
+//     // for (var key in routes_frontend_object) {
+//         var opt = document.createElement('option');
+//         opt.value = key; 
+//         opt.innerHTML = key;
+//         json_routes_dropdown.appendChild(opt);
+//     }
+// });
 
 // ********** Div containing Journey Info, Starting and Ending Stop Dropdowns  **********
 // Display div containing filled drop down options of bus stops
@@ -38,12 +70,7 @@ $(document).ready(function(){
 function showAndLoadStartAndEndDrops() {
     // Grab the route option selected
     var selected_route = document.getElementById("json-routes").value;
-    console.log(selected_route);
-    // Grab the selected Route's Origin (From) and Destination (To) data
-    let origin = route_origin_and_destination_object[selected_route]["origin"];
-    let destination = route_origin_and_destination_object[selected_route]["destination"];
-    // Set the header (From X to Y)
-    $('#origin-to-destination-header').html("From " + origin + " to " + destination);
+    // console.log(selected_route);
     // Target the starting and ending stops select dropdowns
     var json_starting_point_dropdown = document.getElementById("json-starting-stops");
     var json_ending_point_dropdown = document.getElementById("json-ending-stops");
@@ -51,24 +78,73 @@ function showAndLoadStartAndEndDrops() {
     $(json_starting_point_dropdown).empty();
     $(json_ending_point_dropdown).empty();
     // Need a nested for loop to grab the Address of each bus stop of the selected route
-    for (index in main_table_object[selected_route]){
-        for (bus_stop in main_table_object[selected_route][index]){
-            // Grab the bus stop address
-            stop_address = main_table_object[selected_route][index][bus_stop]["stop_address"];
-            // Store it into an option element
-            var opt = document.createElement('option');
-            opt.value = index; // Value is the index of the bus stop
-            opt.innerHTML = stop_address + " (" + bus_stop + ")";
-            // Then clone it so it can also be appended to the Ending Stop dropdown
-            var cloneOption = opt.cloneNode(true);
-            // Append the current iteration's bus stop option to both starting and ending point dropdowns
-            json_ending_point_dropdown.appendChild(opt);
-            json_starting_point_dropdown.appendChild(cloneOption);
-        }
+    // for (index in main_table_object[selected_route]){
+    let direction_1 = hd_routes[selected_route].D1;
+    // console.log(direction_1);
+    // Grab the selected Route's Origin (From) and Destination (To) data
+    let origin = direction_1["origin"];
+    let destination = direction_1["destination"];
+    // Set the header (From X to Y)
+    $('#origin-to-destination-header').html("From " + origin + " to " + destination);
+    
+    let stops = direction_1["stops"];
+    for (index in stops){
+        // Grab the bus stop address
+        let bus_stop_obj = stops[index]
+        // console.log(bus_stop_obj);
+        let stop_address = bus_stop_obj["search_name"];
+        let stop_num = bus_stop_obj["stop_num"];
+        // Store it into an option element
+        var opt = document.createElement('option');
+        opt.value = index; // Value is the index of the bus stop
+        opt.innerHTML = stop_address + " (" + stop_num + ")";
+        // Then clone it so it can also be appended to the Ending Stop dropdown
+        var cloneOption = opt.cloneNode(true);
+        // Append the current iteration's bus stop option to both starting and ending point dropdowns
+        json_ending_point_dropdown.appendChild(opt);
+        json_starting_point_dropdown.appendChild(cloneOption);
     }
     // At the end, make sure to display the container holding the starting and ending stop dropdowns (as it's initially hidden)
     $('#stops-dropdowns-container').css('display', 'block');
 }
+
+// ********** Div containing Journey Info, Starting and Ending Stop Dropdowns  **********
+// Display div containing filled drop down options of bus stops
+// (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
+// function showAndLoadStartAndEndDrops() {
+//     // Grab the route option selected
+//     var selected_route = document.getElementById("json-routes").value;
+//     console.log(selected_route);
+//     // Grab the selected Route's Origin (From) and Destination (To) data
+//     let origin = route_origin_and_destination_object[selected_route]["origin"];
+//     let destination = route_origin_and_destination_object[selected_route]["destination"];
+//     // Set the header (From X to Y)
+//     $('#origin-to-destination-header').html("From " + origin + " to " + destination);
+//     // Target the starting and ending stops select dropdowns
+//     var json_starting_point_dropdown = document.getElementById("json-starting-stops");
+//     var json_ending_point_dropdown = document.getElementById("json-ending-stops");
+//     // Empty their contents EVERY call (or else values (stops) will be appended to them, rather than replacing them)
+//     $(json_starting_point_dropdown).empty();
+//     $(json_ending_point_dropdown).empty();
+//     // Need a nested for loop to grab the Address of each bus stop of the selected route
+//     for (index in main_table_object[selected_route]){
+//         for (bus_stop in main_table_object[selected_route][index]){
+//             // Grab the bus stop address
+//             stop_address = main_table_object[selected_route][index][bus_stop]["stop_address"];
+//             // Store it into an option element
+//             var opt = document.createElement('option');
+//             opt.value = index; // Value is the index of the bus stop
+//             opt.innerHTML = stop_address + " (" + bus_stop + ")";
+//             // Then clone it so it can also be appended to the Ending Stop dropdown
+//             var cloneOption = opt.cloneNode(true);
+//             // Append the current iteration's bus stop option to both starting and ending point dropdowns
+//             json_ending_point_dropdown.appendChild(opt);
+//             json_starting_point_dropdown.appendChild(cloneOption);
+//         }
+//     }
+//     // At the end, make sure to display the container holding the starting and ending stop dropdowns (as it's initially hidden)
+//     $('#stops-dropdowns-container').css('display', 'block');
+// }
 
 // ********** Logic to grab all the Stops between the selected Starting and Ending Stops INCLUSIVE  **********
 // Initialising Empty Array of Coords (initialised outside so can also be used in 'map.js')
@@ -130,6 +206,14 @@ document.getElementById("prediction-date-4").innerHTML = day4.toDateString();
 document.getElementById("prediction-date-5").innerHTML = day5.toDateString();
 
 // ***** TIME *****
+var hour = day1.getHours();
+var minutes = day1.getMinutes();
+// Ensuring that each component (hours and minutes) has a leading zero if below 10 (e.g. "04:08")
+hour = (hour < 10 ? "0" : "") + hour;
+minutes = (minutes < 10 ? "0" : "") + minutes;
+
+var currentTime = hour + ':' + minutes;
+document.getElementById("choose-time").value = currentTime;
 
 // ================================ SEARCH BY BUSSTOP ================================
 // ********** On clicking "Search by Bus Stop" nav option, load JSON file (i.e. grab all the stops) **********
