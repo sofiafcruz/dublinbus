@@ -239,6 +239,26 @@
                             <label for="choose-time">Select a time:</label>
                             <input type="time" id="choose-time" name="choose-time">
                         </div>
+                        <hr>
+                        <!-- Fare Calculator div -->
+                        <h6>Fare Calculator</h6>
+                        <div id="fare-calculator-container">
+                            <!-- Are you adult, student etc -->
+                            <label for="choose-user-type">What are you:</label>
+                            <select>
+                                <option id="adult">Adult</option>
+                                <option id="student">Student</option>
+                                <option id="child">Child</option>
+                                <option id="tourist">Tourist</option>
+                            </select>
+                            <!-- Payment mode etc -->
+                            <label for="choose-payment-mode">Payment Mode:</label>
+                            <select>
+                                <option id="leap-card">LeapCard</option>
+                                <option id="cash">Cash</option>
+                                
+                            </select>
+                        </div>
 
                         <button class='btn btn-outline-light' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
                     </div>
