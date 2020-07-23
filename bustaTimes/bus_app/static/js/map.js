@@ -395,37 +395,32 @@ const calculateAndRenderDirections = (origin, destination) => {
     // journey_details_div = document.getElementById("journey-details");
 
     // Create array for each side storing string for HTML content of each step
-    let left_side = [];
-    let right_side = [];
+    // let left_side = [];
+    // let right_side = [];
+    // steps.forEach(function (step, index) {
+    //   // Remember to add </div> at the end!!
+    //   left_side.push(`<div id="left_step${index + 1}" class="step_left">`);
+    //   right_side.push(
+    //     `<div id="right_step${
+    //       index + 1
+    //     }" class="step_right"><div class="direction_content">`
+    //   );
+    // });
+    timeline_rows = [];
+    direction_rows = [];
     steps.forEach(function (step, index) {
       // Remember to add </div> at the end!!
-      left_side.push(`<div id="left_step${index + 1}" class="step_left">`);
-      right_side.push(
-        `<div id="right_step${
+      timeline_rows.push(
+        `<div class="row"> <div id="time_${index + 1}" class="col-6">`
+      );
+      direction_rows.push(
+        `<div id="direction_${
           index + 1
-        }" class="step_right"><div class="direction_content">`
+        }" class="col-6"><div class="direction_content">`
       );
     });
 
     // Will have to find out step number before defining these
-    // timeline_left_step1 = document.getElementById("step1");
-    // timeline_left_step2 = document.getElementById("step2");
-    // timeline_left_step3 = document.getElementById("step3");
-
-    // timeline_right_step1 = document.getElementById("right_step1");
-    // timeline_right_step2 = document.getElementById("right_step2");
-    // timeline_right_step3 = document.getElementById("right_step3");
-
-    // var left_steps = [
-    //   timeline_left_step1,
-    //   timeline_left_step2,
-    //   timeline_left_step3,
-    // ];
-    // var right_steps = [
-    //   timeline_right_step1,
-    //   timeline_right_step2,
-    //   timeline_right_step3,
-    // ];
 
     let today = new Date();
     let suffix = "am";
@@ -451,8 +446,8 @@ const calculateAndRenderDirections = (origin, destination) => {
     steps.forEach(function (step, index) {
       // For getting the starting destination at the last step and if there is walking in the middle (walking doesn't prived start and end stops)
 
-      console.log("rightside", right_side[index]);
-      console.log("leftside", left_side[index]);
+      console.log("time", timeline_rows[index]);
+      console.log("directions", direction_rows[index]);
       // console.log("Step:", index+1);
       // console.log("========");
       // console.log("Distance:", step.distance.text);
@@ -467,7 +462,7 @@ const calculateAndRenderDirections = (origin, destination) => {
         if (index == 0) {
           console.log("In walking 0");
           // Add info to left side
-          left_side[
+          timeline_rows[
             index
           ] += `<div class="journey_details">${step.distance.text}</div>
           <div class="journey_details">${step.duration.text}</div>`;
