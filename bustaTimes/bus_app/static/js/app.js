@@ -107,8 +107,6 @@ function generateStopArray() {
     $.getScript("static/js/map.js", function(){
         showJouneyOnMap(arrOfSelectedStops);
     }); 
-
-    // Now I think I should return the Stop coords?
 }
 
 // ********** DateTime Dropdown **********
@@ -138,11 +136,13 @@ document.getElementById("prediction-date-5").innerHTML = day5.toDateString();
 $("#search-by-stop-nav").click(function() {
     // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
     $.ajax({
-        url: './static/map_bus_stop_to_routes_data.json',
+        // url: './static/map_bus_stop_to_routes_data.json',
+        url: './static/HD_stops_Frontend.json',
         async: false,
         dataType: 'json',
         success: function (json) {
             national_stops = json;
+            console.log(national_stops);
         },
         error: function(error) { // An error most likely won't arise unless we mess with the JSON data or path
           console.log(`Error ${error}`);
@@ -162,13 +162,14 @@ $("#busstop-search").keyup(function (event) {
     // Grab all the values of the bus stop JSON objects returned in the above AJAX call
     // N.B. - THIS IS CALLED EVERY TIME KEY IS CLICKED, WHICH IS PROBABLY A BAD IDEA
     let arr_of_stop_vals = Object.values(national_stops);
+    console.log(arr_of_stop_vals);
     // Logic to get matches to current text input value
     let matches = arr_of_stop_vals.filter(stop => {
         // g = global, i = case-insensitive
         const regex = new RegExp(`^${current_value}`, 'gi');
-        return stop.searchname.match(regex);
+        return stop.search_name.match(regex);
     });
-    // console.log(matches);
+    console.log(matches);
 
     // When search/input box is empty, we want there to be NO matches
     if (current_value.length === 0){
@@ -189,9 +190,9 @@ const showMatches = matches => {
         let num_of_results_shown = 10; 
         // Map each match of an array of match objects to an array of HTML string matches (converted to a single string with .join())
         const outputHTML = matches.slice(0, num_of_results_shown).map(match => `
-            <div id="${match.searchname}" class="search-by-busstop-options" onclick="populateInputWithStop(this.id)">
-                <p class="text-primary busstop-option" id="searchname-option">${match.searchname}</p>
-                <small class="busstop-option" style="overflow-wrap:break-word; max-width:100%">${match.routes_through_stop}</small> 
+            <div id="${match.search_name}" class="search-by-busstop-options" onclick="populateInputWithStop(this.id)">
+                <p class="text-primary busstop-option" id="searchname-option">${match.search_name}</p>
+                <small class="busstop-option" style="overflow-wrap:break-word; max-width:100%">${match.routes_serviced}</small> 
             </div>
         `).join('');
         // <p> tag used to store the Searchname that the matching criteria is based off of.

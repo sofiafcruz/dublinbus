@@ -125,17 +125,23 @@ function initMap() {
 
   // Loading the bus stops and adding them to the map
   $.getJSON("./static/bus_stops.json", function(stops) {
-    var markers = stops.map(function(location, i) {
-      var stopCoords = new google.maps.LatLng(location.latitude, location.longitude);
+  // $.getJSON("./static/HD_stops_Frontend.json", function(stops) {
+    // console.log(stops);
+    // var stop_properties = Object.values(stops);
+    // var markers = stop_properties.map(function(property, i) {
+    var markers = stops.map(function(property, i) {
+      // var stopCoords = new google.maps.LatLng(property.lat, property.long);
+      var stopCoords = new google.maps.LatLng(property.latitude, property.longitude);
       var marker = new google.maps.Marker({
         position: stopCoords,
         icon: busStopIcon,
-        title: location.stop_num // Title is each marker's stop num (which we use to generate timetable data for the info window that is unique to each bus stop)
+        title: property.stop_num // Title is each marker's stop num (which we use to generate timetable data for the info window that is unique to each bus stop)
       });
       stopsInfowindow(marker);
       global_markers.push(marker);
       return marker;
     });
+    // console.log(global_markers);
 
     // Add a marker clusterer to manage the markers.
     markerCluster = new MarkerClusterer(map, markers,
