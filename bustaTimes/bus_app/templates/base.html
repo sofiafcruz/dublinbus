@@ -175,13 +175,13 @@
             <!-- *************** Container for content of ALL Tabs *************** -->
             <div class="Search-Menu-Container">
                 <div class="tab">
-                    <button class="tablinks" onclick="openCity(event, 'ByLocation')" id="defaultOpen">By Location</button>
-                    <button class="tablinks" onclick="openCity(event, 'ByRoute')">By Route</button>
-                    <button class="tablinks" onclick="openCity(event, 'ByStop')">By Bus Stop</button>
+                    <button class="tablinks" onclick="openCity(event, 'home-search-container')" id="defaultOpen">By Location</button>
+                    <button class="tablinks" onclick="openCity(event, 'search-by-route-container')">By Route</button>
+                    <button class="tablinks" onclick="openCity(event, 'bus-stop-search-container')">By Bus Stop</button>
                 </div>
 
                 <!-- ********** Home Menu ********** -->
-                <div id='ByLocation' class="container centre-and-padding tabcontent display-container">
+                <div id='home-search-container' class="container centre-and-padding tabcontent display-container">
                     <h3>Plan Your Trip</h3>
                     <!-- Form containing "Origin" and "Destination" text inputs -->
                     <form>
@@ -205,7 +205,7 @@
                 </div>
                 
                 <!-- ********** Search by Route Menu ********** -->
-                <div id='ByRoute' class="container centre-and-padding tabcontent hidden-display-container">
+                <div id='search-by-route-container' class="container centre-and-padding tabcontent hidden-display-container">
                     <h3>Plan Your Trip</h3>
                     <!-- Route Dropdown -->
                     <label for="route-dropdown">Select Route:</label>
@@ -270,7 +270,7 @@
                 </div>
                 
                 <!-- ********** Search by Bus Stop Menu ********** -->
-                <div id='ByStop' class="container centre-and-padding tabcontent hidden-display-container">
+                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent hidden-display-container">
                     <h3>Plan Your Trip</h3>
                     <form>
                         <label for="origin">Bus Stop:</label><br>

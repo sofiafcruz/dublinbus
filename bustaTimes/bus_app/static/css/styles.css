@@ -29,7 +29,6 @@ body {
 .hidden-display-container {
   display: none;
   background-color: lightblue;
-  width: 300px;
   padding: 1em;
 }
 
@@ -129,11 +128,14 @@ body {
   width: 100%;
   position: relative;
 }
+
 /* Entire Blue Search Menu */
 .Search-Menu-Container {
   background-color: lightblue;
   width: 30%;
+  /* min and max widths to manage size */
   max-width: 350px;
+  min-width: 250px;
   padding: 1em;
   display: flex;
   flex-direction: column;
@@ -144,6 +146,10 @@ body {
   z-index: 98;
 
   /* style="position: absolute; left:15px; top:0px; z-index:98;" */
+}
+select,
+#busstop-search {
+  width: 100%;
 }
 
 /* Style the tab */
