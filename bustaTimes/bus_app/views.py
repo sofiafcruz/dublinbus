@@ -405,5 +405,6 @@ def loginUserPopup(request):
                 print("**************************************")
                 print(f"Tried logging in with;\nUsername: {username}\nPassword: {password}")
                 print("**************************************")
+                return redirect('index')
                 # return flash message
                 # messages.info(request, "Username OR password is incorrect")

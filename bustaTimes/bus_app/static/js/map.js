@@ -618,7 +618,7 @@ $("#home-submit").click(function(e) {
 // ================================ SEARCH BY ROUTE ==============================================
 
 // ************************ CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED in "Search By Route" (outside of init function) ************************
-function showJouneyOnMap(arrOfSelectedStopObjs){
+function showJourneyOnMap(arrOfSelectedStopObjs){
   // Function takes an array of selected Stop Objects (referring to all the stops from start stop A to ending stop B inclusive decided by the user)
   // This function is called by 'app.js', as app.js is where the array of selected routes is generated.
   var markersArray = []; // variable that will hold all the markers of the journey (should (hopefully) be cleared each time so old journeys are removed from map)

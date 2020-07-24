@@ -1,4 +1,37 @@
 // ================================ OTHER ================================
+// ********** Save Journey for Logged in Users **********
+$("#save-journey").click(function () {
+    // $.ajax({
+    //   url: "./static/HD_stops_Frontend.json",
+    //   async: false,
+    //   dataType: "json",
+    //   success: function (json) {
+    //     national_stops = json;
+    //     console.log(national_stops);
+    //     console.log("here?");
+    //   },
+    //   error: function (error) {
+    //     // An error most likely won't arise unless we mess with the JSON data or path
+    //     console.log(`Error ${error}`);
+    //   },
+    // });
+
+    let selected_route = document.getElementById("json-routes").value;
+    let selected_origin_stop = document.getElementById("json-starting-stops");
+    var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
+    let selected_destination_stop = document.getElementById("json-ending-stops");
+    var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
+    let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value + 1;
+    // let distance = document.getElementById("json-ending-stops").value;
+
+    console.log("Selected Journey Details;");
+    console.log("=========================");
+    console.log("Selected Route:", selected_route);
+    console.log("Stop Count:", stops_count);
+    console.log("Origin Stop:", origin_opt);
+    console.log("Destination Stop:", destination_opt);
+});
+
 // ********** On clicking "Show Balance" show User's Leap Card Balance (i.e. grab all the stops) **********
 var leap_card_form = $("#leap-card-form");
 leap_card_form.submit(function () {
@@ -192,10 +225,14 @@ function generateStopArray() {
   // console.log(arrOfCoords);
   // console.log("AFTER ARR OF COORDS - APP.JS");
 
-  // Call the 'showJouneyOnMap' function in 'map.js' on the selected stops array to show the journey to the user
+  // Call the 'showJourneyOnMap' function in 'map.js' on the selected stops array to show the journey to the user
   $.getScript("static/js/map.js", function () {
-    showJouneyOnMap(arrOfSelectedStops);
+    showJourneyOnMap(arrOfSelectedStops);
   });
+}
+
+function showSaveJourneyBtn() {
+    $("#save-journey").css("display", "block");
 }
 
 // ********** DateTime Dropdown **********
