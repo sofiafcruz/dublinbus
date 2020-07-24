@@ -1,35 +1,41 @@
 // ================================ OTHER ================================
 // ********** Save Journey for Logged in Users **********
 $("#save-journey").click(function () {
-    // $.ajax({
-    //   url: "./static/HD_stops_Frontend.json",
-    //   async: false,
-    //   dataType: "json",
-    //   success: function (json) {
-    //     national_stops = json;
-    //     console.log(national_stops);
-    //     console.log("here?");
-    //   },
-    //   error: function (error) {
-    //     // An error most likely won't arise unless we mess with the JSON data or path
-    //     console.log(`Error ${error}`);
-    //   },
-    // });
+  // $.ajax({
+  //   url: "./static/HD_stops_Frontend.json",
+  //   async: false,
+  //   dataType: "json",
+  //   success: function (json) {
+  //     national_stops = json;
+  //     console.log(national_stops);
+  //     console.log("here?");
+  //   },
+  //   error: function (error) {
+  //     // An error most likely won't arise unless we mess with the JSON data or path
+  //     console.log(`Error ${error}`);
+  //   },
+  // });
 
-    let selected_route = document.getElementById("json-routes").value;
-    let selected_origin_stop = document.getElementById("json-starting-stops");
-    var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
-    let selected_destination_stop = document.getElementById("json-ending-stops");
-    var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
-    let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value + 1;
-    // let distance = document.getElementById("json-ending-stops").value;
+  let selected_route = document.getElementById("json-routes").value;
+  let selected_origin_stop = document.getElementById("json-starting-stops");
+  var origin_opt =
+    selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
+  let selected_destination_stop = document.getElementById("json-ending-stops");
+  var destination_opt =
+    selected_destination_stop.options[selected_destination_stop.selectedIndex]
+      .text;
+  let stops_count =
+    document.getElementById("json-ending-stops").value -
+    document.getElementById("json-starting-stops").value +
+    1;
+  // let distance = document.getElementById("json-ending-stops").value;
 
-    console.log("Selected Journey Details;");
-    console.log("=========================");
-    console.log("Selected Route:", selected_route);
-    console.log("Stop Count:", stops_count);
-    console.log("Origin Stop:", origin_opt);
-    console.log("Destination Stop:", destination_opt);
+  console.log("Selected Journey Details;");
+  console.log("=========================");
+  console.log("Selected Route:", selected_route);
+  console.log("Stop Count:", stops_count);
+  console.log("Origin Stop:", origin_opt);
+  console.log("Destination Stop:", destination_opt);
 });
 
 // ********** On clicking "Show Balance" show User's Leap Card Balance (i.e. grab all the stops) **********
@@ -56,6 +62,7 @@ leap_card_form.submit(function () {
 
 // ********** On clicking "Search by Bus Stop" nav option, load JSON file (i.e. grab all the stops) **********
 $("#search-by-route-container").click(function () {
+  console.log("check");
   // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
   $.ajax({
     // url: './static/map_bus_stop_to_routes_data.json',
@@ -64,15 +71,22 @@ $("#search-by-route-container").click(function () {
     dataType: "json",
     success: function (json) {
       hd_routes = json;
-      console.log(hd_routes);
+      console.log("In here");
+      //   console.log(hd_routes);
+
       // ********** Populate Route Dropdown **********
       var json_routes_dropdown = document.getElementById("json-routes");
-      for (var key in hd_routes) {
-        // for (var key in routes_frontend_object) {
-        var opt = document.createElement("option");
-        opt.value = key;
-        opt.innerHTML = key;
-        json_routes_dropdown.appendChild(opt);
+      //   check for length of dropdown (intially 1 option) - to prevent list getting added to repeatedly
+      if (json_routes_dropdown.length < 2) {
+        // console.log(json_routes_dropdown.length);
+        for (var key in hd_routes) {
+          // for (var key in routes_frontend_object) {
+          var opt = document.createElement("option");
+          opt.value = key;
+          opt.innerHTML = key;
+          json_routes_dropdown.appendChild(opt);
+        }
+        console.log("down here");
       }
     },
     error: function (error) {
@@ -102,7 +116,7 @@ $("#search-by-route-container").click(function () {
 // Display div containing filled drop down options of bus stops
 // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
 function showAndLoadStartAndEndDrops() {
-  console.log("In here");
+  console.log("show_and_load fxn check");
   // Grab the route option selected
   var selected_route = document.getElementById("json-routes").value;
   // console.log(selected_route);
@@ -232,7 +246,7 @@ function generateStopArray() {
 }
 
 function showSaveJourneyBtn() {
-    $("#save-journey").css("display", "block");
+  $("#save-journey").css("display", "block");
 }
 
 // ********** DateTime Dropdown **********
