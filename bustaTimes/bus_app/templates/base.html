@@ -158,9 +158,9 @@
     <!-- *************** MAIN BODY (Map, Menu etc) ***************-->
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="Main_container col-12">
                 <!-- Map -->
-                <div id="map" style="height:500px; width:100%"></div>
+                <div id="map" style="height:900px; width:100%"></div>
                 <!-- Switch button to show the attractions -->
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input attractions-switch" id="customSwitch1" onchange="displayAttractions()">
@@ -171,12 +171,17 @@
                     <label class="custom-control-label" for="customSwitch3">Hide Markers</label>
                 </div>
                 <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />
-            </div>
+            
             <!-- *************** Container for content of ALL Tabs *************** -->
-            <div class="col-md-auto">
+            <div class="Search-Menu-Container">
+                <div class="tab">
+                    <button class="tablinks" onclick="openCity(event, 'ByLocation')" id="defaultOpen">By Location</button>
+                    <button class="tablinks" onclick="openCity(event, 'ByRoute')">By Route</button>
+                    <button class="tablinks" onclick="openCity(event, 'ByStop')">By Bus Stop</button>
+                </div>
 
                 <!-- ********** Home Menu ********** -->
-                <div id='home-search-container' class="container centre-and-padding tabcontent display-container">
+                <div id='ByLocation' class="container centre-and-padding tabcontent display-container">
                     <h3>Plan Your Trip</h3>
                     <!-- Form containing "Origin" and "Destination" text inputs -->
                     <form>
@@ -200,7 +205,7 @@
                 </div>
                 
                 <!-- ********** Search by Route Menu ********** -->
-                <div id='search-by-route-container' class="container centre-and-padding tabcontent hidden-display-container">
+                <div id='ByRoute' class="container centre-and-padding tabcontent hidden-display-container">
                     <h3>Plan Your Trip</h3>
                     <!-- Route Dropdown -->
                     <label for="route-dropdown">Select Route:</label>
@@ -265,7 +270,7 @@
                 </div>
                 
                 <!-- ********** Search by Bus Stop Menu ********** -->
-                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent hidden-display-container">
+                <div id='ByStop' class="container centre-and-padding tabcontent hidden-display-container">
                     <h3>Plan Your Trip</h3>
                     <form>
                         <label for="origin">Bus Stop:</label><br>
@@ -296,6 +301,7 @@
                     </form>
                 </div>
             </div>
+            </div>
         </div>
     </div>
 
@@ -319,6 +325,24 @@
     
     <!-- Connected JS script needs to be down here (rather than in the <head> section) or else can't "see" html elements -->
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
     <script>
         var weather = JSON.parse('{{ weather|escapejs }}'); 
         
