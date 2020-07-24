@@ -124,14 +124,14 @@ function initMap() {
   };
 
   // Loading the bus stops and adding them to the map
-  $.getJSON("./static/bus_stops.json", function(stops) {
-  // $.getJSON("./static/HD_stops_Frontend.json", function(stops) {
+  // $.getJSON("./static/bus_stops.json", function(stops) {
+  $.getJSON("./static/HD_stops_Frontend.json", function(stops) {
     // console.log(stops);
-    // var stop_properties = Object.values(stops);
-    // var markers = stop_properties.map(function(property, i) {
-    var markers = stops.map(function(property, i) {
-      // var stopCoords = new google.maps.LatLng(property.lat, property.long);
-      var stopCoords = new google.maps.LatLng(property.latitude, property.longitude);
+    var stop_properties = Object.values(stops);
+    var markers = stop_properties.map(function(property, i) {
+    // var markers = stops.map(function(property, i) {
+      var stopCoords = new google.maps.LatLng(property.lat, property.long);
+      // var stopCoords = new google.maps.LatLng(property.latitude, property.longitude);
       var marker = new google.maps.Marker({
         position: stopCoords,
         icon: busStopIcon,
