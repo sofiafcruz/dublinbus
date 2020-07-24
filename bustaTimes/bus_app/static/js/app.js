@@ -1,20 +1,6 @@
 // ================================ OTHER ================================
 // ********** Save Journey for Logged in Users **********
 $("#save-journey").click(function () {
-    // $.ajax({
-    //   url: "./static/HD_stops_Frontend.json",
-    //   async: false,
-    //   dataType: "json",
-    //   success: function (json) {
-    //     national_stops = json;
-    //     console.log(national_stops);
-    //     console.log("here?");
-    //   },
-    //   error: function (error) {
-    //     // An error most likely won't arise unless we mess with the JSON data or path
-    //     console.log(`Error ${error}`);
-    //   },
-    // });
 
     let selected_route = document.getElementById("json-routes").value;
     let selected_origin_stop = document.getElementById("json-starting-stops");
@@ -30,6 +16,27 @@ $("#save-journey").click(function () {
     console.log("Stop Count:", stops_count);
     console.log("Origin Stop:", origin_opt);
     console.log("Destination Stop:", destination_opt);
+
+    // Issues with CSRF below, as making a post request...
+    // Not sure how to fix atm
+    $.ajax({
+      url: "save_route_journey",
+      type: 'POST',
+      async: false,
+      data: {
+        "selected_route": selected_route,
+        "origin_opt": origin_opt,
+        "destination_opt": destination_opt,
+        "stops_count": stops_count
+      },
+      success: function (not_sure) {
+        console.log(not_sure);
+      },
+      error: function (error) {
+        // An error most likely won't arise unless we mess with the JSON data or path
+        console.log(`Error ${error}`);
+      },
+    });
 });
 
 // ********** On clicking "Show Balance" show User's Leap Card Balance (i.e. grab all the stops) **********

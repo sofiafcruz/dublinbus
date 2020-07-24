@@ -653,7 +653,11 @@ function showJourneyOnMap(arrOfSelectedStopObjs){
 
   }  
   // Calls the function to display the directions on the map
-  directionsDisplay.setMap(map); 
+  directionsDisplay.setMap(map);
+  directionsDisplay.setPanel(document.getElementById("routes-directions-panel")); 
+
+  // Add a class to the div containing the journey details to make it visible
+  document.getElementById("routes-directions-panel").className = "journey-details";
   calcRoute();
 }
 

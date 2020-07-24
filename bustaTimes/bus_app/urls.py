@@ -16,4 +16,6 @@ urlpatterns = [
     # REGISTRATION POP-UP
     path('registerUserPopup', views.registerUserPopup, name="registerUserPopup"),
     path('loginUserPopup', views.loginUserPopup, name="loginUserPopup"),
+    # SAVE ROUTE JOURNEY
+    path('save_route_journey', views.save_route_journey, name="save_route_journey"),
 ]

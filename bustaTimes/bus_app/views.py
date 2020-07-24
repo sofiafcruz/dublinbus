@@ -408,3 +408,23 @@ def loginUserPopup(request):
                 return redirect('index')
                 # return flash message
                 # messages.info(request, "Username OR password is incorrect")
+
+from django.views.decorators.csrf import csrf_protect
+
+@csrf_protect
+def save_route_journey(request):
+    if request.method == 'POST':
+        print(request.POST)
+        # form2 = UserProfileForm(request.POST, prefix = "profile")
+        # if form1.is_valid() and form2.is_valid():
+        #     #create initial entry for user
+        #     username = form1.cleaned_data["username"]
+        #     password = form1.cleaned_data["password"]
+        #     new_user = User.objects.create_user(username, password)
+        #     new_user.save()
+
+        #     #create entry for UserProfile (extension of new_user object)      
+        #     profile = form2.save(commit = False)
+        #     profile.user = new_user
+        #     profile.save()
+        #     return HttpResponseRedirect("/books/")
