@@ -277,14 +277,21 @@
                                 <!-- <input type="hidden" id="stop-count-input" name="selected_journey_stop_count"> -->
 
                                 <!-- Option 2 (NOT hidden - for testing) -->
-                                <input type="text" id="route-name-input" name="selected_route_name">
+                                {% comment %} <input type="text" id="route-name-input" name="selected_route_name">
                                 <input type="text" id="starting-stop-input" name="selected_starting_stop">
                                 <input type="text" id="ending-stop-input" name="selected_ending_stop">
-                                <input type="text" id="stop-count-input" name="selected_journey_stop_count">
+                                <input type="text" id="stop-count-input" name="selected_journey_stop_count"> {% endcomment %}
                                 {% comment %} <input type="text" id="current-datetime-input" name="current_datetime"> {% endcomment %}
                                 {% comment %} <input type="datetime-local" value="2000-01-01T00:00:00" />
                                 <input type="text" id="logged-in-user" name="logged_in_user" value={{user.pk}}> {% endcomment %}
-                                <!-- Option 3-->
+
+                                <!-- Option 3 (Hidden) --> <!-- I THINK IT'S WORKING!!! -->
+                                <input type="hidden" id="route-name-input" name="route_name">
+                                <input type="hidden" id="starting-stop-input" name="origin_stop">
+                                <input type="hidden" id="ending-stop-input" name="destination_stop">
+                                <input type="hidden" id="stop-count-input" name="stops_count">
+
+                                <!-- Option 4-->
                                 <!-- {{favourite_journey_form}} -->
                                 <!-- Save Journey Button below -->
                                 <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey">

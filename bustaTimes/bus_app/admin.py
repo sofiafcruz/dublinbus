@@ -11,3 +11,7 @@ admin.site.register(RouteAndStop)
 from bus_app.models import AdditionalUserInfo
 
 admin.site.register(AdditionalUserInfo)
+
+from bus_app.models import FavouriteJourney
+
+admin.site.register(FavouriteJourney)

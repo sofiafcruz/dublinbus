@@ -450,14 +450,13 @@ def save_route_journey(request):
         print(favourite_journey_form.data)
         # I THINK THE ISSUE IS THAT WE ARE MISSING THE USER'S CREDENTIALS
         if favourite_journey_form.is_valid():
-            return JsonResponse("Success", safe=False)
             # And create the saved journey for the user
             favourite_journey = favourite_journey_form.save(commit=False)
             
             favourite_journey.user = request.user
             favourite_journey.save()
             # Show appropriate Success Message
-            messages.success(request, f"Journey favourited for: {user}")
+            messages.success(request, f"Journey favourited for: {request.user}")
             
             # Then redirect them to the login page
             return redirect('index')
@@ -474,8 +473,10 @@ def save_route_journey(request):
         #     profile.user = new_user
         #     profile.save()
         else:
-            print(favourite_journey_form.errors)
-            print(favourite_journey_form.is_valid())
-            context = {"form": favourite_journey_form}
-            # return HttpResponse("UN-successful")
-            return render(request, 'favourite_journey_errors.html', context)
+            messages.error(request, f"ERROR: in favouriting journey for: {request.user}... Did not save journey")
+            return redirect('index')
+            # print(favourite_journey_form.errors)
+            # print(favourite_journey_form.is_valid())
+            # context = {"form": favourite_journey_form}
+            # # return HttpResponse("UN-successful")
+            # return render(request, 'favourite_journey_errors.html', context)
