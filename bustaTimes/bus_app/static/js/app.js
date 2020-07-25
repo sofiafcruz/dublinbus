@@ -1,50 +1,75 @@
 // ================================ OTHER ================================
 // ********** Save Journey for Logged in Users **********
-$("#save-journey").click(function (e) {
-    // e.preventDefault();
-    let selected_route = document.getElementById("json-routes").value;
-    let selected_origin_stop = document.getElementById("json-starting-stops");
-    var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
-    let selected_destination_stop = document.getElementById("json-ending-stops");
-    var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
-    let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value + 1;
-    // let distance = document.getElementById("json-ending-stops").value;
-
-    console.log("Selected Journey Details;");
-    console.log("=========================");
-    console.log("Selected Route:", selected_route);
-    console.log("Stop Count:", stops_count);
-    console.log("Origin Stop:", origin_opt);
-    console.log("Destination Stop:", destination_opt);
-
-    document.getElementById("route-name-input").value = selected_route;
-    document.getElementById("starting-stop-input").value = origin_opt;
-    document.getElementById("ending-stop-input").value = destination_opt;
-    document.getElementById("stop-count-input").value = parseInt(stops_count);
-    console.log(parseInt(stops_count));
-    console.log(typeof parseInt(stops_count));
-
-    //// Issues with CSRF below, as making a post request...
-    //// Not sure how to fix atm
-    // $.ajax({
-    //   url: "save_route_journey",
-    //   type: 'POST',
-    //   async: false,
-    //   data: {
-    //     "selected_route": selected_route,
-    //     "origin_opt": origin_opt,
-    //     "destination_opt": destination_opt,
-    //     "stops_count": stops_count
-    //   },
-    //   success: function (not_sure) {
-    //     console.log(not_sure);
-    //   },
-    //   error: function (error) {
-    //     // An error most likely won't arise unless we mess with the JSON data or path
-    //     console.log(`Error ${error}`);
-    //   },
-    // });
+// Attempt 1
+// ********** On clicking "Save Journey", save the journey **********
+var save_journey_form = $("#save-journey-form");
+save_journey_form.submit(function () {
+  $.ajax({
+    type: save_journey_form.attr("method"), // POST
+    url: save_journey_form.attr("action"), // save_route_journey
+    data: save_journey_form.serialize(), // Get values of all the inputs
+    async: false,
+    success: function (data) {
+      console.log("All good");
+    },
+    error: function (error) {
+      console.log("Something went wrong!");
+      console.log(error);
+    },
+  });
+//   return false; // Stop the page from Reloading
 });
+// Attempt 2
+// $("#save-journey").click(function (e) {
+//     // e.preventDefault();
+//     // let selected_route = document.getElementById("json-routes").value;
+//     // let selected_origin_stop = document.getElementById("json-starting-stops");
+//     // var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
+//     // let selected_destination_stop = document.getElementById("json-ending-stops");
+//     // var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
+//     // let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value + 1;
+//     // // let distance = document.getElementById("json-ending-stops").value;
+
+//     // console.log("Selected Journey Details;");
+//     // console.log("=========================");
+//     // console.log("Selected Route:", selected_route);
+//     // console.log("Stop Count:", stops_count);
+//     // console.log("Origin Stop:", origin_opt);
+//     // console.log("Destination Stop:", destination_opt);
+
+//     // document.getElementById("route-name-input").value = selected_route;
+//     // document.getElementById("starting-stop-input").value = origin_opt;
+//     // document.getElementById("ending-stop-input").value = destination_opt;
+//     // document.getElementById("stop-count-input").value = parseInt(stops_count);
+
+//     // console.log("HIDDEN FORM VALUES");
+//     // console.log(document.getElementById("route-name-input").value);
+//     // console.log(document.getElementById("starting-stop-input").value);
+//     // console.log(document.getElementById("ending-stop-input").value);
+//     // console.log(document.getElementById("stop-count-input").value);
+
+    
+//     //// Issues with CSRF below, as making a post request...
+//     //// Not sure how to fix atm
+//     // $.ajax({
+//     //   url: "save_route_journey",
+//     //   type: 'POST',
+//     //   async: false,
+//     //   data: {
+//     //     "selected_route": selected_route,
+//     //     "origin_opt": origin_opt,
+//     //     "destination_opt": destination_opt,
+//     //     "stops_count": stops_count
+//     //   },
+//     //   success: function (not_sure) {
+//     //     console.log(not_sure);
+//     //   },
+//     //   error: function (error) {
+//     //     // An error most likely won't arise unless we mess with the JSON data or path
+//     //     console.log(`Error ${error}`);
+//     //   },
+//     // });
+// });
 
 // ********** On clicking "Show Balance" show User's Leap Card Balance (i.e. grab all the stops) **********
 var leap_card_form = $("#leap-card-form");
@@ -254,7 +279,34 @@ function generateStopArray() {
 }
 
 function showSaveJourneyBtn() {
-  $("#save-journey").css("display", "block");
+  console.log("Show Save Journey Button");
+    $("#save-journey").css("display", "block");
+    // And fill in the form details etc... NOT WORKING THOUGH
+    let selected_route = document.getElementById("json-routes").value;
+    let selected_origin_stop = document.getElementById("json-starting-stops");
+    var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
+    let selected_destination_stop = document.getElementById("json-ending-stops");
+    var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
+    let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value + 1;
+    // let distance = document.getElementById("json-ending-stops").value;
+
+    console.log("Selected Journey Details;");
+    console.log("=========================");
+    console.log("Selected Route:", selected_route);
+    console.log("Stop Count:", stops_count);
+    console.log("Origin Stop:", origin_opt);
+    console.log("Destination Stop:", destination_opt);
+
+    document.getElementById("route-name-input").value = selected_route;
+    document.getElementById("starting-stop-input").value = origin_opt;
+    document.getElementById("ending-stop-input").value = destination_opt;
+    document.getElementById("stop-count-input").value = parseInt(stops_count);
+
+    console.log("HIDDEN FORM VALUES");
+    console.log(document.getElementById("route-name-input").value);
+    console.log(document.getElementById("starting-stop-input").value);
+    console.log(document.getElementById("ending-stop-input").value);
+    console.log(document.getElementById("stop-count-input").value);
 }
 
 // ********** DateTime Dropdown **********

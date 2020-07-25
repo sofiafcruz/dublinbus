@@ -268,13 +268,24 @@
                         
                         {% if user.is_authenticated %}
                             <button class='btn btn-outline-light' onclick="generateStopArray(); showSaveJourneyBtn();" style="margin-top:15px;">Show Journey</button>
-                            <form id="save-journey-form" method="POST" action="save_route_journey" >
+                            <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
                                 {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
-                                <!--  -->
-                                <input type="hidden" id="route-name-input" name="selected_route_name">
-                                <input type="hidden" id="starting-stop-input" name="selected_starting_stop">
-                                <input type="hidden" id="ending-stop-input" name="selected_ending_stop">
-                                <input type="hidden" id="stop-count-input" name="selected_journey_stop_count">
+                                <!-- Option 1 -->
+                                <!-- <input type="hidden" id="route-name-input" name="selected_route_name"> -->
+                                <!-- <input type="hidden" id="starting-stop-input" name="selected_starting_stop"> -->
+                                <!-- <input type="hidden" id="ending-stop-input" name="selected_ending_stop"> -->
+                                <!-- <input type="hidden" id="stop-count-input" name="selected_journey_stop_count"> -->
+
+                                <!-- Option 2 (NOT hidden - for testing) -->
+                                <input type="text" id="route-name-input" name="selected_route_name">
+                                <input type="text" id="starting-stop-input" name="selected_starting_stop">
+                                <input type="text" id="ending-stop-input" name="selected_ending_stop">
+                                <input type="text" id="stop-count-input" name="selected_journey_stop_count">
+                                {% comment %} <input type="text" id="current-datetime-input" name="current_datetime"> {% endcomment %}
+                                {% comment %} <input type="datetime-local" value="2000-01-01T00:00:00" />
+                                <input type="text" id="logged-in-user" name="logged_in_user" value={{user.pk}}> {% endcomment %}
+                                <!-- Option 3-->
+                                <!-- {{favourite_journey_form}} -->
                                 <!-- Save Journey Button below -->
                                 <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey">
                             </form>
@@ -378,5 +389,53 @@
     src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initMap">
     </script>
     <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+
+    <!-- UNSUCCESSFUL - SAVING FAVOURITE JOURNEY -->
+    <!--
+    <tr>
+        <th>
+            <label for="id_route_name">Route name:</label>
+        </th>
+        <td>
+            <ul class="errorlist">
+                <li>This field is required.</li>
+            </ul>
+            <input type="text" name="route_name" maxlength="10" required id="id_route_name">
+        </td>
+    </tr>
+    
+    <tr>
+        <th>
+            <label for="id_origin_stop">Origin stop:</label>
+        </th>
+        <td>
+            <ul class="errorlist">
+                <li>This field is required.</li>
+            </ul>
+            <input type="text" name="origin_stop" maxlength="200" required id="id_origin_stop">
+        </td>
+    </tr>
+
+<tr><th><label for="id_destination_stop">Destination stop:</label></th><td><ul class="errorlist"><li>This field is required.</li></ul><input type="text" name="destination_stop" maxlength="200" required id="id_destination_stop"></td></tr>
+<tr><th><label for="id_stops_count">Stops count:</label></th><td><ul class="errorlist"><li>This field is required.</li></ul><input type="number" name="stops_count" min="0" required id="id_stops_count"></td></tr>
+-->
+    <!-- SUCCESSFUL - REGISTERING USER -->
+    <!--
+    <tr>
+        <th>
+            <label for="id_username">Username:</label>
+        </th>
+        <td>
+            <input type="text" name="username" value="test37" maxlength="150" autofocus required id="id_username"><br>
+            <span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+        </td>
+    </tr>
+<tr><th><label for="id_email">Email address:</label></th><td><input type="email" name="email" value="test37@gmail.com" maxlength="254" id="id_email"></td></tr>
+<tr><th><label for="id_password1">Password:</label></th><td><input type="password" name="password1" autocomplete="new-password" required id="id_password1"><br><span class="helptext"><ul><li>Your password can’t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul></span></td></tr>
+<tr><th><label for="id_password2">Password confirmation:</label></th><td><input type="password" name="password2" autocomplete="new-password" required id="id_password2"><br><span class="helptext">Enter the same password as before, for verification.</span></td></tr>
+
+<tr><th><label for="id_leapcard_username">Leapcard username:</label></th><td><input type="text" name="leapcard_username" value="test37" maxlength="50" id="id_leapcard_username"></td></tr>
+<tr><th><label for="id_leapcard_password">Leapcard password:</label></th><td><input type="password" name="leapcard_password" maxlength="256" id="id_leapcard_password"></td></tr>
+-->
 </body>
 </html>

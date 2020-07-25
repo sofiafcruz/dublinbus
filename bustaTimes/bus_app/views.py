@@ -13,6 +13,7 @@ google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 
 # Create your views here.
 
+from .forms import FavouriteJourneyForm
 def index(request):
 
     # USER CREATION FORM
@@ -79,6 +80,11 @@ def index(request):
         'create_form': create_form,
         'additional_info_form': additional_info_form,
     }
+
+    if request.user.is_authenticated:
+        print(f"User: {request.user} logged in...")
+        favourite_journey_form = FavouriteJourneyForm()
+        context["favourite_journey_form"] = favourite_journey_form
     
     return render(request, 'index.html', context)
 
@@ -350,13 +356,26 @@ def registerUserPopup(request):
         additional_info_form = AdditionalUserInfoForm()
 
         if request.method == 'POST':
-
+            print("====BEFORE USER FORM DATA====")
+            print(create_form.data)
+            print("====BEFORE ADDITIONAL FORM DATA====")
+            print(additional_info_form.data)
             # Post data = Username, Password, Confirmed password, email, AND Additional info
             # Render the form again and pass in the user data into the form
             create_form = CreateUserForm(request.POST)
             # ADDITIONAL_INFO
             additional_info_form = AdditionalUserInfoForm(request.POST)
 
+            print("====USER FORM START====")
+            print(create_form)
+            print("====USER FORM DATA====")
+            print(create_form.data)
+            print("====USER FORM END====")
+            print("====ADDITIONAL FORM START====")
+            print(additional_info_form)
+            print("====ADDITIONAL FORM DATA====")
+            print(additional_info_form.data)
+            print("====ADDITIONAL FORM END====")
             if create_form.is_valid() and additional_info_form.is_valid():
                 # Then save the User
                 user = create_form.save() 
@@ -409,14 +428,29 @@ def loginUserPopup(request):
                 # return flash message
                 # messages.info(request, "Username OR password is incorrect")
 
+# from .forms import FavouriteJourneyForm
 def save_route_journey(request):
+    favourite_journey_form = FavouriteJourneyForm()
     if request.method == 'POST':
+        print("====DATA POSTED====")
         print(request.POST)
+        print("====FILES POSTED====")
+        print(request.FILES)
+        print("====LOGGED IN USER'S NAME====")
         print(request.user)
-
+        print("====EMPTY FORM====")
+        print(favourite_journey_form)
+        print("====EMPTY FORM DATA====")
+        print(favourite_journey_form.data)
+        # Filling in the form with the data submitted
         favourite_journey_form = FavouriteJourneyForm(request.POST)
-
+        print("====FILLED FORM====")
+        print(favourite_journey_form)
+        print("====FILLED FORM DATA====")
+        print(favourite_journey_form.data)
+        # I THINK THE ISSUE IS THAT WE ARE MISSING THE USER'S CREDENTIALS
         if favourite_journey_form.is_valid():
+            return JsonResponse("Success", safe=False)
             # And create the saved journey for the user
             favourite_journey = favourite_journey_form.save(commit=False)
             
@@ -440,4 +474,8 @@ def save_route_journey(request):
         #     profile.user = new_user
         #     profile.save()
         else:
-            return HttpResponse("UN-successful")
+            print(favourite_journey_form.errors)
+            print(favourite_journey_form.is_valid())
+            context = {"form": favourite_journey_form}
+            # return HttpResponse("UN-successful")
+            return render(request, 'favourite_journey_errors.html', context)

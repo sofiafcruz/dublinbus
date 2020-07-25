@@ -141,7 +141,7 @@ class FavouriteJourney(models.Model):
     origin_stop = models.CharField(max_length=200)
     destination_stop = models.CharField(max_length=200)
     stops_count = models.PositiveSmallIntegerField()
-    save_date = models.DateTimeField(auto_now=True)
+    save_date = models.DateTimeField(auto_now=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
