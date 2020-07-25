@@ -409,12 +409,24 @@ def loginUserPopup(request):
                 # return flash message
                 # messages.info(request, "Username OR password is incorrect")
 
-from django.views.decorators.csrf import csrf_protect
-
-@csrf_protect
 def save_route_journey(request):
     if request.method == 'POST':
         print(request.POST)
+        print(request.user)
+
+        favourite_journey_form = FavouriteJourneyForm(request.POST)
+
+        if favourite_journey_form.is_valid():
+            # And create the saved journey for the user
+            favourite_journey = favourite_journey_form.save(commit=False)
+            
+            favourite_journey.user = request.user
+            favourite_journey.save()
+            # Show appropriate Success Message
+            messages.success(request, f"Journey favourited for: {user}")
+            
+            # Then redirect them to the login page
+            return redirect('index')
         # form2 = UserProfileForm(request.POST, prefix = "profile")
         # if form1.is_valid() and form2.is_valid():
         #     #create initial entry for user
@@ -427,4 +439,5 @@ def save_route_journey(request):
         #     profile = form2.save(commit = False)
         #     profile.user = new_user
         #     profile.save()
-        #     return HttpResponseRedirect("/books/")
+        else:
+            return HttpResponse("UN-successful")

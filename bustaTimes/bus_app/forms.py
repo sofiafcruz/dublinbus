@@ -50,8 +50,8 @@ class AdditionalUserInfoForm(forms.ModelForm):
         # Updated fields:
         # fields = ['leapcard_username', 'height_in_cm', 'weight_in_kg']
 
-# from .models import FavouriteJourney
-# class FavouriteJourneyForm(forms.ModelForm):
-#     class Meta:
-#         model = FavouriteJourney
-#         fields = ['route_name', 'origin_stop', 'destination_stop', 'stops_count', 'distance', 'save_date']
+from .models import FavouriteJourney
+class FavouriteJourneyForm(forms.ModelForm):
+    class Meta:
+        model = FavouriteJourney
+        fields = ['route_name', 'origin_stop', 'destination_stop', 'stops_count']

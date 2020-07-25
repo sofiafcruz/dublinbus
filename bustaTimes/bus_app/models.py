@@ -136,18 +136,17 @@ class AdditionalUserInfo(models.Model):
     def __str__(self):
         return self.user.username
 
-# class FavouriteJourney(models.Model):
-#     route_name = models.CharField(max_length=10)
-#     origin_stop = models.CharField(max_length=200)
-#     destination_stop = models.CharField(max_length=200)
-#     stops_count = models.PositiveSmallIntegerField()
-#     distance = models.FloatField()
-#     save_date = models.DateField()
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+class FavouriteJourney(models.Model):
+    route_name = models.CharField(max_length=10)
+    origin_stop = models.CharField(max_length=200)
+    destination_stop = models.CharField(max_length=200)
+    stops_count = models.PositiveSmallIntegerField()
+    save_date = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-#     def __str__(self):
-#         return f"Route: {self.route_name}, from stop {self.origin_stop} to stop {self.destination_stop}"
+    def __str__(self):
+        return f"Route: {self.route_name}, from stop {self.origin_stop} to stop {self.destination_stop}"
 
-#     class Meta:
-#         ordering = ('save_date',)
+    class Meta:
+        ordering = ('save_date',)
 
