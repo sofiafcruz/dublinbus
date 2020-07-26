@@ -180,29 +180,48 @@
                         <p>Go to the "Search by Route" section to save your favourite trips for quick and easy access!</p>
                     </div>
                 {% else %}
-                    <p>Number of Entries: {{ users_favourite_journeys|length }}</p>
-                    <div>
-                        <!-- Table Hierarchy -->
-                        <table id="favourites-table">
+                    <p style="text-align: center; margin-top: 15px">Number of Entries: {{ users_favourite_journeys|length }}</p>
+                    {% comment %} <div>
+                        <table id="favourites-table-headings">
                             <tr>
                                 <th>#</th>
+                                <th>PK</th>
                                 <th>Route Name/Num</th>
                                 <th>Start</th>
                                 <th>End</th>
                                 <th># Stops</th>
                                 <th>Date Saved</th>
                                 <th>Summary</th>
+                                <th>Delete</th>
+                            </tr>
+                        </table>
+                    </div> {% endcomment %}
+                    <div class="modal-body">
+                        <!-- Table Hierarchy -->
+                        <table id="favourites-table">
+                            <tr>
+                                <th>#</th>
+                                <th>PK</th>
+                                <th>Route Name/Num</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th># Stops</th>
+                                <th>Date Saved</th>
+                                <th>Summary</th>
+                                <th>Delete</th>
                             </tr>
                             {% for journey in users_favourite_journeys  %}
-                            <tr class="clickable-row">
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ journey.route_name }}</td>
-                                <td>{{ journey.origin_stop }}</td>
-                                <td>{{ journey.destination_stop }}</td>
-                                <td>{{ journey.stops_count }}</td>
-                                <td>{{ journey.save_date }}</td>
-                                <td>{{ journey }}</td>
-                            </tr>
+                                <tr class="clickable-row" id="pk-{{ journey.pk }}">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ journey.pk }}</td>
+                                    <td>{{ journey.route_name }}</td>
+                                    <td>{{ journey.origin_stop }}</td>
+                                    <td>{{ journey.destination_stop }}</td>
+                                    <td>{{ journey.stops_count }}</td>
+                                    <td>{{ journey.save_date }}</td>
+                                    <td>{{ journey }}</td>
+                                    <td><img onclick="deleteRow(this)" src="./static/images/delete-icon.png" alt="Delete This Row" style="width:70px; height:auto;"></td>
+                                </tr>
                             {% endfor %}
                         </table>
                     </div>

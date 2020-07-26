@@ -487,3 +487,16 @@ $(".clickable-row").click(function() {
   //   console.log('Option 2');
   // });
 });
+
+// Delete a Row (from the DOM (rather than from the database))
+function deleteRow(ele) {
+  console.log("DELETE THIS ROW!");
+  console.log("=====Start=====");
+  console.log(ele);
+  let td_ele = ele.parentNode;
+  console.log(td_ele);
+  let tr_ele = td_ele.parentNode;
+  console.log(tr_ele);
+  console.log("=====End=====");
+  
+}

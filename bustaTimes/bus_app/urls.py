@@ -21,5 +21,6 @@ urlpatterns = [
     # SHOW FAVOURITES
     path('showFavourites', views.showFavourites, name="showFavourites"),
     path('showFavouritesPopup', views.showFavouritesPopup, name="showFavouritesPopup"),
-    
+    # DELETE FAVOURITES
+    path('delete_favourite_journey', views.delete_favourite_journey, name="delete_favourite_journey"),
 ]
