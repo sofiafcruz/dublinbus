@@ -26,15 +26,8 @@ body {
   padding: 1em;
 }
 
-.hidden-display-container {
-  display: none;
-  background-color: lightblue;
-  padding: 1em;
-}
-
 .display-container {
   display: block;
-  background-color: lightblue;
   padding: 1em;
 }
 
@@ -131,7 +124,7 @@ body {
 
 /* Entire Blue Search Menu */
 .Search-Menu-Container {
-  background-color: lightblue;
+  background-color: white;
   width: 30%;
   /* min and max widths to manage size */
   max-width: 350px;
@@ -144,7 +137,7 @@ body {
   /* left: 15px; */
   top: 0px;
   z-index: 98;
-
+  text-align: center;
   /* style="position: absolute; left:15px; top:0px; z-index:98;" */
 }
 select,
@@ -155,10 +148,8 @@ select,
 /* Style the tab */
 .tab {
   overflow: hidden;
-  border-bottom: 1px solid white;
-  background-color: lightblue;
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 
 /* Style the buttons inside the tab */
@@ -168,21 +159,30 @@ select,
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 10px 12px;
-  transition: 0.3s;
-  font-size: 17px;
-  color: white;
+}
+
+button {
+    border-radius: 100%;
+    transition: background-color 0.5s ease;
+    margin: 0px 5px 0px 5px;
 }
 
 /* Change background color of buttons on hover */
-.tab button:hover {
-  color: black;
-  border-bottom: black;
+button:hover {
+  background-color: lightblue;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  color: black;
+  background-color: lightblue;
+}
+
+.btn-submit {
+    border-color: lightblue;
+}
+
+.btn-submit:hover {
+    color: white;
 }
 
 /* Style te tab content */

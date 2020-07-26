@@ -174,20 +174,20 @@
             
             <!-- *************** Container for content of ALL Tabs *************** -->
             <div class="Search-Menu-Container">
+                <h3 style="margin-bottom:10px;">Plan Your Trip</h3>
                 <div class="tab">
-                    <button class="tablinks" onclick="openCity(event, 'home-search-container')" id="defaultOpen">By Location</button>
-                    <button class="tablinks" onclick="openCity(event, 'search-by-route-container')">By Route</button>
-                    <button class="tablinks" onclick="openCity(event, 'bus-stop-search-container')">By Bus Stop</button>
+                    <button class="tablinks" onclick=  "openCity(event, 'home-search-container')" id="defaultOpen"><img src="./static/images/menu/by-location.svg" alt="Search by location" width="75" height="75"></button>
+                    <button class="tablinks" onclick="openCity(event, 'search-by-route-container')"><img src="./static/images/menu/by-route.svg" alt="Search by route" width="75" height="75"></button>
+                    <button class="tablinks" onclick="openCity(event, 'bus-stop-search-container')"><img src="./static/images/menu/by-stop.svg" alt="Search by stop" width="75" height="75"></button>
                 </div>
 
                 <!-- ********** Home Menu ********** -->
                 <div id='home-search-container' class="container centre-and-padding tabcontent display-container">
-                    <h3>Plan Your Trip</h3>
                     <!-- Form containing "Origin" and "Destination" text inputs -->
                     <form>
                         <div class="form-group">
                             <label for="origin">Origin:</label>
-                            <input type="text" class="form-control" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point" required>
+                            <input type="text" class="form-control form-control-sm" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point" required>
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input users-location-switch" id="customSwitch2" onchange="fillUsersLocation()">
                                 <label class="custom-control-label text-muted" for="customSwitch2"><small>Use Current Location</small></label>
@@ -195,18 +195,17 @@
                         </div>
                         <div class="form-group">
                             <label for="destination">Destination:</label>
-                            <input type="text" class="form-control" id="destination-home-search" placeholder="Choose destination" required>
+                            <input type="text" class="form-control form-control-sm" id="destination-home-search" placeholder="Choose destination" required>
                             <p><small class="text-muted">Double click on the map to set destination</small></p>
                         </div>
-                        <button id="home-submit" type="submit" class="btn btn-outline-light">Submit</button>
+                        <button id="home-submit" type="submit" class="btn btn-outline-* btn-submit">Submit</button>
                     </form>
                     <!-- Container for the selected journey's trip details-->
                     <div id="journey-details" class="container"></div>
                 </div>
                 
                 <!-- ********** Search by Route Menu ********** -->
-                <div id='search-by-route-container' class="container centre-and-padding tabcontent hidden-display-container">
-                    <h3>Plan Your Trip</h3>
+                <div id='search-by-route-container' class="container centre-and-padding tabcontent">
                     <!-- Route Dropdown -->
                     <label for="route-dropdown">Select Route:</label>
                     <select onchange="showAndLoadStartAndEndDrops()" id="json-routes">
@@ -267,7 +266,7 @@
 
                         
                         {% if user.is_authenticated %}
-                            <button class='btn btn-outline-light' onclick="generateStopArray(); showSaveJourneyBtn();" style="margin-top:15px;">Show Journey</button>
+                            <button class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn();" style="margin-top:15px;">Show Journey</button>
                             <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
                                 {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
                                 <!-- Option 1 -->
@@ -298,7 +297,7 @@
                             </form>
                         {% else %}
                             
-                            <button class='btn btn-outline-light' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
+                            <button class='btn btn-outline-* btn-submit' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
                         {% endif %}
 
                         <div id="routes-directions-panel"></div>
@@ -306,20 +305,21 @@
                 </div>
                 
                 <!-- ********** Search by Bus Stop Menu ********** -->
-                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent hidden-display-container">
-                    <h3>Plan Your Trip</h3>
+                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent">
                     <form>
-                        <label for="origin">Bus Stop:</label><br>
-                        <input type="text" id="busstop-search" name="busstop-input" placeholder="Enter Stop number or address">
+                        <div class="form-group">
+                            <label for="origin">Bus Stop:</label>
+                            <input type="text" class="form-control form-control-sm" id="busstop-search" aria-describedby="busstop-input" placeholder="Enter Stop number or address" required>
+                        </div>
                         <!-- Button -->
-                        <button type="submit" id="show-all-routes-serviced" value="Submit" class='btn btn-outline-light'>Search</button> 
+                        <button type="submit" id="show-all-routes-serviced" value="Submit" class='btn btn-outline-* btn-submit'>Search</button> 
                         <!-- Container for all the regex matches of the user's search-->
                         <div class="container" id="match-list"></div>
                     </form>
                 </div>
 
                 <!-- ********** See Leap Card ********** -->
-                <div id="leap-card-balance-container" class="container centre-and-padding tabcontent hidden-display-container">
+                <div id="leap-card-balance-container" class="container centre-and-padding tabcontent">
                     <h2>Fill in Leap Card Credentials to see Balance</h2>
                     <form id="leap-card-form" method="POST" action="leap_card_info" >
                         {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
@@ -330,7 +330,7 @@
                         {% endif %}
                         <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
                         <!-- Testing out Submit Buttons below -->
-                        <input id="show-balance" type="submit" class='btn btn-outline-light' value="Show Balance">
+                        <input id="show-balance" type="submit" class='btn btn-outline-* btn-submit' value="Show Balance">
 
                         <p id="balance-paragraph"></p>
                         <a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a>
