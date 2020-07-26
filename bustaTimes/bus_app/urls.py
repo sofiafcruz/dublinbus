@@ -18,4 +18,8 @@ urlpatterns = [
     path('loginUserPopup', views.loginUserPopup, name="loginUserPopup"),
     # SAVE ROUTE JOURNEY
     path('save_route_journey', views.save_route_journey, name="save_route_journey"),
+    # SHOW FAVOURITES
+    path('showFavourites', views.showFavourites, name="showFavourites"),
+    path('showFavouritesPopup', views.showFavouritesPopup, name="showFavouritesPopup"),
+    
 ]

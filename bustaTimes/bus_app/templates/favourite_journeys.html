@@ -1,0 +1,13 @@
+<h1>User's Favourite Journeys</h1>
+
+{% for journey in users_favourite_journeys  %}
+    <h4>{{ forloop.counter }}</h4>
+    <h4>{{ journey }}</h4>
+    <div>
+        <p>Route Name/Num: {{ journey.route_name }}</p>
+        <p>Start: {{ journey.origin_stop }}</p>
+        <p>End: {{ journey.destination_stop }}</p>
+        <p>Stops Count: {{ journey.stops_count }}</p>
+        <p>Save Date: {{ journey.save_date }}</p>
+    </div>
+{% endfor %}

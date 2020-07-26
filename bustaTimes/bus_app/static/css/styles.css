@@ -192,3 +192,45 @@ select,
   border-top: none;
   text-align: center;
 }
+
+/* Favourites Table */
+#favourites-table {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#favourites-table td, #favourites-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#favourites-table tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+
+#favourites-table tr:hover {
+  background-color: #ddd;
+}
+
+#favourites-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: lightskyblue;
+  color: white;
+}
+
+/* Make favourites popup bigger when on a large screen (XL) */
+@media (min-width: 768px) {
+  .modal-xl {
+    width: 90%;
+    max-width:1200px;
+  }
+}
+
+/* No Journeys message */
+#no-journeys-message {
+  text-align: center;
+  margin-top: 20px;
+}

@@ -2,23 +2,23 @@
 // ********** Save Journey for Logged in Users **********
 // Attempt 1
 // ********** On clicking "Save Journey", save the journey **********
-var save_journey_form = $("#save-journey-form");
-save_journey_form.submit(function () {
-  $.ajax({
-    type: save_journey_form.attr("method"), // POST
-    url: save_journey_form.attr("action"), // save_route_journey
-    data: save_journey_form.serialize(), // Get values of all the inputs
-    async: false,
-    success: function (data) {
-      console.log("All good");
-    },
-    error: function (error) {
-      console.log("Something went wrong!");
-      console.log(error);
-    },
-  });
-//   return false; // Stop the page from Reloading
-});
+// var save_journey_form = $("#save-journey-form");
+// save_journey_form.submit(function () {
+//   $.ajax({
+//     type: save_journey_form.attr("method"), // POST
+//     url: save_journey_form.attr("action"), // save_route_journey
+//     data: save_journey_form.serialize(), // Get values of all the inputs
+//     async: false,
+//     success: function (data) {
+//       console.log("All good");
+//     },
+//     error: function (error) {
+//       console.log("Something went wrong!");
+//       console.log(error);
+//     },
+//   });
+// //   return false; // Stop the page from Reloading
+// });
 // Attempt 2
 // $("#save-journey").click(function (e) {
 //     // e.preventDefault();
@@ -457,3 +457,33 @@ function navbarDisplay(evt, searchType) {
   // Hide the burger span (Not working fully, as when in full screen, clicking a nav option causes a click too.. Need to debug later)
   $(".navbar-toggler").click();
 }
+
+// ========== Favourites Popup Table Functionality ==========
+$(".clickable-row").click(function() {
+  console.log("Row in Favourites Table clicked!");
+  console.log($(this));
+  console.log($(this).data("td"));
+  console.log($(this).data("children"));
+  console.log($(this).children());
+
+  // Trying to access all the TD elements in the clicked row;
+  // ()
+  // Option 1
+  $(this).find('td').each (function(index, td) {
+    console.log(index, td.textContent);
+    // ROW FORMAT
+    // ==========
+    // 0. #
+    // 1. Route Name/Num
+    // 2. Start
+    // 3. End
+    // 4. # Stops
+    // 5. Date Saved
+    // 6. Summary
+  });
+
+  // Option 2
+  // $.each(this.cells, function(){
+  //   console.log('Option 2');
+  // });
+});

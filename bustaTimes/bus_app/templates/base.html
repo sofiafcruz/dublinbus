@@ -57,6 +57,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
                     </li>
+                    <!-- Favourites Link -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'showFavourites' %}">Favourites</a>
+                    </li>
+                    <!-- Login Link -->
+                    <li>
+                        <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
+                        <a class="nav-link" data-target='#favourites-popup' data-toggle="modal" href="">FAVOURITES POPUP</a>
+                    </li>
+                    
                 {% else %}
                     <!-- Login Link -->
                     <li>
@@ -151,6 +161,57 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- ********** Favourites PopUp ********** -->
+    <div class="modal" tabindex="-1" role="dialog" id="favourites-popup">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Choose a Favourite Journey</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </div>
+                {% if users_favourite_journeys|length < 1 %}
+                    <div id="no-journeys-message" class="container">
+                        <h3>Sorry, no journeys saved!</h3>
+                        <p>Go to the "Search by Route" section to save your favourite trips for quick and easy access!</p>
+                    </div>
+                {% else %}
+                    <p>Number of Entries: {{ users_favourite_journeys|length }}</p>
+                    <div>
+                        <!-- Table Hierarchy -->
+                        <table id="favourites-table">
+                            <tr>
+                                <th>#</th>
+                                <th>Route Name/Num</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th># Stops</th>
+                                <th>Date Saved</th>
+                                <th>Summary</th>
+                            </tr>
+                            {% for journey in users_favourite_journeys  %}
+                            <tr class="clickable-row">
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ journey.route_name }}</td>
+                                <td>{{ journey.origin_stop }}</td>
+                                <td>{{ journey.destination_stop }}</td>
+                                <td>{{ journey.stops_count }}</td>
+                                <td>{{ journey.save_date }}</td>
+                                <td>{{ journey }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -270,13 +331,8 @@
                             <button class='btn btn-outline-light' onclick="generateStopArray(); showSaveJourneyBtn();" style="margin-top:15px;">Show Journey</button>
                             <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
                                 {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
-                                <!-- Option 1 -->
-                                <!-- <input type="hidden" id="route-name-input" name="selected_route_name"> -->
-                                <!-- <input type="hidden" id="starting-stop-input" name="selected_starting_stop"> -->
-                                <!-- <input type="hidden" id="ending-stop-input" name="selected_ending_stop"> -->
-                                <!-- <input type="hidden" id="stop-count-input" name="selected_journey_stop_count"> -->
 
-                                <!-- Option 2 (NOT hidden - for testing) -->
+                                <!-- Option 1 (NOT hidden - for testing) -->
                                 {% comment %} <input type="text" id="route-name-input" name="selected_route_name">
                                 <input type="text" id="starting-stop-input" name="selected_starting_stop">
                                 <input type="text" id="ending-stop-input" name="selected_ending_stop">
@@ -285,13 +341,13 @@
                                 {% comment %} <input type="datetime-local" value="2000-01-01T00:00:00" />
                                 <input type="text" id="logged-in-user" name="logged_in_user" value={{user.pk}}> {% endcomment %}
 
-                                <!-- Option 3 (Hidden) --> <!-- I THINK IT'S WORKING!!! -->
+                                <!-- Option 2 (Hidden) --> <!-- I THINK IT'S WORKING!!! -->
                                 <input type="hidden" id="route-name-input" name="route_name">
                                 <input type="hidden" id="starting-stop-input" name="origin_stop">
                                 <input type="hidden" id="ending-stop-input" name="destination_stop">
                                 <input type="hidden" id="stop-count-input" name="stops_count">
 
-                                <!-- Option 4-->
+                                <!-- Option 3 -->
                                 <!-- {{favourite_journey_form}} -->
                                 <!-- Save Journey Button below -->
                                 <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey">

@@ -149,4 +149,5 @@ class FavouriteJourney(models.Model):
 
     class Meta:
         ordering = ('save_date',)
+        unique_together = ["route_name", "origin_stop", "destination_stop"]
 

@@ -82,9 +82,26 @@ def index(request):
     }
 
     if request.user.is_authenticated:
+        # Print in backend to show user logged in
         print(f"User: {request.user} logged in...")
-        favourite_journey_form = FavouriteJourneyForm()
-        context["favourite_journey_form"] = favourite_journey_form
+        
+        # Not sure if form needed?
+        # favourite_journey_form = FavouriteJourneyForm()
+        # context["favourite_journey_form"] = favourite_journey_form
+
+        # Populate favourite journeys
+        user_id = request.user.pk
+        user_username = request.user.username
+        
+        favourite_journeys = FavouriteJourney.objects
+        # print(favourite_journeys)
+        # print("====Favourite Journey Fields====")
+        # all_fields = FavouriteJourney._meta.get_fields()
+        # print(all_fields)
+        # print(f"====User: {user_username}'s favourite journeys====")
+        users_favourite_journeys = favourite_journeys.filter(user=user_id)
+        
+        context["users_favourite_journeys"] = users_favourite_journeys
     
     return render(request, 'index.html', context)
 
@@ -430,53 +447,90 @@ def loginUserPopup(request):
 
 # from .forms import FavouriteJourneyForm
 def save_route_journey(request):
+    print("Save Route Journey being called")
     favourite_journey_form = FavouriteJourneyForm()
     if request.method == 'POST':
-        print("====DATA POSTED====")
-        print(request.POST)
-        print("====FILES POSTED====")
-        print(request.FILES)
-        print("====LOGGED IN USER'S NAME====")
-        print(request.user)
-        print("====EMPTY FORM====")
-        print(favourite_journey_form)
-        print("====EMPTY FORM DATA====")
-        print(favourite_journey_form.data)
+        # print("====DATA POSTED====")
+        # print(request.POST)
+        # print("====LOGGED IN USER'S NAME====")
+        # print(request.user)
+        # print("====EMPTY FORM====")
+        # print(favourite_journey_form)
+        # print("====EMPTY FORM DATA====")
+        # print(favourite_journey_form.data)
         # Filling in the form with the data submitted
         favourite_journey_form = FavouriteJourneyForm(request.POST)
-        print("====FILLED FORM====")
-        print(favourite_journey_form)
-        print("====FILLED FORM DATA====")
-        print(favourite_journey_form.data)
+        # print("====FILLED FORM====")
+        # print(favourite_journey_form)
+        # print("====FILLED FORM DATA====")
+        # print(favourite_journey_form.data)
         # I THINK THE ISSUE IS THAT WE ARE MISSING THE USER'S CREDENTIALS
         if favourite_journey_form.is_valid():
+            print("IF BEING CALLED")
             # And create the saved journey for the user
             favourite_journey = favourite_journey_form.save(commit=False)
-            
+            print("++++++++++++++++++")
+            print("Saving Journey...")
+            print("++++++++++++++++++")
             favourite_journey.user = request.user
             favourite_journey.save()
+            
             # Show appropriate Success Message
             messages.success(request, f"Journey favourited for: {request.user}")
             
             # Then redirect them to the login page
             return redirect('index')
-        # form2 = UserProfileForm(request.POST, prefix = "profile")
-        # if form1.is_valid() and form2.is_valid():
-        #     #create initial entry for user
-        #     username = form1.cleaned_data["username"]
-        #     password = form1.cleaned_data["password"]
-        #     new_user = User.objects.create_user(username, password)
-        #     new_user.save()
-
-        #     #create entry for UserProfile (extension of new_user object)      
-        #     profile = form2.save(commit = False)
-        #     profile.user = new_user
-        #     profile.save()
         else:
+            print("ELSE BEING CALLED")
             messages.error(request, f"ERROR: in favouriting journey for: {request.user}... Did not save journey")
             return redirect('index')
             # print(favourite_journey_form.errors)
             # print(favourite_journey_form.is_valid())
             # context = {"form": favourite_journey_form}
-            # # return HttpResponse("UN-successful")
             # return render(request, 'favourite_journey_errors.html', context)
+
+from .models import FavouriteJourney
+def showFavourites(request):
+    user_id = request.user.pk
+    user_username = request.user.username
+    print("====Logged in User's ID====")
+    print(user_id)
+    print("====Logged in User's Username====")
+    print(user_username)
+    print("====All Favourite Journeys====")
+    favourite_journeys = FavouriteJourney.objects
+    print(favourite_journeys)
+    print("====Favourite Journey Fields====")
+    all_fields = FavouriteJourney._meta.get_fields()
+    print(all_fields)
+    print(f"====User: {user_username}'s favourite journeys====")
+    users_favourite_journeys = favourite_journeys.filter(user=user_id)
+    print(users_favourite_journeys)
+
+    context = {
+        "users_favourite_journeys": users_favourite_journeys,
+    }
+    return render(request, "favourite_journeys.html", context)
+
+# DON'T THIN WE NEED TO USE BELOW VIEW TO RENDER THE DATA, AND INSTEAD CAN BE LOOKED AFTER BY INDEX IF USER LOGGED IN
+def showFavouritesPopup(request):
+    user_id = request.user.pk
+    user_username = request.user.username
+    print("====Logged in User's ID====")
+    print(user_id)
+    print("====Logged in User's Username====")
+    print(user_username)
+    print("====All Favourite Journeys====")
+    favourite_journeys = FavouriteJourney.objects
+    print(favourite_journeys)
+    print("====Favourite Journey Fields====")
+    all_fields = FavouriteJourney._meta.get_fields()
+    print(all_fields)
+    print(f"====User: {user_username}'s favourite journeys====")
+    users_favourite_journeys = favourite_journeys.filter(user=user_id)
+    print(users_favourite_journeys)
+
+    context = {
+        "users_favourite_journeys": users_favourite_journeys,
+    }
+    return render(request, "favourite_journeys.html", context)
