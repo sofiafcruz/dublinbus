@@ -7,11 +7,6 @@ body {
   font-family: 'Montserrat';
 }
 
-#map {
-  height: 100%;
-  width: 100%;
-}
-
 .header {
   background-color: rgb(248, 249, 250);
 }
@@ -116,12 +111,25 @@ body {
   margin: 1rem;
   color: red;
 }
+
+#map {
+    height: 100%;
+    width: 100%;
+    /* grid-column: 3; */
+  }
+
 /*----------- Search menu ---------------*/
-.Main_container {
+.main-container {
   height: 100%;
   width: 100%;
-  position: relative;
+  /* display: grid;
+  grid-template-columns: 350px auto 20%;
+  grid-template-rows: auto 10%; */
 }
+
+/* .attractions {
+    grid-column: 3 / 3;
+} */
 
 /* Entire Blue Search Menu */
 .Search-Menu-Container {
@@ -137,7 +145,7 @@ body {
   padding-left: 15px;
   /* left: 15px; */
   top: 0px;
-  z-index: 98;
+  /* grid-column-start: col-start 1; */
   text-align: center;
   /* style="position: absolute; left:15px; top:0px; z-index:98;" */
 }

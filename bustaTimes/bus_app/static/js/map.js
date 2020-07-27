@@ -175,13 +175,8 @@ function toggleMarkerVisibility(markersToHide) {
   markerCluster.repaint(); // Show OR Hide the Marker cluster (depending on whichever condition passed)
 }
 
-// Toggles to User's Location
-$('#my-location-btn-img').click(function() {
-  // map.panTo(panToUsersLocation())
-  panToUsersLocation();
-});
-
 // Pan to User's Location
+// Called with an onclick event
 function panToUsersLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
