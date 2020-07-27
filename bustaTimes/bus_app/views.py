@@ -65,7 +65,7 @@ def index(request):
     route_origin_and_destination_data = json.dumps(data1) # json formatted string
 
     route_origin_and_destination_file.close()
-
+    
     context = {
         'google_maps_key':google_maps_key,
         'routes': all_routes,
@@ -160,7 +160,6 @@ def show_modelform_route(request):
 
 def leap_card_info(request):
     if request.method =='POST':
-        print("IT'S A POST")
         print(request.POST) # <QueryDict: {'csrfmiddlewaretoken': ['iGxFd71LhQcFutlpl65rExOFsGK2wgipLeIcQRtC83UhgAuuZ7YAj8kXq9cishIL'], 'inputUsername': ['X'], 'inputPassword': ['Y']}>
         leap_card_username = request.POST["inputUsername"]
         leap_card_password = request.POST["inputPassword"]
@@ -436,8 +435,8 @@ def loginUserPopup(request):
                 login(request, user) # Saves user's ID in the session
                 return redirect('index')
             else:
-                # Message below for debugging purposes
                 messages.error(request, f"ERROR: login credentials incorrect")
+                # Message below for debugging purposes
                 print("Someone tried to login and failed")
                 print("**************************************")
                 print(f"Tried logging in with;\nUsername: {username}\nPassword: {password}")
@@ -555,3 +554,13 @@ def delete_favourite_journey(request, journey_pk):
 #     messages.success(request, f"Success. An email was sent with instructions to reset your Password")
 #     # Then redirect them to the login page
 #     return redirect('index')
+
+from bus_app.model_predictions.get_model_predictions import getModelPredictions
+
+def get_journey_prediction(request):
+    if request.POST:
+        pass
+    return HttpResponse("Prediction Model")
+
+    # return redirect('index')
+

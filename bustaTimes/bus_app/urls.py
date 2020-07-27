@@ -26,10 +26,8 @@ urlpatterns = [
     # DELETE FAVOURITES
     path('delete_favourite_journey', views.delete_favourite_journey, name="delete_favourite_journey"),
     # PASSWORD RESET
-    # path('password_reset', views.password_reset, name="password_reset"),
-
-    # CBV Version
-    # Provides a form for our user to fill out that will send a password reset instruction to their email
-    # path('password_reset', PasswordResetView.as_view(), name="password_reset"),
+    
+    # MODEL PREDICTION
+    path('get_journey_prediction', views.get_journey_prediction, name="get_journey_prediction"),
 
 ]
