@@ -465,8 +465,9 @@ def save_route_journey(request):
         # print("====FILLED FORM DATA====")
         # print(favourite_journey_form.data)
         # I THINK THE ISSUE IS THAT WE ARE MISSING THE USER'S CREDENTIALS
+        print(favourite_journey_form.data)
         if favourite_journey_form.is_valid():
-            print("IF BEING CALLED")
+            print("FAVOURITE JOURNEY FORM IS VALID :)")
             # And create the saved journey for the user
             favourite_journey = favourite_journey_form.save(commit=False)
             print("++++++++++++++++++")
@@ -481,7 +482,7 @@ def save_route_journey(request):
             # Then redirect them to the login page
             return redirect('index')
         else:
-            print("ELSE BEING CALLED")
+            print("FAVOURITE JOURNEY FORM NOT VALID!!! :(")
             messages.error(request, f"ERROR: in favouriting journey for: {request.user}... Did not save journey")
             return redirect('index')
             # print(favourite_journey_form.errors)
