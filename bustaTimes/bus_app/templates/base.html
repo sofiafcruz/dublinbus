@@ -96,9 +96,7 @@
                 {% endfor %}
             </div>
         </nav>
-        <div id="weather-container">  
-            <span id="temperature" style="padding-right: 20px;"></span> 
-        </div>
+        
     </div>
     <!-- ********** PopUps ********** -->
     <!-- ********** Register PopUp ********** -->
@@ -234,26 +232,29 @@
         </div>
     </div>
     <!-- *************** MAIN BODY (Map, Menu etc) ***************-->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="main-container col-12">
-                <!-- Map -->
-                <div id="map" style="height:900px; width:100%"></div>
-                <!-- Switch button to show the attractions -->
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input attractions-switch" id="customSwitch1" onchange="displayAttractions()">
-                    <label class="custom-control-label" for="customSwitch1">Display Touristic Sights</label>
-                </div>
-                <!-- Switch button to show/hide the markers -->
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input markers-switch" id="customSwitch3" onchange="clearMarkers()">
-                    <label class="custom-control-label" for="customSwitch3">Hide Markers</label>
-                </div>
-                <!-- Button to set map on user's location -->
-                <input type="image" id="my-location-btn-img" onclick="panToUsersLocation()" src='./static/images/user-location-icon.png' />
-            
-            <!-- *************** Container for content of ALL Tabs *************** -->
-            <div class="Search-Menu-Container">
+    <div class="app-container">
+        <div style="height:100vh;">
+            <!-- Map -->
+            <div id="map" style="height:100%; width:100%"></div>
+        </div>
+        <div class="weather-container">  
+            <span id="temperature"></span> 
+        </div>
+        <!-- Switch button to show the attractions -->
+        <div class="custom-control custom-switch attractions">
+            <input type="checkbox" class="custom-control-input attractions-switch" id="customSwitch1" onchange="displayAttractions()">
+            <label class="custom-control-label" for="customSwitch1"><img src="./static/images/attractions/attractions-icon.svg" alt="Display Touristic Sights" style="width:40px;"></label>
+        </div>
+        <!-- Switch button to show/hide the markers -->
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input markers-switch" id="customSwitch3" onchange="clearMarkers()">
+            <label class="custom-control-label" for="customSwitch3">Hide Markers</label>
+        </div>
+        <!-- Button to set map on user's location -->
+        <div class="user-location-btn">
+            <input type="image" id="my-location-btn-img" onclick="panToUsersLocation()" src='./static/images/user-icon.svg' />
+        </div>
+        <div class="Search-Menu-Container">
                 <h3 style="margin-bottom:10px;">Plan Your Trip</h3>
                 <div class="tab">
                     <button class="tablinks" onclick=  "openCity(event, 'home-search-container')" id="defaultOpen"><img src="./static/images/menu/by-location.svg" alt="Search by location" width="75" height="75"></button>
@@ -412,8 +413,6 @@
                     </form>
                 </div>
             </div>
-            </div>
-        </div>
     </div>
 
     <!-- ********** Toggle Map Style Buttons ********** -->
