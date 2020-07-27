@@ -104,9 +104,6 @@ $("#search-by-route-container").click(function () {
     dataType: "json",
     success: function (json) {
       hd_routes = json;
-      console.log("In here");
-      //   console.log(hd_routes);
-
       // ********** Populate Route Dropdown **********
       var json_routes_dropdown = document.getElementById("json-routes");
       //   check for length of dropdown (intially 1 option) - to prevent list getting added to repeatedly
@@ -344,7 +341,7 @@ var currentTime = hour + ":" + minutes;
 document.getElementById("choose-time").value = currentTime;
 
 // ================================ SEARCH BY BUSSTOP ================================
-// ********** On clicking "Search by Bus Stop" nav option, load JSON file (i.e. grab all the stops) **********
+// ********** On clicking "Search by Bus Stop" nav option, load STOPS JSON file (i.e. grab all the stops) **********
 $("#bus-stop-search-container").click(function () {
   // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
   $.ajax({
@@ -353,9 +350,26 @@ $("#bus-stop-search-container").click(function () {
     async: false,
     dataType: "json",
     success: function (json) {
-      national_stops = json;
-      console.log(national_stops);
-      console.log("here?");
+      all_stops = json;
+      // console.log(all_stops);
+    },
+    error: function (error) {
+      // An error most likely won't arise unless we mess with the JSON data or path
+      console.log(`Error ${error}`);
+    },
+  });
+});
+// ********** On clicking "Search by Bus Stop" nav option, load  ROUTES JSON file (i.e. grab all the routes) - NEEDED TO ITERATE OVER TO GRAB THEIR STOPS TO RENDER ON THE SCREEN! **********
+$("#bus-stop-search-container").click(function () {
+  // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
+  $.ajax({
+    // url: './static/map_bus_stop_to_routes_data.json',
+    url: "./static/HD_routes_Frontend.json",
+    async: false,
+    dataType: "json",
+    success: function (json) {
+      all_routes = json;
+      // console.log(all_stops);
     },
     error: function (error) {
       // An error most likely won't arise unless we mess with the JSON data or path
@@ -369,21 +383,21 @@ const match_list = document.getElementById("match-list");
 
 // ********** On keyup, show all relevant/matching stops that match what keystrokes are entered **********
 $("#busstop-search").keyup(function (event) {
-  // console.log(national_stops);
+  // console.log(all_stops);
   console.log(event.target.value);
   // Grab the total value being entered into the text input each time a key is pressed (e.g. '1', '14', '145',)
   let current_value = event.target.value;
   // Grab all the values of the bus stop JSON objects returned in the above AJAX call
   // N.B. - THIS IS CALLED EVERY TIME KEY IS CLICKED, WHICH IS PROBABLY A BAD IDEA
-  let arr_of_stop_vals = Object.values(national_stops);
-  console.log(arr_of_stop_vals);
+  let arr_of_stop_vals = Object.values(all_stops);
+  // console.log(arr_of_stop_vals);
   // Logic to get matches to current text input value
   let matches = arr_of_stop_vals.filter((stop) => {
     // g = global, i = case-insensitive
     const regex = new RegExp(`^${current_value}`, "gi");
     return stop.search_name.match(regex);
   });
-  console.log(matches);
+  // console.log(matches);
 
   // When search/input box is empty, we want there to be NO matches
   if (current_value.length === 0) {
@@ -425,13 +439,13 @@ const showMatches = (matches) => {
     // If the number of matches found is over 10, show 1 message
     if (matches.length > 10) {
       match_list.innerHTML += `<div class="total-matches-shown">
-                    <h5>${num_of_results_shown} of possible ${matches.length} matches shown</h5>
-                </div>`;
+                                  <h5>${num_of_results_shown} of possible ${matches.length} matches shown</h5>
+                              </div>`;
       // Else, message shows how many are being shown (all of the matches)
     } else {
       match_list.innerHTML += `<div class="total-matches-shown">
-                    <h5>All ${matches.length} matches are being shown</h5>
-                </div>`;
+                                  <h5>All ${matches.length} matches are being shown</h5>
+                              </div>`;
     }
   }
 };
@@ -463,14 +477,6 @@ function navbarDisplay(evt, searchType) {
 // ========== Favourites Popup Table Functionality ==========
 $(".clickable-row").click(function() {
   console.log("Row in Favourites Table clicked!");
-  // console.log($(this));
-  // console.log($(this).data("td"));
-  // console.log($(this).data("children"));
-  // console.log($(this).children());
-  // console.log($(this).children()[1].textContent); // PK
-  // console.log($(this).children()[2].textContent); // Route Num
-  // console.log($(this).children()[3].textContent); // Start Stop
-  // console.log($(this).children()[4].textContent); // End Stop
 
   let row_route_name = $(this).children()[2].textContent;
   let row_origin_stop = $(this).children()[3].textContent;

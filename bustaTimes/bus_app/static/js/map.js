@@ -714,9 +714,108 @@ function calcRoute() {
 
 // ================================ SEARCH BY BUS STOP ==============================================
 
-// Function to display the full journeys of all routes serviced by the bus stop
+// Function to display the full journeys of all routes serviced by the bus stop (via use of markers)
 $("#show-all-routes-serviced").click(function(e) {
   // Disable submit button from reloading the page when clicked
   e.preventDefault();
-  console.log("BUTTON CLICKED! - SHOW ALL ROUTES SERVICED BY THE SELECTED BUS STOP")
+  console.log("BUTTON CLICKED! - SHOW ALL ROUTES SERVICED BY THE SELECTED BUS STOP");
+  // console.log(all_stops);
+
+  let selected_bus_stop = document.getElementById("busstop-search").value;
+  console.log(selected_bus_stop); // e.g. 905, Yellow Walls Rd, Inbher Ide
+
+  // ====Iterate over all the bus stop objects, grab the bus stop whose search_name matches the value of the "Bus Stop" input, and grab the routes_serviced array====
+  for (stop_num in all_stops){
+    let stop_name = all_stops[stop_num].search_name;
+    if (stop_name === selected_bus_stop) {
+      var routes_serviced = all_stops[stop_num].routes_serviced;
+      
+      var stop_props = all_stops[stop_num];
+      console.log(stop_props);
+      var stop_lat = all_stops[stop_num]["lat"];
+      console.log(stop_lat);
+      var stop_long = all_stops[stop_num]["long"];
+      console.log(stop_long);
+
+      var bus_stop_location = new google.maps.LatLng(stop_lat, stop_long);
+
+      console.log(routes_serviced); // e.g. (5) ["102", "142", "32X", "42", "42D"]
+      // break out of the loop once match found
+      break;
+    }
+  }
+
+  // ====Iterate over all the routes_serviced and grab the routes whose name matches an element in all the routes, and grab the route obj====
+  // iterate over the routes serviced
+  for (var i = 0; i < routes_serviced.length; i++) {
+    // console.log(routes_serviced[i]);
+    var serviced_route = routes_serviced[i];
+    console.log("=========================");
+    // iterate over ALL the routes
+    for (route_num in all_routes) {
+      // console.log(route_num);
+      if (route_num === serviced_route) {
+        console.log("GOT EEM!");
+        // console.log(route_num);
+        // console.log(all_routes[route_num]);
+        // Focus on just 1 Direction of a given route (D1)
+        let direction_1 = all_routes[route_num].D1;
+        // console.log(direction_1);
+        // Iterate over all that directions stops to access each stop in order to render them
+        console.log("----START of Stops Loop----");
+        for (index in direction_1['stops']){
+          // console.log(index);
+          let bus_stop = direction_1['stops'][index];
+          // console.log(bus_stop);
+          // Grab the bus stop properties of interest
+          let stop_num = bus_stop["stop_num"];
+          let latitude = bus_stop["lat"];
+          let longitude = bus_stop["long"];
+
+          // Create Markers with these details and mark them on the map;
+
+          var seach_by_busstop_icon = {
+            // url: './static/images/search_by_stop_icon.png',
+            url: './static/images/search_by_stop_icon.png',
+            scaledSize: new google.maps.Size(25, 25), 
+            anchor: new google.maps.Point(12.5, 12.5) 
+          };
+          var stopCoords = new google.maps.LatLng(latitude, longitude);
+          
+          var seach_by_busstop_marker = new google.maps.Marker({
+            position: stopCoords,
+            icon: seach_by_busstop_icon,
+            map: map,
+            title: stop_num
+          });
+
+          // Creates the polyline object (NOT WORKING!)
+          var polyline = new google.maps.Polyline({
+            map: map,
+            path: stopCoords,
+            // path: {lat:latitude, lng:longitude},
+            strokeColor: '#0000FF',
+            strokeOpacity: 0.7,
+            strokeWeight: 1,
+            geodesic: true
+          });
+          // Fit the bounds of the generated points
+          polyline.setMap(map);
+        }
+
+        map.setCenter(bus_stop_location);
+        map.setZoom(13);
+        console.log("----END of Stops Loop----");
+      }
+      // console.log(all_routes[route_num]);
+    }
+  }
+
+  // console.log(all_routes);
+
+  // for (route_num in all_routes) {
+  //   console.log(route_num);
+  //   console.log(all_routes[route_num]);
+  // }
+  
 });
