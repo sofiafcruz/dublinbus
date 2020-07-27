@@ -283,7 +283,9 @@ function showSaveJourneyBtn() {
     $("#save-journey").css("display", "block");
     // And fill in the form details etc... NOT WORKING THOUGH
     let selected_route = document.getElementById("json-routes").value;
+    console.log("Selected Route:", selected_route);
     let selected_origin_stop = document.getElementById("json-starting-stops");
+    console.log("Selected Origin Stop:", selected_origin_stop);
     var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
     let selected_destination_stop = document.getElementById("json-ending-stops");
     var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
@@ -461,26 +463,79 @@ function navbarDisplay(evt, searchType) {
 // ========== Favourites Popup Table Functionality ==========
 $(".clickable-row").click(function() {
   console.log("Row in Favourites Table clicked!");
-  console.log($(this));
-  console.log($(this).data("td"));
-  console.log($(this).data("children"));
-  console.log($(this).children());
+  // console.log($(this));
+  // console.log($(this).data("td"));
+  // console.log($(this).data("children"));
+  // console.log($(this).children());
+  // console.log($(this).children()[1].textContent); // PK
+  // console.log($(this).children()[2].textContent); // Route Num
+  // console.log($(this).children()[3].textContent); // Start Stop
+  // console.log($(this).children()[4].textContent); // End Stop
 
+  let row_route_name = $(this).children()[2].textContent;
+  let row_origin_stop = $(this).children()[3].textContent;
+  let row_destination_stop = $(this).children()[4].textContent;
+
+  console.log(row_route_name);
+  console.log(row_origin_stop);
+  console.log(row_destination_stop);
+
+  // =====Changing Search by Route Options===== NOT WORKING!!!
+
+  // 1. Close PopUp
+  $('#close-favourites-popup').click();
+
+  // 2. Click the "Search by Route" image tab; (FOR SOME REASON THEY'RE NOT WORKING!)
+  $("#search-by-route-container").click(); // Needed to load the JSON file
+  // $("#search-by-route-img").click();
+  // $("#search-by-route-nav").click();
+  
+
+  // 3. Changing value of "Select Route";
+  $('select#json-routes').val(row_route_name).change();
+
+  // 4. Changing value of "Select Starting Point";
+  $("select#json-starting-stops option").each(function(){     
+    // console.log($(this).text());
+    if($(this).text() == row_origin_stop){
+        $(this).attr("selected","selected");    
+    }
+  });
+
+  // 5. Changing value of "Select End Point";
+  $("select#json-ending-stops option").each(function(){     
+    // console.log($(this).text());
+    if($(this).text() == row_destination_stop){
+        $(this).attr("selected","selected");    
+    }
+  });
+
+  // 6. Click "Show Journey"
+  $('#show-journey').click();
+  
+  // OTHER OPTIONS TO CONSIDER:
+  // - The Value of the journey? (to determine the number of stops?)
+  // - Set Adult/Child/Student
+  // - Set Payment Mode (for fare calculator)
+  
   // Trying to access all the TD elements in the clicked row;
   // ()
   // Option 1
-  $(this).find('td').each (function(index, td) {
-    console.log(index, td.textContent);
-    // ROW FORMAT
-    // ==========
-    // 0. #
-    // 1. Route Name/Num
-    // 2. Start
-    // 3. End
-    // 4. # Stops
-    // 5. Date Saved
-    // 6. Summary
-  });
+  // console.log("Iteration: Option 1")
+  // $(this).find('td').each (function(index, td) {
+  //   console.log(index, td.textContent);
+  //   // ROW FORMAT
+  //   // ==========
+  //   // 0. #
+  //   // 1. PK
+  //   // 2. Route Name/Num
+  //   // 3. Start
+  //   // 4. End
+  //   // 5. # Stops
+  //   // 6. Date Saved
+  //   // 7. Summary
+  //   // 8. Delete
+  // });
 
   // Option 2
   // $.each(this.cells, function(){

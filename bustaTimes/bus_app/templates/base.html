@@ -173,7 +173,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Choose a Favourite Journey</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button id="close-favourites-popup" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </div>
                 {% if users_favourite_journeys|length < 1 %}
@@ -258,8 +258,8 @@
             <div class="Search-Menu-Container">
                 <h3 style="margin-bottom:10px;">Plan Your Trip</h3>
                 <div class="tab">
-                    <button class="tablinks" onclick=  "openCity(event, 'home-search-container')" id="defaultOpen"><img src="./static/images/menu/by-location.svg" alt="Search by location" width="75" height="75"></button>
-                    <button class="tablinks" onclick="openCity(event, 'search-by-route-container')"><img src="./static/images/menu/by-route.svg" alt="Search by route" width="75" height="75"></button>
+                    <button class="tablinks" onclick="openCity(event, 'home-search-container')" id="defaultOpen"><img src="./static/images/menu/by-location.svg" alt="Search by location" width="75" height="75"></button>
+                    <button id="search-by-route-img" class="tablinks" onclick="openCity(event, 'search-by-route-container')"><img src="./static/images/menu/by-route.svg" alt="Search by route" width="75" height="75"></button>
                     <button class="tablinks" onclick="openCity(event, 'bus-stop-search-container')"><img src="./static/images/menu/by-stop.svg" alt="Search by stop" width="75" height="75"></button>
                 </div>
 
@@ -302,7 +302,7 @@
                         </div>
                         <!-- Starting Point Dropdown -->
                         <div>
-                            <label for="starting-dropdown">Select Start Point:</label><br>
+                            <label for="starting-dropdown">Select Start Stop:</label><br>
                             <select name="" id="json-starting-stops"></select>
                         </div>
                         <!-- Ending Point Dropdown -->
@@ -348,7 +348,7 @@
 
                         
                         {% if user.is_authenticated %}
-                            <button class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn();" style="margin-top:15px;">Show Journey</button>
+                            <button id="show-journey" class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn();" style="margin-top:15px;">Show Journey</button>
                             <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
                                 {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
 
