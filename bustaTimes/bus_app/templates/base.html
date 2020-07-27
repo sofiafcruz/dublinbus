@@ -140,7 +140,6 @@
             </div>
         </div>
     </div>
-    </div>
     <!-- ********** Login PopUp ********** -->
     <div class="modal" tabindex="-1" role="dialog" id="login-popup">
         <div class="modal-dialog" role="document">
@@ -165,7 +164,6 @@
                 </form>
             </div>
         </div>
-    </div>
     </div>
     <!-- ********** Favourites PopUp ********** -->
     <div class="modal" tabindex="-1" role="dialog" id="favourites-popup">
@@ -232,10 +230,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
-
             </div>
         </div>
-    </div>
     </div>
     <!-- *************** MAIN BODY (Map, Menu etc) ***************-->
     <div class="container-fluid">
@@ -248,11 +244,13 @@
                     <input type="checkbox" class="custom-control-input attractions-switch" id="customSwitch1" onchange="displayAttractions()">
                     <label class="custom-control-label" for="customSwitch1">Display Touristic Sights</label>
                 </div>
+                <!-- Switch button to show/hide the markers -->
                 <div class="custom-control custom-switch">
                     <input type="checkbox" class="custom-control-input markers-switch" id="customSwitch3" onchange="clearMarkers()">
                     <label class="custom-control-label" for="customSwitch3">Hide Markers</label>
                 </div>
-                <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />
+                <!-- Button to set map on user's location -->
+                <input type="image" id="my-location-btn-img" onclick="panToUsersLocation()" src='./static/images/user-location-icon.png' />
             
             <!-- *************** Container for content of ALL Tabs *************** -->
             <div class="Search-Menu-Container">
