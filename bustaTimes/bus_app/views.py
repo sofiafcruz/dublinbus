@@ -437,6 +437,7 @@ def loginUserPopup(request):
                 return redirect('index')
             else:
                 # Message below for debugging purposes
+                messages.error(request, f"ERROR: login credentials incorrect")
                 print("Someone tried to login and failed")
                 print("**************************************")
                 print(f"Tried logging in with;\nUsername: {username}\nPassword: {password}")
@@ -547,3 +548,10 @@ def delete_favourite_journey(request, journey_pk):
     # except:
     #     print("The Object you tried to delete doesn't appear to exist")
     #     return HttpResponse("Didn't delete, as it doesn't seem to exist in the DB!")
+
+# def password_reset(request):
+
+#     # Password successfully reset
+#     messages.success(request, f"Success. An email was sent with instructions to reset your Password")
+#     # Then redirect them to the login page
+#     return redirect('index')

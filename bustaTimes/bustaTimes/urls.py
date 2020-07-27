@@ -19,4 +19,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('bus_app.urls')),
+    # For password reset etc
+    path('', include('django.contrib.auth.urls')),
 ]

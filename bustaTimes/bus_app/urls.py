@@ -1,6 +1,8 @@
 from django.urls import path
 from bus_app import views
 
+from django.contrib.auth.views import PasswordResetView
+
 urlpatterns = [
     path('', views.index, name="index"),
     path('show_route', views.show_route, name="show_route"),
@@ -23,4 +25,11 @@ urlpatterns = [
     path('showFavouritesPopup', views.showFavouritesPopup, name="showFavouritesPopup"),
     # DELETE FAVOURITES
     path('delete_favourite_journey', views.delete_favourite_journey, name="delete_favourite_journey"),
+    # PASSWORD RESET
+    # path('password_reset', views.password_reset, name="password_reset"),
+
+    # CBV Version
+    # Provides a form for our user to fill out that will send a password reset instruction to their email
+    # path('password_reset', PasswordResetView.as_view(), name="password_reset"),
+
 ]
