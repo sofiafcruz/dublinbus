@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +16,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <!-- Our CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> 
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 </head>
@@ -27,9 +26,9 @@
     <div class="d-flex justify-content-between header align-items-center fixed-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
             </button>
-
+        
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <!-- Home -->
@@ -53,7 +52,7 @@
             <!-- Login/Logout and Greeting Banner-->
             <div>
                 <ul class="navbar-nav mr-auto">
-                    {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
                     <!-- Greeting Banner -->
                     <span id="greeting-banner">Hello, {{ request.user }}</span>
                     <!-- Logout Link -->
@@ -69,8 +68,8 @@
                         <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
                         <a class="nav-link" data-target='#favourites-popup' data-toggle="modal" href="">FAVOURITES POPUP</a>
                     </li>
-
-                    {% else %}
+                    
+                {% else %}
                     <!-- Login Link -->
                     <li>
                         <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
@@ -81,24 +80,24 @@
                         <!-- <a class="nav-link" href="{% url 'registerPage' %}">Register</a> -->
                         <a class="nav-link" data-target='#signup-popup' data-toggle="modal" href="">REGISTER POPUP</a>
                     </li>
-                    {% endif %}
+                {% endif %}
                 </ul>
                 <!-- Show message which shows whether or not Registration was successful (Either success or failure) -->
                 {% for message in messages %}
-                <!-- If Success Message -->
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                <p id="message-alert" style="color:green">{{message}}</p>
-                <!-- Else if Error Message -->
-                {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                <p id="message-alert" style="color:red">{{message}}</p>
-                {% else %}
-                <p id="message-alert">{{message}}</p>
-                {% endif %}
+                    <!-- If Success Message -->
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <p id="message-alert" style="color:green">{{message}}</p>
+                    <!-- Else if Error Message -->
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <p id="message-alert" style="color:red">{{message}}</p>
+                    {% else %}
+                        <p id="message-alert">{{message}}</p>
+                    {% endif %}
                 {% endfor %}
             </div>
         </nav>
-        <div id="weather-container">
-            <span id="temperature" style="padding-right: 20px;"></span>
+        <div id="weather-container">  
+            <span id="temperature" style="padding-right: 20px;"></span> 
         </div>
     </div>
     <!-- ********** PopUps ********** -->
@@ -109,29 +108,29 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Register an Account</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form action="{% url 'registerUserPopup' %}" method="POST">
                     <div class="modal-body">
-                        {% csrf_token %}
+                            {% csrf_token %}
 
-                        <!-- REQUIRED INFO -->
-                        <!-- ***** Username ***** -->
-                        {{create_form.username.label}}
-                        {{create_form.username}}
-                        <!-- ***** Password (initial) ***** -->
-                        {{create_form.password1.label}}
-                        {{create_form.password1}}
-                        <!-- ***** Password (confirmation) ***** -->
-                        {{create_form.password2.label}}
-                        {{create_form.password2}}
-                        <!-- ***** Email ***** -->
-                        {{create_form.email.label}}
-                        {{create_form.email}}
-
-                        <!-- ADDITIONAL INFO -->
-                        {{additional_info_form}}
+                            <!-- REQUIRED INFO -->
+                            <!-- ***** Username ***** -->
+                            {{create_form.username.label}}
+                            {{create_form.username}}
+                            <!-- ***** Password (initial) ***** -->
+                            {{create_form.password1.label}}
+                            {{create_form.password1}}
+                            <!-- ***** Password (confirmation) ***** -->
+                            {{create_form.password2.label}}
+                            {{create_form.password2}}
+                            <!-- ***** Email ***** -->
+                            {{create_form.email.label}}
+                            {{create_form.email}}
+                            
+                            <!-- ADDITIONAL INFO -->
+                            {{additional_info_form}}
                     </div>
                     <div class="modal-footer">
                         <input class="btn btn-primary" type="submit" value="Register Account">
@@ -141,6 +140,7 @@
             </div>
         </div>
     </div>
+    </div>
     <!-- ********** Login PopUp ********** -->
     <div class="modal" tabindex="-1" role="dialog" id="login-popup">
         <div class="modal-dialog" role="document">
@@ -148,15 +148,15 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Login to Existing Account</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form action="{% url 'loginUserPopup' %}" method="POST">
                     <div class="modal-body">
-                        {% csrf_token %}
+                            {% csrf_token %}
 
-                        <input type="text" name="username" placeholder="Username..." class="form-control">
-                        <input type="password" name="password" placeholder="Password..." class="form-control">
+                            <input type="text" name="username" placeholder="Username..." class="form-control">
+                            <input type="password" name="password" placeholder="Password..." class="form-control" >
                     </div>
                     <div class="modal-footer">
                         <input class="btn btn-primary" type="submit" value="Login">
@@ -166,6 +166,7 @@
             </div>
         </div>
     </div>
+    </div>
     <!-- ********** Favourites PopUp ********** -->
     <div class="modal" tabindex="-1" role="dialog" id="favourites-popup">
         <div class="modal-dialog modal-xl" role="document">
@@ -173,67 +174,68 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Choose a Favourite Journey</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </div>
                 {% if users_favourite_journeys|length < 1 %}
-                <div id="no-journeys-message" class="container">
-                    <h3>Sorry, no journeys saved!</h3>
-                    <p>Go to the "Search by Route" section to save your favourite trips for quick and easy access!</p>
-                </div>
+                    <div id="no-journeys-message" class="container">
+                        <h3>Sorry, no journeys saved!</h3>
+                        <p>Go to the "Search by Route" section to save your favourite trips for quick and easy access!</p>
+                    </div>
                 {% else %}
-                <p style="text-align: center; margin-top: 15px">Number of Entries: {{ users_favourite_journeys|length }}</p>
-                {% comment %} <div>
-                    <table id="favourites-table-headings">
-                        <tr>
-                            <th>#</th>
-                            <th>PK</th>
-                            <th>Route Name/Num</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th># Stops</th>
-                            <th>Date Saved</th>
-                            <th>Summary</th>
-                            <th>Delete</th>
-                        </tr>
-                    </table>
-                </div> {% endcomment %}
-                <div class="modal-body">
-                    <!-- Table Hierarchy -->
-                    <table id="favourites-table">
-                        <tr>
-                            <th>#</th>
-                            <th>PK</th>
-                            <th>Route Name/Num</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th># Stops</th>
-                            <th>Date Saved</th>
-                            <th>Summary</th>
-                            <th>Delete</th>
-                        </tr>
-                        {% for journey in users_favourite_journeys  %}
-                        <tr class="clickable-row" id="pk-{{ journey.pk }}">
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ journey.pk }}</td>
-                            <td>{{ journey.route_name }}</td>
-                            <td>{{ journey.origin_stop }}</td>
-                            <td>{{ journey.destination_stop }}</td>
-                            <td>{{ journey.stops_count }}</td>
-                            <td>{{ journey.save_date }}</td>
-                            <td>{{ journey }}</td>
-                            <td><img onclick="deleteRow(this)" src="./static/images/delete-icon.png" alt="Delete This Row" style="width:70px; height:auto;"></td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                </div>
+                    <p style="text-align: center; margin-top: 15px">Number of Entries: {{ users_favourite_journeys|length }}</p>
+                    {% comment %} <div>
+                        <table id="favourites-table-headings">
+                            <tr>
+                                <th>#</th>
+                                <th>PK</th>
+                                <th>Route Name/Num</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th># Stops</th>
+                                <th>Date Saved</th>
+                                <th>Summary</th>
+                                <th>Delete</th>
+                            </tr>
+                        </table>
+                    </div> {% endcomment %}
+                    <div class="modal-body">
+                        <!-- Table Hierarchy -->
+                        <table id="favourites-table">
+                            <tr>
+                                <th>#</th>
+                                <th>PK</th>
+                                <th>Route Name/Num</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th># Stops</th>
+                                <th>Date Saved</th>
+                                <th>Summary</th>
+                                <th>Delete</th>
+                            </tr>
+                            {% for journey in users_favourite_journeys  %}
+                                <tr class="clickable-row" id="pk-{{ journey.pk }}">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ journey.pk }}</td>
+                                    <td>{{ journey.route_name }}</td>
+                                    <td>{{ journey.origin_stop }}</td>
+                                    <td>{{ journey.destination_stop }}</td>
+                                    <td>{{ journey.stops_count }}</td>
+                                    <td>{{ journey.save_date }}</td>
+                                    <td>{{ journey }}</td>
+                                    <td><img onclick="deleteRow(this)" src="./static/images/delete-icon.png" alt="Delete This Row" style="width:70px; height:auto;"></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
                 {% endif %}
-
+                
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
 
             </div>
         </div>
+    </div>
     </div>
     <!-- *************** MAIN BODY (Map, Menu etc) ***************-->
     <div class="container-fluid">
@@ -251,105 +253,104 @@
                     <label class="custom-control-label" for="customSwitch3">Hide Markers</label>
                 </div>
                 <input type="image" id="my-location-btn-img" src='./static/images/user-location-icon.png' />
+            
+            <!-- *************** Container for content of ALL Tabs *************** -->
+            <div class="Search-Menu-Container">
+                <h3 style="margin-bottom:10px;">Plan Your Trip</h3>
+                <div class="tab">
+                    <button class="tablinks" onclick=  "openCity(event, 'home-search-container')" id="defaultOpen"><img src="./static/images/menu/by-location.svg" alt="Search by location" width="75" height="75"></button>
+                    <button class="tablinks" onclick="openCity(event, 'search-by-route-container')"><img src="./static/images/menu/by-route.svg" alt="Search by route" width="75" height="75"></button>
+                    <button class="tablinks" onclick="openCity(event, 'bus-stop-search-container')"><img src="./static/images/menu/by-stop.svg" alt="Search by stop" width="75" height="75"></button>
+                </div>
 
-                <!-- *************** Container for content of ALL Tabs *************** -->
-                <div class="Search-Menu-Container">
-                    <h3 style="margin-bottom:10px;">Plan Your Trip</h3>
-                    <div class="tab">
-                        <button class="tablinks" onclick="openCity(event, 'home-search-container')" id="defaultOpen"><img src="./static/images/menu/by-location.svg" alt="Search by location" width="75" height="75"></button>
-                        <button class="tablinks" onclick="openCity(event, 'search-by-route-container')"><img src="./static/images/menu/by-route.svg" alt="Search by route" width="75" height="75"></button>
-                        <button class="tablinks" onclick="openCity(event, 'bus-stop-search-container')"><img src="./static/images/menu/by-stop.svg" alt="Search by stop" width="75" height="75"></button>
-                    </div>
+                <!-- ********** Home Menu ********** -->
+                <div id='home-search-container' class="container centre-and-padding tabcontent display-container">
+                    <!-- Form containing "Origin" and "Destination" text inputs -->
+                    <form>
+                        <div class="form-group">
+                            <label for="origin">Origin:</label>
+                            <input type="text" class="form-control form-control-sm" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point" required>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input users-location-switch" id="customSwitch2" onchange="fillUsersLocation()">
+                                <label class="custom-control-label text-muted" for="customSwitch2"><small>Use Current Location</small></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">Destination:</label>
+                            <input type="text" class="form-control form-control-sm" id="destination-home-search" placeholder="Choose destination" required>
+                            <p><small class="text-muted">Double click on the map to set destination</small></p>
+                        </div>
+                        <button id="home-submit" type="submit" class="btn btn-outline-* btn-submit">Submit</button>
+                    </form>
+                    <!-- Container for the selected journey's trip details-->
+                    <div id="journey-details" class="container"></div>
+                </div>
+                
+                <!-- ********** Search by Route Menu ********** -->
+                <div id='search-by-route-container' class="container centre-and-padding tabcontent">
+                    <!-- Route Dropdown -->
+                    <label for="route-dropdown">Select Route:</label>
+                    <select onchange="showAndLoadStartAndEndDrops()" id="json-routes">
+                        <option value="" disabled selected>Select a Route</option>
+                    </select>
 
-                    <!-- ********** Home Menu ********** -->
-                    <div id='home-search-container' class="container centre-and-padding tabcontent display-container">
-                        <!-- Form containing "Origin" and "Destination" text inputs -->
-                        <form>
-                            <div class="form-group">
-                                <label for="origin">Origin:</label>
-                                <input type="text" class="form-control form-control-sm" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point" required>
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input users-location-switch" id="customSwitch2" onchange="fillUsersLocation()">
-                                    <label class="custom-control-label text-muted" for="customSwitch2"><small>Use Current Location</small></label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="destination">Destination:</label>
-                                <input type="text" class="form-control form-control-sm" id="destination-home-search" placeholder="Choose destination" required>
-                                <p><small class="text-muted">Double click on the map to set destination</small></p>
-                            </div>
-                            <button id="home-submit" type="submit" class="btn btn-outline-* btn-submit">Submit</button>
-                        </form>
-                        <!-- Container for the selected journey's trip details-->
-                        <div id="journey-details" class="container"></div>
-                    </div>
+                    <!-- Select "Starting Point" and "Ending Point" div (initially hidden) -->
+                    <div id="stops-dropdowns-container" style="display: none;">
+                        <!-- From Origin to Destination header -->
+                        <div id="origin-to-destination-div">
+                            <h5 id="origin-to-destination-header"></h5>
+                        </div>
+                        <!-- Starting Point Dropdown -->
+                        <div>
+                            <label for="starting-dropdown">Select Start Point:</label><br>
+                            <select name="" id="json-starting-stops"></select>
+                        </div>
+                        <!-- Ending Point Dropdown -->
+                        <div>
+                            <label for="ending-dropdown">Select End Stop:</label><br>
+                            <select name="" id="json-ending-stops"></select>
+                        </div>
+                        <!-- Choose Date Dropdown -->
+                        <div id="date-selector-container">
+                            <label for="date-dropdown">Select Date:</label><br>
+                            <select id="date-selector">
+                                <option id="prediction-date-1"></option>
+                                <option id="prediction-date-2"></option>
+                                <option id="prediction-date-3"></option>
+                                <option id="prediction-date-4"></option>
+                                <option id="prediction-date-5"></option>
+                            </select>
+                        </div>
+                        <div id="time-selector-container" class="md-form md-outline input-with-post-icon timepicker" twelvehour="true">
+                            <label for="choose-time">Select a time:</label>
+                            <input type="time" id="choose-time" name="choose-time">
+                        </div>
+                        <hr>
+                        <!-- Fare Calculator div -->
+                        <h6>Fare Calculator</h6>
+                        <div id="fare-calculator-container">
+                            <!-- Are you adult, student etc -->
+                            <label for="choose-user-type">What are you:</label>
+                            <select>
+                                <option id="adult">Adult</option>
+                                <option id="student">Student</option>
+                                <option id="child">Child</option>
+                                <option id="tourist">Tourist</option>
+                            </select>
+                            <!-- Payment mode etc -->
+                            <label for="choose-payment-mode">Payment Mode:</label>
+                            <select>
+                                <option id="leap-card">LeapCard</option>
+                                <option id="cash">Cash</option>
+                                
+                            </select>
+                        </div>
 
-                    <!-- ********** Search by Route Menu ********** -->
-                    <div id='search-by-route-container' class="container centre-and-padding tabcontent">
-                        <!-- Route Dropdown -->
-                        <label for="route-dropdown">Select Route:</label>
-                        <select onchange="showAndLoadStartAndEndDrops()" id="json-routes">
-                            <option value="" disabled selected>Select a Route</option>
-                        </select>
-
-                        <!-- Select "Starting Point" and "Ending Point" div (initially hidden) -->
-                        <div id="stops-dropdowns-container" style="display: none;">
-                            <!-- From Origin to Destination header -->
-                            <div id="origin-to-destination-div">
-                                <h5 id="origin-to-destination-header"></h5>
-                            </div>
-                            <!-- Starting Point Dropdown -->
-                            <div>
-                                <label for="starting-dropdown">Select Start Point:</label><br>
-                                <select name="" id="json-starting-stops"></select>
-                            </div>
-                            <!-- Ending Point Dropdown -->
-                            <div>
-                                <label for="ending-dropdown">Select End Stop:</label><br>
-                                <select name="" id="json-ending-stops"></select>
-                            </div>
-                            <!-- Choose Date Dropdown -->
-                            <div id="date-selector-container">
-                                <label for="date-dropdown">Select Date:</label><br>
-                                <select id="date-selector">
-                                    <option id="prediction-date-1"></option>
-                                    <option id="prediction-date-2"></option>
-                                    <option id="prediction-date-3"></option>
-                                    <option id="prediction-date-4"></option>
-                                    <option id="prediction-date-5"></option>
-                                </select>
-                            </div>
-                            <div id="time-selector-container" class="md-form md-outline input-with-post-icon timepicker" twelvehour="true">
-                                <label for="choose-time">Select a time:</label>
-                                <input type="time" id="choose-time" name="choose-time">
-                            </div>
-                            <hr>
-                            <!-- Fare Calculator div -->
-                            <h6>Fare Calculator</h6>
-                            <div id="fare-calculator-container">
-                                <!-- Are you adult, student etc -->
-                                <label for="choose-user-type">What are you:</label>
-                                <select>
-                                    <option id="adult">Adult</option>
-                                    <option id="student">Student</option>
-                                    <option id="child">Child</option>
-                                    <option id="tourist">Tourist</option>
-                                </select>
-                                <!-- Payment mode etc -->
-                                <label for="choose-payment-mode">Payment Mode:</label>
-                                <select>
-                                    <option id="leap-card">LeapCard</option>
-                                    <option id="cash">Cash</option>
-
-                                </select>
-                            </div>
-
-
-                            {% if user.is_authenticated %}
+                        
+                        {% if user.is_authenticated %}
                             <button class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn();" style="margin-top:15px;">Show Journey</button>
                             <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
-                                {% csrf_token %}
-                                <!-- csrf_token required in all form POSTs (for security reasons) -->
+                                {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
 
                                 <!-- Option 1 (NOT hidden - for testing) -->
                                 {% comment %} <input type="text" id="route-name-input" name="selected_route_name">
@@ -360,8 +361,7 @@
                                 {% comment %} <input type="datetime-local" value="2000-01-01T00:00:00" />
                                 <input type="text" id="logged-in-user" name="logged_in_user" value={{user.pk}}> {% endcomment %}
 
-                                <!-- Option 2 (Hidden) -->
-                                <!-- I THINK IT'S WORKING!!! -->
+                                <!-- Option 2 (Hidden) --> <!-- I THINK IT'S WORKING!!! -->
                                 <input type="hidden" id="route-name-input" name="route_name">
                                 <input type="hidden" id="starting-stop-input" name="origin_stop">
                                 <input type="hidden" id="ending-stop-input" name="destination_stop">
@@ -370,72 +370,72 @@
                                 <!-- Option 3 -->
                                 <!-- {{favourite_journey_form}} -->
                                 <!-- Save Journey Button below -->
-                                <input id="save-journey" type="submit" class='btn btn-outline-dark' style="margin-top:15px; display:none;" value="Save Journey">
+                                <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey">
                             </form>
-                            {% else %}
-
+                        {% else %}
+                            
                             <button class='btn btn-outline-* btn-submit' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
-                            {% endif %}
+                        {% endif %}
 
-                            <div id="routes-directions-panel"></div>
-                        </div>
-                    </div>
-
-                    <!-- ********** Search by Bus Stop Menu ********** -->
-                    <div id='bus-stop-search-container' class="container centre-and-padding tabcontent">
-                        <form>
-                            <div class="form-group">
-                                <label for="origin">Bus Stop:</label>
-                                <input type="text" class="form-control form-control-sm" id="busstop-search" aria-describedby="busstop-input" placeholder="Enter Stop number or address" required>
-                            </div>
-                            <!-- Button -->
-                            <button type="submit" id="show-all-routes-serviced" value="Submit" class='btn btn-outline-* btn-submit'>Search</button>
-                            <!-- Container for all the regex matches of the user's search-->
-                            <div class="container" id="match-list"></div>
-                        </form>
-                    </div>
-
-                    <!-- ********** See Leap Card ********** -->
-                    <div id="leap-card-balance-container" class="container centre-and-padding tabcontent">
-                        <h2>Fill in Leap Card Credentials to see Balance</h2>
-                        <form id="leap-card-form" method="POST" action="leap_card_info" >
-                            {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
-                            {% if user.is_authenticated %}
-                            <input type="text" id="inputUsername" name="inputUsername" class="form-control" value="{{user.additionaluserinfo.leapcard_username}}" required>
-                            {% else %}
-                            <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
-                            {% endif %}
-                            <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
-                            <!-- Testing out Submit Buttons below -->
-                            <input id="show-balance" type="submit" class='btn btn-outline-* btn-submit' value="Show Balance">
-
-                            <p id="balance-paragraph"></p>
-                            <a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a>
-                        </form>
+                        <div id="routes-directions-panel"></div>
                     </div>
                 </div>
+                
+                <!-- ********** Search by Bus Stop Menu ********** -->
+                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent">
+                    <form>
+                        <div class="form-group">
+                            <label for="origin">Bus Stop:</label>
+                            <input type="text" class="form-control form-control-sm" id="busstop-search" aria-describedby="busstop-input" placeholder="Enter Stop number or address" required>
+                        </div>
+                        <!-- Button -->
+                        <button type="submit" id="show-all-routes-serviced" value="Submit" class='btn btn-outline-* btn-submit'>Search</button> 
+                        <!-- Container for all the regex matches of the user's search-->
+                        <div class="container" id="match-list"></div>
+                    </form>
+                </div>
+
+                <!-- ********** See Leap Card ********** -->
+                <div id="leap-card-balance-container" class="container centre-and-padding tabcontent">
+                    <h2>Fill in Leap Card Credentials to see Balance</h2>
+                    <form id="leap-card-form" method="POST" action="leap_card_info" >
+                        {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
+                        {% if user.is_authenticated %}
+                            <input type="text" id="inputUsername" name="inputUsername" class="form-control" value="{{user.additionaluserinfo.leapcard_username}}" required>    
+                        {% else %}
+                            <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
+                        {% endif %}
+                        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
+                        <!-- Testing out Submit Buttons below -->
+                        <input id="show-balance" type="submit" class='btn btn-outline-* btn-submit' value="Show Balance">
+
+                        <p id="balance-paragraph"></p>
+                        <a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a>
+                    </form>
+                </div>
+            </div>
             </div>
         </div>
     </div>
 
     <!-- ********** Toggle Map Style Buttons ********** -->
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <!-- <button id="standard" onclick="changeMapStyle(this.id)" class="">Standard</button> -->
+    <!-- <button id="standard" onclick="changeMapStyle(this.id)" class="">Standard</button> -->
         <button id="night_mode" onclick="changeMapStyle(this.id)" class="btn btn-dark" data-toggle="button">Night</button>
         <button id="subtle_grayscale" onclick="changeMapStyle(this.id)" class="btn btn-light" data-toggle="button">Grayscale</button>
         <button id="retro" onclick="changeMapStyle(this.id)" class="btn btn-warning" data-toggle="button">Retro</button>
         <button id="green" onclick="changeMapStyle(this.id)" class="btn btn-success" data-toggle="button">Green</button>
     </div>
-
+    
     <!-- Storing the Routes in a dropdown -->
     {% comment %} {% block select_routes_content %} {% endblock %} {% endcomment %}
 
     <!-- Using a for loop to render all the Route instances for testing purposes -->
     <!-- {% block test_routes_content %} {% endblock %} -->
-
+    
     <!-- Using a for loop to render all the BusStop instances for testing purposes -->
     <!-- {% block bus_stops_content %} {% endblock %} -->
-
+    
     <!-- Connected JS script needs to be down here (rather than in the <head> section) or else can't "see" html elements -->
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
     <script>
@@ -455,31 +455,22 @@
 
         // Get the element with id="defaultOpen" and click on it
         document.getElementById("defaultOpen").click();
-
     </script>
     <script>
-        var weather = JSON.parse('{{ weather|escapejs }}');
-
+        var weather = JSON.parse('{{ weather|escapejs }}'); 
+        
         // ++++++++ Making JSON data available in app.js! ++++++++
-        var main_table_object = {
-            {
-                main_table_data | safe
-            }
-        };
+        var main_table_object = {{ main_table_data|safe }};
         // var routes_frontend_object = {{ HD_routes_Frontend|safe }};
-
-        var route_origin_and_destination_object = {
-            {
-                route_origin_and_destination_data | safe
-            }
-        };
-
+        
+        var route_origin_and_destination_object = {{ route_origin_and_destination_data|safe }};
     </script>
-    <script type="text/javascript" src="{% static 'js/weather.js' %}"></script>
-
+    <script type="text/javascript" src="{% static 'js/weather.js' %}"></script> 
+    
     <!-- Script for the map -->
-    <script type="text/javascript" src="{% static 'js/map.js' %}"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initMap">
+    <script type="text/javascript" src="{% static 'js/map.js' %}"></script>   
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initMap">
     </script>
     <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
 
@@ -531,5 +522,4 @@
 <tr><th><label for="id_leapcard_password">Leapcard password:</label></th><td><input type="password" name="leapcard_password" maxlength="256" id="id_leapcard_password"></td></tr>
 -->
 </body>
-
 </html>
