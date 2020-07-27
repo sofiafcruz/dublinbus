@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Our app
+    'bus_app',
     # Boiler plate code
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,8 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Our app
-    'bus_app'
+    
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,25 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static') # To connect to the static folder
+
+# EMAIL-TESTING
+# =============
+# Instead of sending out real emails the console backend just writes the emails that would be sent to the standard output. By default, the console backend writes to stdout. You can use a different stream-like object by providing the stream keyword argument when constructing the connection.
+# This backend is not intended for use in production – it is provided as a convenience that can be used during development.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+'''
+command = python3 manage.py sendtestemail test@gmail.com
+Result:
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Test email from Conors-MacBook-Air.local on 2020-07-27
+ 14:28:05.492651+00:00
+From: webmaster@localhost
+To: test@gmail.com
+Date: Mon, 27 Jul 2020 14:28:05 -0000
+Message-ID: <159586008549.75034.13908606671295172846@Conors-MacBook-Air.local>
+
+If you're reading this, it was successful.
+-------------------------------------------------------------------------------
+'''

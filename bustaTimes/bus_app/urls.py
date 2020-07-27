@@ -1,6 +1,8 @@
 from django.urls import path
 from bus_app import views
 
+from django.contrib.auth.views import PasswordResetView
+
 urlpatterns = [
     path('', views.index, name="index"),
     path('show_route', views.show_route, name="show_route"),
@@ -23,4 +25,9 @@ urlpatterns = [
     path('showFavouritesPopup', views.showFavouritesPopup, name="showFavouritesPopup"),
     # DELETE FAVOURITES
     path('delete_favourite_journey', views.delete_favourite_journey, name="delete_favourite_journey"),
+    # PASSWORD RESET
+    
+    # MODEL PREDICTION
+    path('get_journey_prediction', views.get_journey_prediction, name="get_journey_prediction"),
+
 ]
