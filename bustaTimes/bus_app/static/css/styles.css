@@ -3,16 +3,11 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  padding-top: 35px;
   font-family: 'Montserrat';
 }
 
 .header {
   background-color: rgb(248, 249, 250);
-}
-
-#weather-container {
-  padding-right: 20px;
 }
 
 #search-elements-container,
@@ -112,29 +107,12 @@ body {
   color: red;
 }
 
-#map {
-    height: 100%;
-    width: 100%;
-    /* grid-column: 3; */
-  }
-
 /*----------- Search menu ---------------*/
-.main-container {
-  height: 100%;
-  width: 100%;
-  /* display: grid;
-  grid-template-columns: 350px auto 20%;
-  grid-template-rows: auto 10%; */
-}
 
-/* .attractions {
-    grid-column: 3 / 3;
-} */
 
 /* Entire Blue Search Menu */
 .Search-Menu-Container {
   background-color: white;
-  width: 30%;
   /* min and max widths to manage size */
   max-width: 350px;
   min-width: 250px;
@@ -143,12 +121,52 @@ body {
   flex-direction: column;
   position: absolute;
   padding-left: 15px;
-  /* left: 15px; */
-  top: 0px;
-  /* grid-column-start: col-start 1; */
+  top: 50px;
   text-align: center;
-  /* style="position: absolute; left:15px; top:0px; z-index:98;" */
 }
+
+#weather-container{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 70px;
+  left: 90%;
+  right: 20px;
+  background-color: rgb(255,255,255,0.75);
+  border-radius: 25px;
+  text-align: center;
+}
+
+.weather-container,
+.attractions,
+.user-location-btn {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 70px;
+  width: 100px;
+  right: 20px;
+  background-color: rgb(255,255,255,0.75);
+  border-radius: 25px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather-container {
+  top: 70px;
+}
+
+.attractions {
+  top: 100px;
+}
+
+.user-location-btn {
+  top: 145px;
+  width: 50px;
+  height: 40px;
+}
+
 select,
 #busstop-search {
   width: 100%;
