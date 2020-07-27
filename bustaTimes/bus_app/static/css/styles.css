@@ -125,25 +125,12 @@ body {
   text-align: center;
 }
 
-#weather-container{
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 70px;
-  left: 90%;
-  right: 20px;
-  background-color: rgb(255,255,255,0.75);
-  border-radius: 25px;
-  text-align: center;
-}
-
 .weather-container,
 .attractions,
 .user-location-btn {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 70px;
   width: 100px;
   right: 20px;
   background-color: rgb(255,255,255,0.75);
