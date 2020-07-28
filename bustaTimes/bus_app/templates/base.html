@@ -285,10 +285,9 @@
             </div>
                 
             <!-- ********** Search by Route Menu ********** -->
-            <div id='search-by-route-container' class="container centre-and-padding tabcontent">
+            <div id='search-by-route-container' class="container centre-and-padding tabcontent" style="max-width:330px; max-height:70vh; overflow:auto;">
                 <!-- Route Dropdown -->
-                <label for="route-dropdown" class="menu-label">Select Route:</label>
-                <select onchange="showAndLoadStartAndEndDrops()" id="json-routes">
+                <select onchange="showAndLoadStartAndEndDrops()" id="json-routes" class="form-control form-control-sm">
                     <option value="" disabled selected>Select a Route</option>
                 </select>
 
@@ -296,22 +295,22 @@
                 <div id="stops-dropdowns-container" style="display: none;">
                     <!-- From Origin to Destination header -->
                     <div id="origin-to-destination-div">
-                        <h5 id="origin-to-destination-header"></h5>
+                        <p id="origin-to-destination-header"></p>
                     </div>
                     <!-- Starting Point Dropdown -->
                     <div>
-                        <label for="starting-dropdown">Select Start Stop:</label><br>
-                        <select name="" id="json-starting-stops"></select>
+                        <label for="starting-dropdown">Select Start Stop:</label>
+                        <select name="" id="json-starting-stops" class="form-control form-control-sm"></select>
                     </div>
                     <!-- Ending Point Dropdown -->
                     <div>
-                        <label for="ending-dropdown">Select End Stop:</label><br>
-                        <select name="" id="json-ending-stops"></select>
+                        <label for="ending-dropdown">Select End Stop:</label>
+                        <select name="" id="json-ending-stops" class="form-control form-control-sm"></select>
                     </div>
                     <!-- Choose Date Dropdown -->
                     <div id="date-selector-container">
-                        <label for="date-dropdown">Select Date:</label><br>
-                        <select id="date-selector">
+                        <label for="date-dropdown">Select Date:</label>
+                        <select id="date-selector" class="form-control form-control-sm">
                             <option id="prediction-date-1"></option>
                             <option id="prediction-date-2"></option>
                             <option id="prediction-date-3"></option>
@@ -328,16 +327,16 @@
                     <h6>Fare Calculator</h6>
                     <div id="fare-calculator-container">
                         <!-- Are you adult, student etc -->
-                        <label for="choose-user-type">What are you:</label>
-                        <select>
+                        <select class="form-control form-control-sm">
+                            <option value="">What are you:</option>
                             <option id="adult">Adult</option>
                             <option id="student">Student</option>
                             <option id="child">Child</option>
                             <option id="tourist">Tourist</option>
                         </select>
                         <!-- Payment mode etc -->
-                        <label for="choose-payment-mode">Payment Mode:</label>
-                        <select>
+                        <select class="form-control form-control-sm">
+                            <option value="">Payment Mode:</option>
                             <option id="leap-card">LeapCard</option>
                             <option id="cash">Cash</option>
                             

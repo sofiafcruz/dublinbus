@@ -199,6 +199,7 @@ var attractionsArray = []
 
 // The switch button calls this function on change to display the attractions on the map
 function displayAttractions() {
+  clearMarkers();
   setMapDublin(); // Center the map in Dublin
   // Check the value of the switch button
   var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false
@@ -296,7 +297,7 @@ function calcRouteToAttraction(latitude, longitude) {
 
 // ================================ OTHER ==============================================
 function setMapDublin() {
-  map.setCenter(new google.maps.LatLng(53.346, -6.26));
+  map.setCenter(new google.maps.LatLng(53.346, -6.27));
   map.setZoom(13);
 }
 
