@@ -48,7 +48,6 @@
 //     // console.log(document.getElementById("ending-stop-input").value);
 //     // console.log(document.getElementById("stop-count-input").value);
 
-    
 //     //// Issues with CSRF below, as making a post request...
 //     //// Not sure how to fix atm
 //     // $.ajax({
@@ -83,7 +82,7 @@
 // ********** On clicking "Show Balance" show User's Leap Card Balance (i.e. grab all the stops) **********
 var leap_card_form = $("#leap-card-form");
 leap_card_form.submit(function () {
-  console.log("SUBMIT BUTTON CLICKED!")
+  console.log("SUBMIT BUTTON CLICKED!");
   // Show the loading icon
   // $(".ajax-loading").css("display", "block");
   // $(".ajax-loading").show();
@@ -93,7 +92,7 @@ leap_card_form.submit(function () {
     url: leap_card_form.attr("action"), // leap_card_info
     data: leap_card_form.serialize(), // Get values of both inputUsername and inputPassword
     async: true, // NNEDS TO BE TRUE FOR SOME REASON
-    beforeSend: function() {
+    beforeSend: function () {
       $(".ajax-loading").show();
       $("#balance-paragraph").hide();
     },
@@ -147,6 +146,39 @@ $("#search-by-route-container").click(function () {
       console.log(`Error ${error}`);
     },
   });
+});
+
+// ======================GEt prediction and display to frontend!!==========================
+var prediction_form = $("#route_prediction_form");
+prediction_form.submit(function () {
+  console.log("SUBMIT BUTTON CLICKED!");
+  // Show the loading icon
+  // $(".ajax-loading").css("display", "block");
+  // $(".ajax-loading").show();
+  // $(".ajax-loading").hide();
+  $.ajax({
+    type: prediction_form.attr("method"), // POST
+    url: prediction_form.attr("action"), // leap_card_info
+    data: prediction_form.serialize(), // Get values of both inputUsername and inputPassword
+    async: true, // NNEDS TO BE TRUE FOR SOME REASON
+    // beforeSend: function() {
+    //   $(".ajax-loading").show();
+    //   $("#balance-paragraph").hide();
+    // },
+    success: function (data) {
+      console.log("data: ", data);
+      // Hide the loading icon and show the balance
+      // $(".ajax-loading").css("display", "none");
+      // $(".ajax-loading").css("display", "block");
+      $("#display_prediction").text("Your prediction is: " + data);
+    },
+    error: function (error) {
+      console.log("Something went wrong!");
+      console.log(error);
+      $("#balance-paragraph").innerHTML = "Something went wrong...";
+    },
+  });
+  return false; // Stop the page from Reloading
 });
 
 // ********** Route Dropdown **********
@@ -257,6 +289,7 @@ function showAndLoadStartAndEndDrops() {
 var arrOfCoords = [];
 
 function generateStopArray() {
+  console.log("IN HERE");
   // Function to grab all the stops between Starting and Ending Points of Journey
   // Grab all selected dropdown components
   var selected_route = document.getElementById("json-routes").value;
@@ -300,35 +333,40 @@ function generateStopArray() {
 
 function showSaveJourneyBtn() {
   console.log("Show Save Journey Button");
-    $("#save-journey").css("display", "block");
-    // And fill in the form details etc... NOT WORKING THOUGH
-    let selected_route = document.getElementById("json-routes").value;
-    console.log("Selected Route:", selected_route);
-    let selected_origin_stop = document.getElementById("json-starting-stops");
-    console.log("Selected Origin Stop:", selected_origin_stop);
-    var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
-    let selected_destination_stop = document.getElementById("json-ending-stops");
-    var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
-    let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value;
-    // let distance = document.getElementById("json-ending-stops").value;
+  $("#save-journey").css("display", "block");
+  // And fill in the form details etc... NOT WORKING THOUGH
+  let selected_route = document.getElementById("json-routes").value;
+  console.log("Selected Route:", selected_route);
+  let selected_origin_stop = document.getElementById("json-starting-stops");
+  console.log("Selected Origin Stop:", selected_origin_stop);
+  var origin_opt =
+    selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
+  let selected_destination_stop = document.getElementById("json-ending-stops");
+  var destination_opt =
+    selected_destination_stop.options[selected_destination_stop.selectedIndex]
+      .text;
+  let stops_count =
+    document.getElementById("json-ending-stops").value -
+    document.getElementById("json-starting-stops").value;
+  // let distance = document.getElementById("json-ending-stops").value;
 
-    console.log("Selected Journey Details;");
-    console.log("=========================");
-    console.log("Selected Route:", selected_route);
-    console.log("Stop Count:", stops_count);
-    console.log("Origin Stop:", origin_opt);
-    console.log("Destination Stop:", destination_opt);
+  console.log("Selected Journey Details;");
+  console.log("=========================");
+  console.log("Selected Route:", selected_route);
+  console.log("Stop Count:", stops_count);
+  console.log("Origin Stop:", origin_opt);
+  console.log("Destination Stop:", destination_opt);
 
-    document.getElementById("route-name-input").value = selected_route;
-    document.getElementById("starting-stop-input").value = origin_opt;
-    document.getElementById("ending-stop-input").value = destination_opt;
-    document.getElementById("stop-count-input").value = parseInt(stops_count);
+  document.getElementById("route-name-input").value = selected_route;
+  document.getElementById("starting-stop-input").value = origin_opt;
+  document.getElementById("ending-stop-input").value = destination_opt;
+  document.getElementById("stop-count-input").value = parseInt(stops_count);
 
-    console.log("HIDDEN FORM VALUES");
-    console.log(document.getElementById("route-name-input").value);
-    console.log(document.getElementById("starting-stop-input").value);
-    console.log(document.getElementById("ending-stop-input").value);
-    console.log(document.getElementById("stop-count-input").value);
+  console.log("HIDDEN FORM VALUES");
+  console.log(document.getElementById("route-name-input").value);
+  console.log(document.getElementById("starting-stop-input").value);
+  console.log(document.getElementById("ending-stop-input").value);
+  console.log(document.getElementById("stop-count-input").value);
 }
 
 // ********** DateTime Dropdown **********
@@ -481,7 +519,7 @@ function populateInputWithStop(clicked_busstop_searchname) {
 }
 
 // ========== Favourites Popup Table Functionality ==========
-$(".clickable-row").click(function() {
+$(".clickable-row").click(function () {
   console.log("Row in Favourites Table clicked!");
 
   let row_route_name = $(this).children()[2].textContent;
@@ -495,41 +533,40 @@ $(".clickable-row").click(function() {
   // =====Changing Search by Route Options===== NOT WORKING!!!
 
   // 1. Close PopUp
-  $('#close-favourites-popup').click();
+  $("#close-favourites-popup").click();
 
   // 2. Click the "Search by Route" image tab; (FOR SOME REASON THEY'RE NOT WORKING!)
   $("#search-by-route-container").click(); // Needed to load the JSON file
   // $("#search-by-route-img").click();
   // $("#search-by-route-nav").click();
-  
 
   // 3. Changing value of "Select Route";
-  $('select#json-routes').val(row_route_name).change();
+  $("select#json-routes").val(row_route_name).change();
 
   // 4. Changing value of "Select Starting Point";
-  $("select#json-starting-stops option").each(function(){     
+  $("select#json-starting-stops option").each(function () {
     // console.log($(this).text());
-    if($(this).text() == row_origin_stop){
-        $(this).attr("selected","selected");    
+    if ($(this).text() == row_origin_stop) {
+      $(this).attr("selected", "selected");
     }
   });
 
   // 5. Changing value of "Select End Point";
-  $("select#json-ending-stops option").each(function(){     
+  $("select#json-ending-stops option").each(function () {
     // console.log($(this).text());
-    if($(this).text() == row_destination_stop){
-        $(this).attr("selected","selected");    
+    if ($(this).text() == row_destination_stop) {
+      $(this).attr("selected", "selected");
     }
   });
 
   // 6. Click "Show Journey"
-  $('#show-journey').click();
-  
+  $("#show-journey").click();
+
   // OTHER OPTIONS TO CONSIDER:
   // - The Value of the journey? (to determine the number of stops?)
   // - Set Adult/Child/Student
   // - Set Payment Mode (for fare calculator)
-  
+
   // Trying to access all the TD elements in the clicked row;
   // ()
   // Option 1
@@ -569,16 +606,16 @@ function deleteRow(ele) {
 }
 
 // Prevent clicking Delete Icon from showing the journey!
-$('.delete-row-td').click(function(event) {
+$(".delete-row-td").click(function (event) {
   event.stopPropagation();
 });
 
 // ==================== Calculate Fare ====================
 function calculateFare() {
-  let time = document.getElementById('choose-time').value;
-  let day = document.getElementById('date-selector').value.split(" ")[0];
-  let customer_type = document.getElementById('customer-type').value;
-  let payment_mode = document.getElementById('payment-mode').value;
+  let time = document.getElementById("choose-time").value;
+  let day = document.getElementById("date-selector").value.split(" ")[0];
+  let customer_type = document.getElementById("customer-type").value;
+  let payment_mode = document.getElementById("payment-mode").value;
 
   console.log("=====Start=====");
   console.log(time);
@@ -587,15 +624,15 @@ function calculateFare() {
   console.log(payment_mode);
   console.log("=====End=====");
 
-  $.getJSON("./static/fares.json", function(data) {
+  $.getJSON("./static/fares.json", function (data) {
     console.log(data);
-    
+
     let selected_customer;
     let selected_payment_mode;
     let prices;
     let fare;
     let result;
-    
+
     // ===== If customer is an Adult =====
     if (customer_type === "Adult") {
       console.log("Adult!");
@@ -616,23 +653,25 @@ function calculateFare() {
       // Hope my logic is right here...
       let stages = prices["stages"];
       // Hope my logic is right here...
-      let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value;
+      let stops_count =
+        document.getElementById("json-ending-stops").value -
+        document.getElementById("json-starting-stops").value;
 
       // if short journey
       if (stops_count <= 3) {
         fare = stages[0]["short"];
-      // elif medium journey
+        // elif medium journey
       } else if (stops_count <= 13) {
         fare = stages[1]["medium"];
-      // else long journey
+        // else long journey
       } else {
         fare = stages[2]["long"];
       }
-      
+
       // Result
       result = `For Adult going ${stops_count} stops and paying by ${selected_payment_mode}: the Fare = €${fare}`;
 
-    // ===== Else, they're a child =====
+      // ===== Else, they're a child =====
     } else {
       console.log("Child!");
       selected_customer = data["child"];
@@ -653,7 +692,7 @@ function calculateFare() {
       console.log(prices);
 
       let weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-      
+
       let day_type;
 
       // if day is a weekday
@@ -669,7 +708,7 @@ function calculateFare() {
           fare = day_type[1]["outside_school"];
         }
 
-      // else if day is a saturday
+        // else if day is a saturday
       } else if (day === "Sat") {
         console.log("Saturday");
         day_type = prices["saturday"];
@@ -679,7 +718,7 @@ function calculateFare() {
         } else {
           fare = day_type[1]["outside_school"];
         }
-      // else it's sunday
+        // else it's sunday
       } else {
         console.log("Sunday");
         fare = prices["sunday"];
@@ -691,5 +730,5 @@ function calculateFare() {
 
     console.log(result);
     alert(result);
-});
+  });
 }

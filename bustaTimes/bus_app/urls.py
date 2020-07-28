@@ -29,6 +29,6 @@ urlpatterns = [
     # PASSWORD RESET
     
     # MODEL PREDICTION
-    path('get_journey_prediction', views.get_journey_prediction, name="get_journey_prediction"),
+    path('get_journey_prediction', views.get_journey_prediction, name="get_journey_prediction")
 
 ]

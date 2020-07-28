@@ -288,9 +288,13 @@
             <!-- ********** Search by Route Menu ********** -->
             <div id='search-by-route-container' class="container centre-and-padding tabcontent" style="max-width:330px; max-height:70vh; overflow:auto;">
                 <!-- Route Dropdown -->
-                <select onchange="showAndLoadStartAndEndDrops()" id="json-routes" class="form-control form-control-sm">
+                <form id="route_prediction_form" action="get_journey_prediction" method="POST">
+                    {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
+                <select name="route" onchange="showAndLoadStartAndEndDrops()" id="json-routes" class="form-control form-control-sm">
                     <option value="" disabled selected>Select a Route</option>
                 </select>
+                <!-- Hidden input which contains weather info -->
+                <input type="text" id="hidden_weather" name="model_weather" style="display:none">
 
                 <!-- Select "Starting Point" and "Ending Point" div (initially hidden) -->
                 <div id="stops-dropdowns-container" style="display: none;">
@@ -301,17 +305,17 @@
                     <!-- Starting Point Dropdown -->
                     <div>
                         <label for="starting-dropdown">Select Start Stop:</label>
-                        <select name="" id="json-starting-stops" class="form-control form-control-sm"></select>
+                        <select name="start_stop" id="json-starting-stops" class="form-control form-control-sm"></select>
                     </div>
                     <!-- Ending Point Dropdown -->
                     <div>
                         <label for="ending-dropdown">Select End Stop:</label>
-                        <select name="" id="json-ending-stops" class="form-control form-control-sm"></select>
+                        <select name="end_stop" id="json-ending-stops" class="form-control form-control-sm"></select>
                     </div>
                     <!-- Choose Date Dropdown -->
                     <div id="date-selector-container">
                         <label for="date-dropdown">Select Date:</label>
-                        <select id="date-selector" class="form-control form-control-sm">
+                        <select name="date" id="date-selector" class="form-control form-control-sm">
                             <option id="prediction-date-1"></option>
                             <option id="prediction-date-2"></option>
                             <option id="prediction-date-3"></option>
@@ -356,10 +360,11 @@
                         </form>
                     {% else %}
                         
-                        <button class='btn btn-outline-* btn-submit' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
+                        <button type="submit" class='btn btn-outline-* btn-submit' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
                     {% endif %}
+                </form>
                         <button class='btn-sm btn-warning' onclick="calculateFare()" style="margin-top:15px;">Calculate Fare</button>
-                    
+                    <div id="display_prediction"></div>
                     <div id="routes-directions-panel"></div>
                 </div>
             </div>
@@ -445,7 +450,17 @@
         document.getElementById("defaultOpen").click();
     </script>
     <script>
-        var weather = JSON.parse('{{ weather|escapejs }}'); 
+        var weather = JSON.parse('{{ weather|escapejs }}');
+        // make hidden inputs for all weather components - gets passed as string
+        console.log("WEATHER:",weather[0]); 
+        var weather_array = ['temperature','rainfall','windspeed','cloud','visibility','humidity'];
+        var weather_values =[]
+        for (var elem=0;elem<weather_array.length;elem++){
+            console.log(elem,weather[0][weather_array[elem]]);
+            weather_values.push(weather[0][weather_array[elem]]);
+        }
+        console.log(weather_values)
+        document.getElementById("hidden_weather").value= weather_values;
         
         // ++++++++ Making JSON data available in app.js! ++++++++
         var main_table_object = {{ main_table_data|safe }};

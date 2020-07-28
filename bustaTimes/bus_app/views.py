@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 import json
 # From models.py file in the current folder, import the tables
 from .models import Route, BusStop, RouteAndStop
@@ -43,8 +44,11 @@ def index(request):
     Rainfall = json_temp['currently']['precipIntensity']
     Icon = json_temp['currently']['icon']
     WindSpeed = json_temp['currently']['windSpeed']
+    Cloud = json_temp['currently']['cloudCover']
+    Visibility = json_temp['currently']['visibility']
+    Humidity = json_temp['currently']['humidity']
 
-    current_weather = [{"temperature": Temperature, "rainfall": Rainfall, "icon": Icon, "windspeed": WindSpeed}]
+    current_weather = [{"temperature": Temperature, "rainfall": Rainfall, "icon": Icon, "windspeed": WindSpeed, "cloud":Cloud,"visibility":Visibility,"humidity":Humidity}]
     current_weather_js = json.dumps(current_weather)
     # =======================================================
 
@@ -557,10 +561,42 @@ def delete_favourite_journey(request, pk):
 
 from bus_app.model_predictions.get_model_predictions import getModelPredictions
 
+
 def get_journey_prediction(request):
     if request.POST:
         pass
-    return HttpResponse("Prediction Model")
+    print("info")
+    print(request.POST)
+    route_ = request.POST.get("route")
+    start_stop = request.POST.get("start_stop")
+    end_stop = request.POST.get("end_stop")
+    date_ = request.POST.get("date")
+    time_=request.POST.get("choose-time")
 
+    # This needs to be changed to be automatic (i.e. POST.get)
+    direction=1
+    
+    weather_ = request.POST.get("model_weather")
+    # print("{} \n {} \n {} \n {} \n {} \n ".format(route_,start_stop,end_stop,date_,time_))
+    # print("hey")
+    # split string of weather values
+    weather_array = weather_.split(",")
+    # weather_array = ['temperature','rainfall','windspeed','cloud','visibility']
+    Temperature = weather_array[0]
+    Rainfall = weather_array[1]
+    WindSpeed = weather_array[2]
+    Cloud = weather_array[3]
+    Visibility = weather_array[4]
+    Humidity = weather_array[5]
+
+    
+
+    prediction = getModelPredictions(route_,direction,start_stop,end_stop,date_,time_,Temperature,Rainfall,WindSpeed,Cloud,Visibility,Humidity)
+    print("Final_pred:  {}".format(prediction))
+    # context={}
+    # context['prediction'] = prediction
+    # return render(request, 'index.html', context)
+    return HttpResponse(prediction)
+    # return JsonResponse(prediction, safe=False)
     # return redirect('index')
 
