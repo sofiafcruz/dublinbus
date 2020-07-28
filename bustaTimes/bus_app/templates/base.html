@@ -25,20 +25,11 @@
     <!-- *************** NAVIGATION BAR ***************-->
     <div class="d-flex justify-content-between header align-items-center fixed-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-        
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <!-- Logo -->
                     <li class="nav-item">
                         <a class="nav-link active" href="#" onclick="navbarDisplay(event, 'home-search-container')">Busta Times</a>
-                    </li>
-                   
-                    <!-- Check Leap Card Balance -->
-                    <li class="nav-item ">
-                        <a class="nav-link" href="#" id="check-balance-nav" onclick="navbarDisplay(event, 'leap-card-balance-container')">Check Balance</a>
                     </li>
                 </ul>
             </div>
@@ -89,6 +80,9 @@
                 {% endfor %}
             </div>
         </nav>
+        <div id="leap-card-navbar">  
+            <a class="tablink nav-link" href="#" id="check-balance-nav" onclick="openTab(event, 'leap-card-balance-container')"><img src="./static/images/menu/leap-card.svg" alt="Leap Card Balance" style="width:40px;"></a>
+        </div>
         
     </div>
     <!-- ********** PopUps ********** -->
@@ -256,9 +250,10 @@
         <div class="Search-Menu-Container">
             <h3 id="menu-title" style="margin-bottom:10px;">Plan Your Trip</h3>
             <div class="tab">
-                <button class="tablinks" onclick="openCity(event, 'home-search-container')" id="defaultOpen"><img src="./static/images/menu/by-location.svg" alt="Search by location"></button>
-                <button id="search-by-route-img" class="tablinks" onclick="openCity(event, 'search-by-route-container')"><img src="./static/images/menu/by-route.svg" alt="Search by route"></button>
-                <button class="tablinks" onclick="openCity(event, 'bus-stop-search-container')"><img src="./static/images/menu/by-stop.svg" alt="Search by stop"></button>
+                <button class="tablinks" onclick="openTab(event, 'home-search-container')" id="defaultOpen"><img src="./static/images/menu/by-location.svg" alt="Search by location"></button>
+                <button id="search-by-route-img" class="tablinks" onclick="openTab(event, 'search-by-route-container')"><img src="./static/images/menu/by-route.svg" alt="Search by route"></button>
+                <button class="tablinks" onclick="openTab(event, 'bus-stop-search-container')"><img src="./static/images/menu/by-stop.svg" alt="Search by stop"></button>
+                <button class="tablinks leap-card-mobile" onclick="openTab(event, 'leap-card-balance-container')"><img src="./static/images/menu/leap-card.svg" alt="Leap Card Balance"></button>
             </div>
 
             <!-- ********** Home Menu ********** -->
@@ -391,20 +386,20 @@
 
             <!-- ********** See Leap Card ********** -->
             <div id="leap-card-balance-container" class="container centre-and-padding tabcontent">
-                <h2>Fill in Leap Card Credentials to see Balance</h2>
+                <h5>Check Balance</h5>
                 <form id="leap-card-form" method="POST" action="leap_card_info" >
                     {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
                     {% if user.is_authenticated %}
-                        <input type="text" id="inputUsername" name="inputUsername" class="form-control" value="{{user.additionaluserinfo.leapcard_username}}" required>    
+                        <input type="text" id="inputUsername" name="inputUsername" class="form-control form-control-sm leap-card-input" value="{{user.additionaluserinfo.leapcard_username}}" required>    
                     {% else %}
-                        <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="Enter Leap Card Username" required>
+                        <input type="text" id="inputUsername" name="inputUsername" class="form-control form-control-sm leap-card-input" placeholder="Enter Leap Card Username" required>
                     {% endif %}
-                    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Enter Leap Card Password" required>
+                    <input type="password" id="inputPassword" name="inputPassword" class="form-control form-control-sm leap-card-input" placeholder="Enter Leap Card Password" required>
                     <!-- Testing out Submit Buttons below -->
-                    <input id="show-balance" type="submit" class='btn btn-outline-* btn-submit' value="Show Balance">
+                    <button type="submit" id="show-balance" value="Show Balance" class='btn btn-outline-* btn-submit'>Submit</button> 
 
                     <p id="balance-paragraph"></p>
-                    <a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a>
+                    <small class="text-muted"><a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a></small>
                 </form>
             </div>
         </div>
@@ -431,7 +426,7 @@
     <!-- Connected JS script needs to be down here (rather than in the <head> section) or else can't "see" html elements -->
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
     <script>
-        function openCity(evt, cityName) {
+        function openTab(evt, tabContainer) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
@@ -441,7 +436,7 @@
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            document.getElementById(cityName).style.display = "block";
+            document.getElementById(tabContainer).style.display = "block";
             evt.currentTarget.className += " active";
         }
 

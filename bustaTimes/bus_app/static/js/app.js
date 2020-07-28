@@ -457,23 +457,6 @@ function populateInputWithStop(clicked_busstop_searchname) {
   busstop_input.value = clicked_busstop_searchname;
 }
 
-// ================================ MANAGING THE NAV-BAR TAB CLICKS AND DISPLAYS ================================
-function navbarDisplay(evt, searchType) {
-  var tabcontent = document.getElementsByClassName("tabcontent");
-  for (var i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  var navLink = document.getElementsByClassName("nav-link");
-  for (var i = 0; i < navLink.length; i++) {
-    navLink[i].className = navLink[i].className.replace(" active", "");
-  }
-  document.getElementById(searchType).style.display = "block";
-  evt.currentTarget.className += " active";
-
-  // Hide the burger span (Not working fully, as when in full screen, clicking a nav option causes a click too.. Need to debug later)
-  $(".navbar-toggler").click();
-}
-
 // ========== Favourites Popup Table Functionality ==========
 $(".clickable-row").click(function() {
   console.log("Row in Favourites Table clicked!");
