@@ -27,7 +27,7 @@
 //     // var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
 //     // let selected_destination_stop = document.getElementById("json-ending-stops");
 //     // var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
-//     // let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value + 1;
+//     // let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value;
 //     // // let distance = document.getElementById("json-ending-stops").value;
 
 //     // console.log("Selected Journey Details;");
@@ -118,7 +118,7 @@ leap_card_form.submit(function () {
 
 // ********** On clicking "Search by Bus Stop" nav option, load JSON file (i.e. grab all the stops) **********
 $("#search-by-route-container").click(function () {
-  console.log("check");
+  // console.log("check");
   // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
   $.ajax({
     // url: './static/map_bus_stop_to_routes_data.json',
@@ -309,7 +309,7 @@ function showSaveJourneyBtn() {
     var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
     let selected_destination_stop = document.getElementById("json-ending-stops");
     var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
-    let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value + 1;
+    let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value;
     // let distance = document.getElementById("json-ending-stops").value;
 
     console.log("Selected Journey Details;");
@@ -557,6 +557,7 @@ $(".clickable-row").click(function() {
 
 // Delete a Row (from the DOM (rather than from the database))
 function deleteRow(ele) {
+  // NO FUNCTIONALITY YET AS ATM PAGE RELOADS!
   console.log("DELETE THIS ROW!");
   console.log("=====Start=====");
   console.log(ele);
@@ -571,3 +572,124 @@ function deleteRow(ele) {
 $('.delete-row-td').click(function(event) {
   event.stopPropagation();
 });
+
+// ==================== Calculate Fare ====================
+function calculateFare() {
+  let time = document.getElementById('choose-time').value;
+  let day = document.getElementById('date-selector').value.split(" ")[0];
+  let customer_type = document.getElementById('customer-type').value;
+  let payment_mode = document.getElementById('payment-mode').value;
+
+  console.log("=====Start=====");
+  console.log(time);
+  console.log(day);
+  console.log(customer_type);
+  console.log(payment_mode);
+  console.log("=====End=====");
+
+  $.getJSON("./static/fares.json", function(data) {
+    console.log(data);
+    
+    let selected_customer;
+    let selected_payment_mode;
+    let prices;
+    let fare;
+    let result;
+    
+    // ===== If customer is an Adult =====
+    if (customer_type === "Adult") {
+      console.log("Adult!");
+      selected_customer = data["adult"];
+
+      // Grab Payment Type
+      if (payment_mode === "LeapCard") {
+        console.log("LeapCard!");
+        selected_payment_mode = "Leap Card";
+        prices = selected_customer["leap_card"];
+      } else {
+        console.log("Cash!");
+        selected_payment_mode = "Cash";
+        prices = selected_customer["cash"];
+      }
+
+      // Determine Fare LOGIC
+      // Hope my logic is right here...
+      let stages = prices["stages"];
+      // Hope my logic is right here...
+      let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value;
+
+      // if short journey
+      if (stops_count <= 3) {
+        fare = stages[0]["short"];
+      // elif medium journey
+      } else if (stops_count <= 13) {
+        fare = stages[1]["medium"];
+      // else long journey
+      } else {
+        fare = stages[2]["long"];
+      }
+      
+      // Result
+      result = `For Adult going ${stops_count} stops and paying by ${selected_payment_mode}: the Fare = €${fare}`;
+
+    // ===== Else, they're a child =====
+    } else {
+      console.log("Child!");
+      selected_customer = data["child"];
+
+      // Grab Payment Type
+      if (payment_mode === "LeapCard") {
+        console.log("LeapCard!");
+        selected_payment_mode = "Leap Card";
+        prices = selected_customer["leap_card"];
+      } else {
+        console.log("Cash!");
+        selected_payment_mode = "Cash";
+        prices = selected_customer["cash"];
+      }
+
+      // Determine Fare LOGIC
+      // Hope my logic is right here...
+      console.log(prices);
+
+      let weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+      
+      let day_type;
+
+      // if day is a weekday
+      if (weekdays.includes(day)) {
+        console.log("Weekday");
+        day_type = prices["weekday"];
+
+        // Check time of day selected
+        if (time < "19:00") {
+          fare = day_type[0]["school"];
+        } else {
+          console.log(day_type);
+          fare = day_type[1]["outside_school"];
+        }
+
+      // else if day is a saturday
+      } else if (day === "Sat") {
+        console.log("Saturday");
+        day_type = prices["saturday"];
+
+        if (time < "13:30") {
+          fare = day_type[0]["school"];
+        } else {
+          fare = day_type[1]["outside_school"];
+        }
+      // else it's sunday
+      } else {
+        console.log("Sunday");
+        fare = prices["sunday"];
+      }
+
+      // Result
+      result = `For Child on a ${day} at a time of ${time} and paying by ${selected_payment_mode}: the Fare = €${fare}`;
+    }
+
+    console.log(result);
+    alert(result);
+});
+}
