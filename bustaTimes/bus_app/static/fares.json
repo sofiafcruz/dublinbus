@@ -2,28 +2,28 @@
     "adult": {
         "leap_card": {
             "stages": [
-                {"3": 1.55},
-                {"13": 2.25},
-                {"14": 2.50}
+                {"short": 1.55},
+                {"medium": 2.25},
+                {"long": 2.50}
             ]
         },
         "cash": {
             "stages": [
-                {"3": 2.15},
-                {"13": 3.00},
-                {"14": 3.30}
+                {"short": 2.15},
+                {"medium": 3.00},
+                {"long": 3.30}
             ]
         }
     },
     "child": {
         "leap_card": {
-            "weekday": [{"19:00": 0.80}, {"19:01": 1.00}],
-            "saturday": [{"13:30": 0.80}, {"13:31": 1.00}],
+            "weekday": [{"school": 0.80}, {"outside_school": 1.00}],
+            "saturday": [{"school": 0.80}, {"outside_school": 1.00}],
             "sunday": 1.00
         },
         "cash": {
-            "weekday": [{"19:00": 1.00}, {"19:01": 1.30}],
-            "saturday": [{"13:30": 1.00}, {"13:31": 1.30}],
+            "weekday": [{"school": 1.00}, {"outside_school": 1.30}],
+            "saturday": [{"school": 1.00}, {"outside_school": 1.30}],
             "sunday": 1.30
         }
     }

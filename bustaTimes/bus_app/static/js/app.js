@@ -87,19 +87,22 @@ leap_card_form.submit(function () {
   // Show the loading icon
   // $(".ajax-loading").css("display", "block");
   // $(".ajax-loading").show();
+  // $(".ajax-loading").hide();
   $.ajax({
     type: leap_card_form.attr("method"), // POST
     url: leap_card_form.attr("action"), // leap_card_info
     data: leap_card_form.serialize(), // Get values of both inputUsername and inputPassword
-    async: false,
+    async: true, // NNEDS TO BE TRUE FOR SOME REASON
     beforeSend: function() {
       $(".ajax-loading").show();
+      $("#balance-paragraph").hide();
     },
     success: function (data) {
       // Hide the loading icon and show the balance
       // $(".ajax-loading").css("display", "none");
       // $(".ajax-loading").css("display", "block");
       $(".ajax-loading").hide();
+      $("#balance-paragraph").show();
       $("#balance-paragraph").text("Your Balance is: " + data);
     },
     error: function (error) {

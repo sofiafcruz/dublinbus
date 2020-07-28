@@ -351,9 +351,5 @@ button:hover {
 /* Loading icon stuff */
 .ajax-loading {
   display: none;
+  padding-top: 1rem;
 }
-
-/* Loading icon stuff */
-/* .ajax-loading {
-  display: none;
-} */
