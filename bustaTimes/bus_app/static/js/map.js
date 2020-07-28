@@ -763,6 +763,7 @@ $("#show-all-routes-serviced").click(function(e) {
         // console.log(direction_1);
         // Iterate over all that directions stops to access each stop in order to render them
         console.log("----START of Stops Loop----");
+        var path_coords = [];
         for (index in direction_1['stops']){
           // console.log(index);
           let bus_stop = direction_1['stops'][index];
@@ -782,26 +783,37 @@ $("#show-all-routes-serviced").click(function(e) {
           };
           var stopCoords = new google.maps.LatLng(latitude, longitude);
           
-          var seach_by_busstop_marker = new google.maps.Marker({
+          var search_by_busstop_marker = new google.maps.Marker({
             position: stopCoords,
             icon: seach_by_busstop_icon,
             map: map,
             title: stop_num
           });
+          // console.log(stopCoords);
+          path_coords.push(stopCoords);
 
-          // Creates the polyline object (NOT WORKING!)
-          var polyline = new google.maps.Polyline({
-            map: map,
-            path: stopCoords,
-            // path: {lat:latitude, lng:longitude},
-            strokeColor: '#0000FF',
-            strokeOpacity: 0.7,
-            strokeWeight: 1,
-            geodesic: true
-          });
           // Fit the bounds of the generated points
-          polyline.setMap(map);
+          
         }
+        // Creates the polyline object (NOT WORKING!)
+        var polyline = new google.maps.Polyline({
+          map: map,
+          path: path_coords,
+          // path: {lat:latitude, lng:longitude},
+          strokeColor: 'red',
+          strokeOpacity: 0.7,
+          strokeWeight: 6,
+          geodesic: true
+        });
+
+        polyline.setMap(map);
+
+        var searched_marker = new google.maps.Marker({
+          position: bus_stop_location,
+          map: map,
+          title: stop_num,
+          animation: google.maps.Animation.BOUNCE
+        });
 
         map.setCenter(bus_stop_location);
         map.setZoom(13);
