@@ -393,10 +393,17 @@
                     <input type="password" id="inputPassword" name="inputPassword" class="form-control form-control-sm leap-card-input" placeholder="Enter Leap Card Password" required>
                     <!-- Testing out Submit Buttons below -->
                     <button type="submit" id="show-balance" value="Show Balance" class='btn btn-outline-* btn-submit'>Submit</button> 
-
-                    <p id="balance-paragraph"></p>
-                    <small class="text-muted"><a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a></small>
                 </form>
+
+                <div class="ajax-loading">
+                    <p>Retrieving Balance...</p>
+                    <img style="height: 4rem;" src="./static/images/leapcard-loader.gif" alt="loading">
+                </div>
+                
+                <h4 style="padding-top: 1rem" id="balance-paragraph"></h4>
+                
+                
+                <small class="text-muted"><a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a></small>
             </div>
         </div>
     </div>

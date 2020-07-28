@@ -342,7 +342,18 @@ button:hover {
   margin-top: 20px;
 }
 
+/* Make Favourite Journeys Table scrollable if too big */
 .modal-body {
   max-height: calc(100vh - 210px);
   overflow-y: auto;
 }
+
+/* Loading icon stuff */
+.ajax-loading {
+  display: none;
+}
+
+/* Loading icon stuff */
+/* .ajax-loading {
+  display: none;
+} */

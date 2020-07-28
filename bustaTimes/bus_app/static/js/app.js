@@ -71,15 +71,35 @@
 //     // });
 // });
 
+// $(document).ready(function(){
+//   $(".ajax-loading").hide();
+// });
+
+// $("#show-balance").click(function (e) {
+//   e.preventDefault();
+//   $(".ajax-loading").show();
+// });
+
 // ********** On clicking "Show Balance" show User's Leap Card Balance (i.e. grab all the stops) **********
 var leap_card_form = $("#leap-card-form");
 leap_card_form.submit(function () {
+  console.log("SUBMIT BUTTON CLICKED!")
+  // Show the loading icon
+  // $(".ajax-loading").css("display", "block");
+  // $(".ajax-loading").show();
   $.ajax({
     type: leap_card_form.attr("method"), // POST
     url: leap_card_form.attr("action"), // leap_card_info
     data: leap_card_form.serialize(), // Get values of both inputUsername and inputPassword
     async: false,
+    beforeSend: function() {
+      $(".ajax-loading").show();
+    },
     success: function (data) {
+      // Hide the loading icon and show the balance
+      // $(".ajax-loading").css("display", "none");
+      // $(".ajax-loading").css("display", "block");
+      $(".ajax-loading").hide();
       $("#balance-paragraph").text("Your Balance is: " + data);
     },
     error: function (error) {
