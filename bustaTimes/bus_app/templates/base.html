@@ -252,6 +252,11 @@
         <div class="user-location-btn">
             <input type="image" id="my-location-btn-img" onclick="panToUsersLocation()" src='./static/images/user-icon.svg' />
         </div>
+        <!-- Switch button to set night mode -->
+        <div class="custom-control custom-switch night-mode">
+            <input type="checkbox" class="custom-control-input night-mode-switch" id="customSwitch4" onchange="changeMapStyle()">
+            <label class="custom-control-label" for="customSwitch4"><img src="./static/images/clear-night.png" alt="Night Mode" style="width:40px;"></label>
+        </div>
         <div class="Search-Menu-Container">
             <h3 id="menu-title" style="margin-bottom:10px;">Plan Your Trip</h3>
             <div class="tab">
@@ -400,14 +405,14 @@
         </div>
     </div>
 
-    <!-- ********** Toggle Map Style Buttons ********** -->
+    {% comment %} <!-- ********** Toggle Map Style Buttons ********** -->
     <div class="style-btns btn-group btn-group-toggle" data-toggle="buttons">
     <!-- <button id="standard" onclick="changeMapStyle(this.id)" class="">Standard</button> -->
         <button id="night_mode" onclick="changeMapStyle(this.id)" class="btn btn-dark" data-toggle="button">Night</button>
         <button id="subtle_grayscale" onclick="changeMapStyle(this.id)" class="btn btn-light" data-toggle="button">Grayscale</button>
         <button id="retro" onclick="changeMapStyle(this.id)" class="btn btn-warning" data-toggle="button">Retro</button>
         <button id="green" onclick="changeMapStyle(this.id)" class="btn btn-success" data-toggle="button">Green</button>
-    </div>
+    </div> {% endcomment %}
     
     <!-- Storing the Routes in a dropdown -->
     {% comment %} {% block select_routes_content %} {% endblock %} {% endcomment %}

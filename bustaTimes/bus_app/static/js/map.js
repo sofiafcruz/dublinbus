@@ -1,9 +1,12 @@
 // **************** Change Map Style ****************
-function changeMapStyle(json_filename) {
+function changeMapStyle() {
   // Onclick Event for Button to Toggle the Map Style Dynamically
   // Function used by a button elements
-  $.ajax({
-      url: './static/google_map_styles/' + json_filename + '.json', 
+  var switchValue = document.getElementsByClassName("night-mode-switch")[0].checked ? true : false
+  console.log(switchValue);
+  if (switchValue) {
+    $.ajax({
+      url: './static/google_map_styles/night_mode.json', 
       async: false,
       dataType: 'json',
       success: function (json_style) {
@@ -13,6 +16,9 @@ function changeMapStyle(json_filename) {
         console.log(`Error ${error}`);
       },
   });
+  } else {
+    map.setOptions({styles: google.maps.MapTypeId.ROADMAP});
+  }
 }
 
 // **************** Initialise many of the variables (to make them global and accessible by different functions that don't have scope on them) ****************
@@ -297,7 +303,7 @@ function calcRouteToAttraction(latitude, longitude) {
 
 // ================================ OTHER ==============================================
 function setMapDublin() {
-  map.setCenter(new google.maps.LatLng(53.346, -6.27));
+  map.setCenter(new google.maps.LatLng(53.346, -6.28));
   map.setZoom(13);
 }
 

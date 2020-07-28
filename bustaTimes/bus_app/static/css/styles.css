@@ -155,7 +155,8 @@ body {
 
 .weather-container,
 .attractions,
-.user-location-btn {
+.user-location-btn,
+.night-mode {
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -177,9 +178,13 @@ body {
 }
 
 .user-location-btn {
-  top: 145px;
+  top: 190px;
   width: 50px;
   height: 40px;
+}
+
+.night-mode {
+  top: 145px;
 }
 
 .leap-card-mobile {
