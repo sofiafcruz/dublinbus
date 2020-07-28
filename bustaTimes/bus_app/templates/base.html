@@ -106,35 +106,31 @@
                 </div>
                 <form action="{% url 'registerUserPopup' %}" method="POST">
                     <div class="modal-body">
-                            {% csrf_token %}
-                            {% comment %} <!-- ===== VERSION 1 ===== -->
-                            <!-- REQUIRED INFO -->
-                            <!-- ***** Username ***** -->
-                            {{create_form.username.label}}
-                            {{create_form.username}}
-                            <!-- ***** Password (initial) ***** -->
-                            {{create_form.password1.label}}
-                            {{create_form.password1}}
-                            <!-- ***** Password (confirmation) ***** -->
-                            {{create_form.password2.label}}
-                            {{create_form.password2}}
-                            <!-- ***** Email ***** -->
-                            {{create_form.email.label}}
-                            {{create_form.email}}
-                            
-                            <!-- ADDITIONAL INFO -->
-                            {{additional_info_form}} {% endcomment %}
+                        {% csrf_token %}
 
-                            <!-- ===== VERSION 2 ===== -->
-                            <input type="text" name="username" placeholder="Username..." class="form-control">
-                            <input type="password" name="password1" placeholder="Password..." class="form-control">
-                            <input type="password" name="password2" placeholder="Confirm Password..." class="form-control">
-                            <input type="email" name="email" placeholder="Email..." class="form-control">
-                            <h5 style="padding-top:1rem;">And Optional Data:</h5>
-                            <a href="#"><small>What's it being used for?</small></a>
-                            <input type="text" name="leapcard_username" placeholder="Leap Card Username..." class="form-control">
+                        <!-- ===== VERSION 1 ===== -->
+                        <input type="text" name="username" placeholder="Username..." class="form-control">
+                        <input type="password" name="password1" placeholder="Password..." class="form-control">
+                        <input type="password" name="password2" placeholder="Confirm Password..." class="form-control">
+                        <input type="email" name="email" placeholder="Email..." class="form-control">
+                        <h5 style="padding-top:1rem;">And Optional Data:</h5>
+                        <div class="stations-block container rounded">
 
-                            <!-- ADDITIONAL INFO -->
+                            <!-- Collapsable content (For Stations) -->
+                            <div class="container-fluid padding">
+                                <div class="row text-center padding">
+                                    
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <small><a href="#stands-content" data-toggle="collapse">What's it being used for?</a></small>
+                                        <p style="font-size: 0.75rem;" id="stands-content" class="collapse">We use optional data purely for improving our users' experience.<br>
+                                        Your data is saved securely on our database to autocomplete fields to make your experience more seamless.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ADDITIONAL INFO -->
+                        <input type="text" name="leapcard_username" placeholder="Leap Card Username..." class="form-control">
                     </div>
                     <div class="modal-footer">
                         <input class="btn btn-primary" type="submit" value="Register Account">
