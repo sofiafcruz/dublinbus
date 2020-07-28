@@ -55,8 +55,8 @@ function initMap() {
   // DESTINATION MARKER
   // Destination Marker icon (currently a bullseye - will be updated at some stage)
   var icon = {
-    url: './static/images/target.png',
-    scaledSize: new google.maps.Size(50, 50), 
+    url: './static/images/gps_red.svg',
+    scaledSize: new google.maps.Size(30, 30), 
     anchor: new google.maps.Point(12.5, 12.5) 
   };
   // Destination Marker
