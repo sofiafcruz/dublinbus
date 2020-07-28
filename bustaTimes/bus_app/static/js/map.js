@@ -777,7 +777,7 @@ $("#show-all-routes-serviced").click(function(e) {
 
           var seach_by_busstop_icon = {
             // url: './static/images/search_by_stop_icon.png',
-            url: './static/images/search_by_stop_icon.png',
+            url: './static/images/bus_stop_icon.svg',
             scaledSize: new google.maps.Size(25, 25), 
             anchor: new google.maps.Point(12.5, 12.5) 
           };
@@ -799,8 +799,7 @@ $("#show-all-routes-serviced").click(function(e) {
         var polyline = new google.maps.Polyline({
           map: map,
           path: path_coords,
-          // path: {lat:latitude, lng:longitude},
-          strokeColor: 'red',
+          strokeColor: '#FF0000',
           strokeOpacity: 0.7,
           strokeWeight: 6,
           geodesic: true
@@ -812,7 +811,7 @@ $("#show-all-routes-serviced").click(function(e) {
           position: bus_stop_location,
           map: map,
           title: stop_num,
-          animation: google.maps.Animation.BOUNCE
+          animation: google.maps.Animation.DROP
         });
 
         map.setCenter(bus_stop_location);
