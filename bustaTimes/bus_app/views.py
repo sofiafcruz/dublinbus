@@ -536,18 +536,21 @@ def showFavouritesPopup(request):
     }
     return render(request, "favourite_journeys.html", context)
 
-def delete_favourite_journey(request, journey_pk):
+def delete_favourite_journey(request, pk):
     # Testing to see what the PK of the row you want to delete.
-    print("PK:", journey_pk)
-    return HttpResponse(f"Test checking for PK of {journey_pk}")
+    print("DELETE VIEW CALLED!")
+    print("PK of favourite journey instance attempting to delete:", pk)
     # Trying to delete the Record from the Model
-    # try:
-    #     query = FavouriteJourney.objects.get(pk=journey_pk)
-    #     query.delete()
-    #     return HttpResponse("Deleted!")
-    # except:
-    #     print("The Object you tried to delete doesn't appear to exist")
-    #     return HttpResponse("Didn't delete, as it doesn't seem to exist in the DB!")
+    try:
+        query = FavouriteJourney.objects.get(pk=pk)
+        query.delete()
+        print("Deleted!")
+        messages.success(request, f"Journey deleted successfully!")
+        return redirect('index')
+    except:
+        print("The Object you tried to delete doesn't appear to exist")
+        messages.error(request, f"ERROR: Journey not deleted...")
+        return redirect('index')
 
 # def password_reset(request):
 

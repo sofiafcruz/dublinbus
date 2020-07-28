@@ -50,34 +50,42 @@
                     <!-- Login Link -->
                     <li>
                         <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
-                        <a class="nav-link" data-target='#favourites-popup' data-toggle="modal" href="">FAVOURITES POPUP</a>
+                        <a class="nav-link" data-target='#favourites-popup' data-toggle="modal" href="">Favourites</a>
                     </li>
                     
                 {% else %}
                     <!-- Login Link -->
                     <li>
                         <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
-                        <a class="nav-link" data-target='#login-popup' data-toggle="modal" href="">LOGIN POPUP</a>
+                        <a class="nav-link" data-target='#login-popup' data-toggle="modal" href="">Login</a>
                     </li>
                     <!-- Register Link -->
                     <li>
                         <!-- <a class="nav-link" href="{% url 'registerPage' %}">Register</a> -->
-                        <a class="nav-link" data-target='#signup-popup' data-toggle="modal" href="">REGISTER POPUP</a>
+                        <a class="nav-link" data-target='#signup-popup' data-toggle="modal" href="">Register</a>
                     </li>
                 {% endif %}
-                </ul>
+
                 <!-- Show message which shows whether or not Registration was successful (Either success or failure) -->
                 {% for message in messages %}
                     <!-- If Success Message -->
                     {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                        <p id="message-alert" style="color:green">{{message}}</p>
+                        <li>
+                            <p class="nav-link" id="message-alert" style="color:green">{{message}}</p>
+                        </li>
                     <!-- Else if Error Message -->
                     {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                        <p id="message-alert" style="color:red">{{message}}</p>
+                        <li>
+                            <p id="message-alert" style="color:red">{{message}}</p>
+                        </li>
                     {% else %}
-                        <p id="message-alert">{{message}}</p>
+                        <li>
+                            <p id="message-alert">{{message}}</p>
+                        </li>
                     {% endif %}
                 {% endfor %}
+                </ul>
+                
             </div>
         </nav>
         <div id="leap-card-navbar">  
@@ -99,7 +107,7 @@
                 <form action="{% url 'registerUserPopup' %}" method="POST">
                     <div class="modal-body">
                             {% csrf_token %}
-
+                            {% comment %} <!-- ===== VERSION 1 ===== -->
                             <!-- REQUIRED INFO -->
                             <!-- ***** Username ***** -->
                             {{create_form.username.label}}
@@ -115,7 +123,18 @@
                             {{create_form.email}}
                             
                             <!-- ADDITIONAL INFO -->
-                            {{additional_info_form}}
+                            {{additional_info_form}} {% endcomment %}
+
+                            <!-- ===== VERSION 2 ===== -->
+                            <input type="text" name="username" placeholder="Username..." class="form-control">
+                            <input type="password" name="password1" placeholder="Password..." class="form-control">
+                            <input type="password" name="password2" placeholder="Confirm Password..." class="form-control">
+                            <input type="email" name="email" placeholder="Email..." class="form-control">
+                            <h5 style="padding-top:1rem;">And Optional Data:</h5>
+                            <a href="#"><small>What's it being used for?</small></a>
+                            <input type="text" name="leapcard_username" placeholder="Leap Card Username..." class="form-control">
+
+                            <!-- ADDITIONAL INFO -->
                     </div>
                     <div class="modal-footer">
                         <input class="btn btn-primary" type="submit" value="Register Account">
@@ -172,21 +191,7 @@
                     </div>
                 {% else %}
                     <p style="text-align: center; margin-top: 15px">Number of Entries: {{ users_favourite_journeys|length }}</p>
-                    {% comment %} <div>
-                        <table id="favourites-table-headings">
-                            <tr>
-                                <th>#</th>
-                                <th>PK</th>
-                                <th>Route Name/Num</th>
-                                <th>Start</th>
-                                <th>End</th>
-                                <th># Stops</th>
-                                <th>Date Saved</th>
-                                <th>Summary</th>
-                                <th>Delete</th>
-                            </tr>
-                        </table>
-                    </div> {% endcomment %}
+                    
                     <div class="modal-body">
                         <!-- Table Hierarchy -->
                         <table id="favourites-table">
@@ -211,7 +216,7 @@
                                     <td>{{ journey.stops_count }}</td>
                                     <td>{{ journey.save_date }}</td>
                                     <td>{{ journey }}</td>
-                                    <td><img onclick="deleteRow(this)" src="./static/images/delete-icon.png" alt="Delete This Row" style="width:70px; height:auto;"></td>
+                                    <td class="delete-row-td"><a href="{% url 'delete_favourite_journey' journey.pk %}"><img onclick="deleteRow(this)" src="./static/images/delete-icon.png" alt="Delete This Row" style="width:70px; height:auto;"></a></td>
                                 </tr>
                             {% endfor %}
                         </table>
@@ -345,16 +350,7 @@
                         <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
                             {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
 
-                            <!-- Option 1 (NOT hidden - for testing) -->
-                            {% comment %} <input type="text" id="route-name-input" name="selected_route_name">
-                            <input type="text" id="starting-stop-input" name="selected_starting_stop">
-                            <input type="text" id="ending-stop-input" name="selected_ending_stop">
-                            <input type="text" id="stop-count-input" name="selected_journey_stop_count"> {% endcomment %}
-                            {% comment %} <input type="text" id="current-datetime-input" name="current_datetime"> {% endcomment %}
-                            {% comment %} <input type="datetime-local" value="2000-01-01T00:00:00" />
-                            <input type="text" id="logged-in-user" name="logged_in_user" value={{user.pk}}> {% endcomment %}
-
-                            <!-- Option 2 (Hidden) --> <!-- I THINK IT'S WORKING!!! -->
+                            <!-- Form for saving Favourite Journey Details (Hidden) -->
                             <input type="hidden" id="route-name-input" name="route_name">
                             <input type="hidden" id="starting-stop-input" name="origin_stop">
                             <input type="hidden" id="ending-stop-input" name="destination_stop">

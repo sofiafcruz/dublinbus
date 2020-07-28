@@ -24,7 +24,8 @@ urlpatterns = [
     path('showFavourites', views.showFavourites, name="showFavourites"),
     path('showFavouritesPopup', views.showFavouritesPopup, name="showFavouritesPopup"),
     # DELETE FAVOURITES
-    path('delete_favourite_journey', views.delete_favourite_journey, name="delete_favourite_journey"),
+    path('delete_favourite_journey/<int:pk>/', views.delete_favourite_journey, name="delete_favourite_journey"),
+    
     # PASSWORD RESET
     
     # MODEL PREDICTION

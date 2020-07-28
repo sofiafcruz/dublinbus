@@ -542,5 +542,9 @@ function deleteRow(ele) {
   let tr_ele = td_ele.parentNode;
   console.log(tr_ele);
   console.log("=====End=====");
-  
 }
+
+// Prevent clicking Delete Icon from showing the journey!
+$('.delete-row-td').click(function(event) {
+  event.stopPropagation();
+});
