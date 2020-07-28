@@ -1,9 +1,8 @@
-// **************** Change Map Style ****************
-function changeMapStyle() {
-  // Onclick Event for Button to Toggle the Map Style Dynamically
-  // Function used by a button elements
+// Change map style to night mode
+function nightMode() {
+  // Onchange event the map will either be set to night or day colors
+  // Function is called by a switch button
   var switchValue = document.getElementsByClassName("night-mode-switch")[0].checked ? true : false
-  console.log(switchValue);
   if (switchValue) {
     $.ajax({
       url: './static/google_map_styles/night_mode.json', 
@@ -56,8 +55,8 @@ function initMap() {
   // DESTINATION MARKER
   // Destination Marker icon (currently a bullseye - will be updated at some stage)
   var icon = {
-    url: './static/images/target.png',
-    scaledSize: new google.maps.Size(50, 50), 
+    url: './static/images/gps_red.svg',
+    scaledSize: new google.maps.Size(30, 30), 
     anchor: new google.maps.Point(12.5, 12.5) 
   };
   // Destination Marker
