@@ -20,10 +20,6 @@ def index(request):
     create_form = CreateUserForm()
     additional_info_form = AdditionalUserInfoForm()
 
-    # if request.method == 'POST':
-
-    #     registerUser(request)
-
     all_routes = Route.objects.all()
     all_stops = BusStop.objects.all()
 

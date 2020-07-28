@@ -828,12 +828,7 @@ $("#show-all-routes-serviced").click(function(e) {
       // console.log(all_routes[route_num]);
     }
   }
-
-  // console.log(all_routes);
-
-  // for (route_num in all_routes) {
-  //   console.log(route_num);
-  //   console.log(all_routes[route_num]);
-  // }
+  // Hide the markers on click
+  clearMarkers()
   
 });
