@@ -133,8 +133,8 @@ body {
 .tablinks {
   width: 60px;
   height: 55px;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .Search-Menu-Container {
@@ -187,10 +187,6 @@ body {
   top: 145px;
 }
 
-.leap-card-mobile {
-  display: none;
-}
-
 .leap-card-input {
   margin-bottom: 10px;
 }
@@ -207,10 +203,6 @@ body {
   .tablinks {
     width: 50px;
     height: 45px;
-  }
-
-  .leap-card-mobile {
-    display: block;
   }
 
   .app-container {
