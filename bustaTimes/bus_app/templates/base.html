@@ -344,7 +344,8 @@
                             <option id="cash">Cash</option>
                         </select>
                     </div>
-
+                    <input type="submit" value="show prediction">
+                </form>
                         
                     {% if user.is_authenticated %}
                         <button id="show-journey" class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn();" style="margin-top:15px;">Show Journey</button>
@@ -360,9 +361,9 @@
                         </form>
                     {% else %}
                         
-                        <button type="submit" class='btn btn-outline-* btn-submit' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
+                        <button class='btn btn-outline-* btn-submit' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
                     {% endif %}
-                </form>
+                
                         <button class='btn-sm btn-warning' onclick="calculateFare()" style="margin-top:15px;">Calculate Fare</button>
                     <div id="display_prediction"></div>
                     <div id="routes-directions-panel"></div>
