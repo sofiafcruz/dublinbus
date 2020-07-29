@@ -168,8 +168,10 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
                 offset+=historical_average_data[route]["D{}".format(direction)]["segments"][key]
 
         final_pred = prediction[0]-offset
+        final = final_pred//60
+
+        return int(final)
         
-        return final_pred
 
 
     except Exception as e:

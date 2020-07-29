@@ -170,7 +170,9 @@ prediction_form.submit(function () {
       // Hide the loading icon and show the balance
       // $(".ajax-loading").css("display", "none");
       // $(".ajax-loading").css("display", "block");
-      $("#display_prediction").text("Your prediction is: " + data);
+      $("#display_prediction").text(
+        "Approximate Journey Prediction: " + data + " minutes"
+      );
     },
     error: function (error) {
       console.log("Something went wrong!");
