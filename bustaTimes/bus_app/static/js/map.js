@@ -1,3 +1,5 @@
+
+
 // Change map style to night mode
 function nightMode() {
   // Onchange event the map will either be set to night or day colors
@@ -32,6 +34,9 @@ var global_markers = [];
 var markerCluster;
 var journeyMarker;
 var destinationMarker;
+// Search by bus stop vars below;
+var searched_bus_stop_marker;
+var all_polylines = []; // Used to store polylines
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
@@ -65,6 +70,7 @@ function initMap() {
     map: map,
     icon: icon
   });
+  
 
   // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
   map.addListener('dblclick', function(e) {
@@ -752,6 +758,19 @@ $("#show-all-routes-serviced").click(function(e) {
   }
 
   // ====Iterate over all the routes_serviced and grab the routes whose name matches an element in all the routes, and grab the route obj====
+  // List of colours for polylines ()
+  let polyline_colours = ["#ff0000", "#fdff00", "#00fe00", "#0000fd", "#fd00fd", "#FF6347", "#40E0D0", "#ffc0cb", "#808000", "#999999", "#800000", "#f4a460", "#a83262", "#32a883"];
+  
+  // List to store all the generated polylines
+  
+  for (let i = 0; i < all_polylines.length; i++) {
+    console.log(all_polylines[i]);
+    all_polylines[i].setMap(null);
+  }
+
+  // console.log(all_polylines);
+  // console.log(all_polylines.length);
+
   // iterate over the routes serviced
   for (var i = 0; i < routes_serviced.length; i++) {
     // console.log(routes_serviced[i]);
@@ -762,12 +781,12 @@ $("#show-all-routes-serviced").click(function(e) {
       // console.log(route_num);
       if (route_num === serviced_route) {
         console.log("GOT EEM!");
-        // console.log(route_num);
         // console.log(all_routes[route_num]);
         // Focus on just 1 Direction of a given route (D1)
         let direction_1 = all_routes[route_num].D1;
         // console.log(direction_1);
         // Iterate over all that directions stops to access each stop in order to render them
+        console.log("Route:", route_num);
         console.log("----START of Stops Loop----");
         var path_coords = [];
         for (index in direction_1['stops']){
@@ -789,23 +808,24 @@ $("#show-all-routes-serviced").click(function(e) {
           };
           var stopCoords = new google.maps.LatLng(latitude, longitude);
           
-          var search_by_busstop_marker = new google.maps.Marker({
-            position: stopCoords,
-            icon: seach_by_busstop_icon,
-            map: map,
-            title: stop_num
-          });
+          // Create Marker for each of the component bus stops of the serviced route;
+          // var search_by_busstop_marker = new google.maps.Marker({
+          //   position: stopCoords,
+          //   icon: seach_by_busstop_icon,
+          //   map: map,
+          //   title: stop_num
+          // });
           // console.log(stopCoords);
           path_coords.push(stopCoords);
 
           // Fit the bounds of the generated points
           
         }
-        // Creates the polyline object (NOT WORKING!)
+        // Creates the polyline object
         var polyline = new google.maps.Polyline({
           map: map,
           path: path_coords,
-          strokeColor: '#FF0000',
+          strokeColor: polyline_colours[i],
           strokeOpacity: 0.7,
           strokeWeight: 6,
           geodesic: true
@@ -813,7 +833,8 @@ $("#show-all-routes-serviced").click(function(e) {
 
         polyline.setMap(map);
 
-        var searched_marker = new google.maps.Marker({
+        // Set a marker for the bus stop that was searched
+        searched_bus_stop_marker = new google.maps.Marker({
           position: bus_stop_location,
           map: map,
           title: stop_num,
@@ -823,7 +844,12 @@ $("#show-all-routes-serviced").click(function(e) {
         map.setCenter(bus_stop_location);
         map.setZoom(13);
         console.log("----END of Stops Loop----");
+
+        // Add each polyline to the list of polylines
+        all_polylines.push(polyline);
       }
+
+
       // console.log(all_routes[route_num]);
     }
   }
