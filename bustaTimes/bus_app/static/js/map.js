@@ -826,8 +826,8 @@ $("#show-all-routes-serviced").click(function(e) {
           map: map,
           path: path_coords,
           strokeColor: polyline_colours[i],
-          strokeOpacity: 0.7,
-          strokeWeight: 6,
+          strokeOpacity: 0.5,
+          strokeWeight: 7,
           geodesic: true
         });
 
@@ -847,12 +847,62 @@ $("#show-all-routes-serviced").click(function(e) {
 
         // Add each polyline to the list of polylines
         all_polylines.push(polyline);
-      }
 
+      }
 
       // console.log(all_routes[route_num]);
     }
+
   }
+
+  // ========== Polyline events ==========
+
+  // Initialise an info window for the given polyline
+  var infoWindow = new google.maps.InfoWindow();
+  
+  // =============== Seems to work BUT route num is wrong ===============
+  // ============================ VERSION 3 ============================
+  // On mouseover:
+  console.log(all_polylines.length);
+  // Iterate over all polyline instances
+  for (let i =0; i < all_polylines.length; i++) {
+
+    google.maps.event.addListener(all_polylines[i], 'mouseover', function(e) {
+      // Open the InfoWindow
+      infoWindow.setPosition(e.latLng);
+      infoWindow.setContent("Route Num: " + serviced_route + ". You are at " + e.latLng); // For some reason the serviced route is always the LAST route serviced (For ALL of them???)
+      infoWindow.open(map);
+      // Change weight to 10 (makes it bold) 
+      all_polylines[i].setOptions({strokeWeight: 12});
+      all_polylines[i].setOptions({strokeOpacity: 1.0});
+    });
+
+    // On mouseout (stop hovering):
+    google.maps.event.addListener(all_polylines[i], 'mouseout', function() {
+      // Close the InfoWindow 
+      infoWindow.close();
+      // Give original weight 
+      all_polylines[i].setOptions({strokeWeight: 7});
+    });
+
+  }
+  console.log(routes_serviced.length);
+
+  // ========== Div to show Routes serviced ==========
+  let routes_serviced_display_panel = document.getElementById("routes-serviced-legend");
+
+  // Initially make it empty
+  routes_serviced_display_panel.innerHTML = "";
+  
+  // Then add content
+  for (let i = 0; i < routes_serviced.length; i++) {
+    routes_serviced_display_panel.innerHTML += 
+        `<div>
+          <h5 style="display: inline;">${routes_serviced[i]}</h5> <hr style="float:right; height:0.3rem;" width=60% color='${polyline_colours[i]}' size='6'> <br> <hr>
+        </div>
+        `;
+  }
+
   // Hide the markers on click
   clearMarkers()
   

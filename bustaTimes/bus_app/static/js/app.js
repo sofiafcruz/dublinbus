@@ -518,6 +518,10 @@ function populateInputWithStop(clicked_busstop_searchname) {
   console.log(clicked_busstop_searchname);
   let busstop_input = document.getElementById("busstop-search");
   busstop_input.value = clicked_busstop_searchname;
+
+  // Hide matches list
+  match_list.innerHTML = '';
+  document.getElementById("routes-serviced-legend").innerHTML = "";
 }
 
 // ========== Favourites Popup Table Functionality ==========
