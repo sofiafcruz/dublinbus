@@ -738,3 +738,22 @@ function calculateFare() {
     alert(result);
   });
 }
+
+// ====================== Toggle Hide the Menu ======================
+$("#toggle-hide-menu").click(function() {
+  let menu = document.getElementById('search-menu-container')
+  var menu_width = menu.offsetWidth + 20;
+  console.log(menu_width);
+
+  if ($("#search-menu-container").hasClass("move-left")) {
+      $("#search-menu-container").removeClass("move-left");
+      $("#search-menu-container").addClass("move-right");
+      // Move the container "right" (to its original position)
+      $("#search-menu-container").css({"-webkit-transform":"translate(0px,0px)"});
+  } else {
+      $("#search-menu-container").addClass("move-left");
+      $("#search-menu-container").removeClass("move-right");
+      // Move the container "left" based on the width of the menu! (makes it dynamic)
+      $("#search-menu-container").css({"-webkit-transform":`translate(-${menu_width}px,0px)`});
+  }
+});

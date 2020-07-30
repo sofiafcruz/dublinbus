@@ -253,7 +253,7 @@
             <input type="checkbox" class="custom-control-input night-mode-switch" id="customSwitch4" onchange="nightMode()">
             <label class="custom-control-label" for="customSwitch4"><img src="./static/images/clear-night.png" alt="Night Mode" style="width:40px;"></label>
         </div>
-        <div class="Search-Menu-Container">
+        <div id="search-menu-container" class="Search-Menu-Container">
             <h3 id="menu-title" style="margin-bottom:10px;">Plan Your Trip</h3>
             <div class="tab">
                 <button class="tablinks" onclick="openTab(event, 'home-search-container')" id="defaultOpen"><img src="./static/images/menu/by-location.svg" alt="Search by location"></button>
@@ -382,10 +382,12 @@
                     <!-- Container for all the regex matches of the user's search-->
                     <div class="container" id="match-list"></div>
                 </form>
+
+                <!-- Route Service legend (looks similar to tube line legend in London) -->
+                <div class="container" id="routes-serviced-legend"></div>
             </div>
 
-            <!-- Route Service legend (looks similar to tube line legend in London) -->
-            <div class="container" id="routes-serviced-legend"></div>
+            
 
             <!-- ********** See Leap Card ********** -->
             <div id="leap-card-balance-container" class="container centre-and-padding tabcontent">
@@ -412,7 +414,12 @@
                 
                 <small class="text-muted"><a href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a></small>
             </div>
+            <!-- For some reason this is outside the map?????? -->
+            <div>
+                <button class="btn btn-primary" id="toggle-hide-menu">Hide</button>
+            </div>
         </div>
+        
     </div>
 
     {% comment %} <!-- ********** Toggle Map Style Buttons ********** -->

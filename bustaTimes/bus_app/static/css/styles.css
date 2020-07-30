@@ -351,3 +351,25 @@ button:hover {
 #display_prediction {
   border: 1px solid black;
 }
+
+/* Toggle Hide the Menu (Works for Desktop screen) */
+
+#toggle-hide-menu {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  padding-left: 15px;
+  left: 345px;
+  top: 5px;
+  text-align: center;
+  border-radius: 25px;
+}
+
+.move-left {
+  transition: 1s;
+}
+
+.move-right {
+  transition: 1s;
+}
