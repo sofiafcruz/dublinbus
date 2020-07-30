@@ -55,3 +55,16 @@ class FavouriteJourneyForm(forms.ModelForm):
     class Meta:
         model = FavouriteJourney
         fields = ['route_name', 'origin_stop', 'destination_stop', 'stops_count']
+
+# ==================== Update User Credentials ====================
+# Username and Email
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+# Leapcard Username
+class UpdateLeapCardUsernameForm(forms.ModelForm):
+    class Meta:
+        model = AdditionalUserInfo
+        fields = ['leapcard_username']

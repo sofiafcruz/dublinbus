@@ -52,6 +52,10 @@
                         <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
                         <a class="nav-link" data-target='#favourites-popup' data-toggle="modal" href="">Favourites</a>
                     </li>
+                    <li>
+                        <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
+                        <a class="nav-link" data-target='#update-popup' data-toggle="modal" href="">Update Details</a>
+                    </li>
                     
                 {% else %}
                     <!-- Login Link -->
@@ -116,7 +120,7 @@
                         <h5 style="padding-top:1rem;">And Optional Data:</h5>
                         <div class="stations-block container rounded">
 
-                            <!-- Collapsable content (For Stations) -->
+                            <!-- Collapsable content (For Display Message) -->
                             <div class="container-fluid padding">
                                 <div class="row text-center padding">
                                     
@@ -222,6 +226,30 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- ********** Update Credentials PopUp ********** -->
+    <div class="modal" tabindex="-1" role="dialog" id="update-popup">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Details</h5>
+                    <button id="close-update-popup" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </div>
+                <form action="{% url 'updateUserPopup' %}" method="POST">
+                    <div class="modal-body">
+                            {% csrf_token %}
+                            <input type="text" name="username" placeholder="Username..." class="form-control">
+                            <input type="email" name="email" placeholder="Email..." class="form-control">
+                            <input type="text" name="leapcard_username" placeholder="Leap Card Username..." class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <input class="btn btn-primary" type="submit" value="Update">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

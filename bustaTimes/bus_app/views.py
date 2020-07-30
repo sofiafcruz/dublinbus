@@ -600,3 +600,91 @@ def get_journey_prediction(request):
     # return JsonResponse(prediction, safe=False)
     # return redirect('index')
 
+# Update User Credentials View
+from .forms import UpdateUserForm, UpdateLeapCardUsernameForm
+from django.contrib.auth.models import User
+from .models import AdditionalUserInfo
+
+def updateUserPopup(request):
+    if request.user.is_authenticated:
+        # Form for Username and Password
+        update_user_form = UpdateUserForm()
+        # Form for LeapCard Username
+        update_leapcard_username_form = UpdateLeapCardUsernameForm()
+
+        if request.method == 'POST':
+            print("====BEFORE USERNAME AND EMAIL FORM DATA====")
+            print(update_user_form.data)
+            print("====BEFORE LEAPCARD USERNAME FORM DATA====")
+            print(update_leapcard_username_form.data)
+            # Post data = Username, Password, Confirmed password, email, AND Additional info
+            # Render the form again and pass in the user data into the form
+            update_user_form = UpdateUserForm(request.POST)
+            # ADDITIONAL_INFO
+            update_leapcard_username_form = UpdateLeapCardUsernameForm(request.POST)
+
+            print("====UPDATE USERNAME AND EMAIL FORM START====")
+            print(update_user_form)
+            print("====UPDATE USERNAME AND EMAIL FORM DATA====")
+            print(update_user_form.data)
+            print("====USERNAME AND EMAIL FORM END====")
+
+            print("====UPDATE LEAPCARD USERNAME FORM START====")
+            print(update_leapcard_username_form)
+            print("====UPDATE LEAPCARD USERNAME FORM DATA====")
+            print(update_leapcard_username_form.data)
+            print("====UPDATE LEAPCARD USERNAME FORM END====")
+            if update_user_form.is_valid() and update_leapcard_username_form.is_valid():
+
+                # Grab the User
+                user = User.objects.get(username=request.user)
+                
+                # the User
+                updated_username = update_user_form.cleaned_data['username']
+                updated_email = update_user_form.cleaned_data['email']
+                
+                # the Leap Card Username
+                updated_leapcard_username = update_leapcard_username_form.cleaned_data['leapcard_username']
+
+                print("/////////////////////////")
+                print("ORIGINAL...")
+                print(user.username)
+                print(user.email)
+                print(user.additionaluserinfo.leapcard_username)
+                print("UPDATED...")
+                print(updated_username)
+                print(updated_email)
+                print(updated_leapcard_username)
+                print("/////////////////////////")
+
+                # Then update with the posted form data 
+
+                # Username
+                user.username = updated_username
+                # Email
+                user.email = updated_email
+
+                # Leap Card Username 
+                # Option 1; (NOT UPDATING FOR SOME REASON!!!)
+                # user.additionaluserinfo.leapcard_username = updated_leapcard_username
+
+                # Option 2; (Works)
+                user_additional_info = AdditionalUserInfo.objects.get(user=request.user)
+
+                user_additional_info.leapcard_username = updated_leapcard_username
+
+                # Then save the details
+                user.save()
+                user_additional_info.save()
+
+                messages.success(request, f"Details were updated")
+            else:
+                messages.error(request, f"ERROR: problem in updating details")
+                print("-----Username or Email Error-----")
+                print(update_user_form.errors)
+                print(update_user_form.errors.as_data())
+                print("-----Leap Card Username Error-----")
+                print(update_leapcard_username_form.errors)
+                print(update_leapcard_username_form.errors.as_data())
+            # Then redirect them to the login page
+            return redirect('index')
