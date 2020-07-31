@@ -102,7 +102,7 @@ leap_card_form.submit(function () {
       // $(".ajax-loading").css("display", "block");
       $(".ajax-loading").hide();
       $("#balance-paragraph").show();
-      $("#balance-paragraph").text("Your Balance is: " + data);
+      $("#balance-paragraph").text("Your Balance is: €" + data);
     },
     error: function (error) {
       console.log("Something went wrong!");
