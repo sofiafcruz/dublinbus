@@ -391,22 +391,51 @@ function setWindowContentHTML(objects, stopNum){
   // Function takes 2 parameters: 
   // 1. The array of objects (info about buses coming to the clicked bus stop)
   // 2. The number of the stop marker that is clicked.
-  let outputHTML = "";
+  
+  // let outputHTML = "";
+  let outputHTML = `<div id="bus-stop-info-container">
+                      <h5 style="text-align: center; text-decoration: underline;">${stopNum}</h5>
+                      <div class="btn-group btn-group-sm container" role="group" id="bus-stop-tabs">
+                        <button type="button" class="btn btn-secondary">Due</button>
+                        <button type="button" class="btn btn-secondary">Timetable</button>
+                      </div>
+                      <table id="due-table">
+                        <th>Route</th>
+                        <th>Origin</th>
+                        <th>Destination</th>
+                        <th>Due</th>
+                    `;
+
   // If the API call was successful, and we got an array of objects, then fill the info window content with the data
   if (objects.length > 0){
     for (i = 0; i < objects.length; i++){
       console.log(objects[i]);
+      // Original Version
+      // outputHTML += `
+      //   <div id="marker-window-realtime-content">
+      //     <h6>${objects[i]["route"]}</h6>
+      //     <p><b>${objects[i]["origin"]}</b> to <b>${objects[i]["destination"]}</b></p>
+      //     <p>Due: ${objects[i]["due"]}</p>
+      //     <p>Scheduled Arrival: ${objects[i]["scheduled_arrival_datetime"]}</p>
+      //     <p>Actual Arrival: ${objects[i]["arrival_datetime"]}</p>
+      //     <hr>
+      //   </div>
+      // `;
+      // Tabular Version
       outputHTML += `
-        <div id="marker-window-realtime-content">
-          <h6>${objects[i]["route"]}</h6>
-          <p><b>${objects[i]["origin"]}</b> to <b>${objects[i]["destination"]}</b></p>
-          <p>Due: ${objects[i]["due"]}</p>
-          <p>Scheduled Arrival: ${objects[i]["scheduled_arrival_datetime"]}</p>
-          <p>Actual Arrival: ${objects[i]["arrival_datetime"]}</p>
-          <hr>
-        </div>
-      `
-    } // else, the API call didn't get any data, so we fill the info window with this info to inform the user of the same.
+        <tr>
+          <td>${objects[i]["route"]}</td>
+          <td>${objects[i]["origin"]}</td>
+          <td>${objects[i]["destination"]}</td>
+          <td>${objects[i]["due"]}</td>
+        </tr>
+      `;
+    } 
+    outputHTML += `
+                      </table>
+                    </div>
+                  `;
+    // else, the API call didn't get any data, so we fill the info window with this info to inform the user of the same.
   } else {
     outputHTML = "No Information available for Stop: " + stopNum;
   }
@@ -424,6 +453,7 @@ function stopsInfowindow(marker) {
 
     let realtime_content = setWindowContentHTML(parsed_realtime_info, marker.title);
     // Set Window to real-time info relevant to the clicked bus stop
+    
     infowindow.setContent(realtime_content);
     
     infowindow.open(map, marker);
