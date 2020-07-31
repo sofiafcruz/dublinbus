@@ -36,7 +36,9 @@ var journeyMarker;
 var destinationMarker;
 // Search by bus stop vars below;
 var searched_bus_stop_marker;
-var all_polylines = []; // Used to store polylines
+var all_polylines = []; // List to store all the generated polylines (for Search by Bus Stop)
+// List of colours for polylines
+var polyline_colours = ["#ff0000", "#fdff00", "#00fe00", "#0000fd", "#fd00fd", "#FF6347", "#40E0D0", "#ffc0cb", "#808000", "#999999", "#800000", "#f4a460", "#a83262", "#32a883"];
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
@@ -758,15 +760,13 @@ $("#show-all-routes-serviced").click(function(e) {
   }
 
   // ====Iterate over all the routes_serviced and grab the routes whose name matches an element in all the routes, and grab the route obj====
-  // List of colours for polylines ()
-  let polyline_colours = ["#ff0000", "#fdff00", "#00fe00", "#0000fd", "#fd00fd", "#FF6347", "#40E0D0", "#ffc0cb", "#808000", "#999999", "#800000", "#f4a460", "#a83262", "#32a883"];
   
-  // List to store all the generated polylines
-  
+  // Reset all the polylines every iteration
   for (let i = 0; i < all_polylines.length; i++) {
     console.log(all_polylines[i]);
     all_polylines[i].setMap(null);
   }
+  all_polylines.length = 0;
 
   // console.log(all_polylines);
   // console.log(all_polylines.length);
@@ -864,13 +864,43 @@ $("#show-all-routes-serviced").click(function(e) {
   // ============================ VERSION 3 ============================
   // On mouseover:
   console.log(all_polylines.length);
+  
+  
   // Iterate over all polyline instances
+  let location_name = "Location Name";
   for (let i =0; i < all_polylines.length; i++) {
-
+    let route = routes_serviced[i];
+    // let location_name = "Test";
     google.maps.event.addListener(all_polylines[i], 'mouseover', function(e) {
       // Open the InfoWindow
       infoWindow.setPosition(e.latLng);
-      infoWindow.setContent("Route Num: " + serviced_route + ". You are at " + e.latLng); // For some reason the serviced route is always the LAST route serviced (For ALL of them???)
+      
+      // Get a given location's name based on its coordinates
+      let geocoder = new google.maps.Geocoder();
+      let latlng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+      geocoder.geocode({ location: latlng }, (results, status) => {
+        if (status === "OK") {
+          if (results[0]) {
+            location_name = results[0].formatted_address;
+
+          } else {
+            location_name = "No results found";
+          }
+        } else {
+          location_name = "No results found";
+          
+        }
+        console.log(location_name);
+      });
+
+      let windowContent = `
+        <div style="text-align: center;" class="container">
+          <h5>${route}</h5>
+          <p>${location_name}</p>
+        </div>
+      `;
+
+      infoWindow.setContent(windowContent);
       infoWindow.open(map);
       // Change weight to 10 (makes it bold) 
       all_polylines[i].setOptions({strokeWeight: 12});
@@ -888,7 +918,7 @@ $("#show-all-routes-serviced").click(function(e) {
   }
   console.log(routes_serviced.length);
 
-  // ========== Div to show Routes serviced ==========
+  // ========== Generate Div/Panel to show Routes serviced ==========
   let routes_serviced_display_panel = document.getElementById("routes-serviced-legend");
 
   // Initially make it empty
