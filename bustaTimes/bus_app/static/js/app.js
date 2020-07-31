@@ -624,127 +624,264 @@ $(".delete-row-td").click(function (event) {
 });
 
 // ==================== Calculate Fare ====================
+// Version 1;
+// function calculateFare() {
+//   let time = document.getElementById("choose-time").value;
+//   let day = document.getElementById("date-selector").value.split(" ")[0];
+//   let customer_type = document.getElementById("customer-type").value;
+//   let payment_mode = document.getElementById("payment-mode").value;
+
+//   console.log("=====Start=====");
+//   console.log(time);
+//   console.log(day);
+//   console.log(customer_type);
+//   console.log(payment_mode);
+//   console.log("=====End=====");
+
+//   $.getJSON("./static/fares.json", function (data) {
+//     console.log(data);
+
+//     let selected_customer;
+//     let selected_payment_mode;
+//     let prices;
+//     let fare;
+//     let result;
+
+//     // ===== If customer is an Adult =====
+//     if (customer_type === "Adult") {
+//       console.log("Adult!");
+//       selected_customer = data["adult"];
+
+//       // Grab Payment Type
+//       if (payment_mode === "LeapCard") {
+//         console.log("LeapCard!");
+//         selected_payment_mode = "Leap Card";
+//         prices = selected_customer["leap_card"];
+//       } else {
+//         console.log("Cash!");
+//         selected_payment_mode = "Cash";
+//         prices = selected_customer["cash"];
+//       }
+
+//       // Determine Fare LOGIC
+//       // Hope my logic is right here...
+//       let stages = prices["stages"];
+//       // Hope my logic is right here...
+//       let stops_count =
+//         document.getElementById("json-ending-stops").value -
+//         document.getElementById("json-starting-stops").value;
+
+//       // if short journey
+//       if (stops_count <= 3) {
+//         fare = stages[0]["short"];
+//         // elif medium journey
+//       } else if (stops_count <= 13) {
+//         fare = stages[1]["medium"];
+//         // else long journey
+//       } else {
+//         fare = stages[2]["long"];
+//       }
+
+//       // Result
+//       result = `For Adult going ${stops_count} stops and paying by ${selected_payment_mode}: the Fare = €${fare}`;
+
+//       // ===== Else, they're a child =====
+//     } else {
+//       console.log("Child!");
+//       selected_customer = data["child"];
+
+//       // Grab Payment Type
+//       if (payment_mode === "LeapCard") {
+//         console.log("LeapCard!");
+//         selected_payment_mode = "Leap Card";
+//         prices = selected_customer["leap_card"];
+//       } else {
+//         console.log("Cash!");
+//         selected_payment_mode = "Cash";
+//         prices = selected_customer["cash"];
+//       }
+
+//       // Determine Fare LOGIC
+//       // Hope my logic is right here...
+//       console.log(prices);
+
+//       let weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+
+//       let day_type;
+
+//       // if day is a weekday
+//       if (weekdays.includes(day)) {
+//         console.log("Weekday");
+//         day_type = prices["weekday"];
+
+//         // Check time of day selected
+//         if (time < "19:00") {
+//           fare = day_type[0]["school"];
+//         } else {
+//           console.log(day_type);
+//           fare = day_type[1]["outside_school"];
+//         }
+
+//         // else if day is a saturday
+//       } else if (day === "Sat") {
+//         console.log("Saturday");
+//         day_type = prices["saturday"];
+
+//         if (time < "13:30") {
+//           fare = day_type[0]["school"];
+//         } else {
+//           fare = day_type[1]["outside_school"];
+//         }
+//         // else it's sunday
+//       } else {
+//         console.log("Sunday");
+//         fare = prices["sunday"];
+//       }
+
+//       // Result
+//       result = `For Child on a ${day} at a time of ${time} and paying by ${selected_payment_mode}: the Fare = €${fare}`;
+//     }
+
+//     console.log(result);
+//     alert(result);
+//   });
+// }
+
+
+
+
+
+
+// Version 2
 function calculateFare() {
   let time = document.getElementById("choose-time").value;
   let day = document.getElementById("date-selector").value.split(" ")[0];
-  let customer_type = document.getElementById("customer-type").value;
-  let payment_mode = document.getElementById("payment-mode").value;
 
   console.log("=====Start=====");
   console.log(time);
   console.log(day);
-  console.log(customer_type);
-  console.log(payment_mode);
   console.log("=====End=====");
 
   $.getJSON("./static/fares.json", function (data) {
     console.log(data);
 
     let selected_customer;
-    let selected_payment_mode;
-    let prices;
-    let fare;
+    let leap_card_prices;
+    let cash_prices;
+    let leap_card_fare;
+    let cash_fare;
     let result;
 
-    // ===== If customer is an Adult =====
-    if (customer_type === "Adult") {
-      console.log("Adult!");
-      selected_customer = data["adult"];
+    // ===== Adult Data =====
 
-      // Grab Payment Type
-      if (payment_mode === "LeapCard") {
-        console.log("LeapCard!");
-        selected_payment_mode = "Leap Card";
-        prices = selected_customer["leap_card"];
-      } else {
-        console.log("Cash!");
-        selected_payment_mode = "Cash";
-        prices = selected_customer["cash"];
-      }
+    selected_customer = data["adult"];
+    // Grab Payment Types
+    leap_card_prices = selected_customer["leap_card"];
+    cash_prices = selected_customer["cash"];
 
-      // Determine Fare LOGIC
-      // Hope my logic is right here...
-      let stages = prices["stages"];
-      // Hope my logic is right here...
-      let stops_count =
-        document.getElementById("json-ending-stops").value -
-        document.getElementById("json-starting-stops").value;
+    // Determine Fare LOGIC
+    let leap_card_stages = leap_card_prices["stages"];
+    let cash_stages = cash_prices["stages"];
+  
+    let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value;
 
-      // if short journey
-      if (stops_count <= 3) {
-        fare = stages[0]["short"];
-        // elif medium journey
-      } else if (stops_count <= 13) {
-        fare = stages[1]["medium"];
-        // else long journey
-      } else {
-        fare = stages[2]["long"];
-      }
-
-      // Result
-      result = `For Adult going ${stops_count} stops and paying by ${selected_payment_mode}: the Fare = €${fare}`;
-
-      // ===== Else, they're a child =====
+    // if short journey
+    if (stops_count <= 3) {
+      leap_card_fare = leap_card_stages[0]["short"];
+      cash_fare = cash_stages[0]["short"];
+    // elif medium journey
+    } else if (stops_count <= 13) {
+      leap_card_fare = leap_card_stages[1]["medium"];
+      cash_fare = cash_stages[1]["medium"];
+    // else long journey
     } else {
-      console.log("Child!");
-      selected_customer = data["child"];
-
-      // Grab Payment Type
-      if (payment_mode === "LeapCard") {
-        console.log("LeapCard!");
-        selected_payment_mode = "Leap Card";
-        prices = selected_customer["leap_card"];
-      } else {
-        console.log("Cash!");
-        selected_payment_mode = "Cash";
-        prices = selected_customer["cash"];
-      }
-
-      // Determine Fare LOGIC
-      // Hope my logic is right here...
-      console.log(prices);
-
-      let weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-
-      let day_type;
-
-      // if day is a weekday
-      if (weekdays.includes(day)) {
-        console.log("Weekday");
-        day_type = prices["weekday"];
-
-        // Check time of day selected
-        if (time < "19:00") {
-          fare = day_type[0]["school"];
-        } else {
-          console.log(day_type);
-          fare = day_type[1]["outside_school"];
-        }
-
-        // else if day is a saturday
-      } else if (day === "Sat") {
-        console.log("Saturday");
-        day_type = prices["saturday"];
-
-        if (time < "13:30") {
-          fare = day_type[0]["school"];
-        } else {
-          fare = day_type[1]["outside_school"];
-        }
-        // else it's sunday
-      } else {
-        console.log("Sunday");
-        fare = prices["sunday"];
-      }
-
-      // Result
-      result = `For Child on a ${day} at a time of ${time} and paying by ${selected_payment_mode}: the Fare = €${fare}`;
+      leap_card_fare = leap_card_stages[2]["long"];
+      cash_fare = cash_stages[2]["long"];
     }
 
-    console.log(result);
-    alert(result);
+    // Result
+    result = `
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Type</th>
+                    <th>Cash(€)</th>
+                    <th>Leap Card(€)</th>
+                  </tr>
+                </thead>
+                <tr>
+                  <td>Adult</td>
+                  <td>${cash_fare}</td>
+                  <td>${leap_card_fare}</td>
+                </tr>
+            `;
+
+    
+    // ===== Child Data =====
+    selected_customer = data["child"];
+
+    // Grab Payment Types
+    leap_card_prices = selected_customer["leap_card"];
+    cash_prices = selected_customer["cash"];
+
+    // Determine Fare LOGIC
+
+    let weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+
+    let leap_card_day_type;
+    let cash_day_type;
+
+    // if day is a weekday
+    if (weekdays.includes(day)) {
+      leap_card_day_type = leap_card_prices["weekday"];
+      cash_day_type = cash_prices["weekday"];
+
+      // Check time of day selected
+      if (time < "19:00") {
+        cash_fare = cash_day_type[0]["school"];
+        leap_card_fare = leap_card_day_type[0]["school"];
+      } else {
+        cash_fare = cash_day_type[1]["outside_school"];
+        leap_card_fare = leap_card_day_type[1]["outside_school"];
+      }
+
+      // else if day is a saturday
+    } else if (day === "Sat") {
+      leap_card_day_type = leap_card_prices["saturday"];
+      cash_day_type = cash_prices["saturday"];
+
+      if (time < "13:30") {
+        cash_fare = cash_day_type[0]["school"];
+        leap_card_fare = leap_card_day_type[0]["school"];
+      } else {
+        cash_fare = cash_day_type[1]["outside_school"];
+        leap_card_fare = leap_card_day_type[1]["outside_school"];
+      }
+      // else it's sunday
+    } else {
+      leap_card_fare = leap_card_prices["sunday"];
+      cash_fare = cash_prices["sunday"];
+    }
+      
+    // Result
+    result += `
+                <tr>
+                  <td>Child</td>
+                  <td>${cash_fare}</td>
+                  <td>${leap_card_fare}</td>
+                </tr>
+              </table>
+            `;
+
+    document.getElementById("fare-table").innerHTML = result;
+
   });
 }
+
+
+
+
+
 
 // ====================== Toggle Hide the Menu ======================
 $("#toggle-hide-menu").click(function() {
