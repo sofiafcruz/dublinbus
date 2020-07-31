@@ -318,7 +318,7 @@
                 <!-- Route Dropdown -->
                 <form id="route_prediction_form" action="get_journey_prediction" method="POST">
                     {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
-                <select name="route" onchange="showAndLoadStartAndEndDrops()" id="json-routes" class="form-control form-control-sm">
+                <select name="route" onchange="showAndLoadStartAndEndDrops('D1')" id="json-routes" class="form-control form-control-sm">
                     <option value="" disabled selected>Select a Route</option>
                 </select>
                 <!-- Hidden input which contains weather info -->
@@ -327,8 +327,12 @@
                 <!-- Select "Starting Point" and "Ending Point" div (initially hidden) -->
                 <div id="stops-dropdowns-container" style="display: none;">
                     <!-- From Origin to Destination header -->
-                    <div id="origin-to-destination-div">
+                    <div style="float: left;" id="origin-to-destination-div">
                         <p id="origin-to-destination-header"></p>
+                    </div>
+                    <!-- Switch Direction button -->
+                    <div class="container">
+                        <input type="image" src="./static/images/change-direction.png" id="change-direction" alt="Change Direction" style="height: 3rem;" />
                     </div>
                     <!-- Starting Point Dropdown -->
                     <div>

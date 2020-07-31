@@ -79,6 +79,9 @@
 //   $(".ajax-loading").show();
 // });
 
+// Global Vars;
+var current_direction;
+
 // ********** On clicking "Show Balance" show User's Leap Card Balance (i.e. grab all the stops) **********
 var leap_card_form = $("#leap-card-form");
 leap_card_form.submit(function () {
@@ -202,23 +205,27 @@ prediction_form.submit(function () {
 // ********** Div containing Journey Info, Starting and Ending Stop Dropdowns  **********
 // Display div containing filled drop down options of bus stops
 // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
-function showAndLoadStartAndEndDrops() {
+function showAndLoadStartAndEndDrops(direction) {
+  current_direction = direction;
   console.log("show_and_load fxn check");
   // Grab the route option selected
   var selected_route = document.getElementById("json-routes").value;
   // console.log(selected_route);
+  
   // Target the starting and ending stops select dropdowns
-  var json_starting_point_dropdown = document.getElementById(
-    "json-starting-stops"
-  );
+  var json_starting_point_dropdown = document.getElementById("json-starting-stops");
   var json_ending_point_dropdown = document.getElementById("json-ending-stops");
+
   // Empty their contents EVERY call (or else values (stops) will be appended to them, rather than replacing them)
   $(json_starting_point_dropdown).empty();
   $(json_ending_point_dropdown).empty();
   // Need a nested for loop to grab the Address of each bus stop of the selected route
-  // for (index in main_table_object[selected_route]){
-  let direction_1 = hd_routes[selected_route].D1;
+  
+  // TESTING====================================
+  // let direction_1 = hd_routes[selected_route].D1;
+  let direction_1 = hd_routes[selected_route][direction];
   // console.log(direction_1);
+  
   // Grab the selected Route's Origin (From) and Destination (To) data
   let origin = direction_1["origin"];
   let destination = direction_1["destination"];
@@ -757,3 +764,32 @@ $("#toggle-hide-menu").click(function() {
       $("#search-menu-container").css({"-webkit-transform":`translate(-${menu_width}px,0px)`});
   }
 });
+
+// ================ Change Direction Functionality ================
+$("#change-direction").click(function (e) {
+  e.preventDefault();
+  console.log("Change Direction button clicked");
+  // current_direction is a global variable that gets updated every time a user clicks the switch button
+  console.log(current_direction);
+  if (current_direction === "D1") {
+    console.log("Switching to D2");
+    current_direction = "D2"
+  } else {
+    console.log("Switching to D1");
+    current_direction = "D1"
+  }
+  showAndLoadStartAndEndDrops(current_direction);
+});
+
+// function changeDirection() {
+//   console.log("Change Direction button clicked");
+//   console.log(current_direction)
+//   if (current_direction === "D1") {
+//     console.log("Switching to D2");
+//     current_direction = "D2"
+//   } else {
+//     console.log("Switching to D1");
+//     current_direction = "D1"
+//   }
+//   showAndLoadStartAndEndDrops(current_direction);
+// }
