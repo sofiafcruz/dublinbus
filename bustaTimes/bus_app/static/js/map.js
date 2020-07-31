@@ -520,6 +520,8 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
     travelMode: 'TRANSIT' // Show how to get from A to B by bus (where posssible???)
   };
 
+  
+
   directionsDisplay.setMap(map);
   // .route takes 2 parameters:
   // 1. a Directions Request
@@ -542,7 +544,14 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
 
     let steps = legs.steps;
 
-    journey_details_div = document.getElementById('journey-details')
+    journey_details_div = document.getElementById('journey-details');
+
+    // Add Button to "Exit" the journey
+    journey_details_div.innerHTML = `
+    <div>
+      <button class="btn btn-info" onclick="exitJourney(journey_details_div)">Exit Journey</button>
+    </div>
+    `
 
     let today = new Date();
     let suffix = "am";
@@ -555,8 +564,9 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
     // Creating 12-hour format for current time
     let current_time = hours + "." + today.getMinutes() + suffix;
 
+
     // Total Journey info (at the top of the div)
-    journey_details_div.innerHTML = `
+    journey_details_div.innerHTML += `
       <div>
         <h6>Total Journey Details</h6>
         <p>Current Time: ${current_time}</p>
@@ -567,13 +577,6 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
         <h6>Details of Each Step:</h6>
       </div>
     `;
-
-    // Add Button to "Exit" the journey
-    journey_details_div.innerHTML += `
-    <div>
-      <button onclick="setJourneyToNull()">Exit Journey</button>
-    </div>
-    `
 
     // Subsequent info consists of the "Steps" that make up the total journey (e.g. Step 1, walk to X, Step 2. From X, get a bus to Y etc)
     steps.forEach(function (step, index) {
@@ -596,11 +599,15 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
 }
 
 // ************************ "Exit" the journey generated in "Home" ************************
-function setJourneyToNull(){
+function exitJourney(div_to_set_empty){
+  // ========= Remove Visual Render =========
   // Remove the rendered Journey
   directionsDisplay.setMap(null);
   // Remove the Destination Marker
   destinationMarker.setPosition(null); // Not working (No scope on destination marker)
+
+  // ========= Set Journey Info to "" =========
+  div_to_set_empty.innerHTML = null;
 }
   
 
