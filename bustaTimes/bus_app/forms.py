@@ -21,9 +21,9 @@ class RouteModelForm(forms.ModelForm):
             # Grabs the route.pk and route.route_name (same thing) and stores the latter as options in the select
         }
 
-# ===================================================
-# USER LOGIN AND REGISTRATION (To be worked on later)
-# ===================================================
+# ===========================
+# USER LOGIN AND REGISTRATION
+# ===========================
 
 from django.contrib.auth.forms import UserCreationForm 
 # ^ Handles things like making sure no duplicate usernames, that passwords are hashed etc
@@ -36,8 +36,7 @@ class CreateUserForm(UserCreationForm): # Gonna be slightly customised version o
         # Below gives us the same form as provided by UserCreationForm EXCEPT with the addition of 'email'
         fields = ['username', 'email', 'password1', 'password2']
         # RIGHT NOW, THE EMAIL USED FOR REGISTRATION DOES NOT HAVE TO BE UNIQUE!
-    
-# Tutorial 2===================
+
 
 from .models import AdditionalUserInfo
 class AdditionalUserInfoForm(forms.ModelForm):
