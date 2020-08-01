@@ -269,7 +269,7 @@
         </div>
         <!-- Switch button to show/hide the markers -->
         <div class="custom-control custom-switch markers-switch">
-            <input type="checkbox" class="custom-control-input markers-switch" id="customSwitch3" onchange="clearMarkers()">
+            <input type="checkbox" class="custom-control-input markers-switch" id="customSwitch3" onchange="toggleMarkerVisibility()">
             <label class="custom-control-label" for="customSwitch3">Hide Markers</label>
         </div>
         <!-- Button to set map on user's location -->
@@ -360,8 +360,9 @@
                         <input type="time" id="choose-time" name="choose-time">
                     </div>
                     <hr>
+                    
                     <!-- Fare Calculator div -->
-                    <h6>Fare Calculator</h6>
+                    {% comment %} <h6>Fare Calculator</h6>
                     <div id="fare-calculator-container">
                         <!-- Are you adult, student etc -->
                         <select id="customer-type" class="form-control form-control-sm">
@@ -375,12 +376,14 @@
                             <option id="leap-card">LeapCard</option>
                             <option id="cash">Cash</option>
                         </select>
-                    </div>
+                    </div> {% endcomment %}
+                    
+                    <!-- Show Prediction -->
                     <input type="submit" value="show prediction">
                 </form>
                         
                     {% if user.is_authenticated %}
-                        <button id="show-journey" class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn();" style="margin-top:15px;">Show Journey</button>
+                        <button id="show-journey" class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn(); calculateFare();" style="margin-top:15px;">Show Journey</button>
                         <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
                             {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
 
@@ -393,10 +396,10 @@
                         </form>
                     {% else %}
                         
-                        <button class='btn btn-outline-* btn-submit' onclick="generateStopArray()" style="margin-top:15px;">Show Journey</button>
+                        <button class='btn btn-outline-* btn-submit' onclick="generateStopArray(); calculateFare();" style="margin-top:15px;">Show Journey</button>
                     {% endif %}
                 
-                    <button class='btn-sm btn-warning' onclick="calculateFare()" style="margin-top:15px;">Calculate Fare</button>
+                    <!-- <button class='btn-sm btn-warning' onclick="calculateFare()" style="margin-top:15px;">Calculate Fare</button> -->
 
                     <div id="fare-table"></div>
                     

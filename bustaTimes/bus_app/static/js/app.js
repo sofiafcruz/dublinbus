@@ -105,7 +105,7 @@ leap_card_form.submit(function () {
       // $(".ajax-loading").css("display", "block");
       $(".ajax-loading").hide();
       $("#balance-paragraph").show();
-      $("#balance-paragraph").text("Your Balance is: €" + data);
+      $("#balance-paragraph").text("Your Balance is: €" + data.toFixed(2));
     },
     error: function (error) {
       console.log("Something went wrong!");
@@ -748,10 +748,6 @@ $(".delete-row-td").click(function (event) {
 // }
 
 
-
-
-
-
 // Version 2
 function calculateFare() {
   let time = document.getElementById("choose-time").value;
@@ -811,8 +807,8 @@ function calculateFare() {
                 </thead>
                 <tr>
                   <td>Adult</td>
-                  <td>${cash_fare}</td>
-                  <td>${leap_card_fare}</td>
+                  <td>${cash_fare.toFixed(2)}</td>
+                  <td>${leap_card_fare.toFixed(2)}</td>
                 </tr>
             `;
 
@@ -867,8 +863,8 @@ function calculateFare() {
     result += `
                 <tr>
                   <td>Child</td>
-                  <td>${cash_fare}</td>
-                  <td>${leap_card_fare}</td>
+                  <td>${cash_fare.toFixed(2)}</td>
+                  <td>${leap_card_fare.toFixed(2)}</td>
                 </tr>
               </table>
             `;
@@ -877,10 +873,6 @@ function calculateFare() {
 
   });
 }
-
-
-
-
 
 
 // ====================== Toggle Hide the Menu ======================

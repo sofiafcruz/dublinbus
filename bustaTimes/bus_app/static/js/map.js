@@ -165,24 +165,43 @@ function initMap() {
 }
 
 // **************** Toggle Hide/Show all map markers (and clusters) ****************
-// Calls another function to remove the markers from the map
+
+// 1. CLEAR all the markers from the map
 function clearMarkers() {
-  // console.log(global_markers[0]["visible"]);
-  toggleMarkerVisibility(global_markers);
+  // If the first marker in the array of markers is visible, then they are all visible
+  if (global_markers[0]["visible"]) {
+    // Therefore, set each marker in the array's visibility to false
+    for (var i = 0; i < global_markers.length; i++) {
+      global_markers[i].setVisible(false);
+    }
+  }
+  markerCluster.repaint();
 }
 
-// Sets the map on all markers in the array.
-function toggleMarkerVisibility(markersToHide) {
+// 2. SHOW all the markers from the map
+function showMarkers() {
   // If the first marker in the array of markers is visible, then they are all visible
-  if (markersToHide[0]["visible"]) {
+  if (global_markers[0]["invisible"]) {
     // Therefore, set each marker in the array's visibility to false
-    for (var i = 0; i < markersToHide.length; i++) {
-      markersToHide[i].setVisible(false);
+    for (var i = 0; i < global_markers.length; i++) {
+      global_markers[i].setVisible(true);
+    }
+  }
+  markerCluster.repaint();
+}
+
+// 3. Toggle Hide/Show all the markers on the map
+function toggleMarkerVisibility() {
+  // If the first marker in the array of markers is visible, then they are all visible
+  if (global_markers[0]["visible"]) {
+    // Therefore, set each marker in the array's visibility to false
+    for (var i = 0; i < global_markers.length; i++) {
+      global_markers[i].setVisible(false);
     }
   } else {
     // else they're all not visible, so make them visible
-    for (var i = 0; i < markersToHide.length; i++) {
-      markersToHide[i].setVisible(true);
+    for (var i = 0; i < global_markers.length; i++) {
+      global_markers[i].setVisible(true);
     }
   }
   markerCluster.repaint(); // Show OR Hide the Marker cluster (depending on whichever condition passed)
@@ -960,6 +979,10 @@ $("#show-all-routes-serviced").click(function(e) {
 
   // Initially make it empty
   routes_serviced_display_panel.innerHTML = "";
+
+  routes_serviced_display_panel.innerHTML += `<div style="padding:1rem;">
+                                                <button onclick="clearPolylines()" class='btn btn-secondary btn-sm'>Clear</button>
+                                              </div>`;
   
   // Then add content
   for (let i = 0; i < routes_serviced.length; i++) {
@@ -974,3 +997,15 @@ $("#show-all-routes-serviced").click(function(e) {
   clearMarkers()
   
 });
+
+function clearPolylines() {
+  // Clear the panel
+  document.getElementById("routes-serviced-legend").innerHTML = "";
+  for (let i=0; i < all_polylines.length; i++) {
+    // Clear each polyline
+    all_polylines[i].setMap(null);
+  }
+  // Clear the marker
+  searched_bus_stop_marker.setMap(null);
+  searched_bus_stop_marker = null;
+}
