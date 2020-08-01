@@ -211,21 +211,23 @@ function showAndLoadStartAndEndDrops(direction) {
   // Grab the route option selected
   var selected_route = document.getElementById("json-routes").value;
   // console.log(selected_route);
-  
+
   // Target the starting and ending stops select dropdowns
-  var json_starting_point_dropdown = document.getElementById("json-starting-stops");
+  var json_starting_point_dropdown = document.getElementById(
+    "json-starting-stops"
+  );
   var json_ending_point_dropdown = document.getElementById("json-ending-stops");
 
   // Empty their contents EVERY call (or else values (stops) will be appended to them, rather than replacing them)
   $(json_starting_point_dropdown).empty();
   $(json_ending_point_dropdown).empty();
   // Need a nested for loop to grab the Address of each bus stop of the selected route
-  
+
   // TESTING====================================
   // let direction_1 = hd_routes[selected_route].D1;
   let direction_1 = hd_routes[selected_route][direction];
   // console.log(direction_1);
-  
+
   // Grab the selected Route's Origin (From) and Destination (To) data
   let origin = direction_1["origin"];
   let destination = direction_1["destination"];
@@ -310,11 +312,11 @@ function generateStopArray() {
   );
   // console.log(selected_route + " - " + selected_start + " - " + selected_end);
 
-  // Grab all the stops from the selected route from Starting Stop to Ending Stop INCLUSIVE
-  var arrOfSelectedStops = main_table_object[selected_route].slice(
-    selected_start,
-    selected_end + 1
-  );
+  // Grab all the stops from the selected route from Starting Stop to Ending Stop INCLUSIVE - uses global variable 'current_direction' as default
+  var arrOfSelectedStops = hd_routes[selected_route][current_direction][
+    "stops"
+  ].slice(selected_start, selected_end + 1);
+  console.log("stops", arrOfSelectedStops);
   // console.log(arrOfSelectedStops);
 
   // arrOfCoords reinitialised to empty array (Can't remember why??)
@@ -322,13 +324,19 @@ function generateStopArray() {
 
   // Iterate over the array of selected stops, grab their coordinates, and store them as Coord objects in arrOfCoords
   // (To be used in map.js for some reason I think?)
+  // for (i in arrOfSelectedStops) {
+  //   for (stop_num in arrOfSelectedStops[i]) {
+  //     let bus_stop = arrOfSelectedStops[i][stop_num];
+  //     let lat = bus_stop["latitude"];
+  //     let long = bus_stop["longitude"];
+  //     arrOfCoords.push({ latitude: lat, longitude: long });
+  //   }
+  // }
+
   for (i in arrOfSelectedStops) {
-    for (stop_num in arrOfSelectedStops[i]) {
-      let bus_stop = arrOfSelectedStops[i][stop_num];
-      let lat = bus_stop["latitude"];
-      let long = bus_stop["longitude"];
-      arrOfCoords.push({ latitude: lat, longitude: long });
-    }
+    let lat = arrOfSelectedStops[i]["lat"];
+    let long = arrOfSelectedStops[i]["long"];
+    arrOfCoords.push({ latitude: lat, longitude: long });
   }
   // console.log("BEFORE ARR OF COORDS - APP.JS");
   // console.log(arrOfCoords);
@@ -527,7 +535,7 @@ function populateInputWithStop(clicked_busstop_searchname) {
   busstop_input.value = clicked_busstop_searchname;
 
   // Hide matches list
-  match_list.innerHTML = '';
+  match_list.innerHTML = "";
   document.getElementById("routes-serviced-legend").innerHTML = "";
 }
 
@@ -747,7 +755,6 @@ $(".delete-row-td").click(function (event) {
 //   });
 // }
 
-
 // Version 2
 function calculateFare() {
   let time = document.getElementById("choose-time").value;
@@ -778,18 +785,20 @@ function calculateFare() {
     // Determine Fare LOGIC
     let leap_card_stages = leap_card_prices["stages"];
     let cash_stages = cash_prices["stages"];
-  
-    let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value;
+
+    let stops_count =
+      document.getElementById("json-ending-stops").value -
+      document.getElementById("json-starting-stops").value;
 
     // if short journey
     if (stops_count <= 3) {
       leap_card_fare = leap_card_stages[0]["short"];
       cash_fare = cash_stages[0]["short"];
-    // elif medium journey
+      // elif medium journey
     } else if (stops_count <= 13) {
       leap_card_fare = leap_card_stages[1]["medium"];
       cash_fare = cash_stages[1]["medium"];
-    // else long journey
+      // else long journey
     } else {
       leap_card_fare = leap_card_stages[2]["long"];
       cash_fare = cash_stages[2]["long"];
@@ -812,7 +821,6 @@ function calculateFare() {
                 </tr>
             `;
 
-    
     // ===== Child Data =====
     selected_customer = data["child"];
 
@@ -858,7 +866,7 @@ function calculateFare() {
       leap_card_fare = leap_card_prices["sunday"];
       cash_fare = cash_prices["sunday"];
     }
-      
+
     // Result
     result += `
                 <tr>
@@ -870,27 +878,29 @@ function calculateFare() {
             `;
 
     document.getElementById("fare-table").innerHTML = result;
-
   });
 }
 
-
 // ====================== Toggle Hide the Menu ======================
-$("#toggle-hide-menu").click(function() {
-  let menu = document.getElementById('search-menu-container')
+$("#toggle-hide-menu").click(function () {
+  let menu = document.getElementById("search-menu-container");
   var menu_width = menu.offsetWidth + 20;
   console.log(menu_width);
 
   if ($("#search-menu-container").hasClass("move-left")) {
-      $("#search-menu-container").removeClass("move-left");
-      $("#search-menu-container").addClass("move-right");
-      // Move the container "right" (to its original position)
-      $("#search-menu-container").css({"-webkit-transform":"translate(0px,0px)"});
+    $("#search-menu-container").removeClass("move-left");
+    $("#search-menu-container").addClass("move-right");
+    // Move the container "right" (to its original position)
+    $("#search-menu-container").css({
+      "-webkit-transform": "translate(0px,0px)",
+    });
   } else {
-      $("#search-menu-container").addClass("move-left");
-      $("#search-menu-container").removeClass("move-right");
-      // Move the container "left" based on the width of the menu! (makes it dynamic)
-      $("#search-menu-container").css({"-webkit-transform":`translate(-${menu_width}px,0px)`});
+    $("#search-menu-container").addClass("move-left");
+    $("#search-menu-container").removeClass("move-right");
+    // Move the container "left" based on the width of the menu! (makes it dynamic)
+    $("#search-menu-container").css({
+      "-webkit-transform": `translate(-${menu_width}px,0px)`,
+    });
   }
 });
 
@@ -902,10 +912,10 @@ $("#change-direction").click(function (e) {
   console.log(current_direction);
   if (current_direction === "D1") {
     console.log("Switching to D2");
-    current_direction = "D2"
+    current_direction = "D2";
   } else {
     console.log("Switching to D1");
-    current_direction = "D1"
+    current_direction = "D1";
   }
   showAndLoadStartAndEndDrops(current_direction);
 });

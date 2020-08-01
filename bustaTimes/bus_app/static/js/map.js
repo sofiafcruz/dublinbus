@@ -1,32 +1,34 @@
-
-
 // Change map style to night mode
 function nightMode() {
   // Onchange event the map will either be set to night or day colors
   // Function is called by a switch button
-  var switchValue = document.getElementsByClassName("night-mode-switch")[0].checked ? true : false
+  var switchValue = document.getElementsByClassName("night-mode-switch")[0]
+    .checked
+    ? true
+    : false;
   if (switchValue) {
     $.ajax({
-      url: './static/google_map_styles/night_mode.json', 
+      url: "./static/google_map_styles/night_mode.json",
       async: false,
-      dataType: 'json',
+      dataType: "json",
       success: function (json_style) {
-        map.setOptions({styles: json_style});
+        map.setOptions({ styles: json_style });
       },
-      error: function(error) { // An error most likely won't arise unless we mess with the JSON data or path
+      error: function (error) {
+        // An error most likely won't arise unless we mess with the JSON data or path
         console.log(`Error ${error}`);
       },
-  });
+    });
   } else {
-    map.setOptions({styles: google.maps.MapTypeId.ROADMAP});
+    map.setOptions({ styles: google.maps.MapTypeId.ROADMAP });
   }
 }
 
 // **************** Initialise many of the variables (to make them global and accessible by different functions that don't have scope on them) ****************
 var map;
 // Next 2 variables will be used to render directions;
-var directionsService; 
-var directionsDisplay; 
+var directionsService;
+var directionsDisplay;
 // Next 2 variables are to control window closure;
 var lastOpenedInfoWindow; // Variable to keep track of the current opened info window
 // Global Markers for hiding
@@ -38,44 +40,58 @@ var destinationMarker;
 var searched_bus_stop_marker;
 var all_polylines = []; // List to store all the generated polylines (for Search by Bus Stop)
 // List of colours for polylines
-var polyline_colours = ["#ff0000", "#fdff00", "#00fe00", "#0000fd", "#fd00fd", "#FF6347", "#40E0D0", "#ffc0cb", "#808000", "#999999", "#800000", "#f4a460", "#a83262", "#32a883"];
+var polyline_colours = [
+  "#ff0000",
+  "#fdff00",
+  "#00fe00",
+  "#0000fd",
+  "#fd00fd",
+  "#FF6347",
+  "#40E0D0",
+  "#ffc0cb",
+  "#808000",
+  "#999999",
+  "#800000",
+  "#f4a460",
+  "#a83262",
+  "#32a883",
+];
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
 var url = "./static/attractions.json";
 var attractions = null;
-xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      attractions = JSON.parse(xmlhttp.responseText);
-    }
+xmlhttp.onreadystatechange = function () {
+  if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+    attractions = JSON.parse(xmlhttp.responseText);
+  }
 };
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
 
 // **************** Initialising the Map ****************
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'));
-  
+  map = new google.maps.Map(document.getElementById("map"));
+
   // Disabling double-clicking zoom feature when setting a destination marker
-  map.setOptions({disableDoubleClickZoom: true });
-  
+  map.setOptions({ disableDoubleClickZoom: true });
+
   // DESTINATION MARKER
   // Destination Marker icon (currently a bullseye - will be updated at some stage)
   var icon = {
-    url: './static/images/gps_red.svg',
-    scaledSize: new google.maps.Size(30, 30), 
-    anchor: new google.maps.Point(12.5, 12.5) 
+    url: "./static/images/gps_red.svg",
+    scaledSize: new google.maps.Size(30, 30),
+    anchor: new google.maps.Point(12.5, 12.5),
   };
   // Destination Marker
   destinationMarker = new google.maps.Marker({
     position: null, // Initially set to null (until map double clicked)
     map: map,
-    icon: icon
+    icon: icon,
   });
-  
 
   // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
-  map.addListener('dblclick', function(e) {
+  map.addListener("dblclick", function (e) {
     placeDestinationMarker(e.latLng, map, destinationMarker);
   });
 
@@ -84,8 +100,8 @@ function initMap() {
   origin_autocomplete = new google.maps.places.Autocomplete(
     document.getElementById("origin-home-search"),
     {
-      componentRestrictions: {"country": ["IE"]},
-      fields: ["place_id", "geometry", "name"]
+      componentRestrictions: { country: ["IE"] },
+      fields: ["place_id", "geometry", "name"],
     }
   );
 
@@ -93,62 +109,68 @@ function initMap() {
   destination_autocomplete = new google.maps.places.Autocomplete(
     document.getElementById("destination-home-search"),
     {
-      componentRestrictions: {"country": ["IE"]},
-      fields: ["place_id", "geometry", "name"]
+      componentRestrictions: { country: ["IE"] },
+      fields: ["place_id", "geometry", "name"],
     }
   );
 
   // Single instances to be used for the directions (displaying journey and rendering)
-  // 1. Initialise a Directions Service object (computes directions between 2 or more places by sending direction queries to Google's servers). 
+  // 1. Initialise a Directions Service object (computes directions between 2 or more places by sending direction queries to Google's servers).
   directionsService = new google.maps.DirectionsService();
   // 2. Instantiate a Directions Renderer object (Renders directions obtained from the DirectionsService.)
   directionsDisplay = new google.maps.DirectionsRenderer({
-    preserveViewport: false
+    preserveViewport: false,
   });
 
-  navigator.geolocation.getCurrentPosition(function(position) {
-    // Center map on user's current location if geolocation prompt allowed
-    var usersLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    map.setCenter(usersLocation);
-    map.setZoom(15);
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      // Center map on user's current location if geolocation prompt allowed
+      var usersLocation = new google.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      map.setCenter(usersLocation);
+      map.setZoom(15);
 
-    // Characteristics of the icon for the user's location
-    var icon = {
-      url: './static/images/gps.svg',
-      scaledSize: new google.maps.Size(30, 30), 
-      anchor: new google.maps.Point(12.5, 12.5) 
-    };
-    // ------------CAN MARKER BE REMOVED, AS DOES NOT APPEAR TO BE BEING USED?
-    var marker = new google.maps.Marker({
-      position: usersLocation,
-      map: map,
-      icon: icon
-    });
-  }, function(positionError) {
-    // Default to Dublin if user denied geolocation prompt
-    setMapDublin();
-  });
+      // Characteristics of the icon for the user's location
+      var icon = {
+        url: "./static/images/gps.svg",
+        scaledSize: new google.maps.Size(30, 30),
+        anchor: new google.maps.Point(12.5, 12.5),
+      };
+      // ------------CAN MARKER BE REMOVED, AS DOES NOT APPEAR TO BE BEING USED?
+      var marker = new google.maps.Marker({
+        position: usersLocation,
+        map: map,
+        icon: icon,
+      });
+    },
+    function (positionError) {
+      // Default to Dublin if user denied geolocation prompt
+      setMapDublin();
+    }
+  );
 
   // Characteristics of the icon for Bus Stops
   var busStopIcon = {
-    url: './static/images/bus_stop_icon.svg',
-    scaledSize: new google.maps.Size(25, 25), 
-    anchor: new google.maps.Point(12.5, 12.5) 
+    url: "./static/images/bus_stop_icon.svg",
+    scaledSize: new google.maps.Size(25, 25),
+    anchor: new google.maps.Point(12.5, 12.5),
   };
 
   // Loading the bus stops and adding them to the map
   // $.getJSON("./static/bus_stops.json", function(stops) {
-  $.getJSON("./static/HD_stops_Frontend.json", function(stops) {
+  $.getJSON("./static/HD_stops_Frontend.json", function (stops) {
     // console.log(stops);
     var stop_properties = Object.values(stops);
-    var markers = stop_properties.map(function(property, i) {
-    // var markers = stops.map(function(property, i) {
+    var markers = stop_properties.map(function (property, i) {
+      // var markers = stops.map(function(property, i) {
       var stopCoords = new google.maps.LatLng(property.lat, property.long);
       // var stopCoords = new google.maps.LatLng(property.latitude, property.longitude);
       var marker = new google.maps.Marker({
         position: stopCoords,
         icon: busStopIcon,
-        title: property.stop_num // Title is each marker's stop num (which we use to generate timetable data for the info window that is unique to each bus stop)
+        title: property.stop_num, // Title is each marker's stop num (which we use to generate timetable data for the info window that is unique to each bus stop)
       });
       stopsInfowindow(marker);
       global_markers.push(marker);
@@ -157,10 +179,11 @@ function initMap() {
     // console.log(global_markers);
 
     // Add a marker clusterer to manage the markers.
-    markerCluster = new MarkerClusterer(map, markers,
-      {ignoreHidden: true,
-        imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'}
-    );
+    markerCluster = new MarkerClusterer(map, markers, {
+      ignoreHidden: true,
+      imagePath:
+        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+    });
   });
 }
 
@@ -211,14 +234,17 @@ function toggleMarkerVisibility() {
 // Called with an onclick event
 function panToUsersLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
+    navigator.geolocation.getCurrentPosition(function (position) {
       let user_coords = position.coords;
-      var userLatLng = new google.maps.LatLng(user_coords.latitude, user_coords.longitude);
+      var userLatLng = new google.maps.LatLng(
+        user_coords.latitude,
+        user_coords.longitude
+      );
       // console.log(userLatLng);
       // FOR SOME REASON WE CAN'T JUST RETURN THE USERS' LOCATION
       map.panTo(userLatLng);
     });
-  } else { 
+  } else {
     alert("Geolocation is not supported or enabled.");
   }
 }
@@ -227,51 +253,54 @@ function panToUsersLocation() {
 
 // Array that will be used for the switch button that displays the attractions
 // When the switch is off, it uses this array to remove the markers
-var attractionsArray = []
+var attractionsArray = [];
 
 // The switch button calls this function on change to display the attractions on the map
 function displayAttractions() {
   clearMarkers();
   setMapDublin(); // Center the map in Dublin
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false
-  if (switchValue) { 
+  var switchValue = document.getElementsByClassName("attractions-switch")[0]
+    .checked
+    ? true
+    : false;
+  if (switchValue) {
     // Loop through the attractions in the JSON file and add marker for each to the map
     for (i = 0; i < attractions.length; i++) {
       var latitude = parseFloat(attractions[i].latitude);
       var longitude = parseFloat(attractions[i].longitude);
       var iconName = attractions[i].icon;
-      var url = './static/images/attractions/' + iconName + '.svg';
+      var url = "./static/images/attractions/" + iconName + ".svg";
       var icon = {
         url: url,
-        scaledSize: new google.maps.Size(50, 50), 
-        anchor: new google.maps.Point(20, 40) 
+        scaledSize: new google.maps.Size(50, 50),
+        anchor: new google.maps.Point(20, 40),
       };
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(latitude, longitude),
         title: attractions[i].title,
         map: map,
-        icon: icon
+        icon: icon,
       });
       // Add on click info windows to each attraction
       attractionsInfowindow(marker, attractions[i].title);
-      
+
       attractionsArray.push(marker);
-    };
+    }
   } else {
     // When switch is off, remove all the attraction makers from the map
     for (i = 0; i < attractionsArray.length; i++) {
       attractionsArray[i].setMap(null);
-    };
-  };
-};
+    }
+  }
+}
 
 // Display info window for each attraction
-function attractionsInfowindow (marker, title) {
+function attractionsInfowindow(marker, title) {
   var infowindow = new google.maps.InfoWindow({
-    maxWidth: 250
+    maxWidth: 250,
   });
-  marker.addListener('click', function() {
+  marker.addListener("click", function () {
     // Function to check whether there is an opened info window, if so closes it
     closeLastOpenedInfoWindow(lastOpenedInfoWindow);
 
@@ -288,19 +317,33 @@ function attractionsInfowindow (marker, title) {
       }
     }
     // Content to display in the info window
-    var contentString = '<div class="attractions-infowindow">' +
-    '<div class="attractions-content">'+
-    '<h4 class="attractions-title">' + title + '</h4>'+
-    '<a href="#" onclick="calcRouteToAttraction(' + latitude + ', ' + longitude + ')">Directions</a>'+
-    '<div class="attractions-image"><img src="' + image + '" alt="' + title + '" style="max-width:250px; max-height:250px;"></div>' + 
-    '<div id="attractions-bodyContent">'+
-    '<p class="attractions-summary">' + summary + '&nbsp;<a href="' + url + '">More Info</a></p>'+
-    '</div>'+
-    '</div>';
+    var contentString =
+      '<div class="attractions-infowindow">' +
+      '<div class="attractions-content">' +
+      '<h4 class="attractions-title">' +
+      title +
+      "</h4>" +
+      '<a href="#" onclick="calcRouteToAttraction(' +
+      latitude +
+      ", " +
+      longitude +
+      ')">Directions</a>' +
+      '<div class="attractions-image"><img src="' +
+      image +
+      '" alt="' +
+      title +
+      '" style="max-width:250px; max-height:250px;"></div>' +
+      '<div id="attractions-bodyContent">' +
+      '<p class="attractions-summary">' +
+      summary +
+      '&nbsp;<a href="' +
+      url +
+      '">More Info</a></p>' +
+      "</div>" +
+      "</div>";
     infowindow.setContent(contentString);
     infowindow.open(map, marker);
     lastOpenedInfoWindow = infowindow;
-
   });
 }
 
@@ -311,11 +354,12 @@ function calcRouteToAttraction(latitude, longitude) {
   // set 'destination-home-search' to the User's current location
   var geocoder = new google.maps.Geocoder();
   var latlng = { lat: latitude, lng: longitude };
-  geocoder.geocode({ location: latlng }, function(results, status) {
+  geocoder.geocode({ location: latlng }, function (results, status) {
     if (status === "OK") {
       if (results[0]) {
         // Set the value of geocodeLatLng to the inner HTML of destination
-        document.getElementById("destination-home-search").value = results[0].formatted_address;
+        document.getElementById("destination-home-search").value =
+          results[0].formatted_address;
         // Click the submit button to show the journey/directions from the User's location to the attraction
         document.getElementById("home-submit").click();
       } else {
@@ -344,32 +388,38 @@ function closeLastOpenedInfoWindow(lastOpened) {
 // ================================ DESTINATION MARKER ==============================================
 // For setting destination marker (in Home tab):
 function placeDestinationMarker(latLng, map, destMarker) {
-  
   // Set the destination marker's coordinates to the selected
   destMarker.setPosition(latLng);
 
   // Reverse Geocode the Coordinates into the Place name, so that it can then be pasted into the "Destination" input text box
   var geocoder = new google.maps.Geocoder();
   // Window to show place name of the destination location that was selected (double-clicked)
-  // Info window probably not important for Final Product 
+  // Info window probably not important for Final Product
   var infowindow = new google.maps.InfoWindow();
 
   // Function used to reverse Geocode the Coordinates into the Place name
   // Also sets the "Destination" value to the place name and sets the content of the destination marker's info window
-  geocodeLatLng(latLng.lat(), latLng.lng(), geocoder, map, infowindow, destMarker);
-
+  geocodeLatLng(
+    latLng.lat(),
+    latLng.lng(),
+    geocoder,
+    map,
+    infowindow,
+    destMarker
+  );
 }
 
 // Converts the coordinate information of a double-clicked location on the map to its placename
 function geocodeLatLng(latitude, longitude, geocoder, map, infowindow, marker) {
   var latlng = { lat: latitude, lng: longitude };
-  geocoder.geocode({ location: latlng }, function(results, status) {
+  geocoder.geocode({ location: latlng }, function (results, status) {
     if (status === "OK") {
       if (results[0]) {
         infowindow.setContent(results[0].formatted_address);
         // infowindow.open(map, marker); // Open the Destination marker info window
         // Set the value of geocodeLatLng to the inner HTML of destination
-        document.getElementById("destination-home-search").value = results[0].formatted_address;
+        document.getElementById("destination-home-search").value =
+          results[0].formatted_address;
       } else {
         window.alert("No results found");
       }
@@ -385,32 +435,34 @@ function grabRealTimeContent(stopNum) {
   // Function takes in the clicked bus marker's stop number as a parameter, and feeds this into the backend to use as a parameter for the RPTI API call
   // API returns Realtime Bus info for a stop (e.g. )
   $.ajax({
-      url: 'make_rpti_realtime_api_request', // Name of the function in views.py in the backend that requests the API
-      async: false, // AJAX call needs to be asynchronous to make the result variable (on success) available to the 'stopsInfowindow' function
-      type: 'GET', // We are making a GET request, as there is no security issues with the data we're retrieving
-      data: {
-        inputStopNum: stopNum // This is the data that is passed into by the backend via a GET request, which the backend can then use to make the relevant RPTI API call 
-      },
-      success: function(result) { // If the Request is successful (i.e. There was a request made in the backend that returned "something", BUT N.B. the response may return an EMPTY array, as no results were found)
-        // 'result' is a JsonResponse object returned from the 'make_rpti_realtime_api_request' func in views.py (effectively a json-string). 
-        console.log(result);
-        // We must now parse the string into a JSON object here.
-        parsed_realtime_info = JSON.parse(result) 
-        console.log(parsed_realtime_info);
-        // This 'parsed_realtime_info' variable is now available anywhere in the code (because the ajax function was NOT aynschronous)
-      },
-      error: function(error) { // An most likely won't arise unless the API goes down (Or perhaps is requested too many times?)
-        console.log(`Error ${error}`)
-      },
+    url: "make_rpti_realtime_api_request", // Name of the function in views.py in the backend that requests the API
+    async: false, // AJAX call needs to be asynchronous to make the result variable (on success) available to the 'stopsInfowindow' function
+    type: "GET", // We are making a GET request, as there is no security issues with the data we're retrieving
+    data: {
+      inputStopNum: stopNum, // This is the data that is passed into by the backend via a GET request, which the backend can then use to make the relevant RPTI API call
+    },
+    success: function (result) {
+      // If the Request is successful (i.e. There was a request made in the backend that returned "something", BUT N.B. the response may return an EMPTY array, as no results were found)
+      // 'result' is a JsonResponse object returned from the 'make_rpti_realtime_api_request' func in views.py (effectively a json-string).
+      console.log(result);
+      // We must now parse the string into a JSON object here.
+      parsed_realtime_info = JSON.parse(result);
+      console.log(parsed_realtime_info);
+      // This 'parsed_realtime_info' variable is now available anywhere in the code (because the ajax function was NOT aynschronous)
+    },
+    error: function (error) {
+      // An most likely won't arise unless the API goes down (Or perhaps is requested too many times?)
+      console.log(`Error ${error}`);
+    },
   });
 }
 
 // **************** Creates the content of the info window of the marker that is clicked to relevant real-time info generated on backend ****************
-function setWindowContentHTML(objects, stopNum){
-  // Function takes 2 parameters: 
+function setWindowContentHTML(objects, stopNum) {
+  // Function takes 2 parameters:
   // 1. The array of objects (info about buses coming to the clicked bus stop)
   // 2. The number of the stop marker that is clicked.
-  
+
   // let outputHTML = "";
   let outputHTML = `<div id="bus-stop-info-container">
                       <h5 style="text-align: center; text-decoration: underline;">${stopNum}</h5>
@@ -426,8 +478,8 @@ function setWindowContentHTML(objects, stopNum){
                     `;
 
   // If the API call was successful, and we got an array of objects, then fill the info window content with the data
-  if (objects.length > 0){
-    for (i = 0; i < objects.length; i++){
+  if (objects.length > 0) {
+    for (i = 0; i < objects.length; i++) {
       console.log(objects[i]);
       // Original Version
       // outputHTML += `
@@ -449,7 +501,7 @@ function setWindowContentHTML(objects, stopNum){
           <td>${objects[i]["due"]}</td>
         </tr>
       `;
-    } 
+    }
     outputHTML += `
                       </table>
                     </div>
@@ -458,26 +510,29 @@ function setWindowContentHTML(objects, stopNum){
   } else {
     outputHTML = "No Information available for Stop: " + stopNum;
   }
-  
+
   return outputHTML;
 }
 
 // **************** Sets the content of the info window of the marker that is clicked to relevant real-time info generated on backend ****************
 function stopsInfowindow(marker) {
   var infowindow = new google.maps.InfoWindow();
-  marker.addListener('click', function() {
+  marker.addListener("click", function () {
     grabRealTimeContent(marker.title); // Makes a call to the RPTI API via the backend based on the stop number (marker.title)
     closeLastOpenedInfoWindow(lastOpenedInfoWindow);
     // console.log(parsed_realtime_info); // Shows the array of objects that is gotten from 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + BusStopNumber
 
-    let realtime_content = setWindowContentHTML(parsed_realtime_info, marker.title);
+    let realtime_content = setWindowContentHTML(
+      parsed_realtime_info,
+      marker.title
+    );
     // Set Window to real-time info relevant to the clicked bus stop
-    
+
     infowindow.setContent(realtime_content);
-    
+
     infowindow.open(map, marker);
     lastOpenedInfoWindow = infowindow;
-  })
+  });
 }
 
 // ================================ HOME ==============================================
@@ -485,23 +540,28 @@ function stopsInfowindow(marker) {
 // Called when switch button changes
 function fillUsersLocation() {
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("users-location-switch")[0].checked ? true : false
+  var switchValue = document.getElementsByClassName("users-location-switch")[0]
+    .checked
+    ? true
+    : false;
   // If switch button on
-  if (switchValue) { 
+  if (switchValue) {
     // Get User's current location and fill origin with it.
-    getUsersLocation()
+    getUsersLocation();
   } else {
     // Clear the origin field
     document.getElementById("origin-home-search").value = null;
-  };
-};
+  }
+}
 
 // Function to get User's Location
-function getUsersLocation(){
+function getUsersLocation() {
   // If the user has enabled geolocation, then call a function that populates the "Origin" input with the user's location
   if (navigator.geolocation) {
-    console.log(navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin));
-  } else { 
+    console.log(
+      navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin)
+    );
+  } else {
     alert("Geolocation is not supported or enabled.");
   }
 }
@@ -510,7 +570,7 @@ function logSuccessAndPopulateOrigin(pos) {
   // Populates the "Origin" input on Home screen with the user's position (text, NOT actual coordinates, so possibly not too accurate)
   var coordinates = pos.coords;
 
-  console.log('Your current position is:');
+  console.log("Your current position is:");
   console.log(`Latitude : ${coordinates.latitude}`);
   console.log(`Longitude: ${coordinates.longitude}`);
   console.log(`More or less ${coordinates.accuracy} meters.`);
@@ -519,11 +579,12 @@ function logSuccessAndPopulateOrigin(pos) {
   var geocoder = new google.maps.Geocoder();
 
   var latlng = { lat: coordinates.latitude, lng: coordinates.longitude };
-  geocoder.geocode({ location: latlng }, function(results, status) {
+  geocoder.geocode({ location: latlng }, function (results, status) {
     if (status === "OK") {
       if (results[0]) {
         // Set the value of the user's coordinates to the inner HTML of "Origin" text input
-        document.getElementById("origin-home-search").value = results[0].formatted_address;
+        document.getElementById("origin-home-search").value =
+          results[0].formatted_address;
       } else {
         alert("No location results found for the User's current location");
       }
@@ -532,14 +593,17 @@ function logSuccessAndPopulateOrigin(pos) {
 }
 
 // Render directions based on origin and destination (COORDINATES, NOT PLACE NAMES) on home tab;
-const calculateAndRenderDirections = (origin, destination, directionsService, directionsDisplay) => {
+const calculateAndRenderDirections = (
+  origin,
+  destination,
+  directionsService,
+  directionsDisplay
+) => {
   let request = {
     origin: origin,
     destination: destination,
-    travelMode: 'TRANSIT' // Show how to get from A to B by bus (where posssible???)
+    travelMode: "TRANSIT", // Show how to get from A to B by bus (where posssible???)
   };
-
-  
 
   directionsDisplay.setMap(map);
   // .route takes 2 parameters:
@@ -553,7 +617,7 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
     } else {
       alert("There was a problem with calculating your route");
     }
-    
+
     // ************* Message Printout for users in Div (Directions, Instructions etc) *************
     let legs = result.routes[0].legs[0];
     let departure_time = legs.departure_time.text;
@@ -563,26 +627,25 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
 
     let steps = legs.steps;
 
-    journey_details_div = document.getElementById('journey-details');
+    journey_details_div = document.getElementById("journey-details");
 
     // Add Button to "Exit" the journey
     journey_details_div.innerHTML = `
     <div>
       <button class="btn btn-info" onclick="exitJourney(journey_details_div)">Exit Journey</button>
     </div>
-    `
+    `;
 
     let today = new Date();
     let suffix = "am";
-    let hours = today.getHours()
+    let hours = today.getHours();
     // Logic to make Current time fit with 12-hour clock format of the Google Map's Service object (instead of 24 hour format)
     if (hours >= 12) {
       suffix = "pm";
-      hours -= 12
+      hours -= 12;
     }
     // Creating 12-hour format for current time
     let current_time = hours + "." + today.getMinutes() + suffix;
-
 
     // Total Journey info (at the top of the div)
     journey_details_div.innerHTML += `
@@ -601,24 +664,26 @@ const calculateAndRenderDirections = (origin, destination, directionsService, di
     steps.forEach(function (step, index) {
       journey_details_div.innerHTML += `
         <div>
-          <b>Step: ${index+1} (${step.travel_mode} for ~${step.duration.text})</b>
+          <b>Step: ${index + 1} (${step.travel_mode} for ~${
+        step.duration.text
+      })</b>
           <p>${step.instructions}</p>
           <p>Distance: ${step.distance.text}</p>
         </div>
       `;
     });
-    
+
     // Add container at the end with a directions panel
     journey_details_div.innerHTML += `<div id="directions-panel"></div>`;
     directionsDisplay.setPanel(document.getElementById("directions-panel"));
 
     // Add a class to the div containing the journey details to make it visible
     document.getElementById("journey-details").className = "journey-details";
-  }); 
-}
+  });
+};
 
 // ************************ "Exit" the journey generated in "Home" ************************
-function exitJourney(div_to_set_empty){
+function exitJourney(div_to_set_empty) {
   // ========= Remove Visual Render =========
   // Remove the rendered Journey
   directionsDisplay.setMap(null);
@@ -628,19 +693,23 @@ function exitJourney(div_to_set_empty){
   // ========= Set Journey Info to "" =========
   div_to_set_empty.innerHTML = null;
 }
-  
 
-$("#home-submit").click(function(e) {
+$("#home-submit").click(function (e) {
   // Disable submit button from reloading the page when clicked
   e.preventDefault();
 
   // Grab the values of the "Origin" and "Destination" input boxes
   // Maybe it's better to use Lat and Long coordinates to improve accuracy?
-  var start = document.getElementById('origin-home-search').value; 
-  var end = document.getElementById('destination-home-search').value;
+  var start = document.getElementById("origin-home-search").value;
+  var end = document.getElementById("destination-home-search").value;
   // If the user filled in both the Origin and Destination inputs correctly
-  if (start.length > 0 && end.length > 0){
-    calculateAndRenderDirections(start, end, directionsService, directionsDisplay);
+  if (start.length > 0 && end.length > 0) {
+    calculateAndRenderDirections(
+      start,
+      end,
+      directionsService,
+      directionsDisplay
+    );
   } else {
     // else, alert user with an appropriate error message
     // LOGIC HERE IS VERY BAD... CODE IS NOT DRY! NEED TO FIGURE OUT BETTER ALTERNATIVE
@@ -652,38 +721,37 @@ $("#home-submit").click(function(e) {
       alert_message += "Destination";
       alert(alert_message);
       // Add and remove error class to highlight problematic input for user
-      $("#destination-home-search").addClass('error');
-      setTimeout(function(){
-        $("#destination-home-search").removeClass('error');
+      $("#destination-home-search").addClass("error");
+      setTimeout(function () {
+        $("#destination-home-search").removeClass("error");
       }, duration_of_error_class);
     } else if (end.length > 0) {
       alert_message += "Origin";
       alert(alert_message);
       // Add and remove error class to highlight problematic input for user
-      $("#origin-home-search").addClass('error');
-      setTimeout(function(){
-        $("#origin-home-search").removeClass('error');
+      $("#origin-home-search").addClass("error");
+      setTimeout(function () {
+        $("#origin-home-search").removeClass("error");
       }, duration_of_error_class);
     } else {
       alert_message += "Origin and Destination";
       alert(alert_message);
       // Add and remove error class to highlight problematic input for user
-      $("#origin-home-search").addClass('error');
-      setTimeout(function(){
-        $("#origin-home-search").removeClass('error');
+      $("#origin-home-search").addClass("error");
+      setTimeout(function () {
+        $("#origin-home-search").removeClass("error");
       }, duration_of_error_class);
-      $("#destination-home-search").addClass('error');
-      setTimeout(function(){
-        $("#destination-home-search").removeClass('error');
+      $("#destination-home-search").addClass("error");
+      setTimeout(function () {
+        $("#destination-home-search").removeClass("error");
       }, duration_of_error_class);
     }
   }
-  
 });
 // ================================ SEARCH BY ROUTE ==============================================
 
 // ************************ CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED in "Search By Route" (outside of init function) ************************
-function showJourneyOnMap(arrOfSelectedStopObjs){
+function showJourneyOnMap(arrOfSelectedStopObjs) {
   // Function takes an array of selected Stop Objects (referring to all the stops from start stop A to ending stop B inclusive decided by the user)
   // This function is called by 'app.js', as app.js is where the array of selected routes is generated.
   var markersArray = []; // variable that will hold all the markers of the journey (should (hopefully) be cleared each time so old journeys are removed from map)
@@ -693,72 +761,78 @@ function showJourneyOnMap(arrOfSelectedStopObjs){
   }
 
   for (var i = 0; i < arrOfSelectedStopObjs.length; i++) {
-    let bus_stop_obj = arrOfSelectedStopObjs[i]; // Bus Stop object
-    // let bus_stop_num = Object.keys(bus_stop_obj)[0]; // Bus Stop number
-    let bus_stop_properties = Object.values(bus_stop_obj)[0]; // Properties of bus stop (prog num, lat, long, address)
-
-    let bus_stop_lat = bus_stop_properties.latitude; // Bus Stop Latitude
-    let bus_stop_long = bus_stop_properties.longitude; // Bus Stop Longitude
-
+    let bus_stop_lat = arrOfSelectedStopObjs[i]["lat"]; // Bus Stop Latitude
+    let bus_stop_long = arrOfSelectedStopObjs[i]["long"]; // Bus Stop Longitude
     let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long }; // Bus Stop LatLng object
 
-    var busStopIcon = { // WAS THINKING MAYBE WE SHOULD HAVE A DIFFERENT ICON HERE TO HIGHLIGHT THE STOPS OF THE JOURNEY
-      url: './static/images/bus_stop_icon.svg',
-      scaledSize: new google.maps.Size(25, 25), 
-      anchor: new google.maps.Point(12.5, 12.5) 
+    var busStopIcon = {
+      // WAS THINKING MAYBE WE SHOULD HAVE A DIFFERENT ICON HERE TO HIGHLIGHT THE STOPS OF THE JOURNEY
+      url: "./static/images/bus_stop_icon.svg",
+      scaledSize: new google.maps.Size(25, 25),
+      anchor: new google.maps.Point(12.5, 12.5),
     };
     // Create a marker of that lat and long
     journeyMarker = new google.maps.Marker({
       position: busLatLng,
       map: map,
-      icon: busStopIcon
+      icon: busStopIcon,
     });
     // Push each marker of the journey to the array
     markersArray.push(journeyMarker);
-
-  }  
+  }
   // Calls the function to display the directions on the map
   directionsDisplay.setMap(map);
-  directionsDisplay.setPanel(document.getElementById("routes-directions-panel")); 
+  directionsDisplay.setPanel(
+    document.getElementById("routes-directions-panel")
+  );
 
   // Add a class to the div containing the journey details to make it visible
-  document.getElementById("routes-directions-panel").className = "journey-details";
+  document.getElementById("routes-directions-panel").className =
+    "journey-details";
   calcRoute();
 }
 
 // 'arrOfCoords' comes from app.js (effectively stores the same info as 'arrOfSelectedStopObjs' (i.e. All the stops between starting and ending points of the route journey))
 // Function to draw the directions on the map
 function calcRoute() {
-  var start = new google.maps.LatLng(arrOfCoords[0].latitude,arrOfCoords[0].longitude);
-  var end = new google.maps.LatLng(arrOfCoords[arrOfCoords.length - 1].latitude,arrOfCoords[arrOfCoords.length - 1].longitude);
+  var start = new google.maps.LatLng(
+    arrOfCoords[0].latitude,
+    arrOfCoords[0].longitude
+  );
+  var end = new google.maps.LatLng(
+    arrOfCoords[arrOfCoords.length - 1].latitude,
+    arrOfCoords[arrOfCoords.length - 1].longitude
+  );
   // console.log("Calc-Route-Start");
   // console.log(arrOfCoords[0].latitude);
   // console.log(arrOfCoords[0].longitude);
   // console.log("Calc-Route-End");
   // console.log(arrOfCoords[arrOfCoords.length - 1].latitude);
   // console.log(arrOfCoords[arrOfCoords.length - 1].longitude);
-  console.log("=================================================================================================");
+  console.log(
+    "================================================================================================="
+  );
   var request = {
     origin: start,
     destination: end,
-    travelMode: 'TRANSIT',
+    travelMode: "TRANSIT",
     transitOptions: {
-      modes: ['BUS']
+      modes: ["BUS"],
     },
-    provideRouteAlternatives: true
+    provideRouteAlternatives: true,
   };
 
-  directionsService.route(request, function(result, status) {
+  directionsService.route(request, function (result, status) {
     // console.log(typeof result);
     // console.log(result);
     console.log(result.routes); // GETS AN ARRAY OF 4 RESULTS EVERY TIME??? ((4) [{…}, {…}, {…}, {…}])
     // console.log(result.routes[0]);
     var selectedRoute = document.getElementById("json-routes").value;
     var routes = result.routes;
-    for(i = 0; i < routes.length; i++) {
+    for (i = 0; i < routes.length; i++) {
       var steps = result.routes[i].legs[0].steps;
       var transitCount = 0;
-      var busLine = '';
+      var busLine = "";
       for (j = 0; j < steps.length; j++) {
         console.log(steps[j]);
         if (steps[j].travel_mode === "TRANSIT") {
@@ -767,15 +841,15 @@ function calcRoute() {
         }
       }
       if (transitCount == 1 && busLine == selectedRoute) {
-        if (status == 'OK') {
+        if (status == "OK") {
           directionsDisplay.setDirections(result);
           directionsDisplay.setRouteIndex(i);
         } else {
-          window.alert('Directions request failed due to ' + status);
+          window.alert("Directions request failed due to " + status);
         }
       } else {
         initMap();
-        window.alert('Directions not found.');
+        window.alert("Directions not found.");
       }
       break;
     }
@@ -785,21 +859,23 @@ function calcRoute() {
 // ================================ SEARCH BY BUS STOP ==============================================
 
 // Function to display the full journeys of all routes serviced by the bus stop (via use of markers)
-$("#show-all-routes-serviced").click(function(e) {
+$("#show-all-routes-serviced").click(function (e) {
   // Disable submit button from reloading the page when clicked
   e.preventDefault();
-  console.log("BUTTON CLICKED! - SHOW ALL ROUTES SERVICED BY THE SELECTED BUS STOP");
+  console.log(
+    "BUTTON CLICKED! - SHOW ALL ROUTES SERVICED BY THE SELECTED BUS STOP"
+  );
   // console.log(all_stops);
 
   let selected_bus_stop = document.getElementById("busstop-search").value;
   console.log(selected_bus_stop); // e.g. 905, Yellow Walls Rd, Inbher Ide
 
   // ====Iterate over all the bus stop objects, grab the bus stop whose search_name matches the value of the "Bus Stop" input, and grab the routes_serviced array====
-  for (stop_num in all_stops){
+  for (stop_num in all_stops) {
     let stop_name = all_stops[stop_num].search_name;
     if (stop_name === selected_bus_stop) {
       var routes_serviced = all_stops[stop_num].routes_serviced;
-      
+
       var stop_props = all_stops[stop_num];
       console.log(stop_props);
       var stop_lat = all_stops[stop_num]["lat"];
@@ -816,7 +892,7 @@ $("#show-all-routes-serviced").click(function(e) {
   }
 
   // ====Iterate over all the routes_serviced and grab the routes whose name matches an element in all the routes, and grab the route obj====
-  
+
   // Reset all the polylines every iteration
   for (let i = 0; i < all_polylines.length; i++) {
     console.log(all_polylines[i]);
@@ -845,9 +921,9 @@ $("#show-all-routes-serviced").click(function(e) {
         console.log("Route:", route_num);
         console.log("----START of Stops Loop----");
         var path_coords = [];
-        for (index in direction_1['stops']){
+        for (index in direction_1["stops"]) {
           // console.log(index);
-          let bus_stop = direction_1['stops'][index];
+          let bus_stop = direction_1["stops"][index];
           // console.log(bus_stop);
           // Grab the bus stop properties of interest
           let stop_num = bus_stop["stop_num"];
@@ -858,12 +934,12 @@ $("#show-all-routes-serviced").click(function(e) {
 
           var seach_by_busstop_icon = {
             // url: './static/images/search_by_stop_icon.png',
-            url: './static/images/bus_stop_icon.svg',
-            scaledSize: new google.maps.Size(25, 25), 
-            anchor: new google.maps.Point(12.5, 12.5) 
+            url: "./static/images/bus_stop_icon.svg",
+            scaledSize: new google.maps.Size(25, 25),
+            anchor: new google.maps.Point(12.5, 12.5),
           };
           var stopCoords = new google.maps.LatLng(latitude, longitude);
-          
+
           // Create Marker for each of the component bus stops of the serviced route;
           // var search_by_busstop_marker = new google.maps.Marker({
           //   position: stopCoords,
@@ -875,7 +951,6 @@ $("#show-all-routes-serviced").click(function(e) {
           path_coords.push(stopCoords);
 
           // Fit the bounds of the generated points
-          
         }
         // Creates the polyline object
         var polyline = new google.maps.Polyline({
@@ -884,7 +959,7 @@ $("#show-all-routes-serviced").click(function(e) {
           strokeColor: polyline_colours[i],
           strokeOpacity: 0.5,
           strokeWeight: 7,
-          geodesic: true
+          geodesic: true,
         });
 
         polyline.setMap(map);
@@ -894,7 +969,7 @@ $("#show-all-routes-serviced").click(function(e) {
           position: bus_stop_location,
           map: map,
           title: stop_num,
-          animation: google.maps.Animation.DROP
+          animation: google.maps.Animation.DROP,
         });
 
         map.setCenter(bus_stop_location);
@@ -903,34 +978,31 @@ $("#show-all-routes-serviced").click(function(e) {
 
         // Add each polyline to the list of polylines
         all_polylines.push(polyline);
-
       }
 
       // console.log(all_routes[route_num]);
     }
-
   }
 
   // ========== Polyline events ==========
 
   // Initialise an info window for the given polyline
   var infoWindow = new google.maps.InfoWindow();
-  
+
   // =============== Seems to work BUT route num is wrong ===============
   // ============================ VERSION 3 ============================
   // On mouseover:
   console.log(all_polylines.length);
-  
-  
+
   // Iterate over all polyline instances
   let location_name = "Location Name";
-  for (let i =0; i < all_polylines.length; i++) {
+  for (let i = 0; i < all_polylines.length; i++) {
     let route = routes_serviced[i];
     // let location_name = "Test";
-    google.maps.event.addListener(all_polylines[i], 'mouseover', function(e) {
+    google.maps.event.addListener(all_polylines[i], "mouseover", function (e) {
       // Open the InfoWindow
       infoWindow.setPosition(e.latLng);
-      
+
       // Get a given location's name based on its coordinates
       let geocoder = new google.maps.Geocoder();
       let latlng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
@@ -938,13 +1010,11 @@ $("#show-all-routes-serviced").click(function(e) {
         if (status === "OK") {
           if (results[0]) {
             location_name = results[0].formatted_address;
-
           } else {
             location_name = "No results found";
           }
         } else {
           location_name = "No results found";
-          
         }
         console.log(location_name);
       });
@@ -958,24 +1028,25 @@ $("#show-all-routes-serviced").click(function(e) {
 
       infoWindow.setContent(windowContent);
       infoWindow.open(map);
-      // Change weight to 10 (makes it bold) 
-      all_polylines[i].setOptions({strokeWeight: 12});
-      all_polylines[i].setOptions({strokeOpacity: 1.0});
+      // Change weight to 10 (makes it bold)
+      all_polylines[i].setOptions({ strokeWeight: 12 });
+      all_polylines[i].setOptions({ strokeOpacity: 1.0 });
     });
 
     // On mouseout (stop hovering):
-    google.maps.event.addListener(all_polylines[i], 'mouseout', function() {
-      // Close the InfoWindow 
+    google.maps.event.addListener(all_polylines[i], "mouseout", function () {
+      // Close the InfoWindow
       infoWindow.close();
-      // Give original weight 
-      all_polylines[i].setOptions({strokeWeight: 7});
+      // Give original weight
+      all_polylines[i].setOptions({ strokeWeight: 7 });
     });
-
   }
   console.log(routes_serviced.length);
 
   // ========== Generate Div/Panel to show Routes serviced ==========
-  let routes_serviced_display_panel = document.getElementById("routes-serviced-legend");
+  let routes_serviced_display_panel = document.getElementById(
+    "routes-serviced-legend"
+  );
 
   // Initially make it empty
   routes_serviced_display_panel.innerHTML = "";
@@ -983,25 +1054,23 @@ $("#show-all-routes-serviced").click(function(e) {
   routes_serviced_display_panel.innerHTML += `<div style="padding:1rem;">
                                                 <button onclick="clearPolylines()" class='btn btn-secondary btn-sm'>Clear</button>
                                               </div>`;
-  
+
   // Then add content
   for (let i = 0; i < routes_serviced.length; i++) {
-    routes_serviced_display_panel.innerHTML += 
-        `<div>
+    routes_serviced_display_panel.innerHTML += `<div>
           <h5 style="display: inline;">${routes_serviced[i]}</h5> <hr style="float:right; height:0.3rem;" width=60% color='${polyline_colours[i]}' size='6'> <br> <hr>
         </div>
         `;
   }
 
   // Hide the markers on click
-  clearMarkers()
-  
+  clearMarkers();
 });
 
 function clearPolylines() {
   // Clear the panel
   document.getElementById("routes-serviced-legend").innerHTML = "";
-  for (let i=0; i < all_polylines.length; i++) {
+  for (let i = 0; i < all_polylines.length; i++) {
     // Clear each polyline
     all_polylines[i].setMap(null);
   }
