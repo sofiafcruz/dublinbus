@@ -33,6 +33,7 @@ var directionsDisplay;
 var lastOpenedInfoWindow; // Variable to keep track of the current opened info window
 // Global Markers for hiding
 var global_markers = [];
+var FullRouteMarkers = [];
 var markerCluster;
 var journeyMarker;
 var destinationMarker;
@@ -593,6 +594,7 @@ function logSuccessAndPopulateOrigin(pos) {
 }
 
 // Render directions based on origin and destination (COORDINATES, NOT PLACE NAMES) on home tab;
+// I'm going to try change to let instead of const
 const calculateAndRenderDirections = (
   origin,
   destination,
@@ -750,15 +752,131 @@ $("#home-submit").click(function (e) {
 });
 // ================================ SEARCH BY ROUTE ==============================================
 
+// Function to map the entire route
+function showJourney(stopArray) {
+  // Need to make sure all other route stops are gone FINITO -  do try block to attempt to remove all other markers (i.e. previous routes)
+  try {
+    // remove markers if they exist from the map
+    for (x = 0; x < FullRouteMarkers.length; x++) {
+      FullRouteMarkers[x].setMap(null);
+    }
+    // empty out the array
+    FullRouteMarkers.length = 0;
+  } catch (err) {
+    console.log("YOU GOT AN ERROR - LIME 766");
+    console.log(err);
+  }
+  // Save a variable that will be accessible within map.js
+  clearMarkers();
+  // get coordinates of journey
+  var bounds = new google.maps.LatLngBounds();
+  for (i = 0; i < stopArray.length; i++) {
+    let lat = stopArray[i]["lat"];
+    let long = stopArray[i]["long"];
+    let busLatLng = { lat: lat, lng: long };
+    var markers = []; //some array
+    // set the bounds to cover the route (i.e. fit in the route) - this should make viewport change to route
+    var temp = new google.maps.LatLng(lat, long);
+    // add latlong to bounds
+    bounds.extend(temp);
+    // Set first and last stops to have different colours
+    if (i == 0) {
+      // Start stop
+      var busStopIcon = {
+        url: "./static/images/m3.png",
+        scaledSize: new google.maps.Size(25, 25),
+        anchor: new google.maps.Point(12.5, 12.5),
+      };
+    } else if (i == stopArray.length - 1) {
+      // End stop
+      var busStopIcon = {
+        url: "./static/images/m4.png",
+        scaledSize: new google.maps.Size(25, 25),
+        anchor: new google.maps.Point(12.5, 12.5),
+      };
+    } else {
+      // any other stop
+      var busStopIcon = {
+        url: "./static/images/bus_stop_icon.svg",
+        scaledSize: new google.maps.Size(25, 25),
+        anchor: new google.maps.Point(12.5, 12.5),
+      };
+    }
+    // Create a marker of that lat and long - does this put it onto the map?
+    var RouteMark = new google.maps.Marker({
+      position: busLatLng,
+      map: map,
+      icon: busStopIcon,
+    });
+    // console.log("what does a marker look like:", RouteMark);
+    // Push each marker of the journey to the array
+    FullRouteMarkers.push(RouteMark);
+  }
+  map.fitBounds(bounds);
+}
+
+function filterRoute() {
+  var start = parseInt(document.getElementById("json-starting-stops").value);
+  var end = parseInt(document.getElementById("json-ending-stops").value);
+  // Mske new bounds variable
+  var bounds = new google.maps.LatLngBounds();
+  // Function filters the stops shown on a complete route based on dropdown selection
+
+  for (x = 0; x < FullRouteMarkers.length; x++) {
+    // if they are outside the desired range then set them to null, do the same with the bounds - need a way to modify bounds
+    if (x < start || x > end) {
+      FullRouteMarkers[x].setMap(null);
+    } else {
+      // get lat long position for the new markers
+      var temp = FullRouteMarkers[x].getPosition();
+      bounds.extend(temp);
+      // changing markers
+      // set new end and start stop markers
+      // Set first and last stops to have different colours
+      if (x == start) {
+        // Start stop
+        var busStopIcon = {
+          url: "./static/images/m3.png",
+          scaledSize: new google.maps.Size(25, 25),
+          anchor: new google.maps.Point(12.5, 12.5),
+        };
+        FullRouteMarkers[x].setIcon(busStopIcon);
+      } else if (x == end) {
+        console.log("end");
+        // End stop
+        var busStopIcon = {
+          url: "./static/images/m4.png",
+          scaledSize: new google.maps.Size(25, 25),
+          anchor: new google.maps.Point(12.5, 12.5),
+        };
+        FullRouteMarkers[x].setIcon(busStopIcon);
+      } else {
+        // standard stop icon
+        var busStopIcon = {
+          url: "./static/images/bus_stop_icon.svg",
+          scaledSize: new google.maps.Size(25, 25),
+          anchor: new google.maps.Point(12.5, 12.5),
+        };
+        FullRouteMarkers[x].setIcon(busStopIcon);
+      }
+
+      FullRouteMarkers[x].setMap(map);
+    }
+  }
+  // shift map focus
+  map.fitBounds(bounds);
+}
 // ************************ CODE TO SET MAP TO WHATEVER JOURNEY IS SEARCHED in "Search By Route" (outside of init function) ************************
-function showJourneyOnMap(arrOfSelectedStopObjs) {
+function showJourneyOnMap(arrOfSelectedStopObjs, arrOfCoords) {
   // Function takes an array of selected Stop Objects (referring to all the stops from start stop A to ending stop B inclusive decided by the user)
   // This function is called by 'app.js', as app.js is where the array of selected routes is generated.
   var markersArray = []; // variable that will hold all the markers of the journey (should (hopefully) be cleared each time so old journeys are removed from map)
-  console.log(markersArray);
   for (var i = 0; i < markersArray.length; i++) {
     markersArray[i].setMap(null);
   }
+  // Clear out the existing stops
+  console.log("just above clearMarkers");
+  clearMarkers();
 
   for (var i = 0; i < arrOfSelectedStopObjs.length; i++) {
     let bus_stop_lat = arrOfSelectedStopObjs[i]["lat"]; // Bus Stop Latitude
@@ -789,12 +907,12 @@ function showJourneyOnMap(arrOfSelectedStopObjs) {
   // Add a class to the div containing the journey details to make it visible
   document.getElementById("routes-directions-panel").className =
     "journey-details";
-  calcRoute();
+  calcRoute(arrOfCoords);
 }
 
 // 'arrOfCoords' comes from app.js (effectively stores the same info as 'arrOfSelectedStopObjs' (i.e. All the stops between starting and ending points of the route journey))
 // Function to draw the directions on the map
-function calcRoute() {
+function calcRoute(arrOfCoords) {
   var start = new google.maps.LatLng(
     arrOfCoords[0].latitude,
     arrOfCoords[0].longitude
@@ -825,21 +943,27 @@ function calcRoute() {
   directionsService.route(request, function (result, status) {
     // console.log(typeof result);
     // console.log(result);
-    console.log(result.routes); // GETS AN ARRAY OF 4 RESULTS EVERY TIME??? ((4) [{…}, {…}, {…}, {…}])
+    // console.log(result.routes); // GETS AN ARRAY OF 4 RESULTS EVERY TIME??? ((4) [{…}, {…}, {…}, {…}])
     // console.log(result.routes[0]);
     var selectedRoute = document.getElementById("json-routes").value;
     var routes = result.routes;
+    console.log("routes: ", routes);
     for (i = 0; i < routes.length; i++) {
       var steps = result.routes[i].legs[0].steps;
       var transitCount = 0;
       var busLine = "";
+      // Loops through steps and counts the number of transit steps (should be at least 1 or its walking)
       for (j = 0; j < steps.length; j++) {
-        console.log(steps[j]);
+        console.log("steps", steps[j]);
+        console.log("keys:", Object.keys(steps[j]));
+        console.log("checking:", steps[j].travel_mode);
         if (steps[j].travel_mode === "TRANSIT") {
+          console.log("in travel mode check");
           transitCount++;
           busLine = steps[j].transit.line.short_name;
         }
       }
+      // Should be only 1 transit for a bus - otherwise googlemaps is suggesting two buses
       if (transitCount == 1 && busLine == selectedRoute) {
         if (status == "OK") {
           directionsDisplay.setDirections(result);
@@ -848,7 +972,15 @@ function calcRoute() {
           window.alert("Directions request failed due to " + status);
         }
       } else {
+        // This means that translit count != 1 or busline != selected route (obtained from dropdown)
+        // So what happens if there are two buses??
         initMap();
+
+        console.log("CALC ROUTE ELSE");
+        console.log("transitCount:", transitCount);
+        console.log("busline:", busLine);
+        console.log("route:", selectedRoute);
+
         window.alert("Directions not found.");
       }
       break;

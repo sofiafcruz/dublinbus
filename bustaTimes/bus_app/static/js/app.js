@@ -228,6 +228,15 @@ function showAndLoadStartAndEndDrops(direction) {
   let direction_1 = hd_routes[selected_route][direction];
   // console.log(direction_1);
 
+  // Save in all route stops into full route array (array of 'stop' objects) - pass to map.js to be mapped
+  let full_route = hd_routes[selected_route][current_direction]["stops"];
+  console.log("outside_function");
+  $.getScript("static/js/map.js", function () {
+    console.log("inside function call");
+    showJourney(full_route);
+  });
+  // displayEntireRoute(full_route);
+
   // Grab the selected Route's Origin (From) and Destination (To) data
   let origin = direction_1["origin"];
   let destination = direction_1["destination"];
@@ -257,6 +266,42 @@ function showAndLoadStartAndEndDrops(direction) {
   $("#stops-dropdowns-container").css("display", "block");
 }
 
+function subRouteSelect() {
+  // Triggered onchange dor start and end stop dropdown menus
+  // get values of both dropdown menus (get numbers and pass to map.js)
+  var selected_start = parseInt(
+    document.getElementById("json-starting-stops").value
+  );
+  var selected_end = parseInt(
+    document.getElementById("json-ending-stops").value
+  );
+  var start2 = document.getElementById("json-starting-stops").value;
+  console.log("start2", start2);
+  console.log("start..end", selected_start, selected_end);
+  $.getScript("static/js/map.js", function () {
+    console.log("inside function call");
+    filterRoute(selected_start, selected_end);
+  });
+}
+
+// function displayEntireRoute(stopArray) {
+//   // '''
+//   // Function will take in the entire list of stops when a new route is chosen on the dropdown list and generate a map array with those markers
+//   // Mapping will occur in map.js
+//   // '''
+//   // First get stops into a coordinate array - check if this is accessible in the generate array function (i think it should be)
+//   FullRouteCoords = [];
+//   for (i in stopArray) {
+//     let lat = stopArray[i]["lat"];
+//     let long = stopArray[i]["long"];
+//     FullRouteCoords.push({ latitude: lat, longitude: long });
+//   }
+//   console.log(FullRouteCoords);
+//   // Map the journey
+//   $.getScript("static/js/map.js", function () {
+//     showJourney(FullRouteCoords);
+//   });
+// }
 // ********** Div containing Journey Info, Starting and Ending Stop Dropdowns  **********
 // Display div containing filled drop down options of bus stops
 // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
@@ -297,11 +342,12 @@ function showAndLoadStartAndEndDrops(direction) {
 
 // ********** Logic to grab all the Stops between the selected Starting and Ending Stops INCLUSIVE  **********
 // Initialising Empty Array of Coords (initialised outside so can also be used in 'map.js')
-var arrOfCoords = [];
+// var arrOfCoords = [];
 
 function generateStopArray() {
   console.log("IN HERE");
-  // Function to grab all the stops between Starting and Ending Points of Journey
+
+  // Function to grab all the stops between Starting and Ending Points of Journey - executed when 'show journey' button is clicked
   // Grab all selected dropdown components
   var selected_route = document.getElementById("json-routes").value;
   var selected_start = parseInt(
@@ -316,11 +362,20 @@ function generateStopArray() {
   var arrOfSelectedStops = hd_routes[selected_route][current_direction][
     "stops"
   ].slice(selected_start, selected_end + 1);
-  console.log("stops", arrOfSelectedStops);
   // console.log(arrOfSelectedStops);
 
-  // arrOfCoords reinitialised to empty array (Can't remember why??)
-  arrOfCoords = [];
+  // arrOfCoords reinitialised to empty array (Can't remember why?? - if keeping route the same but changing stops) - this is not emptying it
+  // Had to change arrOfCoords to a local variable (was not reassigning to an empty list)
+
+  var arrOfCoords = [];
+  console.log("co-ords length:", arrOfCoords.length);
+
+  console.log("generate array check");
+  console.log(selected_start);
+  console.log(selected_end);
+  console.log(arrOfCoords, arrOfSelectedStops);
+
+  //
 
   // Iterate over the array of selected stops, grab their coordinates, and store them as Coord objects in arrOfCoords
   // (To be used in map.js for some reason I think?)
@@ -344,7 +399,7 @@ function generateStopArray() {
 
   // Call the 'showJourneyOnMap' function in 'map.js' on the selected stops array to show the journey to the user
   $.getScript("static/js/map.js", function () {
-    showJourneyOnMap(arrOfSelectedStops);
+    showJourneyOnMap(arrOfSelectedStops, arrOfCoords);
   });
 }
 
