@@ -308,7 +308,14 @@ function generateStopArray() {
   var selected_end = parseInt(
     document.getElementById("json-ending-stops").value
   );
+  
   // console.log(selected_route + " - " + selected_start + " - " + selected_end);
+  
+  // Logic for if Destination before Origin or vice versa
+  if (selected_start > selected_end) {
+    alert("Warning: Cannot have Start Stop AFTER Destination Stop");
+    return;
+  }
 
   // Grab all the stops from the selected route from Starting Stop to Ending Stop INCLUSIVE
   var arrOfSelectedStops = main_table_object[selected_route].slice(
