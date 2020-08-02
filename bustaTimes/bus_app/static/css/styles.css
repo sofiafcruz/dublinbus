@@ -130,13 +130,6 @@ body {
 }
 
 /*----------- Search menu ---------------*/
-.image {
-  width: 60px;
-  height: 55px;
-  margin-left: 8px;
-  margin-right: 8px;
-}
-
 .Search-Menu-Container {
   background-color: rgb(255, 255, 255);
   /* min and max widths to manage size */
@@ -151,40 +144,6 @@ body {
   top: 70px;
   text-align: center;
   border-radius: 25px;
-}
-
-.weather-container,
-.attractions,
-.user-location-btn,
-.night-mode {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  width: 100px;
-  right: 20px;
-  background-color: rgb(265, 265, 265, 0.75);
-  border-radius: 25px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-}
-
-.weather-container {
-  top: 70px;
-}
-
-.attractions {
-  top: 100px;
-}
-
-.user-location-btn {
-  top: 190px;
-  width: 50px;
-  height: 40px;
-}
-
-.night-mode {
-  top: 145px;
 }
 
 .leap-card-input {
@@ -203,7 +162,6 @@ select,
   justify-content: center;
 }
 
-/* Style the buttons inside the tab */
 .tab .tablinks {
   background-color: inherit;
   /* float: left; */
@@ -212,13 +170,14 @@ select,
   cursor: pointer;
 }
 
-
 /* Create an active/current tablink class */
 .tab .tablinks.active {
   background-color: lightblue;
   border-radius: 100%;
 }
 
+/* Styles for hover over the menu images */
+/* ------- START ------- */
 .menu-container {
   position: relative;
   width: 65px;
@@ -226,7 +185,6 @@ select,
 }
 
 .image {
-  display: block;
   width: 55px;
   height: auto;
 }
@@ -260,7 +218,9 @@ select,
   transform: translate(-50%, -50%);
   text-align: center;
 }
+/* ------- END ------- */
 
+/* Submit buttons in the menu */
 .btn-submit {
   border-color: lightblue;
   font-size: small;
@@ -270,6 +230,7 @@ select,
   color: white;
 }
 
+/* Styles for mobile */
 @media (max-width: 850px) {
   .map-container {
     height: 65vh;
@@ -332,6 +293,43 @@ select,
   border-top: none;
   text-align: center;
 }
+
+/* Style the menu on the right side */
+/* ------- START ------- */
+.weather-container,
+.attractions,
+.user-location-btn,
+.night-mode {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100px;
+  right: 20px;
+  background-color: rgb(265, 265, 265, 0.75);
+  border-radius: 25px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather-container {
+  top: 70px;
+}
+
+.attractions {
+  top: 100px;
+}
+
+.user-location-btn {
+  top: 190px;
+  width: 50px;
+  height: 40px;
+}
+
+.night-mode {
+  top: 145px;
+}
+/* ------- END ------- */
 
 /* Favourites Table */
 #favourites-table {
