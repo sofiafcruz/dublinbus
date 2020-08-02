@@ -31,14 +31,12 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="#" onclick="navbarDisplay(event, 'home-search-container')">Busta Times</a>
                     </li>
-                </ul>
-            </div>
-            <!-- Login/Logout and Greeting Banner-->
-            <div>
-                <ul class="navbar-nav mr-auto">
-                {% if user.is_authenticated %}
+                    <!-- Login/Logout and Greeting Banner-->
+                    {% if user.is_authenticated %}
                     <!-- Greeting Banner -->
-                    <span id="greeting-banner">Hello, {{ request.user }}</span>
+                    <li class="nav-item">
+                        <span class="nav-link" id="greeting-banner">Hello, {{ request.user }}</span>
+                    </li>
                     <!-- Logout Link -->
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
@@ -89,7 +87,6 @@
                     {% endif %}
                 {% endfor %}
                 </ul>
-                
             </div>
         </nav>
         {% comment %} <div id="leap-card-navbar">  
