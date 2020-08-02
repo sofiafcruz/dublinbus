@@ -425,16 +425,18 @@ def loginUserPopup(request):
         return redirect('index')
     else:
         if request.method == 'POST':
+            
             username = request.POST.get('username')
             password = request.POST.get('password')
 
             user = authenticate(request, username=username, password=password)
-
+            
             # If user IS authenticated, then attach them to the current sessopm
             if user is not None:
                 login(request, user) # Saves user's ID in the session
                 return redirect('index')
             else:
+                print("Is none")
                 messages.error(request, f"ERROR: login credentials incorrect")
                 # Message below for debugging purposes
                 print("Someone tried to login and failed")
