@@ -80,7 +80,6 @@ body {
   width: 2.2rem;
 }
 
-
 #journey-details {
   background-color: rgb(255, 255, 255, 0.85);
   font-size: 0.75rem;
@@ -131,15 +130,8 @@ body {
 }
 
 /*----------- Search menu ---------------*/
-.tablinks {
-  width: 60px;
-  height: 55px;
-  margin-left: 8px;
-  margin-right: 8px;
-}
-
 .Search-Menu-Container {
-  background-color: rgb(255, 255, 255, 0.85);
+  background-color: rgb(255, 255, 255);
   /* min and max widths to manage size */
   max-width: 850px;
   min-width: 350px;
@@ -154,6 +146,157 @@ body {
   border-radius: 25px;
 }
 
+.leap-card-input {
+  margin-bottom: 10px;
+}
+
+select,
+#busstop-search {
+  width: 100%;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.tab .tablinks {
+  background-color: inherit;
+  /* float: left; */
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Create an active/current tablink class */
+.tab .tablinks.active {
+  background-color: lightblue;
+  border-radius: 100%;
+}
+
+/* Styles for hover over the menu images */
+/* ------- START ------- */
+.menu-container {
+  position: relative;
+  width: 65px;
+  margin: 0px 5px 0px 5px;
+}
+
+.image {
+  width: 55px;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: lightblue;
+  border-radius: 100%;
+}
+
+.menu-container:hover .overlay {
+  opacity: 1;
+}
+
+.menu-text {
+  color: white;
+  font-size: small;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+/* ------- END ------- */
+
+/* Submit buttons in the menu */
+.btn-submit {
+  border-color: lightblue;
+  font-size: small;
+}
+
+.btn-submit:hover {
+  color: white;
+  background-color: lightblue;
+}
+
+/* Styles for mobile */
+@media (max-width: 850px) {
+  .map-container {
+    height: 65vh;
+  }
+
+  .image {
+    display: block;
+    width: 50px;
+  }
+
+  .menu-container {
+    width: 60px;
+  }
+
+  .app-container {
+    width: 100vw;
+  }
+
+  .tab {
+    max-width: 300px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .Search-Menu-Container {
+    background-color: white;
+    /* min and max widths to manage size */
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    left: 0px;
+    padding: 0px;
+    padding-top: 15px;
+    top: calc(100vh - 35vh);
+    text-align: center;
+  }
+
+  #menu-title,
+  .menu-label {
+    display: none;
+  }
+
+  .btn-submit,
+  .caption {
+    font-size: smaller;
+  }
+
+  .style-btns,
+  .markers-switch,
+  #leap-card-navbar {
+    display: none;
+  }
+}
+
+/* Style te tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+  text-align: center;
+}
+
+/* Style the menu on the right side */
+/* ------- START ------- */
 .weather-container,
 .attractions,
 .user-location-btn,
@@ -187,111 +330,7 @@ body {
 .night-mode {
   top: 145px;
 }
-
-.leap-card-input {
-  margin-bottom: 10px;
-}
-
-.btn-submit {
-  font-size: small;
-}
-
-@media (max-width: 850px) {
-  .map-container {
-    height: 65vh;
-  }
-
-  .tablinks {
-    width: 50px;
-    height: 45px;
-  }
-
-  .app-container {
-    width: 100vw;
-  }
-
-  .Search-Menu-Container {
-    background-color: white;
-    /* min and max widths to manage size */
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    left: 0px;
-    padding: 0px;
-    padding-top: 15px;
-    top: calc(100vh - 35vh);
-    text-align: center;
-  }
-
-  #menu-title,
-  .menu-label {
-    display: none;
-  }
-
-  .btn-submit,
-  .caption {
-    font-size: smaller;
-  }
-
-  .style-btns,
-  .markers-switch,
-  #leap-card-navbar {
-    display: none;
-  }
-}
-
-select,
-#busstop-search {
-  width: 100%;
-}
-
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-}
-
-/* Style the buttons inside the tab */
-.tab button {
-  background-color: inherit;
-  /* float: left; */
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
-
-button {
-  border-radius: 100%;
-  transition: background-color 0.5s ease;
-  margin: 0px 5px 0px 5px;
-}
-
-/* Change background color of buttons on hover */
-button:hover {
-  background-color: lightblue;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: lightblue;
-}
-
-.btn-submit {
-  border-color: lightblue;
-}
-
-.btn-submit:hover {
-  color: white;
-}
-
-/* Style te tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border-top: none;
-  text-align: center;
-}
+/* ------- END ------- */
 
 /* Favourites Table */
 #favourites-table {
