@@ -228,6 +228,7 @@ select,
 
 .btn-submit:hover {
   color: white;
+  background-color: lightblue;
 }
 
 /* Styles for mobile */
