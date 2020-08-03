@@ -17,27 +17,27 @@ from bus_app.models import AdditionalUserInfo, FavouriteJourney
 
 # N.B. it's important all test cases begin with 'test_';
 
-class TestPostRequests(TestCase):
+class TestViews(TestCase):
     
-    # Setup
+    # Setup: Define all the variables we use later
     def setUp(self):
         self.client = Client()
         # Bus Stop Number
         self.stop_num = {
             "inputStopNum": 905
         }
-        # Login Credentials (SEEMS TO WORK EVEN THOUGH CREDENTIALS ARE WRONG???)
+        # Login Credentials
         self.unsaved_login_credentials = {
             "username": "test_user_unsaved",
             "password": "test_password_unsaved"
         }
-
+        # Create user instance that is NOT saved (in the context of testing)
+        User.objects.create(**self.unsaved_login_credentials)
         self.saved_login_credentials = {
             "username": "test_user",
             "password": "test_password" 
         }
-        
-        User.objects.create(**self.unsaved_login_credentials)
+        # Create user instance that IS saved (in the context of testing)
         User.objects.create_user(**self.saved_login_credentials)
 
         # Sign Up/Register Credentials
@@ -45,12 +45,21 @@ class TestPostRequests(TestCase):
             # Required
             'username' : 'test_username',
             'email' : 'test_email@gmail.com',
-            'password1' : 'test_password_1',
-            'password2' : 'test_password_2',
-            # Additional Info
+            'password1' : 'test_password',
+            'password2' : 'test_password',
+            # Additional (Optional) Info
             'leapcard_username' : 'test_leapcard_username',
-            'leapcard_password' : 'test_leapcard_password'
         }
+
+        # Unsuccessful Sign Up/Register Credentials
+        self.unsuccessful_register_credentials = {
+            # Required
+            'username' : 'marcia',
+            'email' : 'marcia@gmail.com',
+            'password1' : 'dublinbus123',
+            'password2' : 'dublinbus123',
+        }
+
         # URLS/Views:
         self.home_url = reverse("index") # i.e. because 'index' name of the url: path('', views.index, name="index") etc
         self.login_url = reverse("loginUserPopup")
@@ -79,7 +88,7 @@ class TestPostRequests(TestCase):
     # 3. registerUserPopup
     # ====================
 
-    def test_registerUserPopup_POST(self):
+    def test_registerUserPopup_POST_is_successful(self):
         # Send registration data
         response = self.client.post(self.register_url, self.register_credentials, follow=True)
         # Ensure status is OK
@@ -89,11 +98,16 @@ class TestPostRequests(TestCase):
         # Ensure the template returned is the home page (base.html)
         self.assertTemplateUsed(response, 'base.html')
 
-
-
-        # N.B. - From the view.py point of view, it seems to have failed? (i.e. ERROR IN REGISTERING THE USER WITH THE POPUP METHOD)
-        # BUT it still passes the test case...?
-        # Maybe I need to instantiate User and Additional Info to do this?????
+    # NOT WORKING???
+    def test_registerUserPopup_POST_is_unsuccessful(self):
+        # Send registration data
+        response = self.client.post(self.register_url, self.unsuccessful_register_credentials, follow=True)
+        # Ensure status is OK
+        self.assertEquals(response.status_code, 200)
+        # Make sure user is NOT logged in!!
+        self.assertFalse(response.context['user'].is_authenticated)
+        # Ensure the template returned is the home page (base.html)
+        self.assertTemplateUsed(response, 'base.html')
 
     # =================
     # 4. loginUserPopup

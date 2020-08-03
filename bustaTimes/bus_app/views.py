@@ -309,6 +309,12 @@ def registerUserPopup(request):
                 return redirect('index')
             else:
                 messages.error(request, f"ERROR: in creating account")
+                print("-----USER-----")
+                print(create_form.errors)
+                print(create_form.is_valid())
+                print("-----ADDITIONAL INFO-----")
+                print(additional_info_form.errors)
+                print(additional_info_form.is_valid())
                 print("ERROR IN REGISTERING THE USER WITH THE POPUP METHOD")
             # Then redirect them to the login page
             return redirect('index')
@@ -346,7 +352,6 @@ def loginUserPopup(request):
 @login_required
 def logoutUser(request):
     logout(request) # doesn’t throw any errors if the user wasn’t logged in (so need to make sure it works perfectly)
-    # return redirect('loginPage')
     return redirect('index')
 
 # FAVOURITE JOURNEY
@@ -520,7 +525,7 @@ def updateUserPopup(request):
                 if updated_leapcard_username:
                     user_additional_info = AdditionalUserInfo.objects.get(user=request.user)
                     user_additional_info.leapcard_username = updated_leapcard_username
-                    # Then save the details    
+                    # Then save the details
                     user_additional_info.save()
 
                 messages.success(request, f"Details were updated")
