@@ -613,7 +613,7 @@ $(".clickable-row").click(function () {
   console.log(row_origin_stop);
   console.log(row_destination_stop);
 
-  // =====Changing Search by Route Options===== NOT WORKING!!!
+  // =====Changing Search by Route Options=====
 
   // 1. Close PopUp
   $("#close-favourites-popup").click();

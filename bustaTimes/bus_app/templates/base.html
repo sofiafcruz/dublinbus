@@ -45,25 +45,20 @@
                     {% comment %} <li class="nav-item">
                         <a class="nav-link" href="{% url 'showFavourites' %}">Favourites</a>
                     </li> {% endcomment %}
-                    <!-- Login Link -->
                     <li>
-                        <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
                         <a class="nav-link" data-target='#favourites-popup' data-toggle="modal" href="">Favourites</a>
                     </li>
                     <li>
-                        <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
                         <a class="nav-link" data-target='#update-popup' data-toggle="modal" href="">Update Details</a>
                     </li>
                     
                 {% else %}
                     <!-- Login Link -->
                     <li>
-                        <!-- <a class="nav-link" href="{% url 'loginPage' %}">Login</a> -->
                         <a class="nav-link" data-target='#login-popup' data-toggle="modal" href="">Login</a>
                     </li>
                     <!-- Register Link -->
                     <li>
-                        <!-- <a class="nav-link" href="{% url 'registerPage' %}">Register</a> -->
                         <a class="nav-link" data-target='#signup-popup' data-toggle="modal" href="">Register</a>
                     </li>
                 {% endif %}
