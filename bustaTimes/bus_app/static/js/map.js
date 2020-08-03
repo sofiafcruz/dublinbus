@@ -258,7 +258,7 @@ var attractionsArray = [];
 
 // The switch button calls this function on change to display the attractions on the map
 function displayAttractions() {
-  clearMarkers();
+  toggleMarkerVisibility();
   setMapDublin(); // Center the map in Dublin
   // Check the value of the switch button
   var switchValue = document.getElementsByClassName("attractions-switch")[0]
@@ -289,6 +289,7 @@ function displayAttractions() {
       attractionsArray.push(marker);
     }
   } else {
+
     // When switch is off, remove all the attraction makers from the map
     for (i = 0; i < attractionsArray.length; i++) {
       attractionsArray[i].setMap(null);
