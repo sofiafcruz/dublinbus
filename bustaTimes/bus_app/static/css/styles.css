@@ -282,8 +282,7 @@ select,
   }
 
   .style-btns,
-  .markers-switch,
-  #leap-card-navbar {
+  .markers-switch {
     display: none;
   }
 }
