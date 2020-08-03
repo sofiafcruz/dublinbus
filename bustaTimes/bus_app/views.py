@@ -15,6 +15,8 @@ google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
 # Create your views here.
 
 from .forms import FavouriteJourneyForm
+from .models import FavouriteJourney
+
 def index(request):
 
     # USER CREATION FORM
@@ -248,119 +250,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 # ^
 
-def registerPage(request):
-    # If the user is authenticated, then redirect them to the home page
-    if request.user.is_authenticated:
-        return redirect('index.html')
-    else:
-        # create_form = UserCreationForm()
-        create_form = CreateUserForm()
-        # ADDITIONAL_INFO
-        additional_info_form = AdditionalUserInfoForm()
-
-        if request.method == 'POST':
-            # Post data = Username, Password and Conrfirmed password
-            # Render the form again and pass in the user data into the form
-            # create_form = UserCreationForm(request.POST)
-
-            # Post data = Username, Password, Conrfirmed password AND EMAIL!!
-            # Render the form again and pass in the user data into the form
-            create_form = CreateUserForm(request.POST)
-            # ADDITIONAL_INFO
-            additional_info_form = AdditionalUserInfoForm(request.POST)
-
-            if create_form.is_valid() and additional_info_form.is_valid():
-                # Then save the User
-                user = create_form.save() 
-                # ADDITIONAL_INFO
-                # And create the additional info for the user
-                additional_info = additional_info_form.save(commit=False)
-                additional_info.user = user
-                additional_info.save()
-
-                # Show appropriate Success Message
-                username = create_form.cleaned_data["username"]
-                print(create_form.cleaned_data)
-                print(username)
-                messages.success(request, f"Account was created for: {username}")
-
-                # Then redirect them to the login page
-                return redirect('loginPage')
-
-        context = {
-            'create_form': create_form,
-            # ADDITIONAL_INFO
-            'additional_info_form': additional_info_form,
-        }
-        return render(request, 'register.html', context)
-
-def loginPage(request):
-    # If the user is authenticated, then redirect them to the home page
-    if request.user.is_authenticated:
-        return redirect('index')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-
-            user = authenticate(request, username=username, password=password)
-
-            # If user IS authenticated, then attach them to the current sessopm
-            if user is not None:
-                login(request, user) # Saves user's ID in the session
-                return redirect('index')
-            else:
-                # Message below for debugging purposes
-                print("Someone tried to login and failed")
-                print("**************************************")
-                print(f"Tried logging in with;\nUsername: {username}\nPassword: {password}")
-                print("**************************************")
-                # return flash message
-                messages.info(request, "Username OR password is incorrect")
-        
-        context = {}
-        return render(request, 'login.html', context)
-
-@login_required
-def logoutUser(request):
-    logout(request) # doesn’t throw any errors if the user wasn’t logged in (so need to make sure it works perfectly)
-    # return redirect('loginPage')
-    return redirect('index')
-
-def registerUser(request):
-    # If the user is authenticated, then redirect them to the home page
-    if request.user.is_authenticated:
-        return redirect('index.html')
-    else:
-        # Post data = Username, Password, Conrfirmed password AND EMAIL!!
-        # Render the form again and pass in the user data into the form
-        create_form = CreateUserForm(request.POST)
-        # ADDITIONAL_INFO
-        additional_info_form = AdditionalUserInfoForm(request.POST)
-
-        if create_form.is_valid() and additional_info_form.is_valid():
-            # Then save the User
-            user = create_form.save() 
-            # ADDITIONAL_INFO
-            # And create the additional info for the user
-            additional_info = additional_info_form.save(commit=False)
-            additional_info.user = user
-            additional_info.save()
-
-            # Show appropriate Success Message
-            username = create_form.cleaned_data["username"]
-            print(create_form.cleaned_data)
-            print(username)
-            messages.success(request, "Account was created for:", username)
-        else:
-            messages.error(request, f"ERROR: in creating account")
-            print("ERROR IN REGISTERING THE USER WITH THE POPUP METHOD")
-        # Then redirect them to the login page
-        return redirect('index')
-
 from django.contrib.auth.hashers import make_password
 # ^ For hashing the password that's stored
-       
+
+# REGISTRATION/lOGIN/LOGOUT
+
 def registerUserPopup(request):
     # If the user is authenticated, then redirect them to the home page
     if request.user.is_authenticated:
@@ -433,6 +327,7 @@ def loginUserPopup(request):
             
             # If user IS authenticated, then attach them to the current sessopm
             if user is not None:
+                # Backend authenticated the credentials
                 login(request, user) # Saves user's ID in the session
                 return redirect('index')
             else:
@@ -447,7 +342,14 @@ def loginUserPopup(request):
                 # return flash message
                 # messages.info(request, "Username OR password is incorrect")
 
-# from .forms import FavouriteJourneyForm
+@login_required
+def logoutUser(request):
+    logout(request) # doesn’t throw any errors if the user wasn’t logged in (so need to make sure it works perfectly)
+    # return redirect('loginPage')
+    return redirect('index')
+
+# FAVOURITE JOURNEY
+
 def save_route_journey(request):
     print("Save Route Journey being called")
     favourite_journey_form = FavouriteJourneyForm()
@@ -492,52 +394,6 @@ def save_route_journey(request):
             # context = {"form": favourite_journey_form}
             # return render(request, 'favourite_journey_errors.html', context)
 
-from .models import FavouriteJourney
-def showFavourites(request):
-    user_id = request.user.pk
-    user_username = request.user.username
-    print("====Logged in User's ID====")
-    print(user_id)
-    print("====Logged in User's Username====")
-    print(user_username)
-    print("====All Favourite Journeys====")
-    favourite_journeys = FavouriteJourney.objects
-    print(favourite_journeys)
-    print("====Favourite Journey Fields====")
-    all_fields = FavouriteJourney._meta.get_fields()
-    print(all_fields)
-    print(f"====User: {user_username}'s favourite journeys====")
-    users_favourite_journeys = favourite_journeys.filter(user=user_id)
-    print(users_favourite_journeys)
-
-    context = {
-        "users_favourite_journeys": users_favourite_journeys,
-    }
-    return render(request, "favourite_journeys.html", context)
-
-# DON'T THIN WE NEED TO USE BELOW VIEW TO RENDER THE DATA, AND INSTEAD CAN BE LOOKED AFTER BY INDEX IF USER LOGGED IN
-def showFavouritesPopup(request):
-    user_id = request.user.pk
-    user_username = request.user.username
-    print("====Logged in User's ID====")
-    print(user_id)
-    print("====Logged in User's Username====")
-    print(user_username)
-    print("====All Favourite Journeys====")
-    favourite_journeys = FavouriteJourney.objects
-    print(favourite_journeys)
-    print("====Favourite Journey Fields====")
-    all_fields = FavouriteJourney._meta.get_fields()
-    print(all_fields)
-    print(f"====User: {user_username}'s favourite journeys====")
-    users_favourite_journeys = favourite_journeys.filter(user=user_id)
-    print(users_favourite_journeys)
-
-    context = {
-        "users_favourite_journeys": users_favourite_journeys,
-    }
-    return render(request, "favourite_journeys.html", context)
-
 def delete_favourite_journey(request, pk):
     # Testing to see what the PK of the row you want to delete.
     print("DELETE VIEW CALLED!")
@@ -554,12 +410,7 @@ def delete_favourite_journey(request, pk):
         messages.error(request, f"ERROR: Journey not deleted...")
         return redirect('index')
 
-# def password_reset(request):
-
-#     # Password successfully reset
-#     messages.success(request, f"Success. An email was sent with instructions to reset your Password")
-#     # Then redirect them to the login page
-#     return redirect('index')
+# MODEL PREDICTIONS
 
 from bus_app.model_predictions.get_model_predictions import getModelPredictions
 
