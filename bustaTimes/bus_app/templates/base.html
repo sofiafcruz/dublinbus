@@ -27,7 +27,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <!-- Logo -->
+                    <!-- Logo/Brand -->
                     <li class="nav-item">
                         <a class="nav-link active" href="#" onclick="navbarDisplay(event, 'home-search-container')">Busta Times</a>
                     </li>
@@ -42,12 +42,10 @@
                         <a class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
                     </li>
                     <!-- Favourites Link -->
-                    {% comment %} <li class="nav-item">
-                        <a class="nav-link" href="{% url 'showFavourites' %}">Favourites</a>
-                    </li> {% endcomment %}
                     <li>
                         <a class="nav-link" data-target='#favourites-popup' data-toggle="modal" href="">Favourites</a>
                     </li>
+                    <!-- Update Details Link -->
                     <li>
                         <a class="nav-link" data-target='#update-popup' data-toggle="modal" href="">Update Details</a>
                     </li>
@@ -80,16 +78,12 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                
             {% else %}
                 <li>
                     <p id="message-alert">{{message}}</p>
                 </li>
             {% endif %}
         {% endfor %}
-        {% comment %} <div id="leap-card-navbar">  
-            <a class="tablink nav-link" href="#" id="check-balance-nav" onclick="openTab(event, 'leap-card-balance-container')"><img src="./static/images/menu/leap-card.svg" alt="Leap Card Balance" style="width:40px;"></a>
-        </div> {% endcomment %}
         
     </div>
     <!-- ********** PopUps ********** -->
@@ -107,21 +101,20 @@
                     <div class="modal-body">
                         {% csrf_token %}
 
-                        <!-- ===== VERSION 1 ===== -->
                         <input type="text" name="username" placeholder="Username..." class="form-control">
                         <input type="password" name="password1" placeholder="Password..." class="form-control">
                         <input type="password" name="password2" placeholder="Confirm Password..." class="form-control">
                         <input type="email" name="email" placeholder="Email..." class="form-control">
                         <h5 style="padding-top:1rem;">And Optional Data:</h5>
-                        <div class="stations-block container rounded">
+                        <div class="container rounded">
 
-                            <!-- Collapsable content (For Display Message) -->
+                            <!-- Collapsable content (For Display Optional Data Message) -->
                             <div class="container-fluid padding">
                                 <div class="row text-center padding">
                                     
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <small><a href="#stands-content" data-toggle="collapse">What's it being used for?</a></small>
-                                        <p style="font-size: 0.75rem;" id="stands-content" class="collapse">We use optional data purely for improving our users' experience.<br>
+                                        <small><a href="#optional-data-content" data-toggle="collapse">What's it being used for?</a></small>
+                                        <p style="font-size: 0.75rem;" id="optional-data-content" class="collapse">We use optional data purely for improving our users' experience.<br>
                                         Your data is saved securely on our database to autocomplete fields to make your experience more seamless.</p>
                                     </div>
                                 </div>
@@ -192,25 +185,21 @@
                         <table id="favourites-table">
                             <tr>
                                 <th>#</th>
-                                <th>PK</th>
                                 <th>Route Name/Num</th>
                                 <th>Start</th>
                                 <th>End</th>
                                 <th># Stops</th>
                                 <th>Date Saved</th>
-                                <th>Summary</th>
                                 <th>Delete</th>
                             </tr>
                             {% for journey in users_favourite_journeys  %}
                                 <tr class="clickable-row" id="pk-{{ journey.pk }}">
                                     <td>{{ forloop.counter }}</td>
-                                    <td>{{ journey.pk }}</td>
                                     <td>{{ journey.route_name }}</td>
                                     <td>{{ journey.origin_stop }}</td>
                                     <td>{{ journey.destination_stop }}</td>
                                     <td>{{ journey.stops_count }}</td>
                                     <td>{{ journey.save_date }}</td>
-                                    <td>{{ journey }}</td>
                                     <td class="delete-row-td"><a href="{% url 'delete_favourite_journey' journey.pk %}"><img onclick="deleteRow(this)" src="./static/images/delete-icon.png" alt="Delete This Row" style="width:70px; height:auto;"></a></td>
                                 </tr>
                             {% endfor %}
