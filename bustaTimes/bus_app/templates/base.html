@@ -67,13 +67,20 @@
         {% for message in messages %}
             <!-- If Success Message -->
             {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                <li>
+                {% comment %} <li>
                     <p class="nav-link" id="message-alert" style="color:green">{{message}}</p>
-                </li>
+                </li> {% endcomment %}
+
+                <div class="alert alert-success alert-dismissible fade show alert-successful" role="alert">
+                    <span>{{message}} </span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             <!-- Else if Error Message -->
             {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                <div class="alert alert-danger alert-dismissible fade show alert-login-unsuccessful" role="alert">
-                    <span>Looks like your username or password don't match. Please try again. </span>
+                <div class="alert alert-danger alert-dismissible fade show alert-unsuccessful" role="alert">
+                    <span>{{message}} </span>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -146,8 +153,8 @@
                     <div class="modal-body">
                             {% csrf_token %}
 
-                            <input type="text" name="username" placeholder="Username..." class="form-control">
-                            <input type="password" name="password" placeholder="Password..." class="form-control" >
+                            <input type="text" name="username" placeholder="Username..." class="form-control" required>
+                            <input type="password" name="password" placeholder="Password..." class="form-control" required>
                     </div>
                     <div class="modal-footer">
                         <input class="btn btn-primary" type="submit" value="Login">

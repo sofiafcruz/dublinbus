@@ -348,8 +348,8 @@ select,
   z-index: 1;
 }
 
-.alert-login-successful,
-.alert-login-unsuccessful {
+.alert-successful,
+.alert-unsuccessful {
   display: flex;
   flex-direction: column;
   position: absolute;
