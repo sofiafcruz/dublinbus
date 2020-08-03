@@ -8,11 +8,17 @@ if (typeof temperature === 'number') {
     // Display alert when the temperature is below 5 degrees
     if(temperature <= 5) {
         document.querySelector('.alert-cold').style.display = 'flex';
+        setTimeout(function(){
+            document.querySelector('.alert-cold').style.display = 'none';
+        }, 6000);
     }
 
     // Display alert when it's raining
     if(iconName === 'rain') {
         document.querySelector('.alert-rain').style.display = 'flex';
+        setTimeout(function(){
+            document.querySelector('.alert-rain').style.display = 'none';
+        }, 6000);
     }
     // 
     // console.log(iconName);
