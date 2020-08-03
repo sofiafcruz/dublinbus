@@ -1,10 +1,20 @@
 var temperature = weather[0].temperature;
+var iconName = weather[0].icon;
 
 if (typeof temperature === 'number') {
     // Add temperature value to the page
     document.getElementById('temperature').innerHTML += weather[0].temperature + ' ºC '; 
-    
-    // var iconName = weather[0].icon;
+
+    // Display alert when the temperature is below 5 degrees
+    if(temperature <= 5) {
+        document.querySelector('.alert-cold').style.display = 'flex';
+    }
+
+    // Display alert when it's raining
+    if(iconName === 'rain') {
+        document.querySelector('.alert-rain').style.display = 'flex';
+    }
+    // 
     // console.log(iconName);
     // // Check if there's icon for the current weather
     // var url = './static/images/weather/' + iconName + '.png';

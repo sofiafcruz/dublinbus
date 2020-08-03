@@ -256,6 +256,21 @@
             <!-- Map -->
             <div id="map"></div>
         </div>
+        <!-- Alert for below 5ºC temperature -->
+        <div class="alert alert-warning alert-dismissible fade show alert-cold" role="alert">
+            <span>It's very cold today. Don't forget your coat! </span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Alert for below rainy weather -->
+        <div class="alert alert-warning alert-dismissible fade show alert-rain" role="alert">
+            <span>Looks like it's raining today. Don't forget your umbrella! </span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Weather -->
         <div class="weather-container">  
             <span id="temperature"></span> 
         </div>
