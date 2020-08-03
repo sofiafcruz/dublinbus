@@ -6,8 +6,6 @@ from bus_app.views import index, make_rpti_realtime_api_request, registerUserPop
 from django.contrib.auth.models import User
 from bus_app.models import AdditionalUserInfo, FavouriteJourney
 
-import json
-
 # Views of Interest
 # -----------------
 # 1. index
@@ -29,7 +27,7 @@ class TestPostRequests(TestCase):
         self.stop_num = {
             "inputStopNum": 905
         }
-        # Login Credentials
+        # Login Credentials (SEEMS TO WORK EVEN THOUGH CREDENTIALS ARE WRONG???)
         self.login_credentials = {
             "username": "test_user",
             "password": "test_password" # Seems to pass, even is password is really bad/predictable...

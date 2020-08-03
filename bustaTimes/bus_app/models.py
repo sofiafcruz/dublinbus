@@ -134,7 +134,7 @@ class AdditionalUserInfo(models.Model):
     # weight_in_kg = models.models.IntegerField(validators=[MinValueValidator(20), MaxValueValidator(140)], blank=True)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} with additional info: {self.leapcard_username} and {self.leapcard_password}"
 
 class FavouriteJourney(models.Model):
     route_name = models.CharField(max_length=10)
