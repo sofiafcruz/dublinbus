@@ -314,19 +314,6 @@ select,
   justify-content: center;
 }
 
-.alert-cold,
-.alert-rain {
-  display: none;
-  flex-direction: column;
-  position: absolute;
-  right: 20px;
-  border-radius: 20px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  top: 70px;
-  z-index: 1;
-}
 .weather-container {
   top: 70px;
 }
@@ -345,6 +332,35 @@ select,
   top: 145px;
 }
 /* ------- END ------- */
+
+/* Alert Messages */
+.alert-cold,
+.alert-rain {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  right: 20px;
+  border-radius: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  top: 70px;
+  z-index: 1;
+}
+
+.alert-login-successful,
+.alert-login-unsuccessful {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 20px;
+  border-radius: 20px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  top: 70px;
+  z-index: 1;
+}
 
 /* Favourites Table */
 #favourites-table {

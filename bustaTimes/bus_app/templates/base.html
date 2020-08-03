@@ -67,28 +67,31 @@
                         <a class="nav-link" data-target='#signup-popup' data-toggle="modal" href="">Register</a>
                     </li>
                 {% endif %}
-
-                <!-- Show message which shows whether or not Registration was successful (Either success or failure) -->
-                {% for message in messages %}
-                    <!-- If Success Message -->
-                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                        <li>
-                            <p class="nav-link" id="message-alert" style="color:green">{{message}}</p>
-                        </li>
-                    <!-- Else if Error Message -->
-                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                        <li>
-                            <p id="message-alert" style="color:red">{{message}}</p>
-                        </li>
-                    {% else %}
-                        <li>
-                            <p id="message-alert">{{message}}</p>
-                        </li>
-                    {% endif %}
-                {% endfor %}
                 </ul>
             </div>
         </nav>
+        <!-- Show message which shows whether or not Registration was successful (Either success or failure) -->
+        {% for message in messages %}
+            <!-- If Success Message -->
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <li>
+                    <p class="nav-link" id="message-alert" style="color:green">{{message}}</p>
+                </li>
+            <!-- Else if Error Message -->
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger alert-dismissible fade show alert-login-unsuccessful" role="alert">
+                    <span>Looks like your username or password don't match. Please try again. </span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+            {% else %}
+                <li>
+                    <p id="message-alert">{{message}}</p>
+                </li>
+            {% endif %}
+        {% endfor %}
         {% comment %} <div id="leap-card-navbar">  
             <a class="tablink nav-link" href="#" id="check-balance-nav" onclick="openTab(event, 'leap-card-balance-container')"><img src="./static/images/menu/leap-card.svg" alt="Leap Card Balance" style="width:40px;"></a>
         </div> {% endcomment %}
