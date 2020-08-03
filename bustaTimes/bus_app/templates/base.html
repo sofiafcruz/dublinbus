@@ -337,7 +337,7 @@
                     <!-- Starting Point Dropdown -->
                     <div>
                         <label for="starting-dropdown">Select Start Stop:</label>
-                        <select name="start_stop" id="json-starting-stops" class="form-control form-control-sm" onchange="filterRoute()"></select>
+                        <select name="start_stop" id="json-starting-stops" class="form-control form-control-sm" onchange="filterDropdown()"></select>
                     </div>
                     <!-- Ending Point Dropdown -->
                     <div>
@@ -514,7 +514,8 @@
         // ++++++++ Making JSON data available in app.js! ++++++++
         var main_table_object = {{ main_table_data|safe }};
         // var routes_frontend_object = {{ HD_routes_Frontend|safe }};
-        
+        var main_table_object = {{ main_table_data|safe }};
+        var apiKey = "{{ google_maps_key }}";
         var route_origin_and_destination_object = {{ route_origin_and_destination_data|safe }};
     </script>
     <script type="text/javascript" src="{% static 'js/weather.js' %}"></script> 

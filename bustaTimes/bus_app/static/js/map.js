@@ -40,6 +40,8 @@ var destinationMarker;
 // Search by bus stop vars below;
 var searched_bus_stop_marker;
 var all_polylines = []; // List to store all the generated polylines (for Search by Bus Stop)
+var route_polyline; // store current polyline object
+var route_coordinates = []; // list to store current coordinates - for route poyline adjustment
 // List of colours for polylines
 var polyline_colours = [
   "#ff0000",
@@ -752,6 +754,109 @@ $("#home-submit").click(function (e) {
 });
 // ================================ SEARCH BY ROUTE ==============================================
 
+function getRoutePolyline(path) {
+  // First of all remove existing polylines
+  try {
+    route_polyline.setMap(null);
+  } catch (err) {
+    console.log("ERR in getRoutePolyline");
+  }
+
+  // console.log("path:", path[0]);
+  // console.log("path last:", path[path.length - 1]);
+  var start = new google.maps.LatLng(path[0][0], path[0][1]);
+  var end = new google.maps.LatLng(
+    path[path.length - 1][0],
+    path[path.length - 1][1]
+  );
+  // console.log("start, finish", start, end);
+  // get time of route
+  var selectedRoute = document.getElementById("json-routes").value;
+  // make query to dictionary for relevant time - have to load full dictionary in each time?? - gonna be slow
+  $.getJSON("./static/timetable.json", function (timetable) {
+    console.log(timetable);
+    // get the first time of the first stop on the first day (probably monday) - just for drawing purposes
+    var request_time = timetable[selectedRoute]["D1"]["0"][0];
+    // convert time into date format and conver to epoch time (for request) - https://www.w3schools.com/jsref/jsref_obj_date.asp
+    // var d = new Date(1978,07,01,02,30,00);
+    // var myEpoch = d.getTime()/1000.0;
+  });
+
+  var request = {
+    origin: start,
+    destination: end,
+    travelMode: "TRANSIT",
+    provideRouteAlternatives: true,
+    transitOptions: {
+      modes: ["BUS"],
+      routingPreference: "FEWER_TRANSFERS",
+    },
+  };
+  directionsService.route(request, function (result, status) {
+    if (status == "OK") {
+      selectedRoute;
+
+      var routes = result.routes;
+      // console.log("routes: ", routes);
+      var polyLine_Path = checkRouteLine(routes, selectedRoute);
+      // check if it got back a viable result, if undefined, use just route coordinates as the polyline (not ideal but better than nothing)
+      if (typeof polyLine_Path == "undefined") {
+        console.log("undefined");
+        // conver lat long to latlng objects
+        var converted_path = [];
+        for (x = 0; x < path.length; x++) {
+          try {
+            var temp = new google.maps.LatLng(path[x][0], path[x][1]);
+            converted_path.push(temp);
+          } catch (err) {
+            console.log("err value at index: ", x);
+          }
+        }
+        var snappedPolyline = new google.maps.Polyline({
+          path: converted_path,
+          strokeColor: "#add8e6",
+          strokeWeight: 4,
+          strokeOpacity: 0.9,
+        });
+      } else {
+        console.log("not undefined");
+        console.log(polyLine_Path.length);
+        // now put it on the map
+        var snappedPolyline = new google.maps.Polyline({
+          path: polyLine_Path,
+          strokeColor: "#add8e6",
+          strokeWeight: 4,
+          strokeOpacity: 0.9,
+        });
+      }
+
+      snappedPolyline.setMap(map);
+      // variable with global scope
+      route_polyline = snappedPolyline;
+    }
+  });
+}
+function checkRouteLine(routes, selectedRoute) {
+  // Function checks for route directions for this selected route and if so saves the polyline and returns the 'path' which is a series of latlngs I believe
+  console.log("in checkRouteLine");
+  var path;
+  for (i = 0; i < routes.length; i++) {
+    var steps = routes[i].legs[0].steps;
+    console.log(steps);
+    // check if 'bus' is in the instructions
+    for (x = 0; x < steps.length; x++) {
+      if (steps[x]["instructions"].includes("Bus")) {
+        if (steps[x]["transit"]["line"]["short_name"] == selectedRoute) {
+          console.log("inner loop");
+          // this means we are good homie - save the path
+          path = steps[x]["path"];
+          // essentially returning the first instance of this route - not always gonna work?
+          return path;
+        }
+      }
+    }
+  }
+}
 // Function to map the entire route
 function showJourney(stopArray) {
   // Need to make sure all other route stops are gone FINITO -  do try block to attempt to remove all other markers (i.e. previous routes)
@@ -768,15 +873,33 @@ function showJourney(stopArray) {
   }
   // Save a variable that will be accessible within map.js
   clearMarkers();
+  // clear polyline variable - put into try catch for the first time it will be undefined
+  try {
+    route_polyline.setMap(null);
+  } catch (err) {
+    console.log("ERR in showJourney function");
+  }
+  // empty route_coordinates variab;e
+  route_coordinates.length = 0;
+
   // get coordinates of journey
   var bounds = new google.maps.LatLngBounds();
+  console.log("stopArray: ", stopArray);
   for (i = 0; i < stopArray.length; i++) {
     let lat = stopArray[i]["lat"];
     let long = stopArray[i]["long"];
+    if (lat == "N/A" || long == "N/A") {
+      console.log("we got a lat/long issue: ", lat, long);
+      // skip current iteration
+      continue;
+    }
     let busLatLng = { lat: lat, lng: long };
     var markers = []; //some array
     // set the bounds to cover the route (i.e. fit in the route) - this should make viewport change to route
     var temp = new google.maps.LatLng(lat, long);
+    // add coordinates to array for use in polyline
+
+    route_coordinates.push([lat, long]);
     // add latlong to bounds
     bounds.extend(temp);
     // Set first and last stops to have different colours
@@ -807,17 +930,109 @@ function showJourney(stopArray) {
       position: busLatLng,
       map: map,
       icon: busStopIcon,
+      label: i.toString(),
     });
     // console.log("what does a marker look like:", RouteMark);
     // Push each marker of the journey to the array
     FullRouteMarkers.push(RouteMark);
   }
+  console.log("finsihed function getJourney");
+  // get snapped to road coordinates
+  getRoutePolyline(route_coordinates);
+  // Creates the polyline object
+  // var polyline = new google.maps.Polyline({
+  //   map: map,
+  //   path: route_coordinates,
+  //   strokeColor: polyline_colours[i],
+  //   strokeOpacity: 0.5,
+  //   strokeWeight: 7,
+  //   geodesic: true,
+  // });
+  // store current polylline in var with global scope
+  // route_polyline = polyline;
+  // // Map the polyline
+  // polyline.setMap(map);
+
   map.fitBounds(bounds);
 }
 
+function filterDropdown() {
+  // Function to filter the second option based on the value of the first dropdown (first dropdown will always contain all elements - second all from one stop after first)
+
+  // Need a conditional - and to run this function in mapjs (call filter dropdown in filter route or vica cersa - otherwise messes up functionality - finalize values before filter route continues)
+  //  If start index is less than stop index - just need to subtly remove the options from the stop index that are before start index (i.e. remove html options)
+  // if start index is equal to or greater than stop index - need to do whats done below i.e. empty stop dropdown and replace it with new slice (automatically make stop the last stop - will help wiht polyliens)
+  // if you have a small slice then put start index back to the start - how does the end index options go back again (while maintaining current value?)
+  // Get route selected
+  var selected_route = document.getElementById("json-routes").value;
+  // get first stop
+  var json_starting_point_dropdown = document.getElementById(
+    "json-starting-stops"
+  );
+  var json_ending_point_dropdown = document.getElementById("json-ending-stops");
+  filterRoute();
+  var start_value = json_starting_point_dropdown.value;
+  var end_value = json_ending_point_dropdown.value;
+  var start_num = parseInt(start_value);
+  var end_num = parseInt(json_ending_point_dropdown.options[0].value);
+  // if start index is still before end index, just need to remove the options from end index
+  if (start_num < end_value) {
+    console.log("end first value", end_num);
+    // console.log(typeof start_value);
+    // need to check if start node is going back towards origin (i.e. will need to add to end node), or going towards destination (just need to remove nodes from end)
+    // Use the value of the first index in the end dropwdown as a guide
+    if (start_num + 1 < end_num) {
+      // This means the current end list needs to be increased - i.e. add on untill start_value + 1 == json_ending_point_dropdown.optons[0].value
+      // get info from start list of what needs to be added
+      var options_arr = [];
+      var count = 0;
+      for (i = 0; i < end_num; i++) {
+        // loop through all start dropdown optiions and add all that are after start point but before the end point stop to array
+        if (
+          parseInt(json_starting_point_dropdown.options[i].value) >
+          parseInt(start_value)
+        ) {
+          var remove = json_starting_point_dropdown.options[i].cloneNode(true);
+          console.log("add:", remove);
+          json_ending_point_dropdown.options.add(remove, count);
+          count += 1;
+        }
+      }
+    } else {
+      console.log("B needs to reduce");
+
+      // remove all options up to and including start value in end dropdown options
+      // start from the first index but check the value each time
+      var count = 0;
+      for (i = 0; i <= start_num; i++) {
+        if (json_ending_point_dropdown.options[i].value <= start_num) {
+          count += 1;
+        }
+      }
+      // remove that many options
+      for (x = 0; x < count; x++) {
+        console.log("remove: ", json_ending_point_dropdown.options[0]);
+        json_ending_point_dropdown.options.remove(0);
+      }
+    }
+  }
+}
+
 function filterRoute() {
+  console.log("in filter route!");
+  // At this point there is a path array which contains the full route options are:
+  // A. Try to still use this array/polyline but reduce it
+  // B. redo request with new values (alot more requests - quicker fix for now)
   var start = parseInt(document.getElementById("json-starting-stops").value);
   var end = parseInt(document.getElementById("json-ending-stops").value);
+  // Remove any existing polyline
+  for (i = 0; i < route_polyline.length; i++) {
+    route_polyline[i].setMap(null);
+  }
+  // empty current polylines array
+  route_polyline.length = 0;
+  // empty coordinates variable
+  route_coordinates.length = 0;
   // Mske new bounds variable
   var bounds = new google.maps.LatLngBounds();
   // Function filters the stops shown on a complete route based on dropdown selection
@@ -829,6 +1044,9 @@ function filterRoute() {
     } else {
       // get lat long position for the new markers
       var temp = FullRouteMarkers[x].getPosition();
+      console.log("checking", FullRouteMarkers[x].getPosition().lat());
+      route_coordinates.push([temp.lat(), temp.lng()]);
+
       bounds.extend(temp);
       // changing markers
       // set new end and start stop markers
@@ -863,6 +1081,8 @@ function filterRoute() {
       FullRouteMarkers[x].setMap(map);
     }
   }
+  getRoutePolyline(route_coordinates);
+
   // shift map focus
   map.fitBounds(bounds);
 }

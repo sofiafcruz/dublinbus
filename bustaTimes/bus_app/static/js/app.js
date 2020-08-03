@@ -245,8 +245,12 @@ function showAndLoadStartAndEndDrops(direction) {
     "From " + origin + " to " + destination
   );
 
+  // Populating drop downs - separate into function so that it can be altered and dynamic - first drop down will always have all stops - only second one needs to be filtered
+  // originally populate a certain way (default start, then have a function which alters the second drop down)
   let stops = direction_1["stops"];
   for (index in stops) {
+    // console.log("index", index);
+    // console.log("last index:", stops.length - 1);
     // Grab the bus stop address
     let bus_stop_obj = stops[index];
     // console.log(bus_stop_obj);
@@ -256,33 +260,48 @@ function showAndLoadStartAndEndDrops(direction) {
     var opt = document.createElement("option");
     opt.value = index; // Value is the index of the bus stop
     opt.innerHTML = stop_address + " (" + stop_num + ")";
-    // Then clone it so it can also be appended to the Ending Stop dropdown
-    var cloneOption = opt.cloneNode(true);
-    // Append the current iteration's bus stop option to both starting and ending point dropdowns
-    json_ending_point_dropdown.appendChild(opt);
-    json_starting_point_dropdown.appendChild(cloneOption);
+
+    // last index - don;t want it to be in start dropdown
+    if (index == stops.length - 1) {
+      json_ending_point_dropdown.appendChild(opt);
+    } else {
+      // Then clone it so it can also be appended to the Ending Stop dropdown
+      var cloneOption = opt.cloneNode(true);
+      // Append the current iteration's bus stop option to both starting and ending point dropdowns
+      json_starting_point_dropdown.appendChild(opt);
+    }
+    // automatically select the last option
+
+    // skip first index - can only select first two stops
+    if (index > 0 && index != stops.length - 1) {
+      json_ending_point_dropdown.appendChild(cloneOption);
+    }
+    if (index == stops.length - 1) {
+      console.log("value:", stops.length - 2);
+      json_ending_point_dropdown.options[stops.length - 2].selected = true;
+    }
   }
   // At the end, make sure to display the container holding the starting and ending stop dropdowns (as it's initially hidden)
   $("#stops-dropdowns-container").css("display", "block");
 }
 
-function subRouteSelect() {
-  // Triggered onchange dor start and end stop dropdown menus
-  // get values of both dropdown menus (get numbers and pass to map.js)
-  var selected_start = parseInt(
-    document.getElementById("json-starting-stops").value
-  );
-  var selected_end = parseInt(
-    document.getElementById("json-ending-stops").value
-  );
-  var start2 = document.getElementById("json-starting-stops").value;
-  console.log("start2", start2);
-  console.log("start..end", selected_start, selected_end);
-  $.getScript("static/js/map.js", function () {
-    console.log("inside function call");
-    filterRoute(selected_start, selected_end);
-  });
-}
+// function subRouteSelect() {
+//   // Triggered onchange dor start and end stop dropdown menus
+//   // get values of both dropdown menus (get numbers and pass to map.js)
+//   var selected_start = parseInt(
+//     document.getElementById("json-starting-stops").value
+//   );
+//   var selected_end = parseInt(
+//     document.getElementById("json-ending-stops").value
+//   );
+//   var start2 = document.getElementById("json-starting-stops").value;
+//   console.log("start2", start2);
+//   console.log("start..end", selected_start, selected_end);
+//   $.getScript("static/js/map.js", function () {
+//     console.log("inside function call");
+//     filterRoute(selected_start, selected_end);
+//   });
+// }
 
 // function displayEntireRoute(stopArray) {
 //   // '''
