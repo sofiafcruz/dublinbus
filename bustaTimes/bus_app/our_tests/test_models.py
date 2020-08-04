@@ -29,6 +29,7 @@ class TestModels(TestCase):
             origin_stop='7348, Dublin Airport, Terminals 1 and 2 (7348)',
             destination_stop='6033, Rathingle Road, Forest Road (6033)',
             stops_count=6,
+            save_date="2020-08-03 15:35:07.482653+00:00",
             user=self.user
         )
 
@@ -81,10 +82,12 @@ class TestModels(TestCase):
         # 3. destination_stop max_length can't go above 200
         print(self.favourite_journey.destination_stop) # (40 chars: fine)
 
-        # 4. stops_count has to be a positive integer
+        # 4. stops_count has to be a positive integer (NOT WORKING!)
         # set the stops_count to a negative number
-        self.favourite_journey.stops_count = -2
+        self.favourite_journey.stops_count = -201293123138
 
+        # 5. save_date can be blank (NOT SURE IF WORKING)
+        self.favourite_journey.save_date = None
         # Check if validation errors arise (as expected)
         try:
             self.favourite_journey.full_clean()
