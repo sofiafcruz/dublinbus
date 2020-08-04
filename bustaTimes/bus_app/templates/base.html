@@ -41,25 +41,25 @@
                     </li>
                     <!-- Logout Link -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
+                        <a id="logout-option" class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
                     </li>
                     <!-- Favourites Link -->
                     <li>
-                        <a class="nav-link" data-target='#favourites-popup' data-toggle="modal" href="">Favourites</a>
+                        <a id="favourites-option" class="nav-link" data-target='#favourites-popup' data-toggle="modal" href="">Favourites</a>
                     </li>
                     <!-- Update Details Link -->
                     <li>
-                        <a class="nav-link" data-target='#update-popup' data-toggle="modal" href="">Update Details</a>
+                        <a id="update-details-option" class="nav-link" data-target='#update-popup' data-toggle="modal" href="">Update Details</a>
                     </li>
                     
                 {% else %}
                     <!-- Login Link -->
                     <li>
-                        <a class="nav-link" data-target='#login-popup' data-toggle="modal" href="">Login</a>
+                        <a id="login-option" class="nav-link" data-target='#login-popup' data-toggle="modal" href="">Login</a>
                     </li>
                     <!-- Register Link -->
                     <li>
-                        <a class="nav-link" data-target='#signup-popup' data-toggle="modal" href="">Register</a>
+                        <a id="register-option" class="nav-link" data-target='#signup-popup' data-toggle="modal" href="">Register</a>
                     </li>
                 {% endif %}
                 </ul>
@@ -152,11 +152,11 @@
                     <div class="modal-body">
                             {% csrf_token %}
 
-                            <input type="text" name="username" placeholder="Username..." class="form-control form-control-sm" required>
-                            <input type="password" name="password" placeholder="Password..." class="form-control form-control-sm" required>
+                            <input id="login-username-field" type="text" name="username" placeholder="Username..." class="form-control" required>
+                            <input id="login-password-field" type="password" name="password" placeholder="Password..." class="form-control" required>
                     </div>
                     <div class="modal-footer">
-                        <input class="btn btn-primary" type="submit" value="Login">
+                        <input class="btn btn-primary" type="submit" name="login" value="Login">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                     <!-- Reset Password -->
@@ -276,6 +276,9 @@
         <div class="custom-control custom-switch markers-switch">
             <input type="checkbox" class="custom-control-input markers-switch" id="customSwitch3" onchange="toggleMarkerVisibility()">
             <label class="custom-control-label" for="customSwitch3">Hide Markers</label>
+        </div>
+        <div >
+            <button class="btn btn-primary" onclick="clearLingeringRenderedObjects()">All Lingerers</button>
         </div>
         <!-- Button to set map on user's location -->
         <div class="user-location-btn">
