@@ -41,6 +41,7 @@ class TestHomePage(StaticLiveServerTestCase):
     #     pass
 
     def test_user_can_login_to_existing_account(self):
+        # Create user for purposes of testing (saved to DB WITHIN CONTEXT OF TESTING! (i.e. not permanently))
         test_user = User.objects.create_user(
             username="test_user",
             password="test_password",
@@ -48,10 +49,16 @@ class TestHomePage(StaticLiveServerTestCase):
         self.browser.get(self.live_server_url)
         # Click the login button, to show the login popup
         self.browser.find_element_by_id("login-option").click()
-
+        # Grab the login credential fields
         username_field = self.browser.find_element_by_id("login-username-field")
         password_field = self.browser.find_element_by_id("login-password-field")
+        # Set the login credential fields
+        # NOT WORKING?
+        # username_field.send_keys("selenium_test")
+        # password_field.send_keys("dublinbus123")
+        # Click login button
+        username_field.send_keys("test_user")
+        password_field.send_keys("test_password")
+        self.browser.find_element_by_name('login').click()
 
-        
-
-        time.sleep(5)
+        time.sleep(10)
