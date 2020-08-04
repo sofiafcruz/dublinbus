@@ -54,6 +54,9 @@ var polyline_colours = [
   "#a83262",
   "#32a883",
 ];
+// Variable to keep track of the visibility of the search menu
+// Used in the hideMenu function
+var visibility = true;
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
@@ -288,7 +291,6 @@ function displayAttractions() {
       attractionsArray.push(marker);
     }
   } else {
-
     // When switch is off, remove all the attraction makers from the map
     for (i = 0; i < attractionsArray.length; i++) {
       attractionsArray[i].setMap(null);
@@ -606,7 +608,7 @@ const calculateAndRenderDirections = (
     destination: destination,
     travelMode: "TRANSIT", // Show how to get from A to B by bus (where posssible???)
   };
-
+  // displays journery on map
   directionsDisplay.setMap(map);
   // .route takes 2 parameters:
   // 1. a Directions Request
@@ -615,21 +617,170 @@ const calculateAndRenderDirections = (
     if (status == "OK") {
       // server request is OK, set the renderer to use the result to display the directions on the renderer's designated map and panel.
       directionsDisplay.setMap(map);
+
+      // *******This is what we want to replace*******
       directionsDisplay.setDirections(result);
     } else {
       alert("There was a problem with calculating your route");
     }
 
     // ************* Message Printout for users in Div (Directions, Instructions etc) *************
+    // journey is contained within first leg [0]
     let legs = result.routes[0].legs[0];
     let departure_time = legs.departure_time.text;
     let arrival_time = legs.arrival_time.text;
     let duration = legs.duration.text;
     let distance = legs.distance.text;
 
+    let start_address = legs.start_address;
+    // get just the name
+    start_address = start_address.replace(", Dublin, Ireland", "");
+    let end_address = legs.end_address;
+    end_address = end_address.replace(", Dublin, Ireland", "");
+
     let steps = legs.steps;
+    // get number of steps
+    let step_number = Object.size(steps);
+    // Check current details
+    console.log(step_number);
+
+    console.log(legs);
+    console.log("Total Journey Details");
+    console.log("=====================");
+    console.log("Departure Time:", departure_time);
+    console.log("Arrival Time:", arrival_time);
+    console.log("Total Duration:", duration);
+    console.log("Total Distance:", distance);
+    console.log(steps);
 
     journey_details_div = document.getElementById("journey-details");
+    // NIALL EXTRA-----------------------------
+    // This part is for deteriming which steps in the journey are walking
+    // Array for storing indexes for walking
+    let walk_arr = [];
+    steps.forEach(function (step, index) {
+      console.log("index: ", index);
+
+      // -------------IF STEP == WALKING--------
+      if (step.travel_mode == "WALKING") {
+        // if so push to array (why index +1?)
+        walk_arr.push(index + 1);
+
+        // For the first step
+        if (index == 0) {
+          console.log("In walking 0");
+          // Add distance and duration to the appropriate div (left hand side)
+          // Add start address and walking button to the appropriate div (right hand side)
+
+          // e.g.
+          // left_side[
+          //   index
+          // ] += `<div class="journey_details">${step.distance.text}</div>
+          // <div class="journey_details">${step.duration.text}</div>`;
+
+          // right_side[
+          //   index
+          // ] += `${start_address} <br> <div class="instruction"> <i class="material-icons">directions_walk</i></div>`;
+        }
+        // for the last step
+        else if (index == step_number - 1) {
+          console.log("In walking last");
+          // Add info to left side
+          // e.g.
+          // left_side[
+          //   index
+          // ] += `<div class="journey_details">${step.distance.text}</div>
+          // <div class="journey_details">${step.duration.text}</div>`;
+
+          // Need to get the arrival stop from the bus/transit (i.e. from previous step - to display as the address)
+          let prev_transit_stop = steps[index - 1].transit.arrival_stop.name;
+          // Add info to right side - the end address is the final info that needs to be added
+          // right_side[
+          //   index
+          // ] += ` ${prev_transit_stop} <br> <div class="instruction"> <i class="material-icons">directions_walk</i> </div>`;
+        }
+        // Finally if walking is between two transit forms along the journey
+        else {
+          //  Just add the appropriate info, Use the arrival stop from the previous transit step as the starting address
+          // left_side[
+          //   index
+          // ] += `<div class="journey_details">${step.distance.text}</div>
+          // <div class="journey_details">${step.duration.text}</div>`;
+          // let prev_transit_stop = steps[index - 1].transit.arrival_stop.name;
+          // right_side[
+          //   index
+          // ] += `${prev_transit_stop} <br> <div class="instruction"> <i class="material-icons">directions_walk</i> </div>`;
+        }
+      }
+      // CHECK FOR BUS - walking step has no key called 'transit'
+      else if ("transit" in step) {
+        console.log("In transit ");
+        // Add info to left side
+        // left_side[
+        //   index
+        // ] += `<div class="journey_details">${step.distance.text}</div>
+        // <div class="journey_details">${step.duration.text}</div>`;
+
+        let start_stop = step.transit.departure_stop.name;
+        let route = step.transit.line.short_name;
+        let transit_type = step.transit.line.vehicle.name;
+
+        // SELECT APPROPRIATE ICON FOR THE JOURNEY
+        if (transit_type.includes("Bus")) {
+          var icon = "directions_bus";
+        } else if (transit_type.includes("Train")) {
+          var icon = "train";
+        }
+        // Backup
+        else {
+          var icon = "arrow_downward";
+        }
+        // ADD INFORMATION TO THE RHS DIV
+        console.log("TYPE   ", transit_type);
+        // Add info to right side
+        // right_side[
+        //   index
+        // ] += `${start_stop} <br> <i class="material-icons">${icon}</i> ${route} `;
+
+        console.log("right index transit: ", right_side[index]);
+        console.log("left index transit: ", left_side[index]);
+
+        // console.log("Start_stop : ", start_stop);
+        // console.log("end_stop : ", end_stop);
+        // console.log("route : ", route);
+      }
+    });
+    // GET ELEMENTS TO ADD INFORMATION TO
+    right_step = document.getElementById("start_stop");
+    left_step = document.getElementById("time_dist");
+
+    //  PUTTING TOGETHER ALL THE INFORMATIOIN INTO ONE STRING THAT CAN BE PUSHED TO AN ELEMENT
+
+    //  FOR EACH STEP - ADD IN THE APPROPRIATE INDEX FOR EACH SIDE (LHS AND RHS)
+    steps.forEach(function (step, index) {
+      console.log("index check: ", index);
+      right_step.innerHTML += right_side[index] + "</div>";
+      left_step.innerHTML += left_side[index];
+    });
+    // Add last stop to RHS and closing div
+    right_step.innerHTML += `<div id="last" class="step_right"> ${end_address} </div> </div>`;
+    left_step.innerHTML += "</div>";
+
+    // TIMELINE DESIGN - div borders (i.e. timeline design) if walking = dashed or not (solid)
+    console.log(walk_arr);
+    let count = 1;
+    while (count < step_number + 1) {
+      console.log(walk_arr, count);
+      //  if walk array includes that number - means there is walking @ that step, need to change border to dashed
+      if (walk_arr.includes(count)) {
+        console.log("YUP! ", count);
+        document.getElementById(`right_step${count}`).style.borderLeftStyle =
+          "dashed";
+      }
+      count += 1;
+    }
+
+    // \NIALL EXTRA--------------------------
 
     // Add Button to "Exit" the journey
     journey_details_div.innerHTML = `
@@ -677,6 +828,8 @@ const calculateAndRenderDirections = (
 
     // Add container at the end with a directions panel
     journey_details_div.innerHTML += `<div id="directions-panel"></div>`;
+
+    // Displays google panel ***DESTROY THIS PLS******
     directionsDisplay.setPanel(document.getElementById("directions-panel"));
 
     // Add a class to the div containing the journey details to make it visible
@@ -1209,4 +1362,17 @@ function clearPolylines() {
   // Clear the marker
   searched_bus_stop_marker.setMap(null);
   searched_bus_stop_marker = null;
+}
+
+// Function to hide or show the search menu. Called on click
+function hideMenu() {
+  if (visibility) {
+    document.getElementById('search-menu-container').style.left = '-330px';
+    visibility = false;
+    document.getElementById('hide-arrow').style.transform = 'rotate(0deg)';
+  } else {
+    document.getElementById('search-menu-container').style.left = '20px';
+    visibility = true;
+    document.getElementById('hide-arrow').style.transform = 'rotate(180deg)';
+  };
 }
