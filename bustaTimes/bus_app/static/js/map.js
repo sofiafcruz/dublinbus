@@ -57,6 +57,7 @@ var polyline_colours = [
   "#a83262",
   "#32a883",
 ];
+
 // Variable to keep track of the visibility of the search menu
 // Used in the hideMenu function
 var visibility = true;
@@ -197,24 +198,18 @@ function initMap() {
 
 // 1. CLEAR all the markers from the map
 function clearMarkers() {
-  // If the first marker in the array of markers is visible, then they are all visible
-  if (global_markers[0]["visible"]) {
-    // Therefore, set each marker in the array's visibility to false
-    for (var i = 0; i < global_markers.length; i++) {
-      global_markers[i].setVisible(false);
-    }
+  // Make all the markers Invisible
+  for (var i = 0; i < global_markers.length; i++) {
+    global_markers[i].setVisible(false);
   }
   markerCluster.repaint();
 }
 
 // 2. SHOW all the markers from the map
 function showMarkers() {
-  // If the first marker in the array of markers is visible, then they are all visible
-  if (global_markers[0]["invisible"]) {
-    // Therefore, set each marker in the array's visibility to false
-    for (var i = 0; i < global_markers.length; i++) {
-      global_markers[i].setVisible(true);
-    }
+  // Make all the markers Visible
+  for (var i = 0; i < global_markers.length; i++) {
+    global_markers[i].setVisible(true);
   }
   markerCluster.repaint();
 }
@@ -263,7 +258,7 @@ var attractionsArray = [];
 
 // The switch button calls this function on change to display the attractions on the map
 function displayAttractions() {
-  toggleMarkerVisibility();
+  // toggleMarkerVisibility();
   setMapDublin(); // Center the map in Dublin
   // Check the value of the switch button
   var switchValue = document.getElementsByClassName("attractions-switch")[0]
@@ -271,6 +266,8 @@ function displayAttractions() {
     ? true
     : false;
   if (switchValue) {
+
+    clearMarkers();
     // Loop through the attractions in the JSON file and add marker for each to the map
     for (i = 0; i < attractions.length; i++) {
       var latitude = parseFloat(attractions[i].latitude);
@@ -294,6 +291,7 @@ function displayAttractions() {
       attractionsArray.push(marker);
     }
   } else {
+    showMarkers();
     // When switch is off, remove all the attraction makers from the map
     for (i = 0; i < attractionsArray.length; i++) {
       attractionsArray[i].setMap(null);
