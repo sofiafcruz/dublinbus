@@ -6,9 +6,9 @@ from django.contrib.auth.views import PasswordResetView
 urlpatterns = [
     path('', views.index, name="index"),
     # THE 3 BELOW ARE MOST LIKELY UNNEEDED!!!
-    path('show_route', views.show_route, name="show_route"),
-    path('show_modelform_route', views.show_modelform_route, name="show_modelform_route"),
-    path('create_json_response_obj', views.create_json_response_obj, name="create_json_response_obj"),
+    # path('show_route', views.show_route, name="show_route"),
+    # path('show_modelform_route', views.show_modelform_route, name="show_modelform_route"),
+    # path('create_json_response_obj', views.create_json_response_obj, name="create_json_response_obj"),
     # DISPLAY LEAP CARD BALANCE
     path('leap_card_info', views.leap_card_info, name="leap_card_info"),
     # Interacting with 3rd party RPTI API via backend with view below

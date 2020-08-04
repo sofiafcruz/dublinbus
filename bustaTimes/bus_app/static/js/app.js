@@ -110,7 +110,9 @@ leap_card_form.submit(function () {
     error: function (error) {
       console.log("Something went wrong!");
       console.log(error);
-      $("#balance-paragraph").innerHTML = "Something went wrong...";
+      $(".ajax-loading").hide();
+      $("#balance-paragraph").show();
+      $("#balance-paragraph").text("Something went wrong...");
     },
   });
   return false; // Stop the page from Reloading

@@ -93,6 +93,8 @@ function initMap() {
     placeDestinationMarker(e.latLng, map, destinationMarker);
   });
 
+  // Is there any way we can restrict to Dublin or Leinster, rather than just Ireland???
+
   // For autocomplete on Home Search Boxes;
   // (Origin)
   origin_autocomplete = new google.maps.places.Autocomplete(

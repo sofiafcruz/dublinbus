@@ -2,32 +2,32 @@ from django.db import models
 
 # Create your models here.
 # Class variables = Database fields
-class BusStop(models.Model):
-    stop_num = models.CharField(primary_key=True, max_length=20)
-    address = models.CharField(max_length=100)
-    latitude = models.CharField(max_length=100)
-    longitude = models.CharField(max_length=100)
+# class BusStop(models.Model):
+#     stop_num = models.CharField(primary_key=True, max_length=20)
+#     address = models.CharField(max_length=100)
+#     latitude = models.CharField(max_length=100)
+#     longitude = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.stop_num
+#     def __str__(self):
+#         return self.stop_num
 
-class Route(models.Model):
-    route_name = models.CharField(primary_key=True, max_length=20) 
-    origin = models.CharField(max_length=100)
-    destination = models.CharField(max_length=100)
-    bus_stops = models.ManyToManyField(BusStop, through='RouteAndStop') # A Route can have Many Bus Stops and a Bus Stop can be on Many Routes
+# class Route(models.Model):
+#     route_name = models.CharField(primary_key=True, max_length=20) 
+#     origin = models.CharField(max_length=100)
+#     destination = models.CharField(max_length=100)
+#     bus_stops = models.ManyToManyField(BusStop, through='RouteAndStop') # A Route can have Many Bus Stops and a Bus Stop can be on Many Routes
 
-    def __str__(self):
-        return self.route_name
+#     def __str__(self):
+#         return self.route_name
 
-    def get_all_bus_stops(self):
-        return self.bus_stops.all()
+#     def get_all_bus_stops(self):
+#         return self.bus_stops.all()
 
-# Can we do the following below INSTEAD to represent this Many-To-Many relationship???
-class RouteAndStop(models.Model):
-    route_name = models.ForeignKey(Route, on_delete=models.CASCADE)
-    stop_num = models.ForeignKey(BusStop, on_delete=models.CASCADE)
-    prog_num = models.IntegerField()
+# # Can we do the following below INSTEAD to represent this Many-To-Many relationship???
+# class RouteAndStop(models.Model):
+#     route_name = models.ForeignKey(Route, on_delete=models.CASCADE)
+#     stop_num = models.ForeignKey(BusStop, on_delete=models.CASCADE)
+#     prog_num = models.IntegerField()
 
 # HOW WE CAN ACCESS ALL THE STOPS IN A ROUTE;
 # ===========================================
@@ -127,14 +127,14 @@ class AdditionalUserInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE) # Whenever we delete the user, also delete its additional info
     # Adding the fields of interest
     leapcard_username = models.CharField(max_length=50, blank=True) # Won't be required (i.e. will be optional)
-    leapcard_password = models.CharField(max_length=256, blank=True) # Won't be required (i.e. will be optional)
+    # leapcard_password = models.CharField(max_length=256, blank=True) # Won't be required (i.e. will be optional)
 
     # Calories Burning Info
     # height_in_cm = models.models.IntegerField(validators=[MinValueValidator(50), MaxValueValidator(250)], blank=True)
     # weight_in_kg = models.models.IntegerField(validators=[MinValueValidator(20), MaxValueValidator(140)], blank=True)
 
     def __str__(self):
-        return f"{self.user.username} with additional info: {self.leapcard_username} and {self.leapcard_password}"
+        return f"{self.user.username} with additional info: {self.leapcard_username}"
 
 class FavouriteJourney(models.Model):
     route_name = models.CharField(max_length=10)
