@@ -57,6 +57,9 @@ var polyline_colours = [
   "#a83262",
   "#32a883",
 ];
+// Variable to keep track of the visibility of the search menu
+// Used in the hideMenu function
+var visibility = true;
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
@@ -95,6 +98,8 @@ function initMap() {
   map.addListener("dblclick", function (e) {
     placeDestinationMarker(e.latLng, map, destinationMarker);
   });
+
+  // Is there any way we can restrict to Dublin or Leinster, rather than just Ireland???
 
   // For autocomplete on Home Search Boxes;
   // (Origin)
@@ -1364,4 +1369,17 @@ function clearPolylines() {
   // Clear the marker
   searched_bus_stop_marker.setMap(null);
   searched_bus_stop_marker = null;
+}
+
+// Function to hide or show the search menu. Called on click
+function hideMenu() {
+  if (visibility) {
+    document.getElementById('search-menu-container').style.left = '-330px';
+    visibility = false;
+    document.getElementById('hide-arrow').style.transform = 'rotate(0deg)';
+  } else {
+    document.getElementById('search-menu-container').style.left = '20px';
+    visibility = true;
+    document.getElementById('hide-arrow').style.transform = 'rotate(180deg)';
+  };
 }

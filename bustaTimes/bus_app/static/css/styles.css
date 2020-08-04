@@ -136,7 +136,7 @@ body {
   /* min and max widths to manage size */
   max-width: 850px;
   min-width: 350px;
-  padding: 1em;
+  padding: 0px;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -145,6 +145,7 @@ body {
   top: 70px;
   text-align: center;
   border-radius: 25px;
+  transition: left 1s;
 }
 
 .leap-card-input {
@@ -421,19 +422,43 @@ select,
   border: 1px solid black;
 }
 
-/* Toggle Hide the Menu (Works for Desktop screen) */
-
-#toggle-hide-menu {
-  padding: 1em;
+/* Toggle to hide show the search menu */
+/* ------- START ------- */
+#mobile-close-btn {
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  padding-left: 15px;
-  left: 345px;
-  top: 5px;
-  text-align: center;
-  border-radius: 25px;
+  position: relative;
+  top: 40px;
+  right: -330px;
+  width: 15px;
+  background-color: white;
+  justify-content: right;
+  border-radius: 8px;
+  margin: 0px;
+  /* top right bottom left*/
+  padding: 10px 20px 10px 10px;
+  cursor: pointer;
 }
+
+#hide-arrow {
+  transform: rotate(180deg);
+}
+
+#mobile-close-btn:hover {
+  box-shadow: 8px 5px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+#mobile-close-btn:hover,
+#hide-arrow:hover {
+  color: lightblue;
+}
+
+/* Hide toggle for mobile */
+@media (max-width: 850px) {
+  #mobile-close-btn {
+    display:none;
+  }
+}
+/* ------- END ------- */
 
 .move-left {
   transition: 1s;
