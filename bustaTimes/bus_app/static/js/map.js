@@ -57,10 +57,46 @@ var polyline_colours = [
   "#a83262",
   "#32a883",
 ];
-
 // Variable to keep track of the visibility of the search menu
 // Used in the hideMenu function
-var visibility = true;
+var menu_visibility = true;
+
+// =============================================================================
+// Function that sets all polylines, FullRouteMarkers etc to null, if they exist
+// =============================================================================
+
+// Conceptually; as we change a to a different menu tab option, clear all unncessary objects
+function clearLingeringRenderedObjects() {
+  
+  // ========== LISTS OF LINGERING OBJECTS (e.g. Lists of polylines, lists of markers etc) ==========
+
+  // Store all the possible lingering object lists in a list
+  var list_of_possible_lingerers_list = [FullRouteMarkers, all_polylines];
+  
+  // Iterate over them
+  for (let i=0; i < list_of_possible_lingerers_list.length; i++) {
+    // check if they contain anything
+    if (list_of_possible_lingerers_list[i].length > 0) {
+      let lingering_list = list_of_possible_lingerers_list[i];
+      // if they do, iterate over each element and set it to null
+      for (let j=0; j < lingering_list.length; j++) {
+        // console.log(lingering_list[j]);
+        lingering_list[j].setMap(null);
+      }
+    }
+  }
+  
+  // ========== SINGLE LINGERING OBJECTS (e.g. Destination marker, Search by Bus Stop marker etc) ==========
+
+  // Store all the possible lingering marker objects in a list
+  var list_of_possible_lingerers = [searched_bus_stop_marker, destinationMarker];
+  console.log(searched_bus_stop_marker);
+  // Iterate over them and set them to null
+  for (let i=0; i < list_of_possible_lingerers.length; i++) {
+    list_of_possible_lingerers[i].setPosition(null);
+    // DOESN'T WORK WHEN YOU CHANGE SEARCH BY BUS STOP AND THEN CLICK THE BUTTON (e.g. switching from 905 to 22)
+  }
+}
 
 // Reads the local JSON file with the attractions info
 var xmlhttp = new XMLHttpRequest(); // Initialise request object
@@ -93,6 +129,12 @@ function initMap() {
     position: null, // Initially set to null (until map double clicked)
     map: map,
     icon: icon,
+  });
+
+  // Set a marker for the bus stop that was searched
+  searched_bus_stop_marker = new google.maps.Marker({
+    position: null,
+    map: map,
   });
 
   // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
@@ -1222,12 +1264,12 @@ $("#show-all-routes-serviced").click(function (e) {
 
           // Create Markers with these details and mark them on the map;
 
-          var seach_by_busstop_icon = {
-            // url: './static/images/search_by_stop_icon.png',
-            url: "./static/images/bus_stop_icon.svg",
-            scaledSize: new google.maps.Size(25, 25),
-            anchor: new google.maps.Point(12.5, 12.5),
-          };
+          // var seach_by_busstop_icon = {
+          //   // url: './static/images/search_by_stop_icon.png',
+          //   url: "./static/images/bus_stop_icon.svg",
+          //   scaledSize: new google.maps.Size(25, 25),
+          //   anchor: new google.maps.Point(12.5, 12.5),
+          // };
           var stopCoords = new google.maps.LatLng(latitude, longitude);
 
           // Create Marker for each of the component bus stops of the serviced route;
@@ -1254,13 +1296,13 @@ $("#show-all-routes-serviced").click(function (e) {
 
         polyline.setMap(map);
 
-        // Set a marker for the bus stop that was searched
-        searched_bus_stop_marker = new google.maps.Marker({
-          position: bus_stop_location,
-          map: map,
-          title: stop_num,
-          animation: google.maps.Animation.DROP,
-        });
+        // // Set a marker for the bus stop that was searched
+        // searched_bus_stop_marker = new google.maps.Marker({
+        //   position: bus_stop_location,
+        //   map: map,
+        //   title: stop_num,
+        //   animation: google.maps.Animation.DROP,
+        // });
 
         map.setCenter(bus_stop_location);
         map.setZoom(13);
@@ -1273,6 +1315,19 @@ $("#show-all-routes-serviced").click(function (e) {
       // console.log(all_routes[route_num]);
     }
   }
+
+  // Set a marker for the bus stop that was searched
+  // searched_bus_stop_marker = new google.maps.Marker({
+  //   position: bus_stop_location,
+  //   map: map,
+  //   title: stop_num,
+  //   animation: google.maps.Animation.DROP,
+  // });
+
+  searched_bus_stop_marker.setPosition(bus_stop_location);
+  searched_bus_stop_marker.setAnimation(google.maps.Animation.DROP);
+  searched_bus_stop_marker.setTitle(stop_num);
+  
 
   // ========== Polyline events ==========
 
@@ -1371,13 +1426,13 @@ function clearPolylines() {
 
 // Function to hide or show the search menu. Called on click
 function hideMenu() {
-  if (visibility) {
+  if (menu_visibility) {
     document.getElementById('search-menu-container').style.left = '-330px';
-    visibility = false;
+    menu_visibility = false;
     document.getElementById('hide-arrow').style.transform = 'rotate(0deg)';
   } else {
     document.getElementById('search-menu-container').style.left = '20px';
-    visibility = true;
+    menu_visibility = true;
     document.getElementById('hide-arrow').style.transform = 'rotate(180deg)';
   };
 }
