@@ -107,10 +107,10 @@
                     <div class="modal-body">
                         {% csrf_token %}
 
-                        <input type="text" name="username" placeholder="Username..." class="form-control" required>
-                        <input type="password" name="password1" placeholder="Password..." class="form-control" required>
-                        <input type="password" name="password2" placeholder="Confirm Password..." class="form-control" required>
-                        <input type="email" name="email" placeholder="Email..." class="form-control" required>
+                        <input type="text" name="username" placeholder="Username..." class="form-control form-control-sm" required>
+                        <input type="password" name="password1" placeholder="Password..." class="form-control form-control-sm" required>
+                        <input type="password" name="password2" placeholder="Confirm Password..." class="form-control form-control-sm" required>
+                        <input type="email" name="email" placeholder="Email..." class="form-control form-control-sm" required>
                         <h5 style="padding-top:1rem;">And Optional Data:</h5>
                         <div class="container rounded">
 
@@ -128,7 +128,7 @@
                         </div>
 
                         <!-- ADDITIONAL INFO -->
-                        <input type="text" name="leapcard_username" placeholder="Leap Card Username..." class="form-control">
+                        <input type="text" name="leapcard_username" placeholder="Leap Card Username..." class="form-control form-control-sm">
                     </div>
                     <div class="modal-footer">
                         <input class="btn btn-primary" type="submit" value="Register Account">
@@ -152,8 +152,8 @@
                     <div class="modal-body">
                             {% csrf_token %}
 
-                            <input type="text" name="username" placeholder="Username..." class="form-control" required>
-                            <input type="password" name="password" placeholder="Password..." class="form-control" required>
+                            <input type="text" name="username" placeholder="Username..." class="form-control form-control-sm" required>
+                            <input type="password" name="password" placeholder="Password..." class="form-control form-control-sm" required>
                     </div>
                     <div class="modal-footer">
                         <input class="btn btn-primary" type="submit" value="Login">
@@ -231,9 +231,9 @@
                 <form action="{% url 'updateUserPopup' %}" method="POST">
                     <div class="modal-body">
                             {% csrf_token %}
-                            <input type="text" name="username" placeholder="Username..." class="form-control">
-                            <input type="email" name="email" placeholder="Email..." class="form-control">
-                            <input type="text" name="leapcard_username" placeholder="Leap Card Username..." class="form-control">
+                            <input type="text" name="username" placeholder="Username..." class="form-control form-control-sm">
+                            <input type="email" name="email" placeholder="Email..." class="form-control form-control-sm">
+                            <input type="text" name="leapcard_username" placeholder="Leap Card Username..." class="form-control form-control-sm">
                     </div>
                     <div class="modal-footer">
                         <input class="btn btn-primary" type="submit" value="Update">
