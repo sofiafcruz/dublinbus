@@ -148,7 +148,8 @@ body {
   transition: left 1s;
 }
 
-.leap-card-input {
+.leap-card-input,
+.form-control {
   margin-bottom: 10px;
 }
 
