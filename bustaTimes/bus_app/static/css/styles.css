@@ -136,11 +136,11 @@ body {
   /* min and max widths to manage size */
   max-width: 850px;
   min-width: 350px;
-  padding: 0px;
   display: flex;
   flex-direction: column;
   position: absolute;
-  padding-left: 15px;
+  /* top right bottom left*/
+  padding: 0 10px 0 10px;
   left: 20px;
   top: 70px;
   text-align: center;

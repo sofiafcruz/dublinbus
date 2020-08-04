@@ -2,10 +2,7 @@
 function nightMode() {
   // Onchange event the map will either be set to night or day colors
   // Function is called by a switch button
-  var switchValue = document.getElementsByClassName("night-mode-switch")[0]
-    .checked
-    ? true
-    : false;
+  var switchValue = document.getElementsByClassName("night-mode-switch")[0].checked ? true : false;
   if (switchValue) {
     $.ajax({
       url: "./static/google_map_styles/night_mode.json",
@@ -263,16 +260,15 @@ var attractionsArray = [];
 
 // The switch button calls this function on change to display the attractions on the map
 function displayAttractions() {
-  toggleMarkerVisibility();
   setMapDublin(); // Center the map in Dublin
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("attractions-switch")[0]
-    .checked
-    ? true
-    : false;
+  var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false;
   if (switchValue) {
+    for (var i = 0; i < FullRouteMarkers.length; i++) {
+      FullRouteMarkers[i].setMap(null);
+    };
     // Loop through the attractions in the JSON file and add marker for each to the map
-    for (i = 0; i < attractions.length; i++) {
+    for (var i = 0; i < attractions.length; i++) {
       var latitude = parseFloat(attractions[i].latitude);
       var longitude = parseFloat(attractions[i].longitude);
       var iconName = attractions[i].icon;
@@ -294,6 +290,7 @@ function displayAttractions() {
       attractionsArray.push(marker);
     }
   } else {
+    showMarkers();
     // When switch is off, remove all the attraction makers from the map
     for (i = 0; i < attractionsArray.length; i++) {
       attractionsArray[i].setMap(null);
