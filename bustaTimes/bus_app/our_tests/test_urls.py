@@ -2,7 +2,7 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 
-from bus_app.views import index, make_rpti_realtime_api_request, registerUserPopup, loginUserPopup, save_route_journey, showFavouritesPopup, delete_favourite_journey
+from bus_app.views import index, make_rpti_realtime_api_request, registerUserPopup, loginUserPopup, save_route_journey, delete_favourite_journey
 
 # Views of Interest
 # -----------------

@@ -58,6 +58,7 @@ class FavouriteJourneyForm(forms.ModelForm):
 # ==================== Update User Credentials ====================
 # Username and Email
 class UpdateUserForm(forms.ModelForm):
+    username = forms.CharField(required=False)
     class Meta:
         model = User
         fields = ['username', 'email']

@@ -10,7 +10,7 @@ if (typeof temperature === 'number') {
         document.querySelector('.alert-cold').style.display = 'flex';
         setTimeout(function(){
             document.querySelector('.alert-cold').style.display = 'none';
-        }, 6000);
+        }, 10000);
     }
 
     // Display alert when it's raining
@@ -18,7 +18,7 @@ if (typeof temperature === 'number') {
         document.querySelector('.alert-rain').style.display = 'flex';
         setTimeout(function(){
             document.querySelector('.alert-rain').style.display = 'none';
-        }, 6000);
+        }, 10000);
     }
     // 
     // console.log(iconName);

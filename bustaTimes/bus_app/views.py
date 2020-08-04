@@ -266,26 +266,26 @@ def registerUserPopup(request):
         additional_info_form = AdditionalUserInfoForm()
 
         if request.method == 'POST':
-            print("====BEFORE USER FORM DATA====")
-            print(create_form.data)
-            print("====BEFORE ADDITIONAL FORM DATA====")
-            print(additional_info_form.data)
+            # print("====BEFORE USER FORM DATA====")
+            # print(create_form.data)
+            # print("====BEFORE ADDITIONAL FORM DATA====")
+            # print(additional_info_form.data)
             # Post data = Username, Password, Confirmed password, email, AND Additional info
             # Render the form again and pass in the user data into the form
             create_form = CreateUserForm(request.POST)
             # ADDITIONAL_INFO
             additional_info_form = AdditionalUserInfoForm(request.POST)
 
-            print("====USER FORM START====")
-            print(create_form)
-            print("====USER FORM DATA====")
-            print(create_form.data)
-            print("====USER FORM END====")
-            print("====ADDITIONAL FORM START====")
-            print(additional_info_form)
-            print("====ADDITIONAL FORM DATA====")
-            print(additional_info_form.data)
-            print("====ADDITIONAL FORM END====")
+            # print("====USER FORM START====")
+            # print(create_form)
+            # print("====USER FORM DATA====")
+            # print(create_form.data)
+            # print("====USER FORM END====")
+            # print("====ADDITIONAL FORM START====")
+            # print(additional_info_form)
+            # print("====ADDITIONAL FORM DATA====")
+            # print(additional_info_form.data)
+            # print("====ADDITIONAL FORM END====")
             if create_form.is_valid() and additional_info_form.is_valid():
                 # Then save the User
                 user = create_form.save() 
@@ -309,6 +309,12 @@ def registerUserPopup(request):
                 return redirect('index')
             else:
                 messages.error(request, f"ERROR: in creating account")
+                print("-----USER-----")
+                print(create_form.errors)
+                print(create_form.is_valid())
+                print("-----ADDITIONAL INFO-----")
+                print(additional_info_form.errors)
+                print(additional_info_form.is_valid())
                 print("ERROR IN REGISTERING THE USER WITH THE POPUP METHOD")
             # Then redirect them to the login page
             return redirect('index')
@@ -327,6 +333,7 @@ def loginUserPopup(request):
             
             # If user IS authenticated, then attach them to the current sessopm
             if user is not None:
+                messages.success(request, f"Successfully logged in")
                 # Backend authenticated the credentials
                 login(request, user) # Saves user's ID in the session
                 return redirect('index')
@@ -345,7 +352,6 @@ def loginUserPopup(request):
 @login_required
 def logoutUser(request):
     logout(request) # doesn’t throw any errors if the user wasn’t logged in (so need to make sure it works perfectly)
-    # return redirect('loginPage')
     return redirect('index')
 
 # FAVOURITE JOURNEY
@@ -455,47 +461,37 @@ def get_journey_prediction(request):
 
 # Update User Credentials View
 from .forms import UpdateUserForm, UpdateLeapCardUsernameForm
+
 from django.contrib.auth.models import User
 from .models import AdditionalUserInfo
 
 def updateUserPopup(request):
     if request.user.is_authenticated:
-        # Form for Username and Password
+        # Form for Username and Email
         update_user_form = UpdateUserForm()
         # Form for LeapCard Username
         update_leapcard_username_form = UpdateLeapCardUsernameForm()
 
         if request.method == 'POST':
-            print("====BEFORE USERNAME AND EMAIL FORM DATA====")
-            print(update_user_form.data)
-            print("====BEFORE LEAPCARD USERNAME FORM DATA====")
-            print(update_leapcard_username_form.data)
-            # Post data = Username, Password, Confirmed password, email, AND Additional info
+            
+            # Post data = Username, email and Leapcard Username
             # Render the form again and pass in the user data into the form
+            # USERNAME and EMAIL
             update_user_form = UpdateUserForm(request.POST)
-            # ADDITIONAL_INFO
+            # LEAPCARD
             update_leapcard_username_form = UpdateLeapCardUsernameForm(request.POST)
 
-            print("====UPDATE USERNAME AND EMAIL FORM START====")
-            print(update_user_form)
-            print("====UPDATE USERNAME AND EMAIL FORM DATA====")
-            print(update_user_form.data)
-            print("====USERNAME AND EMAIL FORM END====")
-
-            print("====UPDATE LEAPCARD USERNAME FORM START====")
-            print(update_leapcard_username_form)
-            print("====UPDATE LEAPCARD USERNAME FORM DATA====")
-            print(update_leapcard_username_form.data)
-            print("====UPDATE LEAPCARD USERNAME FORM END====")
+            print(request.POST)
+            # if update_username_form.is_valid() and update_email_form.is_valid() and update_leapcard_username_form.is_valid():
             if update_user_form.is_valid() and update_leapcard_username_form.is_valid():
 
                 # Grab the User
                 user = User.objects.get(username=request.user)
                 
-                # the User
+                # the User details
                 updated_username = update_user_form.cleaned_data['username']
                 updated_email = update_user_form.cleaned_data['email']
-                
+
                 # the Leap Card Username
                 updated_leapcard_username = update_leapcard_username_form.cleaned_data['leapcard_username']
 
@@ -513,22 +509,24 @@ def updateUserPopup(request):
                 # Then update with the posted form data 
 
                 # Username
-                user.username = updated_username
+                if updated_username:
+                    user.username = updated_username
                 # Email
-                user.email = updated_email
+                if updated_email:
+                    user.email = updated_email
+                # Then save the details 
+                user.save()
 
                 # Leap Card Username 
                 # Option 1; (NOT UPDATING FOR SOME REASON!!!)
                 # user.additionaluserinfo.leapcard_username = updated_leapcard_username
 
                 # Option 2; (Works)
-                user_additional_info = AdditionalUserInfo.objects.get(user=request.user)
-
-                user_additional_info.leapcard_username = updated_leapcard_username
-
-                # Then save the details
-                user.save()
-                user_additional_info.save()
+                if updated_leapcard_username:
+                    user_additional_info = AdditionalUserInfo.objects.get(user=request.user)
+                    user_additional_info.leapcard_username = updated_leapcard_username
+                    # Then save the details
+                    user_additional_info.save()
 
                 messages.success(request, f"Details were updated")
             else:
@@ -536,6 +534,7 @@ def updateUserPopup(request):
                 print("-----Username or Email Error-----")
                 print(update_user_form.errors)
                 print(update_user_form.errors.as_data())
+                
                 print("-----Leap Card Username Error-----")
                 print(update_leapcard_username_form.errors)
                 print(update_leapcard_username_form.errors.as_data())
