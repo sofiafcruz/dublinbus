@@ -1,7 +1,9 @@
-from django.urls import path
+from django.urls import path, include
 from bus_app import views
 
 from django.contrib.auth.views import PasswordResetView
+
+import debug_toolbar
 
 urlpatterns = [
     path('', views.index, name="index"),
@@ -25,5 +27,6 @@ urlpatterns = [
     path('delete_favourite_journey/<int:pk>/', views.delete_favourite_journey, name="delete_favourite_journey"),
     # MODEL PREDICTION
     path('get_journey_prediction', views.get_journey_prediction, name="get_journey_prediction"),
-    
+    # Django-Debug-Toolbar
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
