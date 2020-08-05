@@ -323,7 +323,7 @@
                 </div>
 
                 <!-- ********** Home Menu ********** -->
-                <div id='home-search-container' class="container centre-and-padding tabcontent display-container" style="width:319px;">
+                <div id='home-search-container' class="container centre-and-padding tabcontent display-container" style="width:319px; max-height:70vh; overflow:auto;">
                     <!-- Form containing "Origin" and "Destination" text inputs -->
                     <form>
                         <div class="form-group">
@@ -359,12 +359,12 @@
                     <!-- Select "Starting Point" and "Ending Point" div (initially hidden) -->
                     <div id="stops-dropdowns-container" style="display: none;">
                         <!-- From Origin to Destination header -->
-                        <div style="float: left;" id="origin-to-destination-div">
+                        <div id="origin-to-destination-div">
                             <p id="origin-to-destination-header"></p>
                         </div>
                         <!-- Switch Direction button -->
                         <div class="container">
-                            <input type="image" src="./static/images/change-direction.png" id="change-direction" alt="Change Direction" style="height: 3rem;" />
+                            <input type="image" src="./static/images/change-direction.svg" id="change-direction" alt="Change Direction" style="height: 30px;" />
                         </div>
                         <!-- Starting Point Dropdown -->
                         <div>
@@ -441,7 +441,7 @@
                 </div>
                 
                 <!-- ********** Search by Bus Stop Menu ********** -->
-                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent" style="max-width:319px; padding-bottom: 1rem;">
+                <div id='bus-stop-search-container' class="container centre-and-padding tabcontent" style="max-width:319px; padding-bottom: 1rem; max-height:70vh; overflow:auto;">
                     <form>
                         <div class="form-group">
                             <label for="origin" class="menu-label">Bus Stop:</label>
