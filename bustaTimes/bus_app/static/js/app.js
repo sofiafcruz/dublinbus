@@ -823,10 +823,19 @@ $(".delete-row-td").click(function (event) {
 function calculateFare() {
   let time = document.getElementById("choose-time").value;
   let day = document.getElementById("date-selector").value.split(" ")[0];
+  let x_route;
+  let route = document.getElementById("json-routes").value;
+  // Determine if user is looking for a standard route or Xpresso
+  if (route.charAt((route.length-1)) === 'X') {
+    x_route = true;
+  } else {
+    x_route = false;
+  }
 
   console.log("=====Start=====");
   console.log(time);
   console.log(day);
+  console.log(route);
   console.log("=====End=====");
 
   $.getJSON("./static/fares.json", function (data) {
@@ -838,34 +847,42 @@ function calculateFare() {
     let leap_card_fare;
     let cash_fare;
     let result;
+    
 
     // ===== Adult Data =====
-
-    selected_customer = data["adult"];
-    // Grab Payment Types
-    leap_card_prices = selected_customer["leap_card"];
-    cash_prices = selected_customer["cash"];
-
-    // Determine Fare LOGIC
-    let leap_card_stages = leap_card_prices["stages"];
-    let cash_stages = cash_prices["stages"];
-
-    let stops_count =
-      document.getElementById("json-ending-stops").value -
-      document.getElementById("json-starting-stops").value;
-
-    // if short journey
-    if (stops_count <= 3) {
-      leap_card_fare = leap_card_stages[0]["short"];
-      cash_fare = cash_stages[0]["short"];
-      // elif medium journey
-    } else if (stops_count <= 13) {
-      leap_card_fare = leap_card_stages[1]["medium"];
-      cash_fare = cash_stages[1]["medium"];
-      // else long journey
+    // If Xpresso route, set the fares
+    if (x_route) {
+      cash_fare = 3.8;
+      leap_card_fare = 3;
+    // Else perform logic to determine the fares
     } else {
-      leap_card_fare = leap_card_stages[2]["long"];
-      cash_fare = cash_stages[2]["long"];
+      selected_customer = data["adult"];
+      // Grab Payment Types
+      leap_card_prices = selected_customer["leap_card"];
+      cash_prices = selected_customer["cash"];
+
+      // Determine Fare LOGIC
+
+      let leap_card_stages = leap_card_prices["stages"];
+      let cash_stages = cash_prices["stages"];
+
+      let stops_count =
+        document.getElementById("json-ending-stops").value -
+        document.getElementById("json-starting-stops").value;
+
+      // if short journey
+      if (stops_count <= 3) {
+        leap_card_fare = leap_card_stages[0]["short"];
+        cash_fare = cash_stages[0]["short"];
+        // elif medium journey
+      } else if (stops_count <= 13) {
+        leap_card_fare = leap_card_stages[1]["medium"];
+        cash_fare = cash_stages[1]["medium"];
+        // else long journey
+      } else {
+        leap_card_fare = leap_card_stages[2]["long"];
+        cash_fare = cash_stages[2]["long"];
+      }
     }
 
     // Result
@@ -886,49 +903,56 @@ function calculateFare() {
             `;
 
     // ===== Child Data =====
-    selected_customer = data["child"];
-
-    // Grab Payment Types
-    leap_card_prices = selected_customer["leap_card"];
-    cash_prices = selected_customer["cash"];
-
-    // Determine Fare LOGIC
-
-    let weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-
-    let leap_card_day_type;
-    let cash_day_type;
-
-    // if day is a weekday
-    if (weekdays.includes(day)) {
-      leap_card_day_type = leap_card_prices["weekday"];
-      cash_day_type = cash_prices["weekday"];
-
-      // Check time of day selected
-      if (time < "19:00") {
-        cash_fare = cash_day_type[0]["school"];
-        leap_card_fare = leap_card_day_type[0]["school"];
-      } else {
-        cash_fare = cash_day_type[1]["outside_school"];
-        leap_card_fare = leap_card_day_type[1]["outside_school"];
-      }
-
-      // else if day is a saturday
-    } else if (day === "Sat") {
-      leap_card_day_type = leap_card_prices["saturday"];
-      cash_day_type = cash_prices["saturday"];
-
-      if (time < "13:30") {
-        cash_fare = cash_day_type[0]["school"];
-        leap_card_fare = leap_card_day_type[0]["school"];
-      } else {
-        cash_fare = cash_day_type[1]["outside_school"];
-        leap_card_fare = leap_card_day_type[1]["outside_school"];
-      }
-      // else it's sunday
+    // If Xpresso route, set the fares
+    if (x_route) {
+      cash_fare = 1.6;
+      leap_card_fare = 1.26;
+    // Else perform logic to determine the fares
     } else {
-      leap_card_fare = leap_card_prices["sunday"];
-      cash_fare = cash_prices["sunday"];
+      selected_customer = data["child"];
+
+      // Grab Payment Types
+      leap_card_prices = selected_customer["leap_card"];
+      cash_prices = selected_customer["cash"];
+
+      // Determine Fare LOGIC
+
+      let weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+
+      let leap_card_day_type;
+      let cash_day_type;
+
+      // if day is a weekday
+      if (weekdays.includes(day)) {
+        leap_card_day_type = leap_card_prices["weekday"];
+        cash_day_type = cash_prices["weekday"];
+
+        // Check time of day selected
+        if (time < "19:00") {
+          cash_fare = cash_day_type[0]["school"];
+          leap_card_fare = leap_card_day_type[0]["school"];
+        } else {
+          cash_fare = cash_day_type[1]["outside_school"];
+          leap_card_fare = leap_card_day_type[1]["outside_school"];
+        }
+
+        // else if day is a saturday
+      } else if (day === "Sat") {
+        leap_card_day_type = leap_card_prices["saturday"];
+        cash_day_type = cash_prices["saturday"];
+
+        if (time < "13:30") {
+          cash_fare = cash_day_type[0]["school"];
+          leap_card_fare = leap_card_day_type[0]["school"];
+        } else {
+          cash_fare = cash_day_type[1]["outside_school"];
+          leap_card_fare = leap_card_day_type[1]["outside_school"];
+        }
+        // else it's sunday
+      } else {
+        leap_card_fare = leap_card_prices["sunday"];
+        cash_fare = cash_prices["sunday"];
+      }
     }
 
     // Result
