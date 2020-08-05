@@ -2,10 +2,7 @@
 function nightMode() {
   // Onchange event the map will either be set to night or day colors
   // Function is called by a switch button
-  var switchValue = document.getElementsByClassName("night-mode-switch")[0]
-    .checked
-    ? true
-    : false;
+  var switchValue = document.getElementsByClassName("night-mode-switch")[0].checked ? true : false;
   if (switchValue) {
     $.ajax({
       url: "./static/google_map_styles/night_mode.json",
@@ -303,15 +300,12 @@ function displayAttractions() {
   // toggleMarkerVisibility();
   setMapDublin(); // Center the map in Dublin
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("attractions-switch")[0]
-    .checked
-    ? true
-    : false;
+  var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false;
   if (switchValue) {
 
     clearMarkers();
     // Loop through the attractions in the JSON file and add marker for each to the map
-    for (i = 0; i < attractions.length; i++) {
+    for (var i = 0; i < attractions.length; i++) {
       var latitude = parseFloat(attractions[i].latitude);
       var longitude = parseFloat(attractions[i].longitude);
       var iconName = attractions[i].icon;
