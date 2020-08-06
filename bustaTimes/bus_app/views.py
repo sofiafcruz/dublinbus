@@ -195,7 +195,7 @@ def make_rpti_realtime_api_request(request):
     datetime_request_made = data["timestamp"]
     results = data["results"]
 
-    print(datetime_request_made)
+    # print(datetime_request_made)
 
     realtime_info_response = []
 
@@ -209,7 +209,7 @@ def make_rpti_realtime_api_request(request):
         d["scheduled_arrival_datetime"] = result["scheduledarrivaldatetime"]
         d["arrival_datetime"] = result["arrivaldatetime"]
         d["due"] = result["duetime"]
-        print("==============START==============")
+        # print("==============START==============")
         # print("Route:", result["route"])
         # print("Direction:", result["direction"])
         # print("Origin:", result["origin"])
@@ -217,7 +217,7 @@ def make_rpti_realtime_api_request(request):
         # print("Scheduled Date Time:", result["scheduledarrivaldatetime"])
         # print("Arrival Date Time:", result["arrivaldatetime"])
         # print("Due:", result["duetime"])
-        print(d)
+        # print(d)
         realtime_info_response.append(d)
     
     # print(realtime_info_response)
@@ -389,13 +389,21 @@ def save_route_journey(request):
             return redirect('index')
         else:
             print("FAVOURITE JOURNEY FORM NOT VALID!!! :(")
+            # print("Either Form details missing OR journey already exists")
+            print(favourite_journey_form.errors.as_data())
+            print(favourite_journey_form.errors.as_data()['__all__'])
+            
+            # Generic Error Message
             messages.error(request, f"ERROR: in favouriting journey for: {request.user}... Did not save journey")
-            return redirect('index')
-            # print(favourite_journey_form.errors)
-            # print(favourite_journey_form.is_valid())
-            # context = {"form": favourite_journey_form}
-            # return render(request, 'favourite_journey_errors.html', context)
 
+            # Specific Error Messages
+            for e in favourite_journey_form.errors["__all__"].as_data():
+                # If journey attempted to be saved already exists
+                if (str(e) == "['Favourite journey with this Route name, Origin stop and Destination stop already exists.']"):
+                    messages.error(request, f"ERROR: Journey already exists in favourites... Did not save journey")
+                
+            return redirect('index')
+            
 def delete_favourite_journey(request, pk):
     # Testing to see what the PK of the row you want to delete.
     print("DELETE VIEW CALLED!")

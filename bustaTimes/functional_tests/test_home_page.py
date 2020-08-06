@@ -210,4 +210,6 @@ class TestHomePage(StaticLiveServerTestCase):
     #     # Assert that registration was a failure!
     #     self.assertFalse(self.is_a_success_notification(color))
 
+    # # =================================================================================================================================
+    
     

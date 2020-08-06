@@ -10,5 +10,6 @@ The folder should be called "tests", but I got some weird icon on the folder so 
 The video also says to delete the tests.py file already included (but I won't for the time being...)
 
 TO RUN TESTS: run the command: 'python3 manage.py test bus_app'
+TO RUN INDIVIDUAL TESTS: e.g. run the command: 'python3 manage.py test bus_app.our_tests.test_models.AdditionalUserInfoModelTest'
 
-N.B. - WON'T be testing Leap Card, as requires leap card credentials...
+N.B. it's important all test cases begin with 'test_'
