@@ -223,12 +223,31 @@ function initMap() {
       return marker;
     });
     // console.log(global_markers);
-
+    
     // Add a marker clusterer to manage the markers.
     markerCluster = new MarkerClusterer(map, markers, {
       ignoreHidden: true,
-      imagePath:
-        "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+      gridSize: 100,
+      styles: [
+        {
+          height: 53,
+          width: 53,
+          url: "../static/images/m1.svg",
+          textColor: "gray"
+        },
+        {
+          height: 53,
+          width: 53,
+          url: "../static/images/m2.svg",
+          textColor: "white"
+        },
+        {
+          height: 65,
+          width: 65,
+          url: "../static/images/m3.svg",
+          textColor: 'white'
+        }
+      ]
     });
   });
 }
