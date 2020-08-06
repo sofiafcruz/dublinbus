@@ -1,0 +1,58 @@
+{
+    "Thu": {
+        "temperature": 16.0,
+        "rainfall": 0.0117,
+        "windspeed": 8.91,
+        "cloud": 0.96,
+        "visibility": 7.727,
+        "humidity": 0.86
+    },
+    "Fri": {
+        "temperature": 17.8,
+        "rainfall": 0.0034,
+        "windspeed": 9,
+        "cloud": 0.69,
+        "visibility": 10,
+        "humidity": 0.88
+    },
+    "Sat": {
+        "temperature": 15.9,
+        "rainfall": 0.0002,
+        "windspeed": 7.59,
+        "cloud": 0.51,
+        "visibility": 9.244,
+        "humidity": 0.83
+    },
+    "Sun": {
+        "temperature": 15.7,
+        "rainfall": 0.0008,
+        "windspeed": 8.84,
+        "cloud": 0.78,
+        "visibility": 9.587,
+        "humidity": 0.87
+    },
+    "Mon": {
+        "temperature": 17.5,
+        "rainfall": 0.0029,
+        "windspeed": 7.59,
+        "cloud": 0.99,
+        "visibility": 8.523,
+        "humidity": 0.83
+    },
+    "Tue": {
+        "temperature": 17.0,
+        "rainfall": 0.0003,
+        "windspeed": 5.65,
+        "cloud": 0.82,
+        "visibility": 10,
+        "humidity": 0.82
+    },
+    "Wed": {
+        "temperature": 18.5,
+        "rainfall": 0.0008,
+        "windspeed": 5.44,
+        "cloud": 0.06,
+        "visibility": 10,
+        "humidity": 0.79
+    }
+}

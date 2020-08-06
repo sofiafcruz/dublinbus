@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import json
+import datetime
+import time
 # From models.py file in the current folder, import the tables
 # from .models import Route, BusStop, RouteAndStop
 # From forms.py file in the current folder, import the forms
@@ -37,11 +39,48 @@ def index(request):
     #     stops.append(stop_temp)
     # bus_stops_json = json.dumps(stops)
 
+    def conv_2(ep):
+        return time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime(ep+3600))
+
     # WEATHER
     url = 'https://api.darksky.net/forecast/313018b2afc91b7825d89c2740c19873/53.346,-6.26'
 
     json_dataset = requests.get(url).text
     json_temp = json.loads(json_dataset)
+    print(json_temp.keys())
+
+    # This will be generated everytime there is a page load (wasteful?) - could in the future check for results 
+    # Generate hourly for next 48 hours and use that if possible
+    # Generate daily which will be the fall back prediction
+
+    future_weather_dict={}
+    # Get next five days (times appear to be midnight of the day they are predicting) - can get hourly for 48 hours
+    future_predictions = json_temp['daily']['data']
+    for prediction in future_predictions:
+        temp_date = conv_2(prediction['time'])
+        day = temp_date.split(",")[0]
+
+        # need to get middle range with temperature
+        temp = (prediction['temperatureHigh']+prediction['temperatureLow'])/2
+
+        future_weather_dict[day] = {
+            "temperature": round((temp-32)*5/9,1),
+            "rainfall": prediction['precipIntensity'],
+            "windspeed": prediction['windSpeed'],
+             "cloud":prediction['cloudCover'],
+             "visibility":prediction['visibility'],
+             "humidity":prediction['humidity']
+        }
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    weather_file = os.path.join(BASE_DIR, 'bus_app/static/future_weather.json')
+    # save into csv
+    with open(weather_file,"w") as outfile:
+        json.dump(future_weather_dict,outfile,indent=4)
+
+
+
+
 
     Temperature = round((json_temp['currently']['temperature']-32) * 5/9, 1)
     Rainfall = json_temp['currently']['precipIntensity']
@@ -418,6 +457,16 @@ from bus_app.model_predictions.get_model_predictions import getModelPredictions
 
 
 def get_journey_prediction(request):
+    day_dict = {
+            "Mon":0,
+            "Tue":1,
+            "Wed":2,
+            "Thu":3,
+            "Fri":4,
+            "Sat":5,
+            "Sun":6
+        }
+
     if request.POST:
         pass
     print("info")
@@ -430,12 +479,28 @@ def get_journey_prediction(request):
 
     # This needs to be changed to be automatic (i.e. POST.get)
     direction=1
-    
-    weather_ = request.POST.get("model_weather")
-    # print("{} \n {} \n {} \n {} \n {} \n ".format(route_,start_stop,end_stop,date_,time_))
-    # print("hey")
+    split_date = date_.split(" ")
+    day_string = split_date[0].strip()
+    day = day_dict[day_string]
+    # function to determine what weatehr information to use
+    current_time = datetime.datetime.now()
+        # same day?
+    if current_time.weekday() == day:
+        # use current forecast
+        weather_= request.POST.get("model_weather")
+        weather_array = weather_.split(",")
+    else:
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        weather_file = os.path.join(BASE_DIR, 'bus_app/static/future_weather.json')
+        # look up weather array for the day
+        weather_array=[]
+        with open(weather_file,) as outfile:
+            weather_dict = json.load(outfile)
+        get_prediction = weather_dict[day_string]
+        weather_array = [get_prediction["temperature"],get_prediction["rainfall"], get_prediction["windspeed"], get_prediction["cloud"], get_prediction["visibility"],get_prediction["humidity"]]
+
     # split string of weather values
-    weather_array = weather_.split(",")
+    
     # weather_array = ['temperature','rainfall','windspeed','cloud','visibility']
     Temperature = weather_array[0]
     Rainfall = weather_array[1]
@@ -444,16 +509,12 @@ def get_journey_prediction(request):
     Visibility = weather_array[4]
     Humidity = weather_array[5]
 
-    
-
     prediction = getModelPredictions(route_,direction,start_stop,end_stop,date_,time_,Temperature,Rainfall,WindSpeed,Cloud,Visibility,Humidity)
     print("Final_pred:  {}".format(prediction))
-    # context={}
-    # context['prediction'] = prediction
-    # return render(request, 'index.html', context)
+
     return HttpResponse(prediction)
-    # return JsonResponse(prediction, safe=False)
-    # return redirect('index')
+
+
 
 # Update User Credentials View
 from .forms import UpdateUserForm, UpdateLeapCardUsernameForm
