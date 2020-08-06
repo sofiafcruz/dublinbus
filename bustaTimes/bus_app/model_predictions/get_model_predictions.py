@@ -126,16 +126,17 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     
     column_headers = []
     row = []
-    for key in parameters:
+    for key in model_dict:
         column_headers.append(key)
-        row.append(parameters[key])
+        row.append(model_dict[key])
     row_embedded = [row]
     # print(column_headers)
     # print(row_embedded)
     # Make df out of values
     formatted_parameters = pd.DataFrame(row_embedded,columns=column_headers)
     print(formatted_parameters.shape)
-    print(formatted_parameters)
+    # print(formatted_parameters)
+    print(formatted_parameters.dtypes)
 
     # Select correct model using route
     model_name = "{}_D{}.sav".format(route,direction)
@@ -159,13 +160,13 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         hist = os.path.join(BASE_DIR, 'static/{}'.format(average_file))
         with open(hist,) as fp:
             historical_average_data = json.load(fp)
-        segments = historical_average_data[route]["D{}".format(direction)]["order"]
+        segments = historical_average_data[route]["direction_{}".format(direction)]["order"]
         # get segments including start and end stop
         journey_segments = segments[int(start_stop):int(end_stop)]
         offset = 0
-        for key in historical_average_data[route]["D{}".format(direction)]["segments"]:
+        for key in historical_average_data[route]["direction_{}".format(direction)]["segments"]:
             if key not in journey_segments:
-                offset+=historical_average_data[route]["D{}".format(direction)]["segments"][key]
+                offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key])
 
         final_pred = prediction[0]-offset
         final = final_pred//60

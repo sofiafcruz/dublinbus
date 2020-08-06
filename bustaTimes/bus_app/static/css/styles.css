@@ -40,6 +40,7 @@ body {
 #origin-to-destination-header {
   padding: 10px;
   font-size: small;
+  margin-bottom: 5px;
 }
 
 #json-starting-stops,
