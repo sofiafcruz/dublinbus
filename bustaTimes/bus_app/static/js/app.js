@@ -888,18 +888,18 @@ function calculateFare() {
 
     // Result
     result = `
-              <table class="table">
+              <table class="table table-sm table-hover">
                 <thead class="thead-dark">
                   <tr>
-                    <th>Type</th>
-                    <th>Cash(€)</th>
-                    <th>Leap Card(€)</th>
+                    <th><small>Type</small></th>
+                    <th><small>Cash(€)</small></th>
+                    <th><small>Leap Card(€)</small></th>
                   </tr>
                 </thead>
                 <tr>
-                  <td>Adult</td>
-                  <td>${cash_fare.toFixed(2)}</td>
-                  <td>${leap_card_fare.toFixed(2)}</td>
+                  <td><small class="text-muted">Adult</small></td>
+                  <td><small class="text-muted">${cash_fare.toFixed(2)}</small></td>
+                  <td><small class="text-muted">${leap_card_fare.toFixed(2)}</small></td>
                 </tr>
             `;
 
@@ -959,9 +959,9 @@ function calculateFare() {
     // Result
     result += `
                 <tr>
-                  <td>Child</td>
-                  <td>${cash_fare.toFixed(2)}</td>
-                  <td>${leap_card_fare.toFixed(2)}</td>
+                  <td><small class="text-muted">Child</small></td>
+                  <td><small class="text-muted">${cash_fare.toFixed(2)}</small></td>
+                  <td><small class="text-muted">${leap_card_fare.toFixed(2)}</small></td>
                 </tr>
               </table>
             `;

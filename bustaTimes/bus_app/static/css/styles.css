@@ -492,3 +492,7 @@ select,
   background-color: lightskyblue;
   color: white;
 }
+
+#fare-table {
+  margin-top: 10px;
+}
