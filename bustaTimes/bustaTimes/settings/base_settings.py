@@ -10,6 +10,9 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
+# Used to Generate New Random Key, as original one was compromised
+# from django.core.management.utils import get_random_secret_key
+# print(get_random_secret_key())
 
 import os
 
@@ -21,7 +24,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'blog_app/templates') # path created by to
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kqkvq8i_l#1^q8x#*xknkjzndek!n8h*t9p5m(irap5vldkafl'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 ALLOWED_HOSTS = []
 
@@ -109,6 +112,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+
+# The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
 
+# The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'static') # To connect to the static folder
