@@ -55,14 +55,8 @@ body {
   margin-top: 0.2em;
 }
 
-.search-by-busstop-options {
-  background: white;
-  border: 0.02em solid black;
-  padding: 0.5em;
-}
-
 .search-by-busstop-options:hover {
-  background-color: rgb(224, 213, 213);
+  background-color: #dceaef;
 }
 
 .busstop-option {
@@ -70,9 +64,9 @@ body {
 }
 
 .total-matches-shown {
-  background: black;
-  color: antiquewhite;
-  border: 0.02em solid black;
+  background: rgb(76,105,116,0.8);
+  border-radius: 25px;
+  color: white;
   padding: 0.5em;
 }
 
@@ -470,31 +464,6 @@ select,
   transition: 1s;
 }
 
-/* Due Table */
-#due-table {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#due-table td,
-#due-table th {
-  border: 1px solid #ddd;
-  padding: 3px;
-}
-
-#due-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-#due-table tr:hover {
-  background-color: #ddd;
-}
-
-#due-table th {
-  padding-top: 3px;
-  padding-bottom: 3px;
-  text-align: left;
-  background-color: lightskyblue;
-  color: white;
+#fare-table {
+  margin-top: 10px;
 }

@@ -565,8 +565,9 @@ const showMatches = (matches) => {
         (match) => `
             <div id="${match.search_name}" class="search-by-busstop-options" onclick="populateInputWithStop(this.id)">
                 <p class="text-primary busstop-option" id="searchname-option">${match.search_name}</p>
-                <small class="busstop-option" style="overflow-wrap:break-word; max-width:100%">${match.routes_serviced}</small> 
+                <small class="busstop-option text-muted" style="overflow-wrap:break-word; max-width:100%">${match.routes_serviced}</small> 
             </div>
+            <hr style="margin:5px;">
         `
       )
       .join("");
@@ -581,12 +582,12 @@ const showMatches = (matches) => {
     // If the number of matches found is over 10, show 1 message
     if (matches.length > 10) {
       match_list.innerHTML += `<div class="total-matches-shown">
-                                  <h5>${num_of_results_shown} of possible ${matches.length} matches shown</h5>
+                                  <small>${num_of_results_shown} of ${matches.length} matches shown</small>
                               </div>`;
       // Else, message shows how many are being shown (all of the matches)
     } else {
       match_list.innerHTML += `<div class="total-matches-shown">
-                                  <h5>All ${matches.length} matches are being shown</h5>
+                                  <small>All ${matches.length} matches are being shown</small>
                               </div>`;
     }
   }
@@ -887,18 +888,18 @@ function calculateFare() {
 
     // Result
     result = `
-              <table class="table">
+              <table class="table table-sm table-hover">
                 <thead class="thead-dark">
                   <tr>
-                    <th>Type</th>
-                    <th>Cash(€)</th>
-                    <th>Leap Card(€)</th>
+                    <th><small>Type</small></th>
+                    <th><small>Cash(€)</small></th>
+                    <th><small>Leap Card(€)</small></th>
                   </tr>
                 </thead>
                 <tr>
-                  <td>Adult</td>
-                  <td>${cash_fare.toFixed(2)}</td>
-                  <td>${leap_card_fare.toFixed(2)}</td>
+                  <td><small class="text-muted">Adult</small></td>
+                  <td><small class="text-muted">${cash_fare.toFixed(2)}</small></td>
+                  <td><small class="text-muted">${leap_card_fare.toFixed(2)}</small></td>
                 </tr>
             `;
 
@@ -958,9 +959,9 @@ function calculateFare() {
     // Result
     result += `
                 <tr>
-                  <td>Child</td>
-                  <td>${cash_fare.toFixed(2)}</td>
-                  <td>${leap_card_fare.toFixed(2)}</td>
+                  <td><small class="text-muted">Child</small></td>
+                  <td><small class="text-muted">${cash_fare.toFixed(2)}</small></td>
+                  <td><small class="text-muted">${leap_card_fare.toFixed(2)}</small></td>
                 </tr>
               </table>
             `;
