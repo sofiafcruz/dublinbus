@@ -535,10 +535,6 @@ function grabRealTimeContent(stopNum) {
   });
 }
 
-// $(document).ready( function () {
-//   $('#due-table').DataTable();
-// } );
-
 // **************** Creates the content of the info window of the marker that is clicked to relevant real-time info generated on backend ****************
 function setWindowContentHTML(objects, stopNum) {
   // Function takes 2 parameters:
@@ -546,14 +542,10 @@ function setWindowContentHTML(objects, stopNum) {
   // 2. The number of the stop marker that is clicked.
 
   // let outputHTML = "";
-  let outputHTML = `<div id="bus-stop-info-container">
-                      <h5 style="text-align: center; text-decoration: underline;">${stopNum}</h5>
-                      <div class="btn-group btn-group-sm container" role="group" id="bus-stop-tabs">
-                        <button type="button" class="btn btn-secondary">Due</button>
-                        <button type="button" class="btn btn-secondary">Timetable</button>
-                      </div>
-                      <table id="due-table">
-                        <thead>
+  let outputHTML = `<div id="bus-stop-info-container" style="max-height:200px; overflow:scroll;">
+                      <h4>#${stopNum}</h4>
+                      <table class="table table-sm table-hover">
+                        <thead class="thead-light">
                           <tr>
                             <th>Route</th>
                             <th>Destination</th>
@@ -614,10 +606,7 @@ function stopsInfowindow(marker) {
 // Called when switch button changes
 function fillUsersLocation() {
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("users-location-switch")[0]
-    .checked
-    ? true
-    : false;
+  var switchValue = document.getElementsByClassName("users-location-switch")[0].checked ? true : false;
   // If switch button on
   if (switchValue) {
     // Get User's current location and fill origin with it.

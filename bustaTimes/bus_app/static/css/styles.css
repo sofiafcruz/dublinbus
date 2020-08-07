@@ -464,35 +464,6 @@ select,
   transition: 1s;
 }
 
-/* Due Table */
-#due-table {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#due-table td,
-#due-table th {
-  border: 1px solid #ddd;
-  padding: 3px;
-}
-
-#due-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-#due-table tr:hover {
-  background-color: #ddd;
-}
-
-#due-table th {
-  padding-top: 3px;
-  padding-bottom: 3px;
-  text-align: left;
-  background-color: lightskyblue;
-  color: white;
-}
-
 #fare-table {
   margin-top: 10px;
 }
