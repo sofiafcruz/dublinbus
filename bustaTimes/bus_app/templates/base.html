@@ -192,25 +192,27 @@
                     
                     <div class="modal-body">
                         <!-- Table Hierarchy -->
-                        <table id="favourites-table">
-                            <tr>
-                                <th>#</th>
-                                <th>Route Name/Num</th>
-                                <th>Start</th>
-                                <th>End</th>
-                                <th># Stops</th>
-                                <th>Date Saved</th>
-                                <th>Delete</th>
-                            </tr>
+                        <table id="favourites-table" class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    {% comment %} <th>#</th> {% endcomment %}
+                                    <th>#</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th># Stops</th>
+                                    <th>Date Saved</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
                             {% for journey in users_favourite_journeys  %}
                                 <tr class="clickable-row" id="pk-{{ journey.pk }}">
-                                    <td>{{ forloop.counter }}</td>
+                                    {% comment %} <td>{{ forloop.counter }}</td> {% endcomment %}
                                     <td>{{ journey.route_name }}</td>
                                     <td>{{ journey.origin_stop }}</td>
                                     <td>{{ journey.destination_stop }}</td>
                                     <td>{{ journey.stops_count }}</td>
                                     <td>{{ journey.save_date }}</td>
-                                    <td class="delete-row-td"><a href="{% url 'delete_favourite_journey' journey.pk %}"><img onclick="deleteRow(this)" src="./static/images/delete-icon.png" alt="Delete This Row" style="width:70px; height:auto;"></a></td>
+                                    <td class="delete-row-td"><a href="{% url 'delete_favourite_journey' journey.pk %}"><img onclick="deleteRow(this)" src="./static/images/delete-icon.png" alt="Delete This Row" style="width:50px; height:auto;"></a></td>
                                 </tr>
                             {% endfor %}
                         </table>

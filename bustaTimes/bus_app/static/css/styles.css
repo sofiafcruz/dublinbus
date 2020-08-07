@@ -360,11 +360,9 @@ select,
 
 /* Favourites Table */
 #favourites-table {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
   width: 100%;
 }
-
+/* 
 #favourites-table td,
 #favourites-table th {
   border: 1px solid #ddd;
@@ -385,7 +383,7 @@ select,
   text-align: left;
   background-color: lightskyblue;
   color: white;
-}
+} */
 
 /* Make favourites popup bigger when on a large screen (XL) */
 @media (min-width: 768px) {
