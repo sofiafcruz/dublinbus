@@ -3,12 +3,14 @@
 import os
 import sys
 
+django_settings_module = os.environ.get("DJANGO_SETTINGS_MODULE")
 
 def main():
     # GENERAL SETTINGS FILE
     # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bustaTimes.settings')
     # DEVELOPMENT SETTINGS FILE
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bustaTimes.settings.development')
+    # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bustaTimes.settings.development')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', django_settings_module)
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
