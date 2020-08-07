@@ -257,7 +257,7 @@ function showAndLoadStartAndEndDrops(direction) {
     // Store it into an option element
     var opt = document.createElement("option");
     opt.value = index; // Value is the index of the bus stop
-    opt.innerHTML = stop_address + " (" + stop_num + ")";
+    opt.innerHTML = stop_address;
     // Then clone it so it can also be appended to the Ending Stop dropdown
     var cloneOption = opt.cloneNode(true);
     // Append the current iteration's bus stop option to both starting and ending point dropdowns
