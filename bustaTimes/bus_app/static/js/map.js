@@ -173,6 +173,13 @@ function initMap() {
     preserveViewport: false,
   });
 
+  // This should improve geolocation accuracy
+  var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+  };
+
   navigator.geolocation.getCurrentPosition(
     function (position) {
       // Center map on user's current location if geolocation prompt allowed
@@ -182,6 +189,9 @@ function initMap() {
       );
       map.setCenter(usersLocation);
       map.setZoom(15);
+      // Trying to get the coords to be more accurate but can't...
+      console.log(position.coords.latitude);
+      console.log(position.coords.longitude);
 
       // Characteristics of the icon for the user's location
       var icon = {
@@ -199,7 +209,9 @@ function initMap() {
     function (positionError) {
       // Default to Dublin if user denied geolocation prompt
       setMapDublin();
-    }
+    },
+    // If there's an error, timeout after 3 seconds
+    options
   );
 
   // Characteristics of the icon for Bus Stops
