@@ -438,7 +438,7 @@ function calcRouteToAttraction(latitude, longitude) {
 // ================================ OTHER ==============================================
 function setMapDublin() {
   map.setCenter(new google.maps.LatLng(53.346, -6.28));
-  map.setZoom(13);
+  map.setZoom(14);
 }
 
 // Close the previous info window when a new marker is clicked
