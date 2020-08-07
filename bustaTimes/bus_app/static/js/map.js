@@ -94,9 +94,9 @@ function clearLingeringRenderedObjects() {
   // console.log(searched_bus_stop_marker.getPosition().lng());
   // Iterate over them and set them to null
   for (let i=0; i < list_of_possible_lingerers.length; i++) {
-    list_of_possible_lingerers[i].setPosition(null);
-    // list_of_possible_lingerers[i].setMap(null);
-    // DOESN'T WORK WHEN YOU CHANGE SEARCH BY BUS STOP AND THEN CLICK THE BUTTON (e.g. switching from 905 to 22)
+    if ((list_of_possible_lingerers[i] !== null) && (list_of_possible_lingerers[i] !== undefined)) {
+      list_of_possible_lingerers[i].setPosition(null);
+    }
   }
 }
 
@@ -173,6 +173,13 @@ function initMap() {
     preserveViewport: false,
   });
 
+  // This should improve geolocation accuracy
+  // var options = {
+  //   enableHighAccuracy: true,
+  //   timeout: 5000,
+  //   maximumAge: 0
+  // };
+
   navigator.geolocation.getCurrentPosition(
     function (position) {
       // Center map on user's current location if geolocation prompt allowed
@@ -182,6 +189,9 @@ function initMap() {
       );
       map.setCenter(usersLocation);
       map.setZoom(15);
+      // Trying to get the coords to be more accurate but can't...
+      console.log(position.coords.latitude);
+      console.log(position.coords.longitude);
 
       // Characteristics of the icon for the user's location
       var icon = {
@@ -200,6 +210,9 @@ function initMap() {
       // Default to Dublin if user denied geolocation prompt
       setMapDublin();
     }
+    // ,
+    // // If there's an error, timeout after 3 seconds
+    // options
   );
 
   // Characteristics of the icon for Bus Stops
@@ -309,7 +322,8 @@ function panToUsersLocation() {
       map.panTo(userLatLng);
     });
   } else {
-    alert("Geolocation is not supported or enabled.");
+    console.log("Geolocation is not supported or enabled.");
+    map.panTo(userLatLng);
   }
 }
 
@@ -521,6 +535,10 @@ function grabRealTimeContent(stopNum) {
   });
 }
 
+// $(document).ready( function () {
+//   $('#due-table').DataTable();
+// } );
+
 // **************** Creates the content of the info window of the marker that is clicked to relevant real-time info generated on backend ****************
 function setWindowContentHTML(objects, stopNum) {
   // Function takes 2 parameters:
@@ -535,38 +553,30 @@ function setWindowContentHTML(objects, stopNum) {
                         <button type="button" class="btn btn-secondary">Timetable</button>
                       </div>
                       <table id="due-table">
-                        <th>Route</th>
-                        <th>Origin</th>
-                        <th>Destination</th>
-                        <th>Due</th>
+                        <thead>
+                          <tr>
+                            <th>Route</th>
+                            <th>Destination</th>
+                            <th>Due</th>
+                          </tr>
+                        </thead>
+                        <tbody>
                     `;
 
   // If the API call was successful, and we got an array of objects, then fill the info window content with the data
   if (objects.length > 0) {
     for (i = 0; i < objects.length; i++) {
       console.log(objects[i]);
-      // Original Version
-      // outputHTML += `
-      //   <div id="marker-window-realtime-content">
-      //     <h6>${objects[i]["route"]}</h6>
-      //     <p><b>${objects[i]["origin"]}</b> to <b>${objects[i]["destination"]}</b></p>
-      //     <p>Due: ${objects[i]["due"]}</p>
-      //     <p>Scheduled Arrival: ${objects[i]["scheduled_arrival_datetime"]}</p>
-      //     <p>Actual Arrival: ${objects[i]["arrival_datetime"]}</p>
-      //     <hr>
-      //   </div>
-      // `;
       // Tabular Version
       outputHTML += `
         <tr>
           <td>${objects[i]["route"]}</td>
-          <td>${objects[i]["origin"]}</td>
           <td>${objects[i]["destination"]}</td>
           <td>${objects[i]["due"]}</td>
         </tr>
       `;
     }
-    outputHTML += `
+    outputHTML += `   </tbody>
                       </table>
                     </div>
                   `;
@@ -626,7 +636,9 @@ function getUsersLocation() {
       navigator.geolocation.getCurrentPosition(logSuccessAndPopulateOrigin)
     );
   } else {
+    // Else set them to Dublin
     alert("Geolocation is not supported or enabled.");
+    setMapDublin();
   }
 }
 

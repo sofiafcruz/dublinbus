@@ -124,7 +124,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class AdditionalUserInfo(models.Model):
     # 1-to-1 field used to extend the original Django User table BUT NOT modify it
-    user = models.OneToOneField(User, on_delete=models.CASCADE) # Whenever we delete the user, also delete its additional info
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True) # Whenever we delete the user, also delete its additional info
     # Adding the fields of interest
     leapcard_username = models.CharField(max_length=50, blank=True) # Won't be required (i.e. will be optional)
     # leapcard_password = models.CharField(max_length=256, blank=True) # Won't be required (i.e. will be optional)
@@ -148,6 +148,6 @@ class FavouriteJourney(models.Model):
         return f"Route: {self.route_name}, from stop {self.origin_stop} to stop {self.destination_stop}"
 
     class Meta:
-        ordering = ('save_date',)
-        unique_together = ["route_name", "origin_stop", "destination_stop"]
+        ordering = ('save_date',) # Ensures that journey instances are ordered in terms of save date (but probably not import as already ordered by PK... Unncessary?)
+        unique_together = ["route_name", "origin_stop", "destination_stop"] # Ensure that user cannot save exact same journey twice
 

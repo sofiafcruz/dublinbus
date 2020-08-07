@@ -126,7 +126,7 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     
     column_headers = []
     row = []
-    for key in model_dict:
+    for key in parameters:
         column_headers.append(key)
         row.append(model_dict[key])
     row_embedded = [row]
@@ -165,10 +165,13 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         journey_segments = segments[int(start_stop):int(end_stop)]
         offset = 0
         for key in historical_average_data[route]["direction_{}".format(direction)]["segments"]:
-            if key not in journey_segments:
-                offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key])
-
-        final_pred = prediction[0]-offset
+            # if key not in journey_segments:
+                # offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key])
+            if key in journey_segments:
+                offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key][1])
+        print(offset)
+        # final_pred = prediction[0]-offset
+        final_pred = prediction[0]*offset
         final = final_pred//60
 
         return int(final)
