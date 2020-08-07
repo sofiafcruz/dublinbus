@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 53 53" style="enable-background:new 0 0 53 53;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#SVGID_1_);stroke:url(#SVGID_2_);stroke-miterlimit:10;}
+	.st1{fill:#4C97AF;stroke:#4C97AF;stroke-miterlimit:10;}
+</style>
+<radialGradient id="SVGID_1_" cx="26.5" cy="26.5" r="25.6997" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.3487" style="stop-color:#4C97AF"/>
+	<stop  offset="0.6093" style="stop-color:#4E98B0;stop-opacity:0.5999"/>
+	<stop  offset="0.7032" style="stop-color:#559CB3;stop-opacity:0.4558"/>
+	<stop  offset="0.7701" style="stop-color:#60A3B8;stop-opacity:0.353"/>
+	<stop  offset="0.8242" style="stop-color:#71ADC0;stop-opacity:0.2699"/>
+	<stop  offset="0.8705" style="stop-color:#87BACA;stop-opacity:0.1988"/>
+	<stop  offset="0.9115" style="stop-color:#A3C9D6;stop-opacity:0.1358"/>
+	<stop  offset="0.9487" style="stop-color:#C3DCE4;stop-opacity:7.879806e-02"/>
+	<stop  offset="0.9817" style="stop-color:#E7F1F4;stop-opacity:2.813816e-02"/>
+	<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
+</radialGradient>
+<radialGradient id="SVGID_2_" cx="26.5" cy="26.5" r="26.1997" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.3475" style="stop-color:#82B6C9"/>
+	<stop  offset="0.6281" style="stop-color:#84B7CA;stop-opacity:0.57"/>
+	<stop  offset="0.7292" style="stop-color:#8BBBCD;stop-opacity:0.4151"/>
+	<stop  offset="0.8012" style="stop-color:#96C2D2;stop-opacity:0.3046"/>
+	<stop  offset="0.8595" style="stop-color:#A7CCD9;stop-opacity:0.2154"/>
+	<stop  offset="0.9094" style="stop-color:#BDD9E3;stop-opacity:0.1389"/>
+	<stop  offset="0.9535" style="stop-color:#D9E9EE;stop-opacity:7.125962e-02"/>
+	<stop  offset="0.9925" style="stop-color:#F8FBFC;stop-opacity:1.152462e-02"/>
+	<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
+</radialGradient>
+<circle class="st0" cx="26.5" cy="26.5" r="25.7"/>
+<circle class="st1" cx="26.5" cy="26.5" r="14.4"/>
+</svg>
