@@ -175,9 +175,10 @@ prediction_form.submit(function () {
       // Hide the loading icon and show the balance
       // $(".ajax-loading").css("display", "none");
       // $(".ajax-loading").css("display", "block");
-      $("#display_prediction").text(
-        "Approximate Journey Prediction: " + data + " minutes"
+      var obj = $("#display_prediction").text(
+        "Approximate Journey Prediction: \n" + data + " minutes"
       );
+      obj.html(obj.html().replace(/\n/g, "<br/>"));
     },
     error: function (error) {
       console.log("Something went wrong!");
