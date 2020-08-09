@@ -247,6 +247,9 @@ function showAndLoadStartAndEndDrops(direction) {
     "From " + origin + " to " + destination
   );
 
+  // Populating drop downs - separate into function so that it can be altered and dynamic - first drop down will always have all stops - only second one needs to be filtered
+  // originally populate a certain way (default start, then have a function which alters the second drop down)
+
   let stops = direction_1["stops"];
   for (index in stops) {
     // Grab the bus stop address
@@ -259,10 +262,29 @@ function showAndLoadStartAndEndDrops(direction) {
     opt.value = index; // Value is the index of the bus stop
     opt.innerHTML = stop_address;
     // Then clone it so it can also be appended to the Ending Stop dropdown
-    var cloneOption = opt.cloneNode(true);
-    // Append the current iteration's bus stop option to both starting and ending point dropdowns
-    json_ending_point_dropdown.appendChild(opt);
-    json_starting_point_dropdown.appendChild(cloneOption);
+    // var cloneOption = opt.cloneNode(true);
+    // // Append the current iteration's bus stop option to both starting and ending point dropdowns
+    // json_ending_point_dropdown.appendChild(opt);
+    // json_starting_point_dropdown.appendChild(cloneOption);
+
+    // last index - don;t want it to be in start dropdown
+    if (index == stops.length - 1) {
+      json_ending_point_dropdown.appendChild(opt);
+    } else {
+      // Then clone it so it can also be appended to the Ending Stop dropdown
+      var cloneOption = opt.cloneNode(true);
+      // Append the current iteration's bus stop option to both starting and ending point dropdowns
+      json_starting_point_dropdown.appendChild(opt);
+    }
+
+    // skip first index - can only select first two stops
+    if (index > 0 && index != stops.length - 1) {
+      json_ending_point_dropdown.appendChild(cloneOption);
+    }
+    if (index == stops.length - 1) {
+      console.log("value:", stops.length - 2);
+      json_ending_point_dropdown.options[stops.length - 2].selected = true;
+    }
   }
   // At the end, make sure to display the container holding the starting and ending stop dropdowns (as it's initially hidden)
   $("#stops-dropdowns-container").css("display", "block");
@@ -358,9 +380,9 @@ function generateStopArray() {
   var selected_end = parseInt(
     document.getElementById("json-ending-stops").value
   );
-  
+
   // console.log(selected_route + " - " + selected_start + " - " + selected_end);
-  
+
   // Logic for if Destination before Origin or vice versa
   if (selected_start > selected_end) {
     alert("Warning: Cannot have Start Stop AFTER Destination Stop");
@@ -827,7 +849,7 @@ function calculateFare() {
   let x_route;
   let route = document.getElementById("json-routes").value;
   // Determine if user is looking for a standard route or Xpresso
-  if (route.charAt((route.length-1)) === 'X') {
+  if (route.charAt(route.length - 1) === "X") {
     x_route = true;
   } else {
     x_route = false;
@@ -848,14 +870,13 @@ function calculateFare() {
     let leap_card_fare;
     let cash_fare;
     let result;
-    
 
     // ===== Adult Data =====
     // If Xpresso route, set the fares
     if (x_route) {
       cash_fare = 3.8;
       leap_card_fare = 3;
-    // Else perform logic to determine the fares
+      // Else perform logic to determine the fares
     } else {
       selected_customer = data["adult"];
       // Grab Payment Types
@@ -898,8 +919,12 @@ function calculateFare() {
                 </thead>
                 <tr>
                   <td><small class="text-muted">Adult</small></td>
-                  <td><small class="text-muted">${cash_fare.toFixed(2)}</small></td>
-                  <td><small class="text-muted">${leap_card_fare.toFixed(2)}</small></td>
+                  <td><small class="text-muted">${cash_fare.toFixed(
+                    2
+                  )}</small></td>
+                  <td><small class="text-muted">${leap_card_fare.toFixed(
+                    2
+                  )}</small></td>
                 </tr>
             `;
 
@@ -908,7 +933,7 @@ function calculateFare() {
     if (x_route) {
       cash_fare = 1.6;
       leap_card_fare = 1.26;
-    // Else perform logic to determine the fares
+      // Else perform logic to determine the fares
     } else {
       selected_customer = data["child"];
 
@@ -960,8 +985,12 @@ function calculateFare() {
     result += `
                 <tr>
                   <td><small class="text-muted">Child</small></td>
-                  <td><small class="text-muted">${cash_fare.toFixed(2)}</small></td>
-                  <td><small class="text-muted">${leap_card_fare.toFixed(2)}</small></td>
+                  <td><small class="text-muted">${cash_fare.toFixed(
+                    2
+                  )}</small></td>
+                  <td><small class="text-muted">${leap_card_fare.toFixed(
+                    2
+                  )}</small></td>
                 </tr>
               </table>
             `;
