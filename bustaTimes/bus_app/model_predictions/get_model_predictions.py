@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from django.conf import settings
 import json
+import datetime
 
 day_dict = {
     "Mon":0,
@@ -29,50 +30,12 @@ month_dict = {
     "Dec":12
 }
 
-model_dict = {'rain': 0,
- 'temp': 0,
- 'cloud': 0,
- 'visibility': 0,
- 'wind_spe': 0,
- 'humidity': 0,
- 'segment_time':60,
- 'month_2': 0,
- 'month_3': 0,
- 'month_4': 0,
- 'month_5': 0,
- 'month_6': 0,
- 'month_7': 0,
- 'month_8': 0,
- 'month_9': 0,
- 'month_10': 0,
- 'month_11': 0,
- 'month_12': 0,
- 'day_of_week_1': 0,
- 'day_of_week_2': 0,
- 'day_of_week_3': 0,
- 'day_of_week_4': 0,
- 'day_of_week_5': 0,
- 'day_of_week_6': 0,
- 'hour_6': 0,
- 'hour_7': 0,
- 'hour_8': 0,
- 'hour_9': 0,
- 'hour_10': 0,
- 'hour_11': 0,
- 'hour_12': 0,
- 'hour_13': 0,
- 'hour_14': 0,
- 'hour_15': 0,
- 'hour_16': 0,
- 'hour_17': 0,
- 'hour_18': 0,
- 'hour_19': 0,
- 'hour_20': 0,
- 'hour_21': 0,
- 'hour_22': 0,
- 'hour_23': 0,
- 'public_holiday_1': 0
- }
+time_slot={
+    'morn':[6,7,8,9,10,11],
+    'afternoon':[12,13,14,15],
+    'rush_eve':[16,17,18,19],
+    'night':[20,21,22,23,0]
+}
 
 
 
@@ -98,14 +61,27 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     hour = str(hr)
 
     # Make copy of model_dict and change the values according to inputted values 
-    parameters = model_dict.copy()
-    # change weather parameters
-    parameters["temp"] = temp
-    parameters["rain"] = rain
-    parameters["wind_spe"] = wind
-    parameters["cloud"] = cloud
-    parameters["visibility"] = visibility
-    parameters["humidity"] = humidity
+    # parameters = model_dict.copy()
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    name = os.path.join(BASE_DIR, 'static/model_metrics_cv.json')
+    with open(name) as outfile:
+        model_params = json.load(outfile)
+
+    param_list = model_params[route]["direction_{}".format(direction)]['cols']
+    parameters={}
+    for elem in param_list:
+        if elem != "Unnamed: 0" and elem != 'trip_time':
+            parameters[elem] =0
+    print("dictionary:", parameters)
+
+    # Use the current weather info
+    parameters["temp"] = float(temp)
+    parameters["rain"] = float(rain)
+    parameters["wind_spe"] = float(wind)
+    parameters["cloud"] = float(cloud)
+    parameters["visibility"] = float(visibility)
+    parameters["humidity"] = float(humidity)
+
 
     # dummy variables (change relevant col to 1) - will change to 1 if present otherwise leave all as 0
     try:
@@ -128,22 +104,22 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     row = []
     for key in parameters:
         column_headers.append(key)
-        row.append(model_dict[key])
+        row.append(parameters[key])
     row_embedded = [row]
     # print(column_headers)
     # print(row_embedded)
     # Make df out of values
     formatted_parameters = pd.DataFrame(row_embedded,columns=column_headers)
-    print(formatted_parameters.shape)
+    # print('FORMATTED PARAMETERS',formatted_parameters.shape)
     # print(formatted_parameters)
-    print(formatted_parameters.dtypes)
+    # print(formatted_parameters.dtypes)
+    # print(formatted_parameters)
 
     # Select correct model using route
     model_name = "{}_D{}.sav".format(route,direction)
     print(model_name)
 
     try:
-        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         model = os.path.join(BASE_DIR, 'static/model_files/{}'.format(model_name))
     # file = open(test,'rb')
         with open(model, 'rb') as p:
@@ -153,22 +129,47 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         prediction = loaded_model.predict(formatted_parameters)
         print(prediction[0])
 
-
-    # Calculate offset (get direction, start and stop  - add that splice of segment order list to new list and then go through segment dict and substract time for each segment
-    # ) 
-        average_file = "historical_average.json"
+    # USES JUST HISTORICAL AVERAGE - FOR COMPARISON
+        # average_file = "historical_average.json"
+        # hist = os.path.join(BASE_DIR, 'static/{}'.format(average_file))
+        # with open(hist,) as fp:
+        #     historical_average_data = json.load(fp)
+        # segments = historical_average_data[route]["direction_{}".format(direction)]["order"]
+        # # get segments including start and end stop
+        # journey_segments = segments[int(start_stop):int(end_stop)]
+        # offset = 0
+        # for key in historical_average_data[route]["direction_{}".format(direction)]["segments"]:
+        #     # if key not in journey_segments:
+        #         # offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key])
+        #     if key in journey_segments:
+        #         offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key][1])
+        
+        average_file = "hist_averages_corrected.json"
         hist = os.path.join(BASE_DIR, 'static/{}'.format(average_file))
         with open(hist,) as fp:
             historical_average_data = json.load(fp)
-        segments = historical_average_data[route]["direction_{}".format(direction)]["order"]
+        
+        segments = historical_average_data[route]["D{}".format(direction)]["order"]
         # get segments including start and end stop
         journey_segments = segments[int(start_stop):int(end_stop)]
         offset = 0
-        for key in historical_average_data[route]["direction_{}".format(direction)]["segments"]:
-            # if key not in journey_segments:
-                # offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key])
-            if key in journey_segments:
-                offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key][1])
+
+        # Loop through each segment and find appropriate time slot and add up % of all appropriate segments
+        slot = 'N/A'
+        print("Hour: ",hour)
+        for key in time_slot:
+            if int(hour) in time_slot[key]:
+                slot=key
+        print("slot:  ",slot)
+        # if it is a valid time slot
+        if slot !='N/A':
+            for seg in historical_average_data[route]["D{}".format(direction)]["segments"]:
+                # add up % of all segments within the slice 'journey_segments'
+                if seg in journey_segments:
+                    offset+=float(historical_average_data[route]["D{}".format(direction)]["segments"][seg][slot][1])
+        else:
+            print("not a valid time")
+
         print(offset)
         # final_pred = prediction[0]-offset
         final_pred = prediction[0]*offset

@@ -52,7 +52,15 @@ def index(request):
     # This will be generated everytime there is a page load (wasteful?) - could in the future check for results 
     # Generate hourly for next 48 hours and use that if possible
     # Generate daily which will be the fall back prediction
-
+    day_dict = {
+        "Mon":0,
+        "Tue":1,
+        "Wed":2,
+        "Thu":3,
+        "Fri":4,
+        "Sat":5,
+        "Sun":6
+    }
     future_weather_dict={}
     # Get next five days (times appear to be midnight of the day they are predicting) - can get hourly for 48 hours
     future_predictions = json_temp['daily']['data']
@@ -62,7 +70,7 @@ def index(request):
 
         # need to get middle range with temperature
         temp = (prediction['temperatureHigh']+prediction['temperatureLow'])/2
-
+        day = day_dict[day]
         future_weather_dict[day] = {
             "temperature": round((temp-32)*5/9,1),
             "rainfall": prediction['precipIntensity'],
@@ -77,9 +85,6 @@ def index(request):
     # save into csv
     with open(weather_file,"w") as outfile:
         json.dump(future_weather_dict,outfile,indent=4)
-
-
-
 
 
     Temperature = round((json_temp['currently']['temperature']-32) * 5/9, 1)
@@ -477,8 +482,8 @@ def get_journey_prediction(request):
 
     if request.POST:
         pass
-    print("info")
-    print(request.POST)
+    # print("info")
+    # print(request.POST)
     route_ = request.POST.get("route")
     start_stop = request.POST.get("start_stop")
     end_stop = request.POST.get("end_stop")
@@ -492,6 +497,7 @@ def get_journey_prediction(request):
     day = day_dict[day_string]
     # function to determine what weatehr information to use
     current_time = datetime.datetime.now()
+ 
         # same day?
     if current_time.weekday() == day:
         # use current forecast
@@ -504,7 +510,7 @@ def get_journey_prediction(request):
         weather_array=[]
         with open(weather_file,) as outfile:
             weather_dict = json.load(outfile)
-        get_prediction = weather_dict[day_string]
+        get_prediction = weather_dict[str(day)]
         weather_array = [get_prediction["temperature"],get_prediction["rainfall"], get_prediction["windspeed"], get_prediction["cloud"], get_prediction["visibility"],get_prediction["humidity"]]
 
     # split string of weather values
