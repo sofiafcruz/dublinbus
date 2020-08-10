@@ -175,8 +175,10 @@ prediction_form.submit(function () {
       // Hide the loading icon and show the balance
       // $(".ajax-loading").css("display", "none");
       // $(".ajax-loading").css("display", "block");
+
+      // add some logic for error message
       var obj = $("#display_prediction").text(
-        "Approximate Journey Prediction: \n" + data + " minutes"
+        "Approximate Journey Prediction: \n" + data
       );
       obj.html(obj.html().replace(/\n/g, "<br/>"));
     },

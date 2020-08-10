@@ -171,10 +171,16 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         print("slot:  ",slot)
         # if it is a valid time slot
         if slot !='N/A':
-            for seg in historical_average_data[route]["D{}".format(direction)]["segments"]:
-                # add up % of all segments within the slice 'journey_segments'
-                if seg in journey_segments:
-                    offset+=float(historical_average_data[route]["D{}".format(direction)]["segments"][seg][slot][1])
+            # times with 'NaN' are not valid i.e. time isn't appropriate
+            if slot not in historical_average_data[route]["D{}".format(direction)]['invalid_times']:
+                for seg in historical_average_data[route]["D{}".format(direction)]["segments"]:
+                    # add up % of all segments within the slice 'journey_segments'
+                    if seg in journey_segments:
+                        offset+=float(historical_average_data[route]["D{}".format(direction)]["segments"][seg][slot][1])
+            else:
+                # return some kind of error message which lists valid times? [or returns some kind of timetable]
+                print("invalid time please select a time")
+                return "WRONG TIME SLOT"
         else:
             print("not a valid time")
 
@@ -183,7 +189,9 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         final_pred = prediction[0]*offset
         final = final_pred//60
 
-        return int(final)
+        # return some info on next bus available??
+
+        return "{} minutes".format(int(final))
         
 
 
