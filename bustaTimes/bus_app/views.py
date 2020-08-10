@@ -3,11 +3,6 @@ from django.http import HttpResponse
 import json
 import datetime
 import time
-# From models.py file in the current folder, import the tables
-# from .models import Route, BusStop, RouteAndStop
-# From forms.py file in the current folder, import the forms
-# from .forms import RouteForm
-# from .forms import RouteModelForm
 import os
 import requests
 from bus_app.leap_card.test_leap_card_api import get_leap_card_details
@@ -25,19 +20,6 @@ def index(request):
     # USER CREATION FORM
     create_form = CreateUserForm()
     additional_info_form = AdditionalUserInfoForm()
-
-    # all_routes = Route.objects.all()
-    # all_stops = BusStop.objects.all()
-
-    # route_form = RouteForm()
-    # route_model_form = RouteModelForm
-
-    # all_bus_stops = BusStop.objects.all()
-    # stops=[]
-    # for stop in all_bus_stops:
-    #     stop_temp={"number": stop.stop_num, "address": stop.address, "latitude": stop.latitude, "longitude": stop.longitude}
-    #     stops.append(stop_temp)
-    # bus_stops_json = json.dumps(stops)
 
     def conv_2(ep):
         return time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime(ep+3600))
@@ -115,11 +97,6 @@ def index(request):
     
     context = {
         'google_maps_key':google_maps_key,
-        # 'routes': all_routes,
-        # "bus_stops": all_stops,
-        # 'bus_stops': bus_stops_json,
-        # 'route_form': route_form,
-        # 'route_model_form': route_model_form,
         'weather': current_weather_js,
         'main_table_data': main_table_data,
         'route_origin_and_destination_data': route_origin_and_destination_data,
@@ -131,10 +108,6 @@ def index(request):
     if request.user.is_authenticated:
         # Print in backend to show user logged in
         print(f"User: {request.user} logged in...")
-        
-        # Not sure if form needed?
-        # favourite_journey_form = FavouriteJourneyForm()
-        # context["favourite_journey_form"] = favourite_journey_form
 
         # Populate favourite journeys
         user_id = request.user.pk
@@ -152,58 +125,8 @@ def index(request):
     
     return render(request, 'index.html', context)
 
-
-# def create_json_response_obj(request):
-#     route_objs_list = list(Route.objects.values())  # wrap in list(), because QuerySet is not JSON serializable
-#     bus_stops_objs_list = list(BusStop.objects.values())  # wrap in list(), because QuerySet is not JSON serializable
-#     return JsonResponse({
-#                             'route_objs_list':route_objs_list,
-#                             'bus_stops_objs_list':bus_stops_objs_list
-#                         })
-
 from django.http import HttpResponse
 from django.core import serializers
-
-# def show_route(request):
-#     route_pk = "TEST"
-#     all_routes = Route.objects
-
-#     if request.method =='POST':
-#         # Trying to figure out how to grab the route instance...
-#         route_pk = request.POST.get('route') # Grabs the value of the route key in the request.POST QueryDict
-#         print(request.POST) # <QueryDict: {'csrfmiddlewaretoken': ['mfh1Pjs9WiIp0pDuCtQfKMDXNuDgoHVIPNsys3U0Nvq1MwMzguJopn9fLX5wkIl4'], 'route': ['1']}>
-#         print(route_pk)
-#         selected_route = all_routes.get(pk=route_pk) # Grabs the object/instance from the Route table instances that matches the pk/route_name entered
-#         bus_stops_on_route = selected_route.get_all_bus_stops() # queryset of all the busstops of the chosen route
-#         print(bus_stops_on_route)
-#         print(bus_stops_on_route.values()) # prints a queryset of attributes of busstops as dictionaries
-#         print("------------------------------------------------------")
-#     # elif request.method =='GET':
-#     #     print("Hello")
-#     #     route_pk = request.GET
-#     #     print(route_pk)
-    
-#     bus_stop_data = serializers.serialize("json", bus_stops_on_route)
-
-#     context = {
-#         'selected_route': selected_route,
-#         'bus_stops_on_route':bus_stops_on_route.values(),
-#         'bus_stop_data': bus_stop_data,
-#     }
-#     print("================================================================")
-#     print(bus_stop_data)
-#     # return HttpResponse("We got: " + route_pk)
-#     return render(request, 'show_route.html', context)
-
-# def show_modelform_route(request):
-#     if request.method =='POST':
-#         print("IT'S A POST")
-#         print(request.POST)
-#     elif request.method =='GET':
-#         print("IT'S A GET")
-#     else:
-#         print("Not a post or a get")
-#     return HttpResponse("You selected a route from the Model Form Dropdown")
 
 def leap_card_info(request):
     if request.method =='POST':
@@ -333,10 +256,6 @@ def registerUserPopup(request):
                 # And create the additional info for the user
                 additional_info = additional_info_form.save(commit=False)
                 additional_info.user = user
-                # Hasing the password
-                # print(f"Before Hashing: {additional_info.leapcard_password}")
-                # additional_info.leapcard_password = make_password(additional_info.leapcard_password)
-                # print(f"After Hashing: {additional_info.leapcard_password}")
                 additional_info.save()
 
                 # Show appropriate Success Message
@@ -468,7 +387,6 @@ def delete_favourite_journey(request, pk):
 
 from bus_app.model_predictions.get_model_predictions import getModelPredictions
 
-
 def get_journey_prediction(request):
     day_dict = {
             "Mon":0,
@@ -527,8 +445,6 @@ def get_journey_prediction(request):
     print("Final_pred:  {}".format(prediction))
 
     return HttpResponse(prediction)
-
-
 
 # Update User Credentials View
 from .forms import UpdateUserForm, UpdateLeapCardUsernameForm
@@ -589,10 +505,6 @@ def updateUserPopup(request):
                 user.save()
 
                 # Leap Card Username 
-                # Option 1; (NOT UPDATING FOR SOME REASON!!!)
-                # user.additionaluserinfo.leapcard_username = updated_leapcard_username
-
-                # Option 2; (Works)
                 if updated_leapcard_username:
                     user_additional_info = AdditionalUserInfo.objects.get(user=request.user)
                     user_additional_info.leapcard_username = updated_leapcard_username
