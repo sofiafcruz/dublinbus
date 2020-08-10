@@ -1812,14 +1812,6 @@
           "stop_num": "815"
         },
         {
-          "search_name": "816",
-          "long": "N/A",
-          "routes_serviced": ["102"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "816"
-        },
-        {
           "search_name": "3663, Dublin Airport, Corballis Pk",
           "long": -6.234893926677329,
           "routes_serviced": ["102", "41"],
@@ -2783,8 +2775,8 @@
           "stop_num": "793"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -2802,16 +2794,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "401",
-          "long": "N/A",
-          "routes_serviced": ["11", "38", "38A", "38B", "38D", "46A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "401"
         },
         {
           "search_name": "320, Westmoreland Street, Fleet Street",
@@ -3823,14 +3807,6 @@
           "old_stop": "yes",
           "lat": 53.2940779011139,
           "stop_num": "4983"
-        },
-        {
-          "search_name": "7647",
-          "long": "N/A",
-          "routes_serviced": ["111"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7647"
         },
         {
           "search_name": "2042, York Road, Willow Bank",
@@ -5543,28 +5519,6 @@
           "stop_num": "792"
         },
         {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
-        },
-        {
           "search_name": "7586, Leinster Street South, Clare Street",
           "long": -6.2532222884248485,
           "routes_serviced": [
@@ -6230,24 +6184,24 @@
           "stop_num": "7416"
         },
         {
-          "search_name": "3317, Brewery Rd, Leopardstown Rd",
-          "long": "N/A",
+          "search_name": "3317 , Brewery Rd",
+          "long": -6.200635,
           "routes_serviced": ["118"],
-          "lat": "N/A",
+          "lat": 53.27388806,
           "stop_num": "3317"
         },
         {
-          "search_name": "3318, Brewery Rd, Leopardstown Ave",
-          "long": "N/A",
+          "search_name": "3318 , Brewery Rd",
+          "long": -6.197841943999999,
           "routes_serviced": ["118"],
-          "lat": "N/A",
+          "lat": 53.27874194,
           "stop_num": "3318"
         },
         {
-          "search_name": "3320, Brewery Rd, Stillorgan Road",
-          "long": "N/A",
+          "search_name": "3320 , Brewery Rd",
+          "long": -6.194953056,
           "routes_serviced": ["118"],
-          "lat": "N/A",
+          "lat": 53.28198194,
           "stop_num": "3320"
         },
         {
@@ -7419,8 +7373,8 @@
           "stop_num": "1353"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -7439,7 +7393,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -8732,14 +8686,6 @@
           "routes_serviced": ["123", "140", "38", "38A", "38B", "38D"],
           "lat": 53.350349083824604,
           "stop_num": "274"
-        },
-        {
-          "search_name": "7164",
-          "long": "N/A",
-          "routes_serviced": ["123"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7164"
         },
         {
           "search_name": "1505, Parnell Street, Gardiner Street",
@@ -10771,14 +10717,6 @@
           "stop_num": "7591"
         },
         {
-          "search_name": "7617",
-          "long": "N/A",
-          "routes_serviced": ["130", "29A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7617"
-        },
-        {
           "search_name": "496, Beresford Place, Bus Aras",
           "long": -6.2522235786816,
           "routes_serviced": [
@@ -10797,31 +10735,6 @@
           ],
           "lat": 53.3494968761366,
           "stop_num": "496"
-        },
-        {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
         },
         {
           "search_name": "515, Amiens Street, Portland Row",
@@ -10952,30 +10865,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -11647,8 +11536,8 @@
           "stop_num": "1354"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -11667,7 +11556,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -11728,31 +11617,6 @@
           ],
           "lat": 53.3494968761366,
           "stop_num": "496"
-        },
-        {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
         },
         {
           "search_name": "497, Amiens Street, Connolly Station",
@@ -11900,30 +11764,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -13108,8 +12948,8 @@
           "stop_num": "1354"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -13128,7 +12968,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -13169,14 +13009,6 @@
           "routes_serviced": ["1", "13", "140", "40", "44", "83", "83A", "9"],
           "lat": 53.3462744267355,
           "stop_num": "319"
-        },
-        {
-          "search_name": "7491",
-          "long": "N/A",
-          "routes_serviced": ["140", "46A", "46E"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7491"
         },
         {
           "search_name": "274, O'Connell St, Henry Street",
@@ -14061,8 +13893,8 @@
           "stop_num": "1354"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -14081,7 +13913,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -15595,28 +15427,6 @@
           "stop_num": "792"
         },
         {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
-        },
-        {
           "search_name": "7586, Leinster Street South, Clare Street",
           "long": -6.2532222884248485,
           "routes_serviced": [
@@ -16342,14 +16152,6 @@
           "stop_num": "3129"
         },
         {
-          "search_name": "7638",
-          "long": "N/A",
-          "routes_serviced": ["145", "84", "84A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7638"
-        },
-        {
           "search_name": "3130, Bray Road, Kilbogget Park",
           "long": -6.1460153177329815,
           "routes_serviced": ["145", "84", "84A"],
@@ -17011,8 +16813,8 @@
           "stop_num": "1354"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -17031,7 +16833,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -17858,8 +17660,8 @@
           "stop_num": "1354"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -17878,7 +17680,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -17919,31 +17721,6 @@
           "routes_serviced": ["15"],
           "lat": 53.348241847448215,
           "stop_num": "299"
-        },
-        {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
         },
         {
           "search_name": "497, Amiens Street, Connolly Station",
@@ -18091,30 +17868,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -18769,14 +18522,6 @@
           ],
           "lat": 53.3464120071589,
           "stop_num": "4495"
-        },
-        {
-          "search_name": "5190",
-          "long": "N/A",
-          "routes_serviced": ["15"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "5190"
         },
         {
           "search_name": "7581, Dame Street, South George's Street",
@@ -20905,8 +20650,8 @@
           "stop_num": "1354"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -20925,7 +20670,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -21024,21 +20769,6 @@
           ],
           "lat": 53.3481278261786,
           "stop_num": "2499"
-        },
-        {
-          "search_name": "7216, North Wall Quay, Guild Street",
-          "long": "N/A",
-          "routes_serviced": ["15A", "15B", "15D"],
-          "lat": "N/A",
-          "stop_num": "7216"
-        },
-        {
-          "search_name": "7558",
-          "long": "N/A",
-          "routes_serviced": ["15A", "15B", "15D"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7558"
         },
         {
           "search_name": "353, Pearse Street, Grand Canal Quay",
@@ -21946,8 +21676,8 @@
           "stop_num": "1354"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -21966,7 +21696,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -22065,21 +21795,6 @@
           ],
           "lat": 53.3481278261786,
           "stop_num": "2499"
-        },
-        {
-          "search_name": "7216, North Wall Quay, Guild Street",
-          "long": "N/A",
-          "routes_serviced": ["15A", "15B", "15D"],
-          "lat": "N/A",
-          "stop_num": "7216"
-        },
-        {
-          "search_name": "7558",
-          "long": "N/A",
-          "routes_serviced": ["15A", "15B", "15D"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7558"
         },
         {
           "search_name": "353, Pearse Street, Grand Canal Quay",
@@ -23022,8 +22737,8 @@
           "stop_num": "1354"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -23042,7 +22757,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -23141,21 +22856,6 @@
           ],
           "lat": 53.3481278261786,
           "stop_num": "2499"
-        },
-        {
-          "search_name": "7216, North Wall Quay, Guild Street",
-          "long": "N/A",
-          "routes_serviced": ["15A", "15B", "15D"],
-          "lat": "N/A",
-          "stop_num": "7216"
-        },
-        {
-          "search_name": "7558",
-          "long": "N/A",
-          "routes_serviced": ["15A", "15B", "15D"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7558"
         },
         {
           "search_name": "353, Pearse Street, Grand Canal Quay",
@@ -23669,22 +23369,6 @@
           "stop_num": "5171"
         },
         {
-          "search_name": "7620",
-          "long": "N/A",
-          "routes_serviced": ["16", "16C"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7620"
-        },
-        {
-          "search_name": "7621",
-          "long": "N/A",
-          "routes_serviced": ["16", "16C"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7621"
-        },
-        {
           "search_name": "2976, Brehon Field Rd, Grange Hall",
           "long": -6.255459512276701,
           "routes_serviced": ["16", "16C"],
@@ -23967,8 +23651,8 @@
           "stop_num": "1353"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -23987,7 +23671,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -25124,14 +24808,6 @@
           "stop_num": "1285"
         },
         {
-          "search_name": "7580",
-          "long": "N/A",
-          "routes_serviced": ["16"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7580"
-        },
-        {
           "search_name": "1287, Harrington Street, Synge Street",
           "long": -6.26611779066566,
           "routes_serviced": ["16", "16D"],
@@ -25830,22 +25506,6 @@
           "stop_num": "5171"
         },
         {
-          "search_name": "7620",
-          "long": "N/A",
-          "routes_serviced": ["16", "16C"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7620"
-        },
-        {
-          "search_name": "7621",
-          "long": "N/A",
-          "routes_serviced": ["16", "16C"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7621"
-        },
-        {
           "search_name": "2976, Brehon Field Rd, Grange Hall",
           "long": -6.255459512276701,
           "routes_serviced": ["16", "16C"],
@@ -26121,8 +25781,8 @@
           "stop_num": "1353"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -26141,7 +25801,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -26801,8 +26461,8 @@
     }
   },
   "16D": {
-    "D1": "N/A",
-    "D2": {
+    "D2": "N/A",
+    "D1": {
       "origin": "Dublin Airport",
       "destination": "Brehon Field Rd",
       "stops": [
@@ -27838,11 +27498,11 @@
           "stop_num": "2084"
         },
         {
-          "search_name": "4391",
-          "long": "N/A",
+          "search_name": "4391 , UCD",
+          "long": -6.217036944,
           "routes_serviced": ["17"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.30517611,
           "stop_num": "4391"
         },
         {
@@ -29191,11 +28851,11 @@
           "stop_num": "6179"
         },
         {
-          "search_name": "6180",
-          "long": "N/A",
+          "search_name": "6180 , Blanchardstown Hospital",
+          "long": -6.371424,
           "routes_serviced": ["17A", "220"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.388831999999994,
           "stop_num": "6180"
         },
         {
@@ -29569,19 +29229,19 @@
           "stop_num": "1253"
         },
         {
-          "search_name": "997, Northside SC",
-          "long": "N/A",
+          "search_name": "997 , Northside SC",
+          "long": -6.211493056,
           "routes_serviced": ["17A"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.39416667,
           "stop_num": "997"
         },
         {
-          "search_name": "998, Armstrong Walk",
-          "long": "N/A",
+          "search_name": "998 , Armstrong Walk",
+          "long": -6.2097886110000005,
           "routes_serviced": ["17A"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.39357472,
           "stop_num": "998"
         },
         {
@@ -31567,11 +31227,11 @@
           "stop_num": "4187"
         },
         {
-          "search_name": "4188",
-          "long": "N/A",
+          "search_name": "4188 , Ashton Wood",
+          "long": -6.138283,
           "routes_serviced": ["185", "84X"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.19010600000001,
           "stop_num": "4188"
         },
         {
@@ -32659,11 +32319,11 @@
           "stop_num": "6179"
         },
         {
-          "search_name": "6180",
-          "long": "N/A",
+          "search_name": "6180 , Blanchardstown Hospital",
+          "long": -6.371424,
           "routes_serviced": ["17A", "220"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.388831999999994,
           "stop_num": "6180"
         },
         {
@@ -34185,8 +33845,8 @@
           "stop_num": "2236"
         },
         {
-          "search_name": "2237",
-          "long": "N/A",
+          "search_name": "2237 , Footbridge",
+          "long": -6.408861,
           "routes_serviced": [
             "25",
             "25A",
@@ -34198,7 +33858,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.3585,
           "stop_num": "2237"
         },
         {
@@ -34542,8 +34202,8 @@
           "stop_num": "315"
         },
         {
-          "search_name": "347",
-          "long": "N/A",
+          "search_name": "347 , D'Olier Street",
+          "long": -6.257689,
           "routes_serviced": [
             "25",
             "25A",
@@ -34556,7 +34216,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.34548100000001,
           "stop_num": "347"
         },
         {
@@ -35362,8 +35022,8 @@
           "stop_num": "2236"
         },
         {
-          "search_name": "2237",
-          "long": "N/A",
+          "search_name": "2237 , Footbridge",
+          "long": -6.408861,
           "routes_serviced": [
             "25",
             "25A",
@@ -35375,7 +35035,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.3585,
           "stop_num": "2237"
         },
         {
@@ -35473,14 +35133,6 @@
           ],
           "lat": 53.3539273217415,
           "stop_num": "2242"
-        },
-        {
-          "search_name": "7626",
-          "long": "N/A",
-          "routes_serviced": ["25A", "25B"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7626"
         },
         {
           "search_name": "7435, Con Colbert Rd, Memorial Gardens",
@@ -35684,8 +35336,8 @@
           "stop_num": "315"
         },
         {
-          "search_name": "347",
-          "long": "N/A",
+          "search_name": "347 , D'Olier Street",
+          "long": -6.257689,
           "routes_serviced": [
             "25",
             "25A",
@@ -35698,7 +35350,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.34548100000001,
           "stop_num": "347"
         },
         {
@@ -36061,14 +35713,6 @@
           ],
           "lat": 53.342954142234106,
           "stop_num": "7012"
-        },
-        {
-          "search_name": "7566",
-          "long": "N/A",
-          "routes_serviced": ["25A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7566"
         },
         {
           "search_name": "2201, Lucan Road, Palmerstown Drive",
@@ -36527,8 +36171,8 @@
           "stop_num": "2236"
         },
         {
-          "search_name": "2237",
-          "long": "N/A",
+          "search_name": "2237 , Footbridge",
+          "long": -6.408861,
           "routes_serviced": [
             "25",
             "25A",
@@ -36540,7 +36184,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.3585,
           "stop_num": "2237"
         },
         {
@@ -36638,14 +36282,6 @@
           ],
           "lat": 53.3539273217415,
           "stop_num": "2242"
-        },
-        {
-          "search_name": "7626",
-          "long": "N/A",
-          "routes_serviced": ["25A", "25B"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7626"
         },
         {
           "search_name": "7435, Con Colbert Rd, Memorial Gardens",
@@ -36849,8 +36485,8 @@
           "stop_num": "315"
         },
         {
-          "search_name": "347",
-          "long": "N/A",
+          "search_name": "347 , D'Olier Street",
+          "long": -6.257689,
           "routes_serviced": [
             "25",
             "25A",
@@ -36863,7 +36499,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.34548100000001,
           "stop_num": "347"
         },
         {
@@ -37578,14 +37214,6 @@
           "stop_num": "7049"
         },
         {
-          "search_name": "7627",
-          "long": "N/A",
-          "routes_serviced": ["25D"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7627"
-        },
-        {
           "search_name": "2236, Lucan Road, Ballyowen Lane",
           "long": -6.414677421042769,
           "routes_serviced": [
@@ -37604,8 +37232,8 @@
           "stop_num": "2236"
         },
         {
-          "search_name": "2237",
-          "long": "N/A",
+          "search_name": "2237 , Footbridge",
+          "long": -6.408861,
           "routes_serviced": [
             "25",
             "25A",
@@ -37617,7 +37245,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.3585,
           "stop_num": "2237"
         },
         {
@@ -37918,8 +37546,8 @@
           "stop_num": "315"
         },
         {
-          "search_name": "347",
-          "long": "N/A",
+          "search_name": "347 , D'Olier Street",
+          "long": -6.257689,
           "routes_serviced": [
             "25",
             "25A",
@@ -37932,7 +37560,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.34548100000001,
           "stop_num": "347"
         },
         {
@@ -39625,14 +39253,6 @@
           "stop_num": "786"
         },
         {
-          "search_name": "6058",
-          "long": "N/A",
-          "routes_serviced": ["25X", "32X", "66X", "67X", "84X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "6058"
-        },
-        {
           "search_name": "791, St. Stephen's Green, Stephens Court",
           "long": -6.25698283049022,
           "routes_serviced": ["25X", "32X", "66X", "67X", "84X"],
@@ -39640,8 +39260,8 @@
           "stop_num": "791"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -39659,30 +39279,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "7585, Leinster Street South, Clare Street",
@@ -40395,8 +39993,8 @@
           "stop_num": "315"
         },
         {
-          "search_name": "347",
-          "long": "N/A",
+          "search_name": "347 , D'Olier Street",
+          "long": -6.257689,
           "routes_serviced": [
             "25",
             "25A",
@@ -40409,7 +40007,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.34548100000001,
           "stop_num": "347"
         },
         {
@@ -41280,31 +40878,6 @@
           "stop_num": "496"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "497, Amiens Street, Connolly Station",
           "long": -6.25069434322377,
           "routes_serviced": [
@@ -41450,30 +41023,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -41719,14 +41268,6 @@
           "routes_serviced": ["15", "27", "27X", "42", "43"],
           "lat": 53.4001273805798,
           "stop_num": "6115"
-        },
-        {
-          "search_name": "4849",
-          "long": "N/A",
-          "routes_serviced": ["27", "42", "43"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4849"
         },
         {
           "search_name": "4593, Clare Hall Ave, Malahide Rd",
@@ -42716,14 +42257,6 @@
           "stop_num": "4768"
         },
         {
-          "search_name": "4326",
-          "long": "N/A",
-          "routes_serviced": ["270"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4326"
-        },
-        {
           "search_name": "7026, Blanchardstown SC",
           "long": -6.392064453551379,
           "routes_serviced": ["220", "236", "238", "239", "270", "76A"],
@@ -43350,31 +42883,6 @@
           "stop_num": "496"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "497, Amiens Street, Connolly Station",
           "long": -6.25069434322377,
           "routes_serviced": [
@@ -43520,30 +43028,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -43806,46 +43290,6 @@
           "stop_num": "324"
         },
         {
-          "search_name": "7479",
-          "long": "N/A",
-          "routes_serviced": ["27B", "4"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7479"
-        },
-        {
-          "search_name": "7484",
-          "long": "N/A",
-          "routes_serviced": ["27B"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7484"
-        },
-        {
-          "search_name": "7485",
-          "long": "N/A",
-          "routes_serviced": ["27B"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7485"
-        },
-        {
-          "search_name": "7486",
-          "long": "N/A",
-          "routes_serviced": ["27B"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7486"
-        },
-        {
-          "search_name": "7487",
-          "long": "N/A",
-          "routes_serviced": ["27B"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7487"
-        },
-        {
           "search_name": "1634, Swords Road, Old Airport Rd.",
           "long": -6.23883046648288,
           "routes_serviced": [
@@ -44025,14 +43469,6 @@
           "routes_serviced": ["104", "17A", "27B"],
           "lat": 53.389945950738706,
           "stop_num": "253"
-        },
-        {
-          "search_name": "5033, Beaumont Hospital",
-          "long": "N/A",
-          "routes_serviced": ["27B"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "5033"
         },
         {
           "search_name": "7130, Kilbarron Rd, Cromcastle Green",
@@ -44407,31 +43843,6 @@
           "stop_num": "300"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "497, Amiens Street, Connolly Station",
           "long": -6.25069434322377,
           "routes_serviced": [
@@ -44577,30 +43988,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -45555,31 +44942,6 @@
           "stop_num": "496"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "497, Amiens Street, Connolly Station",
           "long": -6.25069434322377,
           "routes_serviced": [
@@ -45595,30 +44957,6 @@
           ],
           "lat": 53.3505260754016,
           "stop_num": "497"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -46315,14 +45653,6 @@
           "stop_num": "289"
         },
         {
-          "search_name": "7617",
-          "long": "N/A",
-          "routes_serviced": ["130", "29A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7617"
-        },
-        {
           "search_name": "496, Beresford Place, Bus Aras",
           "long": -6.2522235786816,
           "routes_serviced": [
@@ -46341,31 +45671,6 @@
           ],
           "lat": 53.3494968761366,
           "stop_num": "496"
-        },
-        {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
         },
         {
           "search_name": "515, Amiens Street, Portland Row",
@@ -46496,30 +45801,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -47321,31 +46602,6 @@
           "stop_num": "496"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "515, Amiens Street, Portland Row",
           "long": -6.24809240079494,
           "routes_serviced": [
@@ -47474,30 +46730,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -48495,31 +47727,6 @@
           "stop_num": "496"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "515, Amiens Street, Portland Row",
           "long": -6.24809240079494,
           "routes_serviced": [
@@ -48648,30 +47855,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -49823,31 +49006,6 @@
           "stop_num": "496"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "515, Amiens Street, Portland Row",
           "long": -6.24809240079494,
           "routes_serviced": [
@@ -49976,30 +49134,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -51480,31 +50614,6 @@
           "stop_num": "496"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "515, Amiens Street, Portland Row",
           "long": -6.24809240079494,
           "routes_serviced": [
@@ -51633,30 +50742,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -52186,8 +51271,8 @@
           "stop_num": "790"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -52205,30 +51290,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "7585, Leinster Street South, Clare Street",
@@ -52282,31 +51345,6 @@
           "stop_num": "496"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "522, Marino Mart, Fairview Footbridge",
           "long": -6.23541597469792,
           "routes_serviced": [
@@ -52327,30 +51365,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "1741, Clontarf Rd, Alfie Byrne Rd",
@@ -52500,25 +51514,11 @@
           "stop_num": "3619"
         },
         {
-          "search_name": "6087, Coast Road, Biscayne",
-          "long": "N/A",
-          "routes_serviced": ["32X"],
-          "lat": "N/A",
-          "stop_num": "6087"
-        },
-        {
           "search_name": "3620, Coast Road, Biscayne",
           "long": -6.13421430205896,
           "routes_serviced": ["102", "32", "32X"],
           "lat": 53.446472388703,
           "stop_num": "3620"
-        },
-        {
-          "search_name": "3621, Coast Road, Martello Tower",
-          "long": "N/A",
-          "routes_serviced": ["32X"],
-          "lat": "N/A",
-          "stop_num": "3621"
         },
         {
           "search_name": "3622, Coast Rd Malahide, Sea Park",
@@ -52869,11 +51869,11 @@
           "stop_num": "621"
         },
         {
-          "search_name": "6207",
-          "long": "N/A",
+          "search_name": "6207 , Virtual Stop",
+          "long": -6.257532,
           "routes_serviced": ["32X"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.348490000000005,
           "stop_num": "6207"
         },
         {
@@ -53174,11 +52174,11 @@
           "stop_num": "3814"
         },
         {
-          "search_name": "7592, Harrison's Cove",
-          "long": "N/A",
+          "search_name": "7592 , Virtual stop Mourne View",
+          "long": -6.124437,
           "routes_serviced": ["33", "33A"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.583268999999994,
           "stop_num": "7592"
         },
         {
@@ -53194,14 +52194,6 @@
           "routes_serviced": ["33", "33A", "33X"],
           "lat": 53.5804715573738,
           "stop_num": "3816"
-        },
-        {
-          "search_name": "7205",
-          "long": "N/A",
-          "routes_serviced": ["33"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7205"
         },
         {
           "search_name": "3566, Town Parks Rd, Selskar Court",
@@ -53587,11 +52579,11 @@
           "stop_num": "3689"
         },
         {
-          "search_name": "7594",
-          "long": "N/A",
+          "search_name": "7594 , Virtual Stop Tracking",
+          "long": -6.220553,
           "routes_serviced": ["33", "33B", "41", "41A", "41B", "41D", "43"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.458085,
           "stop_num": "7594"
         },
         {
@@ -55144,11 +54136,11 @@
           "stop_num": "3814"
         },
         {
-          "search_name": "7592, Harrison's Cove",
-          "long": "N/A",
+          "search_name": "7592 , Virtual stop Mourne View",
+          "long": -6.124437,
           "routes_serviced": ["33", "33A"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.583268999999994,
           "stop_num": "7592"
         },
         {
@@ -56220,11 +55212,11 @@
           "stop_num": "3689"
         },
         {
-          "search_name": "7594",
-          "long": "N/A",
+          "search_name": "7594 , Virtual Stop Tracking",
+          "long": -6.220553,
           "routes_serviced": ["33", "33B", "41", "41A", "41B", "41D", "43"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.458085,
           "stop_num": "7594"
         },
         {
@@ -56838,8 +55830,8 @@
     }
   },
   "33E": {
-    "D1": "N/A",
-    "D2": {
+    "D2": "N/A",
+    "D1": {
       "origin": "Abbey St",
       "destination": "North Cliff Heights",
       "stops": [
@@ -59317,23 +58309,6 @@
           "stop_num": "313"
         },
         {
-          "search_name": "349",
-          "long": "N/A",
-          "routes_serviced": [
-            "37",
-            "38",
-            "38A",
-            "38B",
-            "38D",
-            "39",
-            "39A",
-            "70"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "349"
-        },
-        {
           "search_name": "404, Nassau Street, South Frederick Street",
           "long": -6.256347892394249,
           "routes_serviced": [
@@ -59545,8 +58520,8 @@
           "stop_num": "793"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -59564,30 +58539,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "7586, Leinster Street South, Clare Street",
@@ -60589,23 +59542,6 @@
           "stop_num": "6059"
         },
         {
-          "search_name": "349",
-          "long": "N/A",
-          "routes_serviced": [
-            "37",
-            "38",
-            "38A",
-            "38B",
-            "38D",
-            "39",
-            "39A",
-            "70"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "349"
-        },
-        {
           "search_name": "404, Nassau Street, South Frederick Street",
           "long": -6.256347892394249,
           "routes_serviced": [
@@ -60928,8 +59864,8 @@
           "stop_num": "793"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -60947,16 +59883,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "401",
-          "long": "N/A",
-          "routes_serviced": ["11", "38", "38A", "38B", "38D", "46A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "401"
         },
         {
           "search_name": "274, O'Connell St, Henry Street",
@@ -61804,23 +60732,6 @@
           "stop_num": "6059"
         },
         {
-          "search_name": "349",
-          "long": "N/A",
-          "routes_serviced": [
-            "37",
-            "38",
-            "38A",
-            "38B",
-            "38D",
-            "39",
-            "39A",
-            "70"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "349"
-        },
-        {
           "search_name": "404, Nassau Street, South Frederick Street",
           "long": -6.256347892394249,
           "routes_serviced": [
@@ -62143,8 +61054,8 @@
           "stop_num": "793"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -62162,16 +61073,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "401",
-          "long": "N/A",
-          "routes_serviced": ["11", "38", "38A", "38B", "38D", "46A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "401"
         },
         {
           "search_name": "274, O'Connell St, Henry Street",
@@ -62921,23 +61824,6 @@
           "stop_num": "6059"
         },
         {
-          "search_name": "349",
-          "long": "N/A",
-          "routes_serviced": [
-            "37",
-            "38",
-            "38A",
-            "38B",
-            "38D",
-            "39",
-            "39A",
-            "70"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "349"
-        },
-        {
           "search_name": "404, Nassau Street, South Frederick Street",
           "long": -6.256347892394249,
           "routes_serviced": [
@@ -63260,8 +62146,8 @@
           "stop_num": "793"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -63279,16 +62165,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "401",
-          "long": "N/A",
-          "routes_serviced": ["11", "38", "38A", "38B", "38D", "46A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "401"
         },
         {
           "search_name": "274, O'Connell St, Henry Street",
@@ -63961,23 +62839,6 @@
           "stop_num": "6059"
         },
         {
-          "search_name": "349",
-          "long": "N/A",
-          "routes_serviced": [
-            "37",
-            "38",
-            "38A",
-            "38B",
-            "38D",
-            "39",
-            "39A",
-            "70"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "349"
-        },
-        {
           "search_name": "404, Nassau Street, South Frederick Street",
           "long": -6.256347892394249,
           "routes_serviced": [
@@ -64300,8 +63161,8 @@
           "stop_num": "793"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -64319,16 +63180,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "401",
-          "long": "N/A",
-          "routes_serviced": ["11", "38", "38A", "38B", "38D", "46A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "401"
         },
         {
           "search_name": "274, O'Connell St, Henry Street",
@@ -65243,23 +64096,6 @@
           "stop_num": "335"
         },
         {
-          "search_name": "349",
-          "long": "N/A",
-          "routes_serviced": [
-            "37",
-            "38",
-            "38A",
-            "38B",
-            "38D",
-            "39",
-            "39A",
-            "70"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "349"
-        },
-        {
           "search_name": "404, Nassau Street, South Frederick Street",
           "long": -6.256347892394249,
           "routes_serviced": [
@@ -65575,8 +64411,8 @@
           "stop_num": "793"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -65594,7 +64430,7 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
         },
         {
@@ -66000,14 +64836,6 @@
           "routes_serviced": ["220", "239", "37", "39"],
           "lat": 53.3931135415902,
           "stop_num": "4362"
-        },
-        {
-          "search_name": "7495",
-          "long": "N/A",
-          "routes_serviced": ["39"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7495"
         },
         {
           "search_name": "7025, Blanchardstown, Blanchardstown Town Centre",
@@ -66779,23 +65607,6 @@
           "stop_num": "335"
         },
         {
-          "search_name": "349",
-          "long": "N/A",
-          "routes_serviced": [
-            "37",
-            "38",
-            "38A",
-            "38B",
-            "38D",
-            "39",
-            "39A",
-            "70"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "349"
-        },
-        {
           "search_name": "404, Nassau Street, South Frederick Street",
           "long": -6.256347892394249,
           "routes_serviced": [
@@ -67559,8 +66370,8 @@
           "stop_num": "793"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -67578,30 +66389,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "7586, Leinster Street South, Clare Street",
@@ -68764,13 +67553,6 @@
           "stop_num": "1808"
         },
         {
-          "search_name": "7475, Blanchardstown Rd, Blanchardstown Retail Park",
-          "long": "N/A",
-          "routes_serviced": ["39X"],
-          "lat": "N/A",
-          "stop_num": "7475"
-        },
-        {
           "search_name": "6107, New Ongar Road, Charnwood",
           "long": -6.411901347549289,
           "routes_serviced": ["39A", "39X"],
@@ -69363,38 +68145,6 @@
           "stop_num": "324"
         },
         {
-          "search_name": "7478",
-          "long": "N/A",
-          "routes_serviced": ["4"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7478"
-        },
-        {
-          "search_name": "7479",
-          "long": "N/A",
-          "routes_serviced": ["27B", "4"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7479"
-        },
-        {
-          "search_name": "7480",
-          "long": "N/A",
-          "routes_serviced": ["4"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7480"
-        },
-        {
-          "search_name": "7481",
-          "long": "N/A",
-          "routes_serviced": ["4"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7481"
-        },
-        {
           "search_name": "327, Ballymun Road, Silloge Golf Club",
           "long": -6.2653479257426214,
           "routes_serviced": ["13", "4"],
@@ -69558,14 +68308,6 @@
           ],
           "lat": 53.3563040208513,
           "stop_num": "819"
-        },
-        {
-          "search_name": "7457",
-          "long": "N/A",
-          "routes_serviced": ["4"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7457"
         },
         {
           "search_name": "4725, O'Connell St, Parnell Street",
@@ -72511,13 +71253,6 @@
           "stop_num": "7681"
         },
         {
-          "search_name": "7682, Cappagh Road, Business Park",
-          "long": "N/A",
-          "routes_serviced": ["40E"],
-          "lat": "N/A",
-          "stop_num": "7682"
-        },
-        {
           "search_name": "7683, Cappagh Road, Ballycoolin Rd",
           "long": -6.3329292012502405,
           "routes_serviced": ["40E"],
@@ -72749,13 +71484,6 @@
           "stop_num": "7673"
         },
         {
-          "search_name": "7674, Cappagh Road, Business Park",
-          "long": "N/A",
-          "routes_serviced": ["40E"],
-          "lat": "N/A",
-          "stop_num": "7674"
-        },
-        {
           "search_name": "7675, Cappagh Road, Business Park",
           "long": -6.34535324250729,
           "routes_serviced": ["40E"],
@@ -72763,10 +71491,10 @@
           "stop_num": "7675"
         },
         {
-          "search_name": "7676, Mitchelstown Road, Corduff Road",
-          "long": "N/A",
+          "search_name": "7676 , Mitchelstown Road",
+          "long": -6.348656944,
           "routes_serviced": ["40E"],
-          "lat": "N/A",
+          "lat": 53.41287889,
           "stop_num": "7676"
         },
         {
@@ -72869,14 +71597,6 @@
           "stop_num": "4905"
         },
         {
-          "search_name": "7655",
-          "long": "N/A",
-          "routes_serviced": ["41", "41A", "41C", "41X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7655"
-        },
-        {
           "search_name": "4906, St. Cronan's Avenue, St. Cronan's",
           "long": -6.2413051210370005,
           "routes_serviced": ["41", "41A", "41C", "41X"],
@@ -72950,11 +71670,11 @@
           "stop_num": "3689"
         },
         {
-          "search_name": "7594",
-          "long": "N/A",
+          "search_name": "7594 , Virtual Stop Tracking",
+          "long": -6.220553,
           "routes_serviced": ["33", "33B", "41", "41A", "41B", "41D", "43"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.458085,
           "stop_num": "7594"
         },
         {
@@ -74169,14 +72889,6 @@
           "stop_num": "4905"
         },
         {
-          "search_name": "7655",
-          "long": "N/A",
-          "routes_serviced": ["41", "41A", "41C", "41X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7655"
-        },
-        {
           "search_name": "4906, St. Cronan's Avenue, St. Cronan's",
           "long": -6.2413051210370005,
           "routes_serviced": ["41", "41A", "41C", "41X"],
@@ -74280,11 +72992,11 @@
           "stop_num": "3689"
         },
         {
-          "search_name": "7594",
-          "long": "N/A",
+          "search_name": "7594 , Virtual Stop Tracking",
+          "long": -6.220553,
           "routes_serviced": ["33", "33B", "41", "41A", "41B", "41D", "43"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.458085,
           "stop_num": "7594"
         },
         {
@@ -74977,11 +73689,11 @@
           "stop_num": "3689"
         },
         {
-          "search_name": "7594",
-          "long": "N/A",
+          "search_name": "7594 , Virtual Stop Tracking",
+          "long": -6.220553,
           "routes_serviced": ["33", "33B", "41", "41A", "41B", "41D", "43"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.458085,
           "stop_num": "7594"
         },
         {
@@ -76154,14 +74866,6 @@
           "stop_num": "4905"
         },
         {
-          "search_name": "7655",
-          "long": "N/A",
-          "routes_serviced": ["41", "41A", "41C", "41X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7655"
-        },
-        {
           "search_name": "4906, St. Cronan's Avenue, St. Cronan's",
           "long": -6.2413051210370005,
           "routes_serviced": ["41", "41A", "41C", "41X"],
@@ -76368,14 +75072,6 @@
           "routes_serviced": ["33", "41", "41A", "41B", "41C", "41D"],
           "lat": 53.43505504606861,
           "stop_num": "3699"
-        },
-        {
-          "search_name": "7593",
-          "long": "N/A",
-          "routes_serviced": ["41C"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7593"
         },
         {
           "search_name": "3885, Swords Road, Radisson Hotel",
@@ -77596,11 +76292,11 @@
           "stop_num": "3689"
         },
         {
-          "search_name": "7594",
-          "long": "N/A",
+          "search_name": "7594 , Virtual Stop Tracking",
+          "long": -6.220553,
           "routes_serviced": ["33", "33B", "41", "41A", "41B", "41D", "43"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.458085,
           "stop_num": "7594"
         },
         {
@@ -78759,30 +77455,6 @@
           "stop_num": "6311"
         },
         {
-          "search_name": "7404",
-          "long": "N/A",
-          "routes_serviced": ["41X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7404"
-        },
-        {
-          "search_name": "7405",
-          "long": "N/A",
-          "routes_serviced": ["41X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7405"
-        },
-        {
-          "search_name": "7544",
-          "long": "N/A",
-          "routes_serviced": ["41X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7544"
-        },
-        {
           "search_name": "4495, Hawkins Street, Townsend Street",
           "long": -6.25700598616108,
           "routes_serviced": [
@@ -79387,8 +78059,8 @@
           "stop_num": "790"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -79406,30 +78078,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "7585, Leinster Street South, Clare Street",
@@ -79848,59 +78498,11 @@
           "stop_num": "3636"
         },
         {
-          "search_name": "7537",
-          "long": "N/A",
-          "routes_serviced": ["42"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7537"
-        },
-        {
           "search_name": "905, Yellow Walls Rd, Inbher Ide",
           "long": -6.17036978115391,
           "routes_serviced": ["102", "142", "32X", "42", "42D"],
           "lat": 53.451561742916404,
           "stop_num": "905"
-        },
-        {
-          "search_name": "7538",
-          "long": "N/A",
-          "routes_serviced": ["42"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7538"
-        },
-        {
-          "search_name": "7539",
-          "long": "N/A",
-          "routes_serviced": ["42"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7539"
-        },
-        {
-          "search_name": "7540",
-          "long": "N/A",
-          "routes_serviced": ["42"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7540"
-        },
-        {
-          "search_name": "7541",
-          "long": "N/A",
-          "routes_serviced": ["42"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7541"
-        },
-        {
-          "search_name": "7542",
-          "long": "N/A",
-          "routes_serviced": ["42"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7542"
         },
         {
           "search_name": "4331, Estuary Road, Yellow Walls Road",
@@ -80401,31 +79003,6 @@
           "stop_num": "1184"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "497, Amiens Street, Connolly Station",
           "long": -6.25069434322377,
           "routes_serviced": [
@@ -80571,30 +79148,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -80749,14 +79302,6 @@
           "routes_serviced": ["15", "27", "27X", "42", "43"],
           "lat": 53.4001273805798,
           "stop_num": "6115"
-        },
-        {
-          "search_name": "4849",
-          "long": "N/A",
-          "routes_serviced": ["27", "42", "43"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4849"
         },
         {
           "search_name": "1205, Malahide Road, Tesco",
@@ -81486,11 +80031,11 @@
           "stop_num": "3689"
         },
         {
-          "search_name": "7594",
-          "long": "N/A",
+          "search_name": "7594 , Virtual Stop Tracking",
+          "long": -6.220553,
           "routes_serviced": ["33", "33B", "41", "41A", "41B", "41D", "43"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.458085,
           "stop_num": "7594"
         },
         {
@@ -81999,31 +80544,6 @@
           "stop_num": "1184"
         },
         {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
-        },
-        {
           "search_name": "497, Amiens Street, Connolly Station",
           "long": -6.25069434322377,
           "routes_serviced": [
@@ -82169,30 +80689,6 @@
           ],
           "lat": 53.3632889490314,
           "stop_num": "522"
-        },
-        {
-          "search_name": "7659",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7659"
         },
         {
           "search_name": "523, Marino Mart, Marino College",
@@ -82347,14 +80843,6 @@
           "routes_serviced": ["15", "27", "27X", "42", "43"],
           "lat": 53.4001273805798,
           "stop_num": "6115"
-        },
-        {
-          "search_name": "4849",
-          "long": "N/A",
-          "routes_serviced": ["27", "42", "43"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4849"
         },
         {
           "search_name": "1205, Malahide Road, Tesco",
@@ -82925,14 +81413,6 @@
           "stop_num": "6074"
         },
         {
-          "search_name": "5034",
-          "long": "N/A",
-          "routes_serviced": ["44", "61"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "5034"
-        },
-        {
           "search_name": "793, Dawson Street, Nassau Street",
           "long": -6.25840386924726,
           "routes_serviced": [
@@ -82951,28 +81431,6 @@
           ],
           "lat": 53.340859786031196,
           "stop_num": "793"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "495, Westland Row, Pearse Station",
@@ -85484,14 +83942,6 @@
           "stop_num": "4569"
         },
         {
-          "search_name": "7658",
-          "long": "N/A",
-          "routes_serviced": ["46A", "75", "7D"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7658"
-        },
-        {
           "search_name": "4570, Kill Avenue, Church",
           "long": -6.15732224524732,
           "routes_serviced": ["46A", "75"],
@@ -86023,14 +84473,6 @@
           "stop_num": "792"
         },
         {
-          "search_name": "401",
-          "long": "N/A",
-          "routes_serviced": ["11", "38", "38A", "38B", "38D", "46A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "401"
-        },
-        {
           "search_name": "320, Westmoreland Street, Fleet Street",
           "long": -6.25930523253443,
           "routes_serviced": [
@@ -86045,14 +84487,6 @@
           ],
           "lat": 53.3456456323913,
           "stop_num": "320"
-        },
-        {
-          "search_name": "7491",
-          "long": "N/A",
-          "routes_serviced": ["140", "46A", "46E"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7491"
         },
         {
           "search_name": "278, O'Connell St, Cathal Brugha Street",
@@ -86151,22 +84585,6 @@
           "routes_serviced": ["46A"],
           "lat": 53.3508964564954,
           "stop_num": "7513"
-        },
-        {
-          "search_name": "7688",
-          "long": "N/A",
-          "routes_serviced": ["46A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7688"
-        },
-        {
-          "search_name": "7689",
-          "long": "N/A",
-          "routes_serviced": ["46A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7689"
         },
         {
           "search_name": "807, Infirmary Rd, Phoenix Pk Gate",
@@ -87329,14 +85747,6 @@
           "stop_num": "320"
         },
         {
-          "search_name": "7491",
-          "long": "N/A",
-          "routes_serviced": ["140", "46A", "46E"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7491"
-        },
-        {
           "search_name": "278, O'Connell St, Cathal Brugha Street",
           "long": -6.2612273356431185,
           "routes_serviced": ["1", "11", "16", "16C", "44", "46A", "46E"],
@@ -87717,11 +86127,11 @@
           "stop_num": "385"
         },
         {
-          "search_name": "7529",
-          "long": "N/A",
+          "search_name": "7529 , Virtual Stop 5",
+          "long": -6.2152199999999995,
           "routes_serviced": ["47"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.332195,
           "stop_num": "7529"
         },
         {
@@ -87890,14 +86300,6 @@
           "routes_serviced": ["47", "65", "65B"],
           "lat": 53.34683413747021,
           "stop_num": "7564"
-        },
-        {
-          "search_name": "7663",
-          "long": "N/A",
-          "routes_serviced": ["47"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7663"
         }
       ]
     },
@@ -89075,17 +87477,17 @@
           "stop_num": "4668"
         },
         {
-          "search_name": "3376, Nangor Road, Fonthill Road",
-          "long": "N/A",
+          "search_name": "3376 , Nangor Road",
+          "long": -6.407686944,
           "routes_serviced": ["51D"],
-          "lat": "N/A",
+          "lat": 53.32156806,
           "stop_num": "3376"
         },
         {
-          "search_name": "3377, Cherrywood Villas, Cherrywood Drive",
-          "long": "N/A",
+          "search_name": "3377 , Cherrywood Villas",
+          "long": -6.410538056,
           "routes_serviced": ["51D"],
-          "lat": "N/A",
+          "lat": 53.32097111,
           "stop_num": "3377"
         },
         {
@@ -89180,17 +87582,17 @@
           "stop_num": "6245"
         },
         {
-          "search_name": "6013, New Nangor Road, Roundabout",
-          "long": "N/A",
+          "search_name": "6013 , New Nangor Road",
+          "long": -6.405668889,
           "routes_serviced": ["51D"],
-          "lat": "N/A",
+          "lat": 53.324059999999996,
           "stop_num": "6013"
         },
         {
-          "search_name": "6247, Fonthill Rd, Dunawley Avenue",
-          "long": "N/A",
+          "search_name": "6247 , Fonthill Rd",
+          "long": -6.405168889,
           "routes_serviced": ["51D"],
-          "lat": "N/A",
+          "lat": 53.32547694,
           "stop_num": "6247"
         },
         {
@@ -90176,10 +88578,10 @@
       "destination": "Clondalkin",
       "stops": [
         {
-          "search_name": "7433, Dunawley Ave, Dunawley Grove",
-          "long": "N/A",
+          "search_name": "7433 , Dunawley Ave",
+          "long": -6.4047849999999995,
           "routes_serviced": ["51X"],
-          "lat": "N/A",
+          "lat": 53.32659194,
           "stop_num": "7433"
         },
         {
@@ -91136,31 +89538,6 @@
           ],
           "lat": 53.3494968761366,
           "stop_num": "496"
-        },
-        {
-          "search_name": "7490",
-          "long": "N/A",
-          "routes_serviced": [
-            "130",
-            "14",
-            "15",
-            "27",
-            "27A",
-            "27B",
-            "27X",
-            "29A",
-            "31",
-            "31A",
-            "31B",
-            "32",
-            "32X",
-            "42",
-            "43",
-            "53"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7490"
         },
         {
           "search_name": "497, Amiens Street, Connolly Station",
@@ -93316,14 +91693,6 @@
           "old_stop": "yes",
           "lat": 53.2678688883589,
           "stop_num": "3098"
-        },
-        {
-          "search_name": "7652",
-          "long": "N/A",
-          "routes_serviced": ["59"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7652"
         }
       ]
     }
@@ -93635,14 +92004,6 @@
           "stop_num": "6074"
         },
         {
-          "search_name": "5034",
-          "long": "N/A",
-          "routes_serviced": ["44", "61"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "5034"
-        },
-        {
           "search_name": "793, Dawson Street, Nassau Street",
           "long": -6.25840386924726,
           "routes_serviced": [
@@ -93661,28 +92022,6 @@
           ],
           "lat": 53.340859786031196,
           "stop_num": "793"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "495, Westland Row, Pearse Station",
@@ -95969,14 +94308,6 @@
           "stop_num": "2574"
         },
         {
-          "search_name": "2576",
-          "long": "N/A",
-          "routes_serviced": ["65"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "2576"
-        },
-        {
           "search_name": "2577, Blessington Rd, Corbally Bridge",
           "long": -6.43257745613793,
           "routes_serviced": ["65"],
@@ -96694,8 +95025,8 @@
           "stop_num": "1353"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -96714,7 +95045,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -97559,8 +95890,8 @@
           "stop_num": "2236"
         },
         {
-          "search_name": "2237",
-          "long": "N/A",
+          "search_name": "2237 , Footbridge",
+          "long": -6.408861,
           "routes_serviced": [
             "25",
             "25A",
@@ -97572,7 +95903,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.3585,
           "stop_num": "2237"
         },
         {
@@ -97916,8 +96247,8 @@
           "stop_num": "315"
         },
         {
-          "search_name": "347",
-          "long": "N/A",
+          "search_name": "347 , D'Olier Street",
+          "long": -6.257689,
           "routes_serviced": [
             "25",
             "25A",
@@ -97930,7 +96261,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.34548100000001,
           "stop_num": "347"
         },
         {
@@ -98822,8 +97153,8 @@
           "stop_num": "2236"
         },
         {
-          "search_name": "2237",
-          "long": "N/A",
+          "search_name": "2237 , Footbridge",
+          "long": -6.408861,
           "routes_serviced": [
             "25",
             "25A",
@@ -98835,7 +97166,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.3585,
           "stop_num": "2237"
         },
         {
@@ -99179,8 +97510,8 @@
           "stop_num": "315"
         },
         {
-          "search_name": "347",
-          "long": "N/A",
+          "search_name": "347 , D'Olier Street",
+          "long": -6.257689,
           "routes_serviced": [
             "25",
             "25A",
@@ -99193,7 +97524,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.34548100000001,
           "stop_num": "347"
         },
         {
@@ -100008,8 +98339,8 @@
           "stop_num": "2236"
         },
         {
-          "search_name": "2237",
-          "long": "N/A",
+          "search_name": "2237 , Footbridge",
+          "long": -6.408861,
           "routes_serviced": [
             "25",
             "25A",
@@ -100021,7 +98352,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.3585,
           "stop_num": "2237"
         },
         {
@@ -100365,8 +98696,8 @@
           "stop_num": "315"
         },
         {
-          "search_name": "347",
-          "long": "N/A",
+          "search_name": "347 , D'Olier Street",
+          "long": -6.257689,
           "routes_serviced": [
             "25",
             "25A",
@@ -100379,7 +98710,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.34548100000001,
           "stop_num": "347"
         },
         {
@@ -102213,16 +100544,8 @@
           "stop_num": "786"
         },
         {
-          "search_name": "6058",
-          "long": "N/A",
-          "routes_serviced": ["25X", "32X", "66X", "67X", "84X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "6058"
-        },
-        {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -102240,12 +100563,12 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -102263,30 +100586,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "7587, Pearse Street, Shaw Street",
@@ -103047,8 +101348,8 @@
           "stop_num": "2236"
         },
         {
-          "search_name": "2237",
-          "long": "N/A",
+          "search_name": "2237 , Footbridge",
+          "long": -6.408861,
           "routes_serviced": [
             "25",
             "25A",
@@ -103060,7 +101361,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.3585,
           "stop_num": "2237"
         },
         {
@@ -103404,8 +101705,8 @@
           "stop_num": "315"
         },
         {
-          "search_name": "347",
-          "long": "N/A",
+          "search_name": "347 , D'Olier Street",
+          "long": -6.257689,
           "routes_serviced": [
             "25",
             "25A",
@@ -103418,7 +101719,7 @@
             "67"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.34548100000001,
           "stop_num": "347"
         },
         {
@@ -105420,14 +103721,6 @@
           "stop_num": "786"
         },
         {
-          "search_name": "6058",
-          "long": "N/A",
-          "routes_serviced": ["25X", "32X", "66X", "67X", "84X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "6058"
-        },
-        {
           "search_name": "791, St. Stephen's Green, Stephens Court",
           "long": -6.25698283049022,
           "routes_serviced": ["25X", "32X", "66X", "67X", "84X"],
@@ -105435,8 +103728,8 @@
           "stop_num": "791"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -105454,30 +103747,8 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "7585, Leinster Street South, Clare Street",
@@ -106491,8 +104762,8 @@
           "stop_num": "1353"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -106511,7 +104782,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -106616,22 +104887,6 @@
           ],
           "lat": 53.3464120071589,
           "stop_num": "4495"
-        },
-        {
-          "search_name": "7546",
-          "long": "N/A",
-          "routes_serviced": ["68"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7546"
-        },
-        {
-          "search_name": "7547",
-          "long": "N/A",
-          "routes_serviced": ["68"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7547"
         },
         {
           "search_name": "1278, College Green, Suffolk Street",
@@ -107335,8 +105590,8 @@
           "stop_num": "1353"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -107355,7 +105610,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {
@@ -109331,11 +107586,11 @@
           "stop_num": "3428"
         },
         {
-          "search_name": "3429",
-          "long": "N/A",
+          "search_name": "3429 , Naas Road",
+          "long": -6.406741944,
           "routes_serviced": ["69X"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.30665,
           "stop_num": "3429"
         },
         {
@@ -109591,22 +107846,6 @@
           "routes_serviced": ["7", "7A", "7D"],
           "lat": 53.2959197205688,
           "stop_num": "3077"
-        },
-        {
-          "search_name": "7653",
-          "long": "N/A",
-          "routes_serviced": ["7", "7A", "84", "84A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7653"
-        },
-        {
-          "search_name": "6333",
-          "long": "N/A",
-          "routes_serviced": ["7"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "6333"
         },
         {
           "search_name": "3084, Frascati Road, Frascati Centre",
@@ -110757,23 +108996,6 @@
           "stop_num": "313"
         },
         {
-          "search_name": "349",
-          "long": "N/A",
-          "routes_serviced": [
-            "37",
-            "38",
-            "38A",
-            "38B",
-            "38D",
-            "39",
-            "39A",
-            "70"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "349"
-        },
-        {
           "search_name": "404, Nassau Street, South Frederick Street",
           "long": -6.256347892394249,
           "routes_serviced": [
@@ -111096,8 +109318,8 @@
           "stop_num": "793"
         },
         {
-          "search_name": "7576",
-          "long": "N/A",
+          "search_name": "7576 , Virtual Stop",
+          "long": -6.258494000000001,
           "routes_serviced": [
             "11",
             "25X",
@@ -111115,7 +109337,7 @@
             "70"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.340604000000006,
           "stop_num": "7576"
         },
         {
@@ -112272,11 +110494,11 @@
       "destination": "Tallaght (The Square)",
       "stops": [
         {
-          "search_name": "2038",
-          "long": "N/A",
+          "search_name": "2038 , Train Station",
+          "long": -6.135045,
           "routes_serviced": ["75"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.294931000000005,
           "stop_num": "2038"
         },
         {
@@ -112348,14 +110570,6 @@
           "routes_serviced": ["46A", "75", "7D"],
           "lat": 53.281622698517396,
           "stop_num": "4569"
-        },
-        {
-          "search_name": "7658",
-          "long": "N/A",
-          "routes_serviced": ["46A", "75", "7D"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7658"
         },
         {
           "search_name": "4570, Kill Avenue, Church",
@@ -112528,11 +110742,11 @@
           "stop_num": "2887"
         },
         {
-          "search_name": "4587",
-          "long": "N/A",
+          "search_name": "4587 , Kilmacud Rd",
+          "long": -6.241698888999999,
           "routes_serviced": ["75"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.28935,
           "stop_num": "4587"
         },
         {
@@ -113233,14 +111447,6 @@
           "stop_num": "4486"
         },
         {
-          "search_name": "4586",
-          "long": "N/A",
-          "routes_serviced": ["75"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4586"
-        },
-        {
           "search_name": "2872, Overend Way",
           "long": -6.23370144964376,
           "routes_serviced": ["75"],
@@ -113472,11 +111678,11 @@
           "stop_num": "2036"
         },
         {
-          "search_name": "2038",
-          "long": "N/A",
+          "search_name": "2038 , Train Station",
+          "long": -6.135045,
           "routes_serviced": ["75"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.294931000000005,
           "stop_num": "2038"
         }
       ]
@@ -118173,14 +116379,6 @@
           "stop_num": "3077"
         },
         {
-          "search_name": "7653",
-          "long": "N/A",
-          "routes_serviced": ["7", "7A", "84", "84A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7653"
-        },
-        {
           "search_name": "3079, Newtown Ave, Seapoint Avenue",
           "long": -6.17059668522763,
           "routes_serviced": ["7A", "84A"],
@@ -119576,28 +117774,6 @@
           "stop_num": "792"
         },
         {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
-        },
-        {
           "search_name": "7586, Leinster Street South, Clare Street",
           "long": -6.2532222884248485,
           "routes_serviced": [
@@ -120946,14 +119122,6 @@
           "stop_num": "320"
         },
         {
-          "search_name": "7492",
-          "long": "N/A",
-          "routes_serviced": ["7D"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7492"
-        },
-        {
           "search_name": "281, O'Connell St, Dublin Bus",
           "long": -6.26111600843156,
           "routes_serviced": ["116", "13", "4", "7", "7A", "7B", "7D", "9"],
@@ -122174,14 +120342,6 @@
           "routes_serviced": ["13", "27B", "4", "83", "83A"],
           "lat": 53.41772268076549,
           "stop_num": "324"
-        },
-        {
-          "search_name": "7500",
-          "long": "N/A",
-          "routes_serviced": ["83", "83A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7500"
         },
         {
           "search_name": "1555, St. Margaret's Road, Airport Logistics Park",
@@ -123518,46 +121678,6 @@
           "stop_num": "324"
         },
         {
-          "search_name": "7500",
-          "long": "N/A",
-          "routes_serviced": ["83", "83A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7500"
-        },
-        {
-          "search_name": "7501",
-          "long": "N/A",
-          "routes_serviced": ["83A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7501"
-        },
-        {
-          "search_name": "7502",
-          "long": "N/A",
-          "routes_serviced": ["83A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7502"
-        },
-        {
-          "search_name": "7503",
-          "long": "N/A",
-          "routes_serviced": ["83A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7503"
-        },
-        {
-          "search_name": "7504",
-          "long": "N/A",
-          "routes_serviced": ["83A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7504"
-        },
-        {
           "search_name": "1555, St. Margaret's Road, Airport Logistics Park",
           "long": -6.30686273203466,
           "routes_serviced": ["40B", "83", "83A"],
@@ -124679,14 +122799,6 @@
           "stop_num": "3144"
         },
         {
-          "search_name": "4678",
-          "long": "N/A",
-          "routes_serviced": ["84", "84A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4678"
-        },
-        {
           "search_name": "5047, Wyattville Road, Druid Valley",
           "long": -6.14016983992921,
           "routes_serviced": ["111", "7", "84", "84A"],
@@ -124827,14 +122939,6 @@
           "stop_num": "3164"
         },
         {
-          "search_name": "7653",
-          "long": "N/A",
-          "routes_serviced": ["7", "7A", "84", "84A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7653"
-        },
-        {
           "search_name": "7188, Temple Road, Frascati Road",
           "long": -6.17474775161109,
           "routes_serviced": ["84", "84A"],
@@ -124965,14 +123069,6 @@
           "routes_serviced": ["84", "84A"],
           "lat": 53.2612975538038,
           "stop_num": "3128"
-        },
-        {
-          "search_name": "7638",
-          "long": "N/A",
-          "routes_serviced": ["145", "84", "84A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7638"
         },
         {
           "search_name": "3130, Bray Road, Kilbogget Park",
@@ -125578,14 +123674,6 @@
           "stop_num": "3144"
         },
         {
-          "search_name": "4678",
-          "long": "N/A",
-          "routes_serviced": ["84", "84A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4678"
-        },
-        {
           "search_name": "7639, Brides Glen, Luas Station",
           "long": -6.14307322913931,
           "routes_serviced": ["111", "7", "84", "84A"],
@@ -125870,14 +123958,6 @@
           "routes_serviced": ["84", "84A"],
           "lat": 53.2612975538038,
           "stop_num": "3128"
-        },
-        {
-          "search_name": "7638",
-          "long": "N/A",
-          "routes_serviced": ["145", "84", "84A"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "7638"
         },
         {
           "search_name": "3130, Bray Road, Kilbogget Park",
@@ -126401,14 +124481,6 @@
           "stop_num": "786"
         },
         {
-          "search_name": "6058",
-          "long": "N/A",
-          "routes_serviced": ["25X", "32X", "66X", "67X", "84X"],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "6058"
-        },
-        {
           "search_name": "792, Dawson Street, Duke Street",
           "long": -6.258585808451151,
           "routes_serviced": [
@@ -126423,28 +124495,6 @@
           ],
           "lat": 53.34044898815289,
           "stop_num": "792"
-        },
-        {
-          "search_name": "4529",
-          "long": "N/A",
-          "routes_serviced": [
-            "116",
-            "145",
-            "25X",
-            "32X",
-            "37",
-            "39A",
-            "41X",
-            "44",
-            "61",
-            "66X",
-            "67X",
-            "7B",
-            "84X"
-          ],
-          "old_stop": "yes",
-          "lat": "N/A",
-          "stop_num": "4529"
         },
         {
           "search_name": "7586, Leinster Street South, Clare Street",
@@ -126695,11 +124745,11 @@
           "stop_num": "3135"
         },
         {
-          "search_name": "4188",
-          "long": "N/A",
+          "search_name": "4188 , Ashton Wood",
+          "long": -6.138283,
           "routes_serviced": ["185", "84X"],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.19010600000001,
           "stop_num": "4188"
         },
         {
@@ -127084,8 +125134,8 @@
           "stop_num": "1353"
         },
         {
-          "search_name": "7589",
-          "long": "N/A",
+          "search_name": "7589 , Peter Row",
+          "long": -6.265948000000001,
           "routes_serviced": [
             "122",
             "14",
@@ -127104,7 +125154,7 @@
             "9"
           ],
           "old_stop": "yes",
-          "lat": "N/A",
+          "lat": 53.339525,
           "stop_num": "7589"
         },
         {

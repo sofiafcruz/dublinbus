@@ -19,6 +19,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> 
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 
     {% comment %} <!-- Pagination -->
     <link href='https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css' rel='stylesheet'>
@@ -299,12 +301,12 @@
         <!-- ***** Menu Tabs ***** -->
         <div id="search-menu-container" class="Search-Menu-Container">
             <div id="mobile-close-btn" onclick="hideMenu()" value="true"><span id="hide-arrow">&#8227;</span></div>
-                <h3 id="menu-title" style="margin-bottom:10px;">Plan Your Trip</h3>
+                <h3 id="menu-title" style="margin-bottom:10px;">Plan Your Trip </h3>
                 <div class="tab">
                     <div class="menu-container tablinks" onclick="openTab(event, 'home-search-container'); clearLingeringRenderedObjects(); panToUsersLocation(); showMarkers();" id="defaultOpen">
                         <img src="./static/images/menu/by-location.svg" alt="Search by location" class="image">
                         <div class="overlay">
-                            <div class="menu-text">Location</div>
+                            <div class="menu-text">Location </div>
                         </div>
                     </div>
                     <div class="menu-container tablinks" id="search-by-route-img" onclick="openTab(event, 'search-by-route-container'); clearLingeringRenderedObjects(); panToUsersLocation(); showMarkers();">
@@ -353,11 +355,14 @@
                 <!-- ********** Search by Route Menu ********** -->
                 <div id='search-by-route-container' class="container centre-and-padding tabcontent" style="max-width:319px; max-height:70vh; overflow:auto; padding-bottom: 1rem;">
                     <!-- Route Dropdown -->
+                    
                     <form id="route_prediction_form" action="get_journey_prediction" method="POST">
                         {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
                     <select name="route" onchange="showAndLoadStartAndEndDrops('D1')" id="json-routes" class="form-control form-control-sm">
                         <option value="" disabled selected>Select a Route</option>
                     </select>
+    
+                    
                     <!-- Hidden input which contains weather info -->
                     <input type="text" id="hidden_weather" name="model_weather" style="display:none">
 
@@ -374,7 +379,7 @@
                         <!-- Starting Point Dropdown -->
                         <div>
                             <label for="starting-dropdown">Select Start Stop:</label>
-                            <select name="start_stop" id="json-starting-stops" class="form-control form-control-sm" onchange="filterRoute()"></select>
+                            <select name="start_stop" id="json-starting-stops" class="form-control form-control-sm" onchange="filterDropdown()"></select>
                         </div>
                         <!-- Ending Point Dropdown -->
                         <div>
@@ -397,13 +402,19 @@
                             <input type="time" id="choose-time" name="choose-time">
                         </div>
                         <hr>
-                        
                         <!-- Show Prediction -->
-                        <input type="submit" value="show prediction">
+                        {% if user.is_authenticated %}
+                        <input type="submit" value="show prediction" onclick="showSaveJourneyBtn(); calculateFare()">
+                        {% else %}
+                        <input type="submit" value="show prediction" onclick="calculateFare()">
+                        {% endif %}
                     </form>
+                          
+                       
+                    
                             
                         {% if user.is_authenticated %}
-                            <button id="show-journey" class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn(); calculateFare();" style="margin-top:15px;">Show Journey</button>
+                            <!-- <button id="show-journey" class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn(); calculateFare();" style="margin-top:15px;">Show Journey</button> -->
                             <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
                                 {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
 
@@ -413,17 +424,22 @@
                                 <input type="hidden" id="ending-stop-input" name="destination_stop">
                                 <input type="hidden" id="stop-count-input" name="stops_count">
                                 <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey">
+                                <!-- <div id="save-journey" style="display:none;">
+                                <button type="submit" style="padding: none;border: none;background:none;outline: none;"><img src="./static/images/star_empty.svg" id="favourite_icon" class="material-icons"></button> -->
+                                
+                            </div>
+                                <!-- <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey"> -->
                             </form>
                         {% else %}
-                            
-                            <button class='btn btn-outline-* btn-submit' onclick="generateStopArray(); calculateFare();" style="margin-top:15px;">Show Journey</button>
+                       
+                            <!-- <button class='btn btn-outline-* btn-submit' onclick="generateStopArray(); calculateFare();" style="margin-top:15px;">Show Journey</button> -->
                         {% endif %}
-
+                    
                         <!-- Displays the estimated Adult and Child fares for the journey -->
                         <div id="fare-table"></div>
                         
                         <div id="display_prediction"></div>
-                        <div id="routes-directions-panel"></div>
+                        <!-- <div id="routes-directions-panel"></div> -->
                     </div>
                 </div>
                 
@@ -509,8 +525,16 @@
         // ++++++++ Making JSON data available in app.js! ++++++++
         var main_table_object = {{ main_table_data|safe }};
         // var routes_frontend_object = {{ HD_routes_Frontend|safe }};
-        
+        var apiKey = "{{ google_maps_key }}";
         var route_origin_and_destination_object = {{ route_origin_and_destination_data|safe }};
+        function rollover(my_image)
+            {
+
+        my_image.src = 'someimage2.jpg';
+
+        }
+
+
     </script>
     <script type="text/javascript" src="{% static 'js/weather.js' %}"></script> 
     
