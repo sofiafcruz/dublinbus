@@ -73,16 +73,9 @@ var menu_visibility = true;
 // Conceptually; as we change a to a different menu tab option, clear all unncessary objects
 function clearLingeringRenderedObjects() {
   // ========== LISTS OF LINGERING OBJECTS (e.g. Lists of polylines, lists of markers etc) ==========
-  console.log("check 2 IN clearlingering");
-  console.log("Polyline:  ", route_polyline);
-  console.log("markers: ", FullRouteMarkers);
+
   route_polyline.setMap(null);
-  for (let y = 0; y < FullRouteMarkers.length; y++) {
-    FullRouteMarkers[y].setMap(null);
-  }
-  console.log("AFTER=================");
-  console.log("Polyline:  ", route_polyline);
-  console.log("markers: ", FullRouteMarkers);
+
   // Store all the possible lingering object lists in a list
   var list_of_possible_lingerers_list = [
     FullRouteMarkers,
@@ -92,14 +85,11 @@ function clearLingeringRenderedObjects() {
 
   // Iterate over them
   for (let i = 0; i < list_of_possible_lingerers_list.length; i++) {
-    console.log("In the first loop");
     // check if they contain anything
     if (list_of_possible_lingerers_list[i].length > 0) {
       let lingering_list = list_of_possible_lingerers_list[i];
       // if they do, iterate over each element and set it to null
       for (let j = 0; j < lingering_list.length; j++) {
-        console.log(lingering_list[j]);
-        console.log(len(lingering_list[j]));
         lingering_list[j].setMap(null);
       }
     }
