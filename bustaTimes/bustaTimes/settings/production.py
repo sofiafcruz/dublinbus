@@ -5,7 +5,7 @@ DEBUG = False
 # We could use this in the allowed hosts instead of: 'ipa-018.ucd.ie'
 possibly_remote_IP_address = '137.43.49.64'
 
-ALLOWED_HOSTS = ['http://127.0.0.1:8000/', 'ipa-018.ucd.ie']
+ALLOWED_HOSTS = ['ipa-018.ucd.ie', 'localhost', '137.43.49.64', '127.0.0.1']
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

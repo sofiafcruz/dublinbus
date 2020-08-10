@@ -1,6 +1,6 @@
 from .base_settings import *
 
-# ALLOWED_HOSTS = ['ipa-018.ucd.ie']
+ALLOWED_HOSTS = ['ipa-018.ucd.ie', 'localhost', '137.43.49.64', '127.0.0.1']
 
 DEBUG = True
 
@@ -36,7 +36,7 @@ Subject: Test email from Conors-MacBook-Air.local on 2020-07-27
 From: webmaster@localhost
 To: test@gmail.com
 Date: Mon, 27 Jul 2020 14:28:05 -0000
-Message-ID: <159586008549.75034.13908606671295172846@Conors-MacBook-Air.local>
+Message-ID: <XXXXXXXXXXXXXXXXXXXXXXXX-MacBook-Air.local>
 
 If you're reading this, it was successful.
 -------------------------------------------------------------------------------
