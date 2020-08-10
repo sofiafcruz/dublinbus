@@ -47,20 +47,20 @@ var route_coordinates = []; // list to store current coordinates - for route poy
 
 // List of colours for polylines
 var polyline_colours = [
-  "#ff0000",
-  "#fdff00",
-  "#00fe00",
-  "#0000fd",
-  "#fd00fd",
-  "#FF6347",
-  "#40E0D0",
-  "#ffc0cb",
-  "#808000",
-  "#999999",
-  "#800000",
-  "#f4a460",
-  "#a83262",
-  "#32a883",
+  "#b6d7e4",
+  "#f4d046",
+  "#eb5e28",
+  "#4c6974",
+  "#81a094",
+  "#afb5bc",
+  "#eb5a5a",
+  "#b79492",
+  "#e1bbc9",
+  "#723d46",
+  "#E365C1",
+  "#d0e37f",
+  "#0CCE6B",
+  "#187795"
 ];
 // Variable to keep track of the visibility of the search menu
 // Used in the hideMenu function
