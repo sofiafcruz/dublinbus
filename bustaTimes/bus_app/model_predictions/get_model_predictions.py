@@ -68,6 +68,7 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         model_params = json.load(outfile)
 
     param_list = model_params[route]["direction_{}".format(direction)]['cols']
+    print(param_list)
     parameters={}
     for elem in param_list:
         if elem != "Unnamed: 0" and elem != 'trip_time':
@@ -84,18 +85,24 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
 
 
     # dummy variables (change relevant col to 1) - will change to 1 if present otherwise leave all as 0
+    # Some flaws in this system, the model should have all months/days but may have only certain hours as dummy variables
+    # Need to filter possible times at the frontend or within here to deny prediction within certain time frames or provide
+    # a generic prediction based on a default time
     try:
-        # default is 1 (jan)
-        parameters["month_{}".format(month)] = 1
+        # default is 1 (jan) - if fails to get key then defaults to dummy variable
+        temp = parameters["month_{}".format(month)]
+        parameters["month_{}".format(month)]= 1
     except:
         pass
     try:
         # default = 0 (monday)
+        temp=parameters["day_of_week_{}".format(day)]
         parameters["day_of_week_{}".format(day)] = 1
     except:
         pass
     try:
         # 12 is 0 - this is the default - will need to control so that only valid times can come in
+        temp=parameters["day_of_week_{}".format(day)]
         parameters["hour_{}".format(hour)] = 1
     except:
         pass
@@ -110,6 +117,7 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     # print(row_embedded)
     # Make df out of values
     formatted_parameters = pd.DataFrame(row_embedded,columns=column_headers)
+    print("formatted parameters: ",formatted_parameters.columns)
     # print('FORMATTED PARAMETERS',formatted_parameters.shape)
     # print(formatted_parameters)
     # print(formatted_parameters.dtypes)
