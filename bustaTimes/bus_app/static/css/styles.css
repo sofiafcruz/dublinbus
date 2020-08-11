@@ -552,3 +552,56 @@ select,
 #fare-table {
   margin-top: 10px;
 }
+
+/* ---  news top bar  --- */
+
+.news-top-bar {
+  background-color: rgb(265, 265, 265, 0.9);
+  display:flex;
+  top: 70px;
+  border-radius: 25px;
+  position: absolute;
+  width: auto;
+  height: 30px;
+  padding-left: 8px;
+  right: 200px;
+  left: 450px;
+
+}
+
+#news-top-bar-content {
+  text-align: center;
+  padding-top: 3px;
+  margin-left: 6px;
+  margin-right: 6px;
+  width: inherit;
+  overflow: hidden;
+  font-weight: 500;
+}
+
+#news-top-bar-content a,
+#news-top-bar-content p {
+  margin: 0;
+  padding: 0;
+}
+
+#news-top-bar-content a {
+  text-decoration: none;
+}
+
+/* Styles for mobile (news top bar) */
+@media (max-width: 850px) {
+.news-top-bar {
+  background-color: rgb(265, 265, 265, 0.9);
+  display:flex;
+  top: 70px;
+  border-radius: 25px;
+  position: absolute;
+  width: auto;
+  height: 30px;
+  padding-left: 8px;
+  right: 150px; 
+  left:30px;
+}
+
+}
