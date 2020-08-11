@@ -29,4 +29,6 @@ urlpatterns = [
     path('get_journey_prediction', views.get_journey_prediction, name="get_journey_prediction"),
     # Django-Debug-Toolbar
     path('__debug__/', include(debug_toolbar.urls)),
+    # NEWS TOP BAR - GET NEWS
+    path('getnews/', views.get_news)
 ]
