@@ -76,14 +76,90 @@ body {
 }
 
 #journey-details {
-  background-color: rgb(255, 255, 255, 0.85);
   font-size: 0.75rem;
-  margin-top: 20px;
-  padding: 1em;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 
-#journey-details h6 {
-  text-decoration: underline;
+.timeline-row {
+  display: flex;
+}
+.step-left {
+  width: 30%;
+  padding-top: 20px;
+  align-self: center;
+}
+
+.step-right {
+  width: 70%;
+  padding-left: 15px;
+  align-self: center;
+}
+
+.walking::before {
+  position: relative;
+  content: url(../images/directions/walking.svg);
+  display: block;
+  width: 30px;
+  height: 30px;
+  left: -30px;
+  top: -10px;
+}
+
+.dublin-bus::before {
+  position: relative;
+  content: url(../images/directions/bus.svg);
+  display: block;
+  width: 30px;
+  height: 30px;
+  left: -30px;
+  top: -10px;
+}
+
+.dart::before {
+  position: relative;
+  content: url(../images/directions/dart.svg);
+  display: block;
+  width: 30px;
+  height: 30px;
+  left: -30px;
+  top: -10px;
+}
+
+.final-step::before {
+  position: relative;
+  content: "x";
+  color: white;
+  display: block;
+  width: 25px;
+  height: 25px;
+  left: -26px;
+  padding-top: 3px;
+  background-color: #94ce9a;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.undefined-step::before {
+  position: relative;
+  content: "";
+  display: block;
+  width: 27px;
+  height: 27px;
+  left: -30px;
+  top: -10px;
+  background-color: lightsteelblue;
+  border-radius: 50%;
+}
+
+.walking {
+  border-left-style: dashed;
+}
+
+.dublin-bus,
+.dart,
+.undefined-step {
+  border-left-style: solid;
 }
 
 .attractions-summary {
