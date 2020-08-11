@@ -391,7 +391,7 @@ select,
   position: absolute;
   width: 100px;
   right: 20px;
-  background-color: rgb(265, 265, 265, 0.75);
+  background-color: rgb(265, 265, 265, 0.85);
   border-radius: 25px;
   text-align: center;
   align-items: center;
@@ -400,20 +400,21 @@ select,
 
 .weather-container {
   top: 70px;
+  height: 30px;
 }
 
 .attractions {
-  top: 100px;
+  top: 107px;
 }
 
 .user-location-btn {
-  top: 190px;
+  top: 245px;
   width: 50px;
   height: 40px;
 }
 
 .night-mode {
-  top: 145px;
+  top: 155px;
 }
 
 .news-top-bar-btn {
