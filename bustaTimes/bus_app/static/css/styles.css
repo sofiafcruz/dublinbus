@@ -384,6 +384,7 @@ select,
 .weather-container,
 .attractions,
 .user-location-btn,
+.news-top-bar-btn,
 .night-mode {
   display: flex;
   flex-direction: column;
@@ -413,6 +414,10 @@ select,
 
 .night-mode {
   top: 145px;
+}
+
+.news-top-bar-btn {
+  top: 200px;
 }
 /* ------- END ------- */
 
