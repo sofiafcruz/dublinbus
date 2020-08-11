@@ -113,6 +113,7 @@ function scrollTopBar() {
     tScrollLeft = content.scrollLeft;
 }
 
+// A function to hide and display the top news bar
 function hideTopBar() {
     var bar = document.getElementById("news-top-bar");
     display = !display;
