@@ -230,6 +230,26 @@ body {
   transition: left 1s;
 }
 
+#home-search-container {
+  width:319px; 
+  max-height:70vh; 
+  overflow:auto;
+}
+
+#search-by-route-container {
+  max-width:319px; 
+  max-height:70vh; 
+  overflow:auto; 
+  padding-bottom: 1rem;
+}
+
+#bus-stop-search-container {
+  max-width:319px; 
+  padding-bottom: 1rem; 
+  max-height:70vh; 
+  overflow:auto;
+}
+
 .leap-card-input,
 .form-control {
   margin-bottom: 10px;
@@ -353,6 +373,12 @@ select,
     padding-top: 15px;
     top: calc(100vh - 35vh);
     text-align: center;
+  }
+
+  #home-search-container,
+  #search-by-route-container,
+  #bus-stop-search-container {
+    max-height: 200px; 
   }
 
   #menu-title,
