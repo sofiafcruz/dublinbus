@@ -715,7 +715,7 @@ const calculateAndRenderDirections = (
     let distance = legs.distance.text;
     let steps = legs.steps;
 
-    // console.log(steps);
+    console.log(steps);
 
     var timeline = `<div class="timeline">`;
     
@@ -737,6 +737,12 @@ const calculateAndRenderDirections = (
         } else if (step.transit.line.short_name == 'Dart') {
           timeline += `<div class="step-right dart">` +
                         `<p>${step.instructions}<br>` + 
+                        `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` + 
+                      `</div>` + 
+                    `</div>`;
+        } else if (step.transit.line.agencies[0].name == 'Luas') {
+          timeline += `<div class="step-right luas">` +
+                        `<p>${step.transit.line.name} - ${step.instructions}<br>` + 
                         `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` + 
                       `</div>` + 
                     `</div>`;

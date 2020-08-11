@@ -126,6 +126,16 @@ body {
   top: -10px;
 }
 
+.luas::before {
+  position: relative;
+  content: url(../images/directions/luas.svg);
+  display: block;
+  width: 30px;
+  height: 30px;
+  left: -30px;
+  top: -10px;
+}
+
 .final-step::before {
   position: relative;
   content: "x";
@@ -158,6 +168,7 @@ body {
 
 .dublin-bus,
 .dart,
+.luas,
 .undefined-step {
   border-left-style: solid;
 }
