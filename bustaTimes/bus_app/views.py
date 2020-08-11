@@ -523,3 +523,59 @@ def updateUserPopup(request):
                 print(update_leapcard_username_form.errors.as_data())
             # Then redirect them to the login page
             return redirect('index')
+
+url = "https://www.dublinbus.ie/News-Centre"
+
+# import BeatifulSoup for web scraping
+import json
+from bs4 import BeautifulSoup
+
+# creat a news cache to save the loading time
+def create_news_cache(timeout_seconds=600):
+    import time
+    cache = None
+    last_timestamp = 0
+
+    def is_not_expire():
+        return time.time() - last_timestamp <= timeout_seconds
+
+    # use BeatifulSoup to get news title, published time and hyperlink
+    def get_news_from_remote():
+        rtn = {}
+        try:
+            html = requests.get(url)
+            soup = BeautifulSoup(html.text, "html.parser")
+            head = soup.select(".newsitem_content")[0]
+            a = head.select('a')[0]
+            rtn['title'] = a.getText().strip()
+            rtn['href'] = "https://www.dublinbus.ie" + a.get('href')
+            date = head.select('.news_item_date')[0]
+            rtn['time'] = date.getText().strip()
+            rtn['state'] = 1
+        except Exception as e:
+            print(e)
+            rtn['state'] = 2
+        return rtn
+
+    # if there is existed data in cache and it is up to date, return contents from chache, otherwise scrape
+    def get_data():
+        nonlocal cache
+        nonlocal last_timestamp
+        if cache and cache['state'] == 1 and is_not_expire():
+            print('get from cache')
+            return cache
+        else:
+            cache = get_news_from_remote()
+            last_timestamp = time.time()
+        return cache
+
+    return {
+        'get_data': get_data
+    }
+
+
+news_cache = create_news_cache()
+
+
+def get_news(request):
+    return HttpResponse(json.dumps(news_cache['get_data']()))
