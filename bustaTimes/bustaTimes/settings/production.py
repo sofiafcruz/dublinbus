@@ -18,7 +18,8 @@ DATABASES = {
         'USER': os.environ["DB_USER"],
         'PASSWORD': os.environ["DB_PASS"],
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        # 'PORT': '5432',
+        'PORT': '', # according to the deployment tutorial, the port should be left as an empty string
     }
 }
 
@@ -30,6 +31,7 @@ DATABASES = {
 #     }
 # }
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
