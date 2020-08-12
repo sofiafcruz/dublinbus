@@ -74,7 +74,10 @@ var menu_visibility = true;
 function clearLingeringRenderedObjects() {
   // ========== LISTS OF LINGERING OBJECTS (e.g. Lists of polylines, lists of markers etc) ==========
 
-  route_polyline.setMap(null);
+  if((route_polyline != undefined) || (route_polyline != null)) {
+    route_polyline.setMap(null);
+  }
+  
 
   // Store all the possible lingering object lists in a list
   var list_of_possible_lingerers_list = [
@@ -113,6 +116,11 @@ function clearLingeringRenderedObjects() {
     ) {
       list_of_possible_lingerers[i].setPosition(null);
     }
+  }
+
+  if((directionsDisplay != null) || (directionsDisplay != undefined)) {
+    directionsDisplay.setMap(null);
+    document.getElementById("journey-details").textContent = "";
   }
 }
 
