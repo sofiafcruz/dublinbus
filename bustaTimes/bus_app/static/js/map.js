@@ -50,17 +50,17 @@ var polyline_colours = [
   "#b6d7e4",
   "#f4d046",
   "#eb5e28",
+  "#0CCE6B",
+  "#187795",
   "#4c6974",
+  "#e1bbc9",
+  "#723d46",
+  "#E365C1",
   "#81a094",
   "#afb5bc",
   "#eb5a5a",
   "#b79492",
-  "#e1bbc9",
-  "#723d46",
-  "#E365C1",
   "#d0e37f",
-  "#0CCE6B",
-  "#187795"
 ];
 // Variable to keep track of the visibility of the search menu
 // Used in the hideMenu function
@@ -74,10 +74,10 @@ var menu_visibility = true;
 function clearLingeringRenderedObjects() {
   // ========== LISTS OF LINGERING OBJECTS (e.g. Lists of polylines, lists of markers etc) ==========
 
+  // Remove the route polyline
   if((route_polyline != undefined) || (route_polyline != null)) {
     route_polyline.setMap(null);
   }
-  
 
   // Store all the possible lingering object lists in a list
   var list_of_possible_lingerers_list = [
@@ -105,9 +105,7 @@ function clearLingeringRenderedObjects() {
     searched_bus_stop_marker,
     destinationMarker,
   ];
-  // console.log(searched_bus_stop_marker.getTitle());
-  // console.log(searched_bus_stop_marker.getPosition().lat());
-  // console.log(searched_bus_stop_marker.getPosition().lng());
+
   // Iterate over them and set them to null
   for (let i = 0; i < list_of_possible_lingerers.length; i++) {
     if (
@@ -118,10 +116,14 @@ function clearLingeringRenderedObjects() {
     }
   }
 
+  // Remove the route rendered by search by location as well as the display panel of the route timeline
   if((directionsDisplay != null) || (directionsDisplay != undefined)) {
     directionsDisplay.setMap(null);
     document.getElementById("journey-details").textContent = "";
   }
+
+  // Remove the Route legend rendered in Search by Bus Stop
+  document.getElementById("routes-serviced-legend").textContent = "";
 }
 
 // Reads the local JSON file with the attractions info
