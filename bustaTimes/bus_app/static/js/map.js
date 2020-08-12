@@ -354,10 +354,7 @@ function displayAttractions() {
   // toggleMarkerVisibility();
   setMapDublin(); // Center the map in Dublin
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("attractions-switch")[0]
-    .checked
-    ? true
-    : false;
+  var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false;
   if (switchValue) {
     clearMarkers();
     // Loop through the attractions in the JSON file and add marker for each to the map
@@ -445,8 +442,7 @@ function attractionsInfowindow(marker, title) {
 
 function calcRouteToAttraction(latitude, longitude) {
   closeLastOpenedInfoWindow(lastOpenedInfoWindow);
-  // set 'origin-home-search' to the User's current location
-  getUsersLocation();
+
   // set 'destination-home-search' to the User's current location
   var geocoder = new google.maps.Geocoder();
   var latlng = { lat: latitude, lng: longitude };
@@ -728,7 +724,7 @@ const calculateAndRenderDirections = (
       } else if (step.travel_mode == 'TRANSIT') {
         timeline += `<div class="timeline-row">` +
                       `<div class="step-left">${step.duration.text}<br>${step.distance.text}</div>`;
-        if (step.transit.line.agencies[0].name == 'Dublin Bus') {
+        if ((step.transit.line.agencies[0].name == 'Dublin Bus') || (step.transit.line.agencies[0].name == 'Go-Ahead')) {
           timeline += `<div class="step-right dublin-bus">` +
                         `<p>Take the ${step.transit.line.short_name} ${step.instructions}<br>` + 
                         `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` + 
