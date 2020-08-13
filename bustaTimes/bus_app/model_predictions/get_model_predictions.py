@@ -1,3 +1,4 @@
+
 import pickle
 import pandas as pd
 import os
@@ -13,6 +14,16 @@ day_dict = {
     "Fri":4,
     "Sat":5,
     "Sun":6
+}
+reverse_day_dict={
+    0:"Monday",
+    1:"Tuesday",
+    2:"Wednesday",
+    3:"Thursday",
+    4:"Friday",
+    5:"Saturday",
+    6:"Sunday",
+
 }
 
 month_dict = {
@@ -34,12 +45,72 @@ time_slot={
     'morn':[6,7,8,9,10,11],
     'afternoon':[12,13,14,15],
     'rush_eve':[16,17,18,19],
-    'night':[20,21,22,23,0]
+    'night':[20,21,22,23,0,1]
 }
 
+# def get_seconds()
+
+def comparison(test,query):
+    print("test: ",test)
+    print("query: ",query)
+    if query[:2]=="00":
+        query="24:{}".format(query[3:]) 
+    if query[:2]=="01":
+        query="25:{}".format(query[3:])
+    if int(test[:2]) > int(query[:2]):
+        return test
+    elif int(test[:2]) == int(query[:2]) and int(test[3:]) > int(query[3:]):
+        return test
+    else:
+        return "None"
+
+def get_timetable_info(route,direction,time,day,stop):
+    # want to open up the dicitonary look at the given route, day, directoin
+    print(route)
+    print(direction)
+    print(time)
+    print("day: ",day)
+    print(type(day))
+    if day in [0,1,2,3,4]:
+        day=0
+
+    print(stop)
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    name = os.path.join(BASE_DIR, 'static/timetable_dict.json')
+    with open(name) as outfile:
+        timetable_dict = json.load(outfile)
+    # need to search for closest time within that list
+    print("day times:")
+    # print(timetable_dict[route]["D{}".format(direction)]["stops"][stop]["days"][str(day)][0])
+    time_list=timetable_dict[route]["D{}".format(direction)]["stops"][stop]["days"][str(day)]
+    # get larger times, then get min of that list
+    greater_list = [t[:5] for t in time_list if comparison(t[:5],time) != "None"]
+    # I HAVE NOT ACCOUNTED FOR IF THE NEXT DAY CONTAINS NO JOURNEy - currently just returns 'none'
+    print("LIST: ", greater_list)
+    if len(greater_list)==0:
+        try:
+            if day ==5:
+                next_day=6
+            else:
+                next_day=0
+            
+            answer = timetable_dict[route]["D{}".format(direction)]["stops"][stop]["days"][str(next_day)][0][:5]
+            print("NEXT DAY:    ", answer)
+            return answer, True
+        except:
+            print("couldn't find anythin")
+            return "None",False
+    else: 
+        answer = min(greater_list)
+        # answer = min(time_list, key=lambda t: abs(query - datetime.datetime.strptime(t[0:5], "%H:%M")))
+        print("Same day: ",answer)
+        return answer, False
+    # for time in time_list:
+    #     print(type())
 
 
-def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,wind,cloud,visibility,humidity):
+
+def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,wind,cloud,visibility,humidity,stop_name):
     print("{} \n {} \n{} \n {} \n{} \n {} \n{} \n {} \n{} \n {} \n".format(route,start_stop,end_stop,date,time,temp,rain,wind,cloud,visibility))
     # preprocessing - get day,month and bank holiday from date (for now BH = 0)
     # split on empty space
@@ -52,6 +123,15 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     # These need to be updated to dynamic variables and direction needs
     bank_hol = 0
     
+    print("Hour beforehand:  {}".format(time))
+     # Get starting time (using timetable_dict)
+    time,next_day = get_timetable_info(route,direction,time,day,stop_name)
+    if time =="None":
+        return "Error in obtaining journey time, please pick another time"
+    
+    # print("DAY OUTSIDE:  ",day)
+
+    # print("time after:  {}".format(processed_time))
     # round hour to closest number
     split_hour = time.split(":")
     hr = int(split_hour[0])
@@ -59,6 +139,11 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     if minut > 30:
         hr +=1
     hour = str(hr)
+
+   
+
+
+
 
     # Make copy of model_dict and change the values according to inputted values 
     # parameters = model_dict.copy()
@@ -102,7 +187,7 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         pass
     try:
         # 12 is 0 - this is the default - will need to control so that only valid times can come in
-        temp=parameters["day_of_week_{}".format(day)]
+        temp=parameters["hour_{}".format(hour)]
         parameters["hour_{}".format(hour)] = 1
     except:
         pass
@@ -152,7 +237,7 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         #     if key in journey_segments:
         #         offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key][1])
         
-        average_file = "hist_averages_corrected.json"
+        average_file = "historical_averages_full.json"
         hist = os.path.join(BASE_DIR, 'static/{}'.format(average_file))
         with open(hist,) as fp:
             historical_average_data = json.load(fp)
@@ -178,20 +263,33 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
                     if seg in journey_segments:
                         offset+=float(historical_average_data[route]["D{}".format(direction)]["segments"][seg][slot][1])
             else:
+                # This is for if the time is in a time slot (i.e. not early hours of morning) but not valid for this journey
                 # return some kind of error message which lists valid times? [or returns some kind of timetable]
                 print("invalid time please select a time")
                 return "WRONG TIME SLOT"
         else:
+            # This is for a time outside dublin bus hours - limit clock?
             print("not a valid time")
+            return "WRONG TIME SLOT"
 
-        print(offset)
+        print("OFFSET AMOUNT: ",offset)
         # final_pred = prediction[0]-offset
         final_pred = prediction[0]*offset
         final = final_pred//60
 
+        # if next_day = True it means this must be stated, otherwise just return back the next bus time
+        if next_day:
+            message ="Next journey is at: {} -  {}".format(time,reverse_day_dict[day+1])
+        else:
+            message ="Next journey is at: {}".format(time)
+            
+        if int(final)<1:
+            final=" < 1"
+            return " {} minute  \n ".format(final) + message
+
         # return some info on next bus available??
 
-        return "{} minutes".format(int(final))
+        return "{} minutes  \n".format(int(final)) + message
         
 
 
