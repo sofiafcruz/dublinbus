@@ -2112,13 +2112,6 @@
           "routes_serviced": ["104", "130", "32X"],
           "lat": 53.3585903733516,
           "stop_num": "1749"
-        },
-        {
-          "search_name": "1749, Clontarf Rd, Bus Garage",
-          "long": -6.190551940152731,
-          "routes_serviced": ["104", "130", "32X"],
-          "lat": 53.3585903733516,
-          "stop_num": "1749"
         }
       ]
     },
@@ -2385,20 +2378,6 @@
           "old_stop": "yes",
           "lat": 53.3890906990771,
           "stop_num": "1645"
-        },
-        {
-          "search_name": "1646, Collins Avenue Extension, DCU",
-          "long": -6.25698053714177,
-          "routes_serviced": ["104", "42D"],
-          "lat": 53.3871546494721,
-          "stop_num": "1646"
-        },
-        {
-          "search_name": "7571, DCU, The Helix",
-          "long": -6.25872495848864,
-          "routes_serviced": ["104", "31D", "42D", "44", "70D"],
-          "lat": 53.3867756476317,
-          "stop_num": "7571"
         },
         {
           "search_name": "1646, Collins Avenue Extension, DCU",
@@ -28292,30 +28271,6 @@
           "old_stop": "yes",
           "lat": 53.2996711529635,
           "stop_num": "2052"
-        },
-        {
-          "search_name": "765, UCD",
-          "long": -6.21686235884914,
-          "routes_serviced": ["17"],
-          "old_stop": "yes",
-          "lat": 53.30525503028221,
-          "stop_num": "765"
-        },
-        {
-          "search_name": "2007, Stillorgan Road, UCD",
-          "long": -6.2161112048334815,
-          "routes_serviced": [
-            "116",
-            "145",
-            "17",
-            "46A",
-            "47",
-            "7B",
-            "7D",
-            "84X"
-          ],
-          "lat": 53.3088750410416,
-          "stop_num": "2007"
         },
         {
           "search_name": "765, UCD",
@@ -56822,13 +56777,6 @@
           "stop_num": "3566"
         },
         {
-          "search_name": "3566, Town Parks Rd, Selskar Court",
-          "long": -6.1250705039975095,
-          "routes_serviced": ["33", "33A", "33X"],
-          "lat": 53.5780675047696,
-          "stop_num": "3566"
-        },
-        {
           "search_name": "3567, Town Parks Rd, Selsker Road",
           "long": -6.11993954602659,
           "routes_serviced": ["33", "33A", "33X"],
@@ -57323,20 +57271,6 @@
           "routes_serviced": ["142", "151", "33D", "33X", "41X"],
           "lat": 53.3469141110555,
           "stop_num": "7623"
-        },
-        {
-          "search_name": "3715, R132, Hearse Road",
-          "long": -6.2037256126032805,
-          "routes_serviced": ["33", "33A", "33X"],
-          "lat": 53.480002835652286,
-          "stop_num": "3715"
-        },
-        {
-          "search_name": "5175, R132, Turvey Logistics Pk",
-          "long": -6.1965934046206606,
-          "routes_serviced": ["33", "33A", "33X"],
-          "lat": 53.4897192928483,
-          "stop_num": "5175"
         },
         {
           "search_name": "3715, R132, Hearse Road",
@@ -74779,13 +74713,6 @@
           "routes_serviced": ["41", "41B", "41X"],
           "lat": 53.462024033883715,
           "stop_num": "3682"
-        },
-        {
-          "search_name": "3864, Rathbeale Road, Abbylea Ave",
-          "long": -6.234133062026991,
-          "routes_serviced": ["41", "41B", "41X"],
-          "lat": 53.463999134591894,
-          "stop_num": "3864"
         },
         {
           "search_name": "3864, Rathbeale Road, Abbylea Ave",
@@ -100542,29 +100469,6 @@
           ],
           "lat": 53.3351467148295,
           "stop_num": "786"
-        },
-        {
-          "search_name": "7576 , Virtual Stop",
-          "long": -6.258494000000001,
-          "routes_serviced": [
-            "11",
-            "25X",
-            "32X",
-            "37",
-            "38",
-            "38A",
-            "38B",
-            "38D",
-            "39",
-            "39A",
-            "41X",
-            "66X",
-            "67X",
-            "70"
-          ],
-          "old_stop": "yes",
-          "lat": 53.340604000000006,
-          "stop_num": "7576"
         },
         {
           "search_name": "7576 , Virtual Stop",
