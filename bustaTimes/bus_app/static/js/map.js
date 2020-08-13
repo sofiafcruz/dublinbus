@@ -949,6 +949,8 @@ function checkRouteLine(routes, selectedRoute) {
 }
 // Function to map the entire route
 function showJourney(stopArray) {
+  console.log(")))))))))))))))))))))CALLED BITCH!")
+  console.log("FullRouteMarkers2.0", FullRouteMarkers);
   // Need to make sure all other route stops are gone FINITO -  do try block to attempt to remove all other markers (i.e. previous routes)
   try {
     // remove markers if they exist from the map
@@ -1024,6 +1026,7 @@ function showJourney(stopArray) {
     // Push each marker of the journey to the array
     FullRouteMarkers.push(RouteMark);
   }
+  console.log("FullRouteMarkers3.5", FullRouteMarkers);
   console.log("finsihed function getJourney");
   // get snapped to road coordinates
   getRoutePolyline(route_coordinates);
@@ -1039,6 +1042,7 @@ function filterDropdown() {
   // if start index is equal to or greater than stop index - need to do whats done below i.e. empty stop dropdown and replace it with new slice (automatically make stop the last stop - will help wiht polyliens)
   // if you have a small slice then put start index back to the start - how does the end index options go back again (while maintaining current value?)
   // Get route selected
+  console.log("==================HERE=====================")
   var selected_route = document.getElementById("json-routes").value;
   // get first stop
   var json_starting_point_dropdown = document.getElementById(
@@ -1101,6 +1105,9 @@ function filterRoute() {
   // B. redo request with new values (alot more requests - quicker fix for now)
   var start = parseInt(document.getElementById("json-starting-stops").value);
   var end = parseInt(document.getElementById("json-ending-stops").value);
+  console.log("//////////////////////////");
+  console.log(start);
+  console.log(end);
   // Remove any existing polyline
   try {
     route_polyline.setMap(null);
@@ -1113,9 +1120,10 @@ function filterRoute() {
   // Mske new bounds variable
   var bounds = new google.maps.LatLngBounds();
   // Function filters the stops shown on a complete route based on dropdown selection
-
+  console.log("FullRouteMarkers:", FullRouteMarkers);
   for (x = 0; x < FullRouteMarkers.length; x++) {
     // if they are outside the desired range then set them to null, do the same with the bounds - need a way to modify bounds
+    console.log("X value:", x);
     if (x < start || x > end) {
       FullRouteMarkers[x].setMap(null);
     } else {

@@ -397,7 +397,7 @@
                         </div>
                         <!-- Show Prediction -->
                         {% if user.is_authenticated %}
-                        <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="showSaveJourneyBtn(); calculateFare()"><br>
+                        <input type="submit" id="show-prediction" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="showSaveJourneyBtn(); calculateFare()"><br>
                         {% else %}
                         <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="calculateFare()" style="margin-top:15px; margin-bottom:20px;"><br>
                         {% endif %}

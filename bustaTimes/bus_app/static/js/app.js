@@ -230,8 +230,11 @@ function showAndLoadStartAndEndDrops(direction) {
 
   // TESTING====================================
   // let direction_1 = hd_routes[selected_route].D1;
+  console.log(hd_routes);
+  console.log(hd_routes[selected_route]);
+  console.log(selected_route);
   let direction_1 = hd_routes[selected_route][direction];
-  // console.log(direction_1);
+  
 
   // Save in all route stops into full route array (array of 'stop' objects) - pass to map.js to be mapped
   let full_route = hd_routes[selected_route][current_direction]["stops"];
@@ -633,9 +636,9 @@ function populateInputWithStop(clicked_busstop_searchname) {
 $(".clickable-row").click(function () {
   console.log("Row in Favourites Table clicked!");
 
-  let row_route_name = $(this).children()[2].textContent;
-  let row_origin_stop = $(this).children()[3].textContent;
-  let row_destination_stop = $(this).children()[4].textContent;
+  let row_route_name = $(this).children()[0].textContent;
+  let row_origin_stop = $(this).children()[1].textContent;
+  let row_destination_stop = $(this).children()[2].textContent;
 
   console.log(row_route_name);
   console.log(row_origin_stop);
@@ -643,35 +646,66 @@ $(".clickable-row").click(function () {
 
   // =====Changing Search by Route Options=====
 
+  console.log("1. Close PopUp");
   // 1. Close PopUp
   $("#close-favourites-popup").click();
+  
 
+  console.log("2. Click the 'Search by Route' image tab");
   // 2. Click the "Search by Route" image tab; (FOR SOME REASON THEY'RE NOT WORKING!)
+
   $("#search-by-route-container").click(); // Needed to load the JSON file
   // $("#search-by-route-img").click();
+  openTab(event, 'search-by-route-container');
   // $("#search-by-route-nav").click();
+  
 
+  console.log("3. Changing value of 'Select Route'");
   // 3. Changing value of "Select Route";
-  $("select#json-routes").val(row_route_name).change();
-
+  console.log($('select#json-routes'));
+  $('select#json-routes').val(row_route_name).change();
+  
+  console.log('4. Changing value of "Select Starting Point"');
   // 4. Changing value of "Select Starting Point";
   $("select#json-starting-stops option").each(function () {
     // console.log($(this).text());
     if ($(this).text() == row_origin_stop) {
-      $(this).attr("selected", "selected");
+      // $(this).attr("selected", "selected");
+      console.log($(this));
+      console.log($(this.parentNode));
+      console.log($(this).text());
+      console.log($(this).val());
+      let stop_value = $(this).val();
+      console.log("START:", stop_value);
+      // $(this).val(stop_value).change();
+      $(this.parentNode).val(stop_value).change();
+      // $(this.parentNode).val(row_origin_stop).change();
+      // $(this).val(row_origin_stop).change();
     }
   });
 
+  console.log('5. Changing value of "Select End Point"');
   // 5. Changing value of "Select End Point";
   $("select#json-ending-stops option").each(function () {
     // console.log($(this).text());
     if ($(this).text() == row_destination_stop) {
-      $(this).attr("selected", "selected");
+      // $(this).attr("selected", "selected");
+      console.log($(this));
+      console.log($(this.parentNode));
+      console.log($(this).text());
+      console.log($(this).val());
+      let stop_value = $(this).val();
+      console.log("END:", stop_value);
+      // $(this).val(stop_value).change();
+      $(this.parentNode).val(stop_value).change();
+      // $(this.parentNode).val(row_destination_stop).change();
+      // $(this).val(row_destination_stop).change();
     }
   });
 
+  console.log('6. Click "Show Prediction"');
   // 6. Click "Show Journey"
-  $("#show-journey").click();
+  $("#show-prediction").click();
 
   // OTHER OPTIONS TO CONSIDER:
   // - The Value of the journey? (to determine the number of stops?)
