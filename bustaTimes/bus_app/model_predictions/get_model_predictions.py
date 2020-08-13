@@ -45,7 +45,7 @@ time_slot={
     'morn':[6,7,8,9,10,11],
     'afternoon':[12,13,14,15],
     'rush_eve':[16,17,18,19],
-    'night':[20,21,22,23,0,1]
+    'night':[20,21,22,23,0]
 }
 
 # def get_seconds()
@@ -55,8 +55,8 @@ def comparison(test,query):
     print("query: ",query)
     if query[:2]=="00":
         query="24:{}".format(query[3:]) 
-    if query[:2]=="01":
-        query="25:{}".format(query[3:])
+    # if query[:2]=="01":
+    #     query="25:{}".format(query[3:])
     if int(test[:2]) > int(query[:2]):
         return test
     elif int(test[:2]) == int(query[:2]) and int(test[3:]) > int(query[3:]):
@@ -125,12 +125,18 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     
     print("Hour beforehand:  {}".format(time))
      # Get starting time (using timetable_dict)
-    time,next_day = get_timetable_info(route,direction,time,day,stop_name)
-    if time =="None":
-        return "Error in obtaining journey time, please pick another time"
+    no_timetable_route_list=['116', '118','16d','130','120','25d','25x', '31d', '32x','33e','39x','41a','42d','46e', '51d','51x','68x','70d','77x']
+
+    if route in no_timetable_route_list:
+         next_day=False
+    else:
+        time,next_day = get_timetable_info(route,direction,time,day,stop_name)
+        if time =="None":
+            return "Error in obtaining journey time, please pick another time"
     
     # print("DAY OUTSIDE:  ",day)
-
+    if "24" in time[:2]:
+        time="00:{}".format(time[3:])
     # print("time after:  {}".format(processed_time))
     # round hour to closest number
     split_hour = time.split(":")
@@ -139,6 +145,7 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     if minut > 30:
         hr +=1
     hour = str(hr)
+    print("HOUR  {}   \n    TIME:  {}".format(hour,time))
 
    
 
@@ -246,7 +253,8 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         # get segments including start and end stop
         journey_segments = segments[int(start_stop):int(end_stop)]
         offset = 0
-
+        if hour=="24":
+            hour=0
         # Loop through each segment and find appropriate time slot and add up % of all appropriate segments
         slot = 'N/A'
         print("Hour: ",hour)
@@ -265,12 +273,12 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
             else:
                 # This is for if the time is in a time slot (i.e. not early hours of morning) but not valid for this journey
                 # return some kind of error message which lists valid times? [or returns some kind of timetable]
-                print("invalid time please select a time")
-                return "WRONG TIME SLOT"
+                print("FIRST invalid time please select a time")
+                return "sorry there is no journey information available for route {} at {}".format(route,time)
         else:
             # This is for a time outside dublin bus hours - limit clock?
-            print("not a valid time")
-            return "WRONG TIME SLOT"
+            print("SECOND not a valid time")
+            return "sorry there is no journey information available for route {} at {}".format(route,time)
 
         print("OFFSET AMOUNT: ",offset)
         # final_pred = prediction[0]-offset
@@ -278,10 +286,15 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         final = final_pred//60
 
         # if next_day = True it means this must be stated, otherwise just return back the next bus time
-        if next_day:
-            message ="Next journey is at: {} -  {}".format(time,reverse_day_dict[day+1])
-        else:
-            message ="Next journey is at: {}".format(time)
+        if route in  no_timetable_route_list:
+            message="There is timetable available for this route"
+        else:   
+            if next_day:
+                message ="Next journey is at: {} -  {}".format(time,reverse_day_dict[day+1])
+            else:
+                message ="Next journey is at: {}".format(time)
+
+        
             
         if int(final)<1:
             final=" < 1"
