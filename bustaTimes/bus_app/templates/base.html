@@ -401,6 +401,41 @@
                             {% else %}
                             <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="calculateFare()" style="margin-top:15px; margin-bottom:20px;"><br>
                             {% endif %}
+                    <!-- Select "Starting Point" and "Ending Point" div (initially hidden) -->
+                    <div id="stops-dropdowns-container" style="display: none;">
+                        <!-- From Origin to Destination header -->
+                        <div id="origin-to-destination-div">
+                            <p id="origin-to-destination-header"></p>
+                        </div>
+                        <!-- Switch Direction button -->
+                        <div class="container">
+                            <input type="image" src="./static/images/change-direction.svg" id="change-direction" alt="Change Direction" style="height: 30px;" />
+                            <input type="text" id="hidden_directon" name="choose-direction" style="display:none", value="1">
+                        </div>
+                        <!-- Starting Point Dropdown -->
+                        <div>
+                            <label for="starting-dropdown">Select Start Stop:</label>
+                            <select name="start_stop" id="json-starting-stops" class="form-control form-control-sm" onchange="filterDropdown()"></select>
+                        </div>
+                        <!-- Ending Point Dropdown -->
+                        <div>
+                            <label for="ending-dropdown">Select End Stop:</label>
+                            <select name="end_stop" id="json-ending-stops" class="form-control form-control-sm" onchange="filterRoute()"></select>
+                        </div>
+                        <!-- Choose Date Dropdown -->
+                        <div id="date-selector-container">
+                            <label for="date-dropdown">Select Date:</label>
+                            <select name="date" id="date-selector" class="form-control form-control-sm">
+                                <option id="prediction-date-1"></option>
+                                <option id="prediction-date-2"></option>
+                                <option id="prediction-date-3"></option>
+                                <option id="prediction-date-4"></option>
+                                <option id="prediction-date-5"></option>
+                            </select>
+                        </div>
+                        <div id="time-selector-container" class="md-form md-outline input-with-post-icon timepicker" twelvehour="true">
+                            <label for="choose-time">Select a time:</label>
+                            <input type="time" id="choose-time" name="choose-time">
                         </div>
                     </form>
                             

@@ -1034,9 +1034,11 @@ $("#change-direction").click(function (e) {
   if (current_direction === "D1") {
     console.log("Switching to D2");
     current_direction = "D2";
+    document.getElementById("hidden_directon").value = "2";
   } else {
     console.log("Switching to D1");
     current_direction = "D1";
+    document.getElementById("hidden_directon").value = "1";
   }
   showAndLoadStartAndEndDrops(current_direction);
 });
