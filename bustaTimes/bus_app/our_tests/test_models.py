@@ -117,6 +117,51 @@ from django.core.exceptions import ValidationError
 # ===============
 # ACTUAL TESTING:
 # ===============
+
+class UserModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Set up non-modified objects used by all test methods
+        User.objects.create(
+            username="James",
+            password="dublinbus123",
+            email="james@gmail.com",
+            first_name="James",
+            last_name="Wilson"
+        )
+
+    def test_duplicate_username_not_allowed(self):
+        '''Test to make sure 2 users with the same username cannot be saved
+        
+        This means that a user cannot register an already-existing username
+        '''
+        # Attempt to create a copy
+        with self.assertRaises(Exception):
+            user_with_same_username = User.objects.create(
+                username="James", # same username as existing user
+                password="anotherPassword123",
+                email="james123@gmail.com",
+                first_name="Jimmy",
+                last_name="Fallon"
+            )
+    
+    def test_duplicate_email_is_allowed(self):
+        '''Test to make sure 2 users with the same email can be saved
+        
+        This means that a user can register an already-existing email
+        '''
+        # Attempt to create a copy
+        try:
+            user_with_same_email = User.objects.create(
+                username="Jimmy",
+                password="anotherPassword123",
+                email="james@gmail.com", # same email as existing user
+                first_name="Jimmy",
+                last_name="Fallon"
+            )
+        except Exception:
+            self.fail("User should be able to have same email as another, but exception raised unexpectedly!")
+
 class AdditionalUserInfoModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):

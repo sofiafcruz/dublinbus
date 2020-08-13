@@ -11,8 +11,7 @@ from bus_app.views import index, make_rpti_realtime_api_request, registerUserPop
 # 3. registerUserPopup
 # 4. loginUserPopup
 # 5. save_route_journey
-# 6. showFavouritesPopup
-# 7. delete_favourite_journey
+# 6. delete_favourite_journey
 
 # N.B. it's important all test cases begin with 'test_';
 
@@ -36,7 +35,28 @@ class TestURLs(SimpleTestCase):
         # print(resolve(url)) # ResolverMatch(func=bus_app.views.index, args=(), kwargs={}, url_name=index, app_names=[], namespaces=[], route=)
         self.assertEquals(resolve(url).func, make_rpti_realtime_api_request)
     
-    # 7.
+    # 3.
+    def test_registerUserPopup_resolves(self):
+        url = reverse("registerUserPopup")
+        # Now we can use the resolve function to pass in a URL and see which view django will call
+        # print(resolve(url)) # ResolverMatch(func=bus_app.views.index, args=(), kwargs={}, url_name=index, app_names=[], namespaces=[], route=)
+        self.assertEquals(resolve(url).func, registerUserPopup)
+
+    # 4.
+    def test_loginUserPopup_resolves(self):
+        url = reverse("loginUserPopup")
+        # Now we can use the resolve function to pass in a URL and see which view django will call
+        # print(resolve(url)) # ResolverMatch(func=bus_app.views.index, args=(), kwargs={}, url_name=index, app_names=[], namespaces=[], route=)
+        self.assertEquals(resolve(url).func, loginUserPopup)
+
+    # 5.
+    def test_save_route_journey_resolves(self):
+        url = reverse("save_route_journey")
+        # Now we can use the resolve function to pass in a URL and see which view django will call
+        # print(resolve(url)) # ResolverMatch(func=bus_app.views.index, args=(), kwargs={}, url_name=index, app_names=[], namespaces=[], route=)
+        self.assertEquals(resolve(url).func, save_route_journey)
+
+    # 6.
     def test_delete_favourite_journey_url_resolves(self):
         url = reverse("delete_favourite_journey", args=[1])
         # Now we can use the resolve function to pass in a URL and see which view django will call

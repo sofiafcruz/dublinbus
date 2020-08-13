@@ -51,9 +51,6 @@ class TestHomePage(StaticLiveServerTestCase):
         username_field = self.browser.find_element_by_id("login-username-field")
         password_field = self.browser.find_element_by_id("login-password-field")
         # Set the login credential fields to the credentials of a created user
-        # NOT WORKING?
-        # username_field.send_keys("selenium_test")
-        # password_field.send_keys("dublinbus123")
         username_field.send_keys(username)
         password_field.send_keys(password)
         # Click login button
@@ -120,96 +117,96 @@ class TestHomePage(StaticLiveServerTestCase):
     # TEST CASE FUNCTIONS 
     # ===================
     
-    # # =================================================================================================================================
-    # def test_users_not_logged_in(self):
-    #     '''Ensure when a user requests the page for the first time, they're not logged into an account'''
-    #     # Start up the web app
-    #     self.start_web_app()    
-    #     # Ensure a user CAN see "login" option on nav bar
-    #     self.can_see_login_link()
+    # =================================================================================================================================
+    def test_users_not_logged_in(self):
+        '''Ensure when a user requests the page for the first time, they're not logged into an account'''
+        # Start up the web app
+        self.start_web_app()    
+        # Ensure a user CAN see "login" option on nav bar
+        self.can_see_login_link()
 
-    #     # And we want finding the logout element to fail (but not sure how to test...);
-    #     # alert_logout = self.browser.find_element_by_id("logout-option") # selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="logout-option"]"}
-    #     # self.assertEquals(alert_logout.text, "Logout")
+        # And we want finding the logout element to fail (but not sure how to test...);
+        # alert_logout = self.browser.find_element_by_id("logout-option") # selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="logout-option"]"}
+        # self.assertEquals(alert_logout.text, "Logout")
 
-    # # =================================================================================================================================
-    # def test_user_can_login_to_existing_account(self):
-    #     '''Ensure when a user requests the page for the first time, they can log into an already-existing account'''
-    #     # Start up the web app
-    #     self.start_web_app()
-    #     # Login with already-existing user credentials
-    #     self.login_user("test_username", "test_password")
+    # =================================================================================================================================
+    def test_user_can_login_to_existing_account(self):
+        '''Ensure when a user requests the page for the first time, they can log into an already-existing account'''
+        # Start up the web app
+        self.start_web_app()
+        # Login with already-existing user credentials
+        self.login_user("test_username", "test_password")
 
-    #     # The user sees the home page as a logged in user (test_username)
-    #     # Ensure the user can now see "logout" option on nav bar
-    #     self.can_see_logout_link()
+        # The user sees the home page as a logged in user (test_username)
+        # Ensure the user can now see "logout" option on nav bar
+        self.can_see_logout_link()
 
-    # # =================================================================================================================================
-    # def test_user_cannot_login_to_non_existing_account(self):
-    #     '''Ensure when a user requests the page for the first time, they cannot log into a non-existing account'''
-    #     # Start up the web app
-    #     self.start_web_app()
-    #     self.login_user("unregistered_username", "unregistered_password")
+    # =================================================================================================================================
+    def test_user_cannot_login_to_non_existing_account(self):
+        '''Ensure when a user requests the page for the first time, they cannot log into a non-existing account'''
+        # Start up the web app
+        self.start_web_app()
+        self.login_user("unregistered_username", "unregistered_password")
 
-    #     # The user sees the home page STILL as a general user (as login would've failed)
-    #     # Ensure the user can still see "login" option on nav bar
-    #     self.can_see_login_link()
+        # The user sees the home page STILL as a general user (as login would've failed)
+        # Ensure the user can still see "login" option on nav bar
+        self.can_see_login_link()
     
-    # # =================================================================================================================================
-    # def test_user_is_redirected_to_reset_password_page(self):
-    #     '''Ensure when a user requests the page as a general user, they can be redirected to the reset password page'''
-    #     # Start up the web app
-    #     self.start_web_app()
-    #     # The user sees the home page as a general user
+    # =================================================================================================================================
+    def test_user_is_redirected_to_reset_password_page(self):
+        '''Ensure when a user requests the page as a general user, they can be redirected to the reset password page'''
+        # Start up the web app
+        self.start_web_app()
+        # The user sees the home page as a general user
 
-    #     self.click_forgot_password_link()
+        self.click_forgot_password_link()
 
-    #     # Test that the current url matches the redirected page url
-    #     self.assertEquals(self.browser.current_url, self.password_reset_url)
+        # Test that the current url matches the redirected page url
+        self.assertEquals(self.browser.current_url, self.password_reset_url)
 
-    # # =================================================================================================================================
-    # def test_logged_in_users_name_matches_name_displayed_in_greeting_banner(self):
-    #     '''Ensure that when a user logs in, their name in the greeting banner matches their login username'''
-    #     # Start up the web app
-    #     self.start_web_app()
-    #     # Login as existing user
-    #     self.login_user("test_username", "test_password")
+    # =================================================================================================================================
+    def test_logged_in_users_name_matches_name_displayed_in_greeting_banner(self):
+        '''Ensure that when a user logs in, their name in the greeting banner matches their login username'''
+        # Start up the web app
+        self.start_web_app()
+        # Login as existing user
+        self.login_user("test_username", "test_password")
 
-    #     # The user sees the home page as a logged in user (test_user)
-    #     greeting_banner = self.browser.find_element_by_id("greeting-banner")
-    #     username_portion = greeting_banner.text.split()[-1]
+        # The user sees the home page as a logged in user (test_user)
+        greeting_banner = self.browser.find_element_by_id("greeting-banner")
+        username_portion = greeting_banner.text.split()[-1]
 
-    #     self.assertEquals(username_portion, "test_username")
+        self.assertEquals(username_portion, "test_username")
 
-    # # =================================================================================================================================
-    # def test_user_can_register_nonexisting_account(self):
-    #     '''Ensure when a user requests the page for the first time, they can register a new account'''
-    #     # Start up the web app
-    #     self.start_web_app()
-    #     # Register as non-existing user
-    #     # self.register_user("unsaved_username", "unsaved_password", "unsaved_password", "unsaved_email@gmail.com")
-    #     self.register_user("unsaved_username2", "test_password2", "test_password2", "unsaved_email2@gmail.com")
+    # =================================================================================================================================
+    def test_user_can_register_nonexisting_account(self):
+        '''Ensure when a user requests the page for the first time, they can register a new account'''
+        # Start up the web app
+        self.start_web_app()
+        # Register as non-existing user
+        # self.register_user("unsaved_username", "unsaved_password", "unsaved_password", "unsaved_email@gmail.com")
+        self.register_user("unsaved_username2", "test_password2", "test_password2", "unsaved_email2@gmail.com")
 
-    #     # Assert that notification message background-color is green (to show success)
-    #     # Extract the background colour of the notifcation banner
-    #     color = self.determine_alert_notification_colour()
-    #     # Assert that registration was a success
-    #     self.assertTrue(self.is_a_success_notification(color))
+        # Assert that notification message background-color is green (to show success)
+        # Extract the background colour of the notifcation banner
+        color = self.determine_alert_notification_colour()
+        # Assert that registration was a success
+        self.assertTrue(self.is_a_success_notification(color))
 
-    # # =================================================================================================================================
-    # def test_user_cannot_register_existing_account(self):
-    #     '''Ensure when a user requests the page for the first time, they cannot register an already-existing account'''
-    #     # Start up the web app
-    #     self.start_web_app()
-    #     # Register as Existing user (should fail)
-    #     self.register_user("test_username", "test_password", "test_password", "test_password@gmail.com")
+    # =================================================================================================================================
+    def test_user_cannot_register_existing_account(self):
+        '''Ensure when a user requests the page for the first time, they cannot register an already-existing account'''
+        # Start up the web app
+        self.start_web_app()
+        # Register as Existing user (should fail)
+        self.register_user("test_username", "test_password", "test_password", "test_password@gmail.com")
 
-    #     # Assert that notification message background-color is red (to show failure)
-    #     # Extract the background colour of the notifcation banner
-    #     color = self.determine_alert_notification_colour()
-    #     # Assert that registration was a failure!
-    #     self.assertFalse(self.is_a_success_notification(color))
+        # Assert that notification message background-color is red (to show failure)
+        # Extract the background colour of the notifcation banner
+        color = self.determine_alert_notification_colour()
+        # Assert that registration was a failure!
+        self.assertFalse(self.is_a_success_notification(color))
 
-    # # =================================================================================================================================
+    # =================================================================================================================================
     
     
