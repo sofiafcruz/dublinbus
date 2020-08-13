@@ -369,7 +369,6 @@
                         <option value="" disabled selected>Select a Route</option>
                     </select>
     
-                    
                     <!-- Hidden input which contains weather info -->
                     <input type="text" id="hidden_weather" name="model_weather" style="display:none">
 
@@ -408,12 +407,11 @@
                             <label for="choose-time">Select a time:</label>
                             <input type="time" id="choose-time" name="choose-time">
                         </div>
-                        <hr>
                         <!-- Show Prediction -->
                         {% if user.is_authenticated %}
-                        <input type="submit" value="show prediction" onclick="showSaveJourneyBtn(); calculateFare()">
+                        <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="showSaveJourneyBtn(); calculateFare()"><br>
                         {% else %}
-                        <input type="submit" value="show prediction" onclick="calculateFare()">
+                        <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="calculateFare()" style="margin-top:15px; margin-bottom:20px;"><br>
                         {% endif %}
                     </form>
                           
@@ -441,11 +439,12 @@
                        
                             <!-- <button class='btn btn-outline-* btn-submit' onclick="generateStopArray(); calculateFare();" style="margin-top:15px;">Show Journey</button> -->
                         {% endif %}
-                    
+
+                        <div id="display_prediction"></div>
+
                         <!-- Displays the estimated Adult and Child fares for the journey -->
                         <div id="fare-table"></div>
                         
-                        <div id="display_prediction"></div>
                         <!-- <div id="routes-directions-panel"></div> -->
                     </div>
                 </div>

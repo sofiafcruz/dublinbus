@@ -532,7 +532,10 @@ select,
 
 /* Prediction div */
 #display_prediction {
-  border: 1px solid black;
+  background-color: #dceaef;
+  border-radius: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 /* Toggle to hide show the search menu */
