@@ -23,9 +23,6 @@
       rel="stylesheet">
     <!-- News Top Bar -->
     <script src="./static/js/newsTopBar.js"></script>
-    {% comment %} <!-- Pagination -->
-    <link href='https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css' rel='stylesheet'>
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> {% endcomment %}
 </head>
 
 <body>
@@ -280,15 +277,6 @@
             <input type="checkbox" class="custom-control-input attractions-switch" id="customSwitch1" onchange="displayAttractions()">
             <label class="custom-control-label" for="customSwitch1"><img src="./static/images/attractions/attractions-icon.svg" alt="Display Touristic Sights" style="width:40px;"></label>
         </div>
-        <!-- Switch button to show/hide the markers -->
-        {% comment %} <div class="custom-control custom-switch markers-switch">
-            <input type="checkbox" class="custom-control-input markers-switch" id="customSwitch3" onchange="toggleMarkerVisibility()">
-            <label class="custom-control-label" for="customSwitch3">Hide Markers</label>
-        </div>
-        <!-- Button to clear all lingering elementss -->
-        <div >
-            <button class="btn btn-primary" onclick="clearLingeringRenderedObjects()">All Lingerers</button>
-        </div> {% endcomment %}
         <!-- Button to set map on user's location -->
         <div class="user-location-btn">
             <input type="image" id="my-location-btn-img" onclick="panToUsersLocation()" src='./static/images/user-icon.svg' />
