@@ -75,7 +75,7 @@ function clearLingeringRenderedObjects() {
   // ========== LISTS OF LINGERING OBJECTS (e.g. Lists of polylines, lists of markers etc) ==========
 
   // Remove the route polyline
-  if((route_polyline != undefined) || (route_polyline != null)) {
+  if (route_polyline != undefined || route_polyline != null) {
     route_polyline.setMap(null);
   }
 
@@ -117,7 +117,7 @@ function clearLingeringRenderedObjects() {
   }
 
   // Remove the route rendered by search by location as well as the display panel of the route timeline
-  if((directionsDisplay != null) || (directionsDisplay != undefined)) {
+  if (directionsDisplay != null || directionsDisplay != undefined) {
     directionsDisplay.setMap(null);
     document.getElementById("journey-details").textContent = "";
   }
@@ -361,7 +361,10 @@ function displayAttractions() {
   // toggleMarkerVisibility();
   setMapDublin(); // Center the map in Dublin
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("attractions-switch")[0].checked ? true : false;
+  var switchValue = document.getElementsByClassName("attractions-switch")[0]
+    .checked
+    ? true
+    : false;
   if (switchValue) {
     clearMarkers();
     // Loop through the attractions in the JSON file and add marker for each to the map
@@ -627,7 +630,10 @@ function stopsInfowindow(marker) {
 // Called when switch button changes
 function fillUsersLocation() {
   // Check the value of the switch button
-  var switchValue = document.getElementsByClassName("users-location-switch")[0].checked ? true : false;
+  var switchValue = document.getElementsByClassName("users-location-switch")[0]
+    .checked
+    ? true
+    : false;
   // If switch button on
   if (switchValue) {
     // Get User's current location and fill origin with it.
@@ -721,58 +727,68 @@ const calculateAndRenderDirections = (
     console.log(steps);
 
     var timeline = `<div class="timeline">`;
-    
-    steps.forEach(function(step, index) {
-      if(step.travel_mode == 'WALKING') {
-        timeline += `<div class="timeline-row">` +
-                      `<div class="step-left">${step.duration.text}<br>${step.distance.text}</div>` +
-                      `<div class="step-right walking">${step.instructions}</div>` + 
-                    `</div>`;
-      } else if (step.travel_mode == 'TRANSIT') {
-        timeline += `<div class="timeline-row">` +
-                      `<div class="step-left">${step.duration.text}<br>${step.distance.text}</div>`;
-        if ((step.transit.line.agencies[0].name == 'Dublin Bus') || (step.transit.line.agencies[0].name == 'Go-Ahead')) {
-          timeline += `<div class="step-right dublin-bus">` +
-                        `<p>Take the ${step.transit.line.short_name} ${step.instructions}<br>` + 
-                        `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` + 
-                      `</div>` + 
-                    `</div>`;
-        } else if (step.transit.line.short_name == 'Dart') {
-          timeline += `<div class="step-right dart">` +
-                        `<p>${step.instructions}<br>` + 
-                        `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` + 
-                      `</div>` + 
-                    `</div>`;
-        } else if (step.transit.line.agencies[0].name == 'Luas') {
-          timeline += `<div class="step-right luas">` +
-                        `<p>${step.transit.line.name} - ${step.instructions}<br>` + 
-                        `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` + 
-                      `</div>` + 
-                    `</div>`;
+
+    steps.forEach(function (step, index) {
+      if (step.travel_mode == "WALKING") {
+        timeline +=
+          `<div class="timeline-row">` +
+          `<div class="step-left">${step.duration.text}<br>${step.distance.text}</div>` +
+          `<div class="step-right walking">${step.instructions}</div>` +
+          `</div>`;
+      } else if (step.travel_mode == "TRANSIT") {
+        timeline +=
+          `<div class="timeline-row">` +
+          `<div class="step-left">${step.duration.text}<br>${step.distance.text}</div>`;
+        if (
+          step.transit.line.agencies[0].name == "Dublin Bus" ||
+          step.transit.line.agencies[0].name == "Go-Ahead"
+        ) {
+          timeline +=
+            `<div class="step-right dublin-bus">` +
+            `<p>Take the ${step.transit.line.short_name} ${step.instructions}<br>` +
+            `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` +
+            `</div>` +
+            `</div>`;
+        } else if (step.transit.line.short_name == "Dart") {
+          timeline +=
+            `<div class="step-right dart">` +
+            `<p>${step.instructions}<br>` +
+            `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` +
+            `</div>` +
+            `</div>`;
+        } else if (step.transit.line.agencies[0].name == "Luas") {
+          timeline +=
+            `<div class="step-right luas">` +
+            `<p>${step.transit.line.name} - ${step.instructions}<br>` +
+            `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` +
+            `</div>` +
+            `</div>`;
         } else {
           timeline += `<div class="step-right undefined-step">`;
           if (step.transit.arrival_stop.name) {
-            timeline += `<p>Take the ${step.transit.line.short_name} ${step.instructions}<br>` + 
-                        `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` + 
-                      `</div></div>`;
+            timeline +=
+              `<p>Take the ${step.transit.line.short_name} ${step.instructions}<br>` +
+              `Exit at: <b>${step.transit.arrival_stop.name}</b></p>` +
+              `</div></div>`;
           } else {
             timeline += `${step.instructions}</div></div>`;
-          }         
-        }     
-      };
+          }
+        }
+      }
     });
-    timeline += `<div class="timeline-row">` +
-                  `<div class="step-left"></div>` +
-                  `<div class="step-right final-step"></div>` + 
-                `</div>` +
-                `<div><h6>Duration: ${duration}</h6><h6>Distance: ${distance}</h6>` +
-                `<h6>Arrival Time: ${arrival_time}</h6></div>` + 
-              `</div>`;
- 
+    timeline +=
+      `<div class="timeline-row">` +
+      `<div class="step-left"></div>` +
+      `<div class="step-right final-step"></div>` +
+      `</div>` +
+      `<div><h6>Duration: ${duration}</h6><h6>Distance: ${distance}</h6>` +
+      `<h6>Arrival Time: ${arrival_time}</h6></div>` +
+      `</div>`;
+
     document.getElementById("journey-details").innerHTML = timeline;
   });
 };
-  
+
 // ************************ "Exit" the journey generated in "Home" ************************
 function exitJourney(div_to_set_empty) {
   // ========= Remove Visual Render =========
@@ -847,7 +863,8 @@ function getRoutePolyline(path) {
   } catch (err) {
     console.log("ERR in getRoutePolyline");
   }
-
+  console.log("IN GRP - POLYLINE");
+  console.log("IN GRP - path len  ", path.length);
   // console.log("path:", path[0]);
   // console.log("path last:", path[path.length - 1]);
   // Path is an array if lists with [0-lat,1-long]
@@ -868,7 +885,7 @@ function getRoutePolyline(path) {
   //   // var d = new Date(1978,07,01,02,30,00);
   //   // var myEpoch = d.getTime()/1000.0;
   // });
-
+  console.log("IN GRP - MAKING GM REQUEST");
   var request = {
     origin: start,
     destination: end,
@@ -882,7 +899,7 @@ function getRoutePolyline(path) {
   directionsService.route(request, function (result, status) {
     if (status == "OK") {
       selectedRoute;
-
+      console.log("GRP - REQUEST SUCCESSFUL");
       var routes = result.routes;
       // console.log("routes: ", routes);
       var polyLine_Path = checkRouteLine(routes, selectedRoute);
@@ -906,7 +923,7 @@ function getRoutePolyline(path) {
           strokeOpacity: 0.9,
         });
       } else {
-        console.log("USE GOOGLE MAPS - not undefined");
+        console.log("IN GRP -USing GOOGLE MAPS FOR POLYLINE");
         console.log(polyLine_Path.length);
         // now put it on the map
         var snappedPolyline = new google.maps.Polyline({
@@ -916,19 +933,23 @@ function getRoutePolyline(path) {
           strokeOpacity: 0.9,
         });
       }
-      console.log(" POLYLINE:  ", snappedPolyline);
+      console.log(
+        "IN GRP - POLYLINE FINISHED BEING SET NOW + SAVED INTO ROUTE_POLYLINE:  ",
+        snappedPolyline
+      );
       // variable with global scope
       snappedPolyline.setMap(map);
       route_polyline = snappedPolyline;
 
       console.log("Check 1: Polyline set: ", typeof snappedPolyline);
       console.log("polyline in variable:", route_polyline);
+      console.log("END OF POLYLINE THREAD");
     }
   });
 }
 function checkRouteLine(routes, selectedRoute) {
   // Function checks for route directions for this selected route and if so saves the polyline and returns the 'path' which is a series of latlngs I believe
-  console.log("in checkRouteLine");
+  console.log("IN CHECK ROUTE LINE");
   var path;
   for (i = 0; i < routes.length; i++) {
     var steps = routes[i].legs[0].steps;
@@ -937,7 +958,7 @@ function checkRouteLine(routes, selectedRoute) {
     for (x = 0; x < steps.length; x++) {
       if (steps[x]["instructions"].includes("Bus")) {
         if (steps[x]["transit"]["line"]["short_name"] == selectedRoute) {
-          console.log("inner loop");
+          console.log("CRL -> inner loop");
           // this means we are good homie - save the path
           path = steps[x]["path"];
           // essentially returning the first instance of this route - not always gonna work?
@@ -949,8 +970,13 @@ function checkRouteLine(routes, selectedRoute) {
 }
 // Function to map the entire route
 function showJourney(stopArray) {
+  console.log("IN SHOWJOURNEY");
   // Need to make sure all other route stops are gone FINITO -  do try block to attempt to remove all other markers (i.e. previous routes)
   try {
+    console.log(
+      "IN TRY - CHECKING FULLROUTEMARKERS LENGTH",
+      FullRouteMarkers.length
+    );
     // remove markers if they exist from the map
     for (x = 0; x < FullRouteMarkers.length; x++) {
       FullRouteMarkers[x].setMap(null);
@@ -961,6 +987,8 @@ function showJourney(stopArray) {
     console.log("YOU GOT AN ERROR - LIME 766");
     console.log(err);
   }
+
+  console.log("CHECKING FULLROUTEMARKERS LENGTH", FullRouteMarkers.length);
   // Save a variable that will be accessible within map.js
   clearMarkers();
   // clear polyline variable - put into try catch for the first time it will be undefined
@@ -971,6 +999,7 @@ function showJourney(stopArray) {
   }
   // empty route_coordinates variab;e
   route_coordinates.length = 0;
+  console.log("SHOW JOURNERY ROUTE COORD CHECK", route_coordinates.length);
   // get coordinates of journey
   var bounds = new google.maps.LatLngBounds();
   for (i = 0; i < stopArray.length; i++) {
@@ -1025,6 +1054,7 @@ function showJourney(stopArray) {
     FullRouteMarkers.push(RouteMark);
   }
   console.log("finsihed function getJourney");
+  console.log("ROUTE COORD/PATH LEN - ", route_coordinates.length);
   // get snapped to road coordinates
   getRoutePolyline(route_coordinates);
 
@@ -1033,7 +1063,7 @@ function showJourney(stopArray) {
 
 function filterDropdown() {
   // Function to filter the second option based on the value of the first dropdown (first dropdown will always contain all elements - second all from one stop after first)
-
+  console.log("IN FILTER DROPDOWN");
   // Need a conditional - and to run this function in mapjs (call filter dropdown in filter route or vica cersa - otherwise messes up functionality - finalize values before filter route continues)
   //  If start index is less than stop index - just need to subtly remove the options from the stop index that are before start index (i.e. remove html options)
   // if start index is equal to or greater than stop index - need to do whats done below i.e. empty stop dropdown and replace it with new slice (automatically make stop the last stop - will help wiht polyliens)
@@ -1052,6 +1082,9 @@ function filterDropdown() {
   var start_num = parseInt(start_value);
   var end_num = parseInt(json_ending_point_dropdown.options[0].value);
   // if start index is still before end index, just need to remove the options from end index
+  console.log("FD SECOND PART -");
+  console.log("START_VALUE-", start_num);
+  console.log("END_VALUE-", end_value);
   if (start_num < end_value) {
     console.log("end first value", end_num);
     // console.log(typeof start_value);
@@ -1091,16 +1124,20 @@ function filterDropdown() {
         json_ending_point_dropdown.options.remove(0);
       }
     }
+    console.log("END FILTER DROPDOWN - OPTIONS REMOVED OR ADDED IF NECESSARY");
   }
 }
 
 function filterRoute() {
-  console.log("in filter route!");
+  console.log("IN FILTER ROUTE");
   // At this point there is a path array which contains the full route options are:
   // A. Try to still use this array/polyline but reduce it
   // B. redo request with new values (alot more requests - quicker fix for now)
   var start = parseInt(document.getElementById("json-starting-stops").value);
   var end = parseInt(document.getElementById("json-ending-stops").value);
+  console.log("FR - GETTING START AND END VALUES");
+  console.log("Start:  ", start);
+  console.log("End:  ", end);
   // Remove any existing polyline
   try {
     route_polyline.setMap(null);
@@ -1110,6 +1147,8 @@ function filterRoute() {
 
   // empty coordinates variable
   route_coordinates.length = 0;
+  console.log("FR - CHECINKG PATH/ROUTE_COORD LEN", route_coordinates.length);
+  console.log("FR - CHECINKG FULLMARKERS LEN", FullRouteMarkers.length);
   // Mske new bounds variable
   var bounds = new google.maps.LatLngBounds();
   // Function filters the stops shown on a complete route based on dropdown selection
@@ -1121,7 +1160,7 @@ function filterRoute() {
     } else {
       // get lat long position for the new markers
       var temp = FullRouteMarkers[x].getPosition();
-      console.log("checking", FullRouteMarkers[x].getPosition().lat());
+      // console.log("checking", FullRouteMarkers[x].getPosition().lat());
       route_coordinates.push([temp.lat(), temp.lng()]);
 
       bounds.extend(temp);
@@ -1158,7 +1197,7 @@ function filterRoute() {
       FullRouteMarkers[x].setMap(map);
     }
   }
-  console.log("route coords: ", route_coordinates);
+  console.log("FR -END - route coords/path: ", route_coordinates.length);
   getRoutePolyline(route_coordinates);
   // shift map focus
   map.fitBounds(bounds);

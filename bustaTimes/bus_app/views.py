@@ -407,6 +407,10 @@ def get_journey_prediction(request):
     end_stop = request.POST.get("end_stop")
     date_ = request.POST.get("date")
     time_=request.POST.get("choose-time")
+    print("DATE:   {}".format(date_))
+    print(start_stop)
+    print(end_stop)
+    print(time_)
 
     # This needs to be changed to be automatic (i.e. POST.get)
     # direction=1

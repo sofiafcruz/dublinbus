@@ -212,7 +212,7 @@ prediction_form.submit(function () {
 // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
 function showAndLoadStartAndEndDrops(direction) {
   current_direction = direction;
-  console.log("show_and_load fxn check");
+  console.log("IN SHOW AND LOAD");
   // Grab the route option selected
   var selected_route = document.getElementById("json-routes").value;
   // console.log(selected_route);
@@ -241,7 +241,7 @@ function showAndLoadStartAndEndDrops(direction) {
     showJourney(full_route);
   });
   // displayEntireRoute(full_route);
-
+  console.log("AFTER SHOW JOURNEY");
   // Grab the selected Route's Origin (From) and Destination (To) data
   let origin = direction_1["origin"];
   let destination = direction_1["destination"];
@@ -289,6 +289,7 @@ function showAndLoadStartAndEndDrops(direction) {
       json_ending_point_dropdown.options[stops.length - 2].selected = true;
     }
   }
+  console.log("AT END OF SHOWANDLOAD");
   // At the end, make sure to display the container holding the starting and ending stop dropdowns (as it's initially hidden)
   $("#stops-dropdowns-container").css("display", "block");
 }
