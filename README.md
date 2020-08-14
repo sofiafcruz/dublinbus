@@ -1,5 +1,6 @@
 # Busta Times
 
+<img src="bustaTimes/bus_app/static/images/logo.png" alt="Busta Times Logo" width="50%">
 ## About
 
 ### The Problem
