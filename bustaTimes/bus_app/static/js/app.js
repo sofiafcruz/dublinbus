@@ -20,7 +20,7 @@ leap_card_form.submit(function () {
       $("#balance-paragraph").text("Your Balance is: €" + data.toFixed(2));
     },
     error: function (error) {
-      console.log("Something went wrong!");
+      // console.log("Something went wrong! problem with user credentials or the API");
       console.log(error);
       $(".ajax-loading").hide();
       $("#balance-paragraph").show();
@@ -46,9 +46,7 @@ $("#search-by-route-container").click(function () {
       var json_routes_dropdown = document.getElementById("json-routes");
       //   check for length of dropdown (intially 1 option) - to prevent list getting added to repeatedly
       if (json_routes_dropdown.length < 2) {
-        // console.log(json_routes_dropdown.length);
         for (var key in hd_routes) {
-          // for (var key in routes_frontend_object) {
           var opt = document.createElement("option");
           opt.value = key;
           opt.innerHTML = key;
@@ -71,7 +69,7 @@ prediction_form.submit(function () {
     type: prediction_form.attr("method"), // POST
     url: prediction_form.attr("action"), // leap_card_info
     data: prediction_form.serialize(), // Get values of both inputUsername and inputPassword
-    async: true, // NNEDS TO BE TRUE FOR SOME REASON
+    async: true,
     success: function (data) {
       console.log("data: ", data);
 
@@ -130,7 +128,6 @@ function showAndLoadStartAndEndDrops(direction) {
   for (index in stops) {
     // Grab the bus stop address
     let bus_stop_obj = stops[index];
-    // console.log(bus_stop_obj);
     let stop_address = bus_stop_obj["search_name"];
     let stop_num = bus_stop_obj["stop_num"];
     // Store it into an option element
@@ -201,6 +198,7 @@ function generateStopArray() {
 }
 
 function showSaveJourneyBtn() {
+  // Show the "Save Journey" option for the user and extract the values for the journey of interest
   $("#save-journey").css("display", "block");
 
   let selected_route = document.getElementById("json-routes").value;
@@ -258,13 +256,11 @@ document.getElementById("choose-time").value = currentTime;
 $("#bus-stop-search-container").click(function () {
   // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
   $.ajax({
-    // url: './static/map_bus_stop_to_routes_data.json',
     url: "./static/HD_stops_Frontend.json",
     async: false,
     dataType: "json",
     success: function (json) {
       all_stops = json;
-      // console.log(all_stops);
     },
     error: function (error) {
       // An error most likely won't arise unless we mess with the JSON data or path
@@ -276,13 +272,11 @@ $("#bus-stop-search-container").click(function () {
 $("#bus-stop-search-container").click(function () {
   // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
   $.ajax({
-    // url: './static/map_bus_stop_to_routes_data.json',
     url: "./static/HD_routes_Frontend.json",
     async: false,
     dataType: "json",
     success: function (json) {
       all_routes = json;
-      // console.log(all_stops);
     },
     error: function (error) {
       // An error most likely won't arise unless we mess with the JSON data or path
@@ -296,14 +290,11 @@ const match_list = document.getElementById("match-list");
 
 // ********** On keyup, show all relevant/matching stops that match what keystrokes are entered **********
 $("#busstop-search").keyup(function (event) {
-  // console.log(all_stops);
   console.log(event.target.value);
   // Grab the total value being entered into the text input each time a key is pressed (e.g. '1', '14', '145',)
   let current_value = event.target.value;
   // Grab all the values of the bus stop JSON objects returned in the above AJAX call
-  // N.B. - THIS IS CALLED EVERY TIME KEY IS CLICKED, WHICH IS PROBABLY A BAD IDEA
   let arr_of_stop_vals = Object.values(all_stops);
-  // console.log(arr_of_stop_vals);
   // Logic to get matches to current text input value
   let matches = arr_of_stop_vals.filter((stop) => {
     // g = global, i = case-insensitive
@@ -363,7 +354,6 @@ const showMatches = (matches) => {
 
 // Autofill the bus stop input box upon clicking an option
 function populateInputWithStop(clicked_busstop_searchname) {
-  console.log(clicked_busstop_searchname);
   let busstop_input = document.getElementById("busstop-search");
   busstop_input.value = clicked_busstop_searchname;
 
@@ -398,7 +388,7 @@ $(".clickable-row").click(function () {
     </div>
   </div>
   `;
-  console.log($("#search-by-route-container").click());
+
   var someEvt = new MouseEvent("click");
   openTab(someEvt, "search-by-route-container", route_button_target);
 
@@ -425,7 +415,7 @@ $(".clickable-row").click(function () {
 
 // Delete a Row (from the DOM (rather than from the database))
 function deleteRow(ele) {
-  // NO FUNCTIONALITY YET AS ATM PAGE RELOADS!
+  // NO FUNCTIONALITY YET AS ATM PAGE RELOADS (will get incorporated in future)
 
   let td_ele = ele.parentNode;
   let tr_ele = td_ele.parentNode;
@@ -450,8 +440,8 @@ function calculateFare() {
   }
 
   $.getJSON("./static/fares.json", function (data) {
-    console.log(data);
 
+    // Declare variables used to generate fare table data
     let selected_customer;
     let leap_card_prices;
     let cash_prices;
@@ -495,7 +485,7 @@ function calculateFare() {
       }
     }
 
-    // Result
+    // Result (row of data in table)
     result = `
               <table class="table table-sm table-hover">
                 <thead class="thead-light">
@@ -569,7 +559,7 @@ function calculateFare() {
       }
     }
 
-    // Result
+    // Result (row of data in table)
     result += `
                 <tr>
                   <td><small class="text-muted">Child</small></td>
@@ -618,7 +608,6 @@ $("#change-direction").click(function (e) {
     // set direction of hidden div (inside form - needed to pass direction to backend) to 2
     document.getElementById("hidden_directon").value = "2";
   } else {
-    console.log("Switching to D1");
     document.getElementById("hidden_directon").value = "1";
   }
   // Load route drop down with current direction
