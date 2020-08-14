@@ -673,6 +673,7 @@ const calculateAndRenderDirections = (
     destination: destination,
     travelMode: "TRANSIT", // Show how to get from A to B by bus (where posssible???)
   };
+  console.log("IN HERE!")
   // displays journery on map
   directionsDisplay.setMap(map);
   // .route takes 2 parameters:
@@ -682,16 +683,14 @@ const calculateAndRenderDirections = (
     if (status == "OK") {
       // server request is OK, set the renderer to use the result to display the directions on the renderer's designated map and panel.
       directionsDisplay.setMap(map);
-
-      // // *******This is what we want to replace*******
-      // directionsDisplay.setDirections(result);
+      directionsDisplay.setDirections(result);
     } else {
       alert("There was a problem with calculating your route");
     }
     // Directions timeline to be displayed when the user searches by location
     // journey is contained within first leg [0]
     let legs = result.routes[0].legs[0];
-    let departure_time = legs.departure_time.text;
+    // let departure_time = legs.departure_time.text;
     let arrival_time = legs.arrival_time.text;
     let duration = legs.duration.text;
     let distance = legs.distance.text;
