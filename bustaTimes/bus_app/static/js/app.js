@@ -1,95 +1,10 @@
-// ================================ OTHER ================================
-// ********** Save Journey for Logged in Users **********
-// Attempt 1
-// ********** On clicking "Save Journey", save the journey **********
-// var save_journey_form = $("#save-journey-form");
-// save_journey_form.submit(function () {
-//   $.ajax({
-//     type: save_journey_form.attr("method"), // POST
-//     url: save_journey_form.attr("action"), // save_route_journey
-//     data: save_journey_form.serialize(), // Get values of all the inputs
-//     async: false,
-//     success: function (data) {
-//       console.log("All good");
-//     },
-//     error: function (error) {
-//       console.log("Something went wrong!");
-//       console.log(error);
-//     },
-//   });
-// //   return false; // Stop the page from Reloading
-// });
-// Attempt 2
-// $("#save-journey").click(function (e) {
-//     // e.preventDefault();
-//     // let selected_route = document.getElementById("json-routes").value;
-//     // let selected_origin_stop = document.getElementById("json-starting-stops");
-//     // var origin_opt = selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
-//     // let selected_destination_stop = document.getElementById("json-ending-stops");
-//     // var destination_opt = selected_destination_stop.options[selected_destination_stop.selectedIndex].text;
-//     // let stops_count = document.getElementById("json-ending-stops").value - document.getElementById("json-starting-stops").value;
-//     // // let distance = document.getElementById("json-ending-stops").value;
-
-//     // console.log("Selected Journey Details;");
-//     // console.log("=========================");
-//     // console.log("Selected Route:", selected_route);
-//     // console.log("Stop Count:", stops_count);
-//     // console.log("Origin Stop:", origin_opt);
-//     // console.log("Destination Stop:", destination_opt);
-
-//     // document.getElementById("route-name-input").value = selected_route;
-//     // document.getElementById("starting-stop-input").value = origin_opt;
-//     // document.getElementById("ending-stop-input").value = destination_opt;
-//     // document.getElementById("stop-count-input").value = parseInt(stops_count);
-
-//     // console.log("HIDDEN FORM VALUES");
-//     // console.log(document.getElementById("route-name-input").value);
-//     // console.log(document.getElementById("starting-stop-input").value);
-//     // console.log(document.getElementById("ending-stop-input").value);
-//     // console.log(document.getElementById("stop-count-input").value);
-
-//     //// Issues with CSRF below, as making a post request...
-//     //// Not sure how to fix atm
-//     // $.ajax({
-//     //   url: "save_route_journey",
-//     //   type: 'POST',
-//     //   async: false,
-//     //   data: {
-//     //     "selected_route": selected_route,
-//     //     "origin_opt": origin_opt,
-//     //     "destination_opt": destination_opt,
-//     //     "stops_count": stops_count
-//     //   },
-//     //   success: function (not_sure) {
-//     //     console.log(not_sure);
-//     //   },
-//     //   error: function (error) {
-//     //     // An error most likely won't arise unless we mess with the JSON data or path
-//     //     console.log(`Error ${error}`);
-//     //   },
-//     // });
-// });
-
-// $(document).ready(function(){
-//   $(".ajax-loading").hide();
-// });
-
-// $("#show-balance").click(function (e) {
-//   e.preventDefault();
-//   $(".ajax-loading").show();
-// });
-
 // Global Vars;
 var current_direction;
 
 // ********** On clicking "Show Balance" show User's Leap Card Balance (i.e. grab all the stops) **********
 var leap_card_form = $("#leap-card-form");
 leap_card_form.submit(function () {
-  console.log("SUBMIT BUTTON CLICKED!");
   // Show the loading icon
-  // $(".ajax-loading").css("display", "block");
-  // $(".ajax-loading").show();
-  // $(".ajax-loading").hide();
   $.ajax({
     type: leap_card_form.attr("method"), // POST
     url: leap_card_form.attr("action"), // leap_card_info
@@ -100,9 +15,6 @@ leap_card_form.submit(function () {
       $("#balance-paragraph").hide();
     },
     success: function (data) {
-      // Hide the loading icon and show the balance
-      // $(".ajax-loading").css("display", "none");
-      // $(".ajax-loading").css("display", "block");
       $(".ajax-loading").hide();
       $("#balance-paragraph").show();
       $("#balance-paragraph").text("Your Balance is: €" + data.toFixed(2));
@@ -122,7 +34,6 @@ leap_card_form.submit(function () {
 
 // ********** On clicking "Search by Bus Stop" nav option, load JSON file (i.e. grab all the stops) **********
 $("#search-by-route-container").click(function () {
-  // console.log("check");
   // Calls a synchronous AJAX function to return all stops and make them available to other functions (i.e. onkeyup function below)
   $.ajax({
     // url: './static/map_bus_stop_to_routes_data.json',
@@ -143,7 +54,6 @@ $("#search-by-route-container").click(function () {
           opt.innerHTML = key;
           json_routes_dropdown.appendChild(opt);
         }
-        console.log("down here");
       }
     },
     error: function (error) {
@@ -153,78 +63,38 @@ $("#search-by-route-container").click(function () {
   });
 });
 
-// ======================GEt prediction and display to frontend!!==========================
+// ======================GEt prediction and display to frontend i.e. handling prediction from model query==========================
 var prediction_form = $("#route_prediction_form");
 prediction_form.submit(function () {
-  console.log("SUBMIT BUTTON CLICKED!");
   // Show the loading icon
-  // $(".ajax-loading").css("display", "block");
-  // $(".ajax-loading").show();
-  // $(".ajax-loading").hide();
   $.ajax({
     type: prediction_form.attr("method"), // POST
     url: prediction_form.attr("action"), // leap_card_info
     data: prediction_form.serialize(), // Get values of both inputUsername and inputPassword
     async: true, // NNEDS TO BE TRUE FOR SOME REASON
-    // beforeSend: function() {
-    //   $(".ajax-loading").show();
-    //   $("#balance-paragraph").hide();
-    // },
     success: function (data) {
       console.log("data: ", data);
-      // Hide the loading icon and show the balance
-      // $(".ajax-loading").css("display", "none");
-      // $(".ajax-loading").css("display", "block");
 
       // add some logic for error message
       document.getElementById("display_prediction").innerHTML =
         "Approximate Journey Prediction: *" + data;
-      // obj = "Approximate Journey Prediction: \n" + data;
-      // obj.html(obj.html().replace(/\n/g, "<br/>"));
-
-      // var obj = $("#display_prediction").text(
-      //   "Approximate Journey Prediction: \n" + data
-      // );
-      // obj.html(obj.html().replace(/\n/g, "<br/>"));
-      // obj.html(obj.html().replace(/<hr>/g, "<hr>"));
-      // obj.html(obj.html().replace(/<span /g, "<span"));
     },
     error: function (error) {
-      console.log("Something went wrong!");
-      console.log(error);
       $("#balance-paragraph").innerHTML = "Something went wrong...";
     },
   });
   return false; // Stop the page from Reloading
 });
 
-// ********** Route Dropdown **********
-// $(document).ready(function(){
-//     // On page load, populate the Route Dropdown in 'Search by Route' section
-//     console.log("Before");
-//     // console.log(routes_frontend_object);
-//     console.log("After");
-//     var json_routes_dropdown = document.getElementById("json-routes");
-//     for (var key in main_table_object) {
-//     // for (var key in routes_frontend_object) {
-//         var opt = document.createElement('option');
-//         opt.value = key;
-//         opt.innerHTML = key;
-//         json_routes_dropdown.appendChild(opt);
-//     }
-// });
-
 // ********** Div containing Journey Info, Starting and Ending Stop Dropdowns  **********
 // Display div containing filled drop down options of bus stops
 // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
 function showAndLoadStartAndEndDrops(direction) {
-  console.log("IN SHOW AND LOAD");
-  console.log("DIRECTION ", direction);
+  // Given the current direction load the dropdown divs with teh appropriate bus stop options
   current_direction = direction;
 
   // Grab the route option selected
   var selected_route = document.getElementById("json-routes").value;
-  console.log("CHECK SELECTED ROUTE ", selected_route);
 
   // Target the starting and ending stops select dropdowns
   var json_starting_point_dropdown = document.getElementById(
@@ -237,22 +107,14 @@ function showAndLoadStartAndEndDrops(direction) {
   $(json_ending_point_dropdown).empty();
   // Need a nested for loop to grab the Address of each bus stop of the selected route
 
-  // TESTING====================================
-  // let direction_1 = hd_routes[selected_route].D1;
-  console.log(hd_routes);
-  console.log(hd_routes[selected_route]);
-  console.log(selected_route);
   let direction_1 = hd_routes[selected_route][direction];
 
   // Save in all route stops into full route array (array of 'stop' objects) - pass to map.js to be mapped
   let full_route = hd_routes[selected_route][current_direction]["stops"];
-  console.log("outside_function");
   $.getScript("static/js/map.js", function () {
-    console.log("inside function call");
     showJourney(full_route);
   });
-  // displayEntireRoute(full_route);
-  console.log("AFTER SHOW JOURNEY");
+
   // Grab the selected Route's Origin (From) and Destination (To) data
   let origin = direction_1["origin"];
   let destination = direction_1["destination"];
@@ -275,11 +137,6 @@ function showAndLoadStartAndEndDrops(direction) {
     var opt = document.createElement("option");
     opt.value = index; // Value is the index of the bus stop
     opt.innerHTML = stop_address;
-    // Then clone it so it can also be appended to the Ending Stop dropdown
-    // var cloneOption = opt.cloneNode(true);
-    // // Append the current iteration's bus stop option to both starting and ending point dropdowns
-    // json_ending_point_dropdown.appendChild(opt);
-    // json_starting_point_dropdown.appendChild(cloneOption);
 
     // last index - don;t want it to be in start dropdown
     if (index == stops.length - 1) {
@@ -296,96 +153,18 @@ function showAndLoadStartAndEndDrops(direction) {
       json_ending_point_dropdown.appendChild(cloneOption);
     }
     if (index == stops.length - 1) {
-      console.log("value:", stops.length - 2);
       json_ending_point_dropdown.options[stops.length - 2].selected = true;
     }
   }
-  console.log("AT END OF SHOWANDLOAD");
   // At the end, make sure to display the container holding the starting and ending stop dropdowns (as it's initially hidden)
   $("#stops-dropdowns-container").css("display", "block");
 }
-
-function subRouteSelect() {
-  // Triggered onchange dor start and end stop dropdown menus
-  // get values of both dropdown menus (get numbers and pass to map.js)
-  var selected_start = parseInt(
-    document.getElementById("json-starting-stops").value
-  );
-  var selected_end = parseInt(
-    document.getElementById("json-ending-stops").value
-  );
-  var start2 = document.getElementById("json-starting-stops").value;
-  console.log("start2", start2);
-  console.log("start..end", selected_start, selected_end);
-  $.getScript("static/js/map.js", function () {
-    console.log("inside function call");
-    filterRoute(selected_start, selected_end);
-  });
-}
-
-// function displayEntireRoute(stopArray) {
-//   // '''
-//   // Function will take in the entire list of stops when a new route is chosen on the dropdown list and generate a map array with those markers
-//   // Mapping will occur in map.js
-//   // '''
-//   // First get stops into a coordinate array - check if this is accessible in the generate array function (i think it should be)
-//   FullRouteCoords = [];
-//   for (i in stopArray) {
-//     let lat = stopArray[i]["lat"];
-//     let long = stopArray[i]["long"];
-//     FullRouteCoords.push({ latitude: lat, longitude: long });
-//   }
-//   console.log(FullRouteCoords);
-//   // Map the journey
-//   $.getScript("static/js/map.js", function () {
-//     showJourney(FullRouteCoords);
-//   });
-// }
-// ********** Div containing Journey Info, Starting and Ending Stop Dropdowns  **********
-// Display div containing filled drop down options of bus stops
-// (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
-// function showAndLoadStartAndEndDrops() {
-//     // Grab the route option selected
-//     var selected_route = document.getElementById("json-routes").value;
-//     console.log(selected_route);
-//     // Grab the selected Route's Origin (From) and Destination (To) data
-//     let origin = route_origin_and_destination_object[selected_route]["origin"];
-//     let destination = route_origin_and_destination_object[selected_route]["destination"];
-//     // Set the header (From X to Y)
-//     $('#origin-to-destination-header').html("From " + origin + " to " + destination);
-//     // Target the starting and ending stops select dropdowns
-//     var json_starting_point_dropdown = document.getElementById("json-starting-stops");
-//     var json_ending_point_dropdown = document.getElementById("json-ending-stops");
-//     // Empty their contents EVERY call (or else values (stops) will be appended to them, rather than replacing them)
-//     $(json_starting_point_dropdown).empty();
-//     $(json_ending_point_dropdown).empty();
-//     // Need a nested for loop to grab the Address of each bus stop of the selected route
-//     for (index in main_table_object[selected_route]){
-//         for (bus_stop in main_table_object[selected_route][index]){
-//             // Grab the bus stop address
-//             stop_address = main_table_object[selected_route][index][bus_stop]["stop_address"];
-//             // Store it into an option element
-//             var opt = document.createElement('option');
-//             opt.value = index; // Value is the index of the bus stop
-//             opt.innerHTML = stop_address + " (" + bus_stop + ")";
-//             // Then clone it so it can also be appended to the Ending Stop dropdown
-//             var cloneOption = opt.cloneNode(true);
-//             // Append the current iteration's bus stop option to both starting and ending point dropdowns
-//             json_ending_point_dropdown.appendChild(opt);
-//             json_starting_point_dropdown.appendChild(cloneOption);
-//         }
-//     }
-//     // At the end, make sure to display the container holding the starting and ending stop dropdowns (as it's initially hidden)
-//     $('#stops-dropdowns-container').css('display', 'block');
-// }
 
 // ********** Logic to grab all the Stops between the selected Starting and Ending Stops INCLUSIVE  **********
 // Initialising Empty Array of Coords (initialised outside so can also be used in 'map.js')
 // var arrOfCoords = [];
 
 function generateStopArray() {
-  console.log("IN HERE");
-
   // Function to grab all the stops between Starting and Ending Points of Journey - executed when 'show journey' button is clicked
   // Grab all selected dropdown components
   var selected_route = document.getElementById("json-routes").value;
@@ -395,8 +174,6 @@ function generateStopArray() {
   var selected_end = parseInt(
     document.getElementById("json-ending-stops").value
   );
-
-  // console.log(selected_route + " - " + selected_start + " - " + selected_end);
 
   // Logic for if Destination before Origin or vice versa
   if (selected_start > selected_end) {
@@ -408,40 +185,14 @@ function generateStopArray() {
   var arrOfSelectedStops = hd_routes[selected_route][current_direction][
     "stops"
   ].slice(selected_start, selected_end + 1);
-  // console.log(arrOfSelectedStops);
-
-  // arrOfCoords reinitialised to empty array (Can't remember why?? - if keeping route the same but changing stops) - this is not emptying it
-  // Had to change arrOfCoords to a local variable (was not reassigning to an empty list)
 
   var arrOfCoords = [];
-  console.log("co-ords length:", arrOfCoords.length);
-
-  console.log("generate array check");
-  console.log(selected_start);
-  console.log(selected_end);
-  console.log(arrOfCoords, arrOfSelectedStops);
-
-  //
-
-  // Iterate over the array of selected stops, grab their coordinates, and store them as Coord objects in arrOfCoords
-  // (To be used in map.js for some reason I think?)
-  // for (i in arrOfSelectedStops) {
-  //   for (stop_num in arrOfSelectedStops[i]) {
-  //     let bus_stop = arrOfSelectedStops[i][stop_num];
-  //     let lat = bus_stop["latitude"];
-  //     let long = bus_stop["longitude"];
-  //     arrOfCoords.push({ latitude: lat, longitude: long });
-  //   }
-  // }
 
   for (i in arrOfSelectedStops) {
     let lat = arrOfSelectedStops[i]["lat"];
     let long = arrOfSelectedStops[i]["long"];
     arrOfCoords.push({ latitude: lat, longitude: long });
   }
-  // console.log("BEFORE ARR OF COORDS - APP.JS");
-  // console.log(arrOfCoords);
-  // console.log("AFTER ARR OF COORDS - APP.JS");
 
   // Call the 'showJourneyOnMap' function in 'map.js' on the selected stops array to show the journey to the user
   $.getScript("static/js/map.js", function () {
@@ -450,13 +201,10 @@ function generateStopArray() {
 }
 
 function showSaveJourneyBtn() {
-  console.log("Show Save Journey Button");
   $("#save-journey").css("display", "block");
-  // And fill in the form details etc... NOT WORKING THOUGH
+
   let selected_route = document.getElementById("json-routes").value;
-  console.log("Selected Route:", selected_route);
   let selected_origin_stop = document.getElementById("json-starting-stops");
-  console.log("Selected Origin Stop:", selected_origin_stop);
   var origin_opt =
     selected_origin_stop.options[selected_origin_stop.selectedIndex].text;
   let selected_destination_stop = document.getElementById("json-ending-stops");
@@ -466,25 +214,11 @@ function showSaveJourneyBtn() {
   let stops_count =
     document.getElementById("json-ending-stops").value -
     document.getElementById("json-starting-stops").value;
-  // let distance = document.getElementById("json-ending-stops").value;
-
-  console.log("Selected Journey Details;");
-  console.log("=========================");
-  console.log("Selected Route:", selected_route);
-  console.log("Stop Count:", stops_count);
-  console.log("Origin Stop:", origin_opt);
-  console.log("Destination Stop:", destination_opt);
 
   document.getElementById("route-name-input").value = selected_route;
   document.getElementById("starting-stop-input").value = origin_opt;
   document.getElementById("ending-stop-input").value = destination_opt;
   document.getElementById("stop-count-input").value = parseInt(stops_count);
-
-  console.log("HIDDEN FORM VALUES");
-  console.log(document.getElementById("route-name-input").value);
-  console.log(document.getElementById("starting-stop-input").value);
-  console.log(document.getElementById("ending-stop-input").value);
-  console.log(document.getElementById("stop-count-input").value);
 }
 
 // ********** DateTime Dropdown **********
@@ -576,7 +310,6 @@ $("#busstop-search").keyup(function (event) {
     const regex = new RegExp(`^${current_value}`, "gi");
     return stop.search_name.match(regex);
   });
-  // console.log(matches);
 
   // When search/input box is empty, we want there to be NO matches
   if (current_value.length === 0) {
@@ -608,8 +341,6 @@ const showMatches = (matches) => {
         `
       )
       .join("");
-    // <p> tag used to store the Searchname that the matching criteria is based off of.
-    // <small> tag used to store the Routes serviced by a given matched Stop.
 
     // Set the match-list div to the first 10 matches
     match_list.innerHTML = outputHTML;
@@ -643,35 +374,15 @@ function populateInputWithStop(clicked_busstop_searchname) {
 
 // ========== Favourites Popup Table Functionality ==========
 $(".clickable-row").click(function () {
-  console.log("Row in Favourites Table clicked!");
-
   let row_route_name = $(this).children()[0].textContent;
   let row_origin_stop = $(this).children()[1].textContent;
   let row_destination_stop = $(this).children()[2].textContent;
-
-  console.log(row_route_name);
-  console.log(row_origin_stop);
-  console.log(row_destination_stop);
-
-  console.log("trying to print all: ", $(this).children());
-  console.log("trying to print 0: ", $(this).children()[0].textContent);
-  console.log("trying to print 1: ", $(this).children()[1].textContent);
-  // let row_route_name = $(this).children()[2].textContent;
-  // let row_origin_stop = $(this).children()[3].textContent;
-  // let row_destination_stop = $(this).children()[4].textContent;
-
-  console.log("ROUTE NAME:", row_route_name);
-  console.log("ORIGIN STOP:", row_origin_stop);
-  console.log("DEST STOP:", row_destination_stop);
 
   // =====Changing Search by Route Options=====
 
   // 1. Close PopUp
   $("#close-favourites-popup").click();
 
-  console.log("2. Click the 'Search by Route' image tab");
-  console.log("CLOSE POPUP");
-  // $("#search-by-route-img").click();
   var element = document.getElementById("search-by-route-img");
   var event = new Event("clickEvent");
   element.dispatchEvent(event);
@@ -692,50 +403,22 @@ $(".clickable-row").click(function () {
   openTab(someEvt, "search-by-route-container", route_button_target);
 
   // 3. Changing value of "Select Route";
-  console.log($("select#json-routes"));
   $("select#json-routes").val(row_route_name).change();
 
   // 4. Changing value of "Select Starting Point";
   $("select#json-starting-stops option").each(function () {
-    // console.log("IN THIS PART:", $(this));
     if ($(this).text() == row_origin_stop) {
       $(this).attr("selected", "selected");
-      // console.log($(this));
-      // console.log($(this.parentNode));
-      // console.log($(this).text());
-      // console.log($(this).val());
-      // let stop_value = $(this).val();
-      // console.log("START:", stop_value);
-      // // $(this).val(stop_value).change();
-      // $(this.parentNode).val(stop_value).change();
-      // $(this.parentNode).val(row_origin_stop).change();
-      // $(this).val(row_origin_stop).change();
     }
   });
 
   // 5. Changing value of "Select End Point";
   $("select#json-ending-stops option").each(function () {
-    // console.log($(this).text());
     if ($(this).text() == row_destination_stop) {
       $(this).attr("selected", "selected");
-      // console.log($(this));
-      // console.log($(this.parentNode));
-      // console.log($(this).text());
-      // console.log($(this).val());
-      // let stop_value = $(this).val();
-      // console.log("END:", stop_value);
-      // // $(this).val(stop_value).change();
-      // $(this.parentNode).val(stop_value).change();
-      // // $(this.parentNode).val(row_destination_stop).change();
-      // $(this).val(row_destination_stop).change();
     }
   });
-  // // Now the values are changed but the 'on change' issues aren't solved - force on change
-  // var element = document.getElementById("json-starting-stops");
-  // var event = new Event("change");
-  // element.dispatchEvent(event);
 
-  console.log('6. Click "Show Prediction"');
   // 6. Click "Show Prediction"
   $("#show-prediction").click();
 });
@@ -743,14 +426,9 @@ $(".clickable-row").click(function () {
 // Delete a Row (from the DOM (rather than from the database))
 function deleteRow(ele) {
   // NO FUNCTIONALITY YET AS ATM PAGE RELOADS!
-  console.log("DELETE THIS ROW!");
-  console.log("=====Start=====");
-  console.log(ele);
+
   let td_ele = ele.parentNode;
-  console.log(td_ele);
   let tr_ele = td_ele.parentNode;
-  console.log(tr_ele);
-  console.log("=====End=====");
 }
 
 // Prevent clicking Delete Icon from showing the journey!
@@ -770,12 +448,6 @@ function calculateFare() {
   } else {
     x_route = false;
   }
-
-  console.log("=====Start=====");
-  console.log(time);
-  console.log(day);
-  console.log(route);
-  console.log("=====End=====");
 
   $.getJSON("./static/fares.json", function (data) {
     console.log(data);
@@ -919,7 +591,6 @@ function calculateFare() {
 $("#toggle-hide-menu").click(function () {
   let menu = document.getElementById("search-menu-container");
   var menu_width = menu.offsetWidth + 20;
-  console.log(menu_width);
 
   if ($("#search-menu-container").hasClass("move-left")) {
     $("#search-menu-container").removeClass("move-left");
@@ -941,30 +612,15 @@ $("#toggle-hide-menu").click(function () {
 // ================ Change Direction Functionality ================
 $("#change-direction").click(function (e) {
   e.preventDefault();
-  console.log("Change Direction button clicked");
   // current_direction is a global variable that gets updated every time a user clicks the switch button
-  console.log(current_direction);
   if (current_direction === "D1") {
-    console.log("Switching to D2");
     current_direction = "D2";
+    // set direction of hidden div (inside form - needed to pass direction to backend) to 2
     document.getElementById("hidden_directon").value = "2";
   } else {
     console.log("Switching to D1");
-    current_direction = "D1";
     document.getElementById("hidden_directon").value = "1";
   }
+  // Load route drop down with current direction
   showAndLoadStartAndEndDrops(current_direction);
 });
-
-// function changeDirection() {
-//   console.log("Change Direction button clicked");
-//   console.log(current_direction)
-//   if (current_direction === "D1") {
-//     console.log("Switching to D2");
-//     current_direction = "D2"
-//   } else {
-//     console.log("Switching to D1");
-//     current_direction = "D1"
-//   }
-//   showAndLoadStartAndEndDrops(current_direction);
-// }
