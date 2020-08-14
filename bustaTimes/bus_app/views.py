@@ -9,7 +9,7 @@ from bus_app.leap_card.test_leap_card_api import get_leap_card_details
 from django.http import JsonResponse
 
 google_maps_key = os.environ.get("GOOGLEMAPS_KEY")
-
+darksky_key = os.environ.get("DARKSKY_KEY")
 # Create your views here.
 
 from .forms import FavouriteJourneyForm
@@ -25,7 +25,7 @@ def index(request):
         return time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime(ep+3600))
 
     # WEATHER
-    url = 'https://api.darksky.net/forecast/313018b2afc91b7825d89c2740c19873/53.346,-6.26'
+    url = 'https://api.darksky.net/forecast/' + darksky_key + '/53.346,-6.26'
 
     json_dataset = requests.get(url).text
     json_temp = json.loads(json_dataset)
