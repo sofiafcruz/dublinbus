@@ -18,6 +18,9 @@ body {
   height: 100%;
   width: 100%;
 }
+#little_text {
+  line-height: 90%;
+}
 
 #search-elements-container,
 #test-routes-select-container {
@@ -64,7 +67,7 @@ body {
 }
 
 .total-matches-shown {
-  background: rgb(76,105,116,0.8);
+  background: rgb(76, 105, 116, 0.8);
   border-radius: 25px;
   color: white;
   padding: 0.5em;
@@ -211,7 +214,7 @@ body {
 
 #greeting-banner {
   font-weight: 900;
-  color: #335C67;
+  color: #335c67;
   letter-spacing: 2px;
 }
 
@@ -234,23 +237,23 @@ body {
 }
 
 #home-search-container {
-  width:319px; 
-  max-height:70vh; 
-  overflow:auto;
+  width: 319px;
+  max-height: 70vh;
+  overflow: auto;
 }
 
 #search-by-route-container {
-  max-width:319px; 
-  max-height:70vh; 
-  overflow:auto; 
+  max-width: 319px;
+  max-height: 70vh;
+  overflow: auto;
   padding-bottom: 1rem;
 }
 
 #bus-stop-search-container {
-  max-width:319px; 
-  padding-bottom: 1rem; 
-  max-height:70vh; 
-  overflow:auto;
+  max-width: 319px;
+  padding-bottom: 1rem;
+  max-height: 70vh;
+  overflow: auto;
 }
 
 .leap-card-input,
@@ -306,8 +309,8 @@ select,
   height: 100%;
   width: 100%;
   opacity: 0;
-  transition: .5s ease;
-  background-color: rgb(76,105,116,0.8);
+  transition: 0.5s ease;
+  background-color: rgb(76, 105, 116, 0.8);
   border-radius: 100%;
 }
 
@@ -381,7 +384,7 @@ select,
   #home-search-container,
   #search-by-route-container,
   #bus-stop-search-container {
-    max-height: 200px; 
+    max-height: 200px;
   }
 
   #menu-title,
@@ -517,6 +520,8 @@ select,
   border-radius: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 /* Toggle to hide show the search menu */
@@ -552,7 +557,7 @@ select,
 /* Hide toggle for mobile */
 @media (max-width: 850px) {
   #mobile-close-btn {
-    display:none;
+    display: none;
   }
 }
 /* ------- END ------- */
@@ -572,7 +577,7 @@ select,
 /* ---  news top bar  --- */
 .news-top-bar {
   background-color: rgb(265, 265, 265, 0.9);
-  display:flex;
+  display: flex;
   top: 70px;
   border-radius: 25px;
   position: absolute;
@@ -607,14 +612,14 @@ select,
 @media (max-width: 850px) {
   .news-top-bar {
     background-color: rgb(265, 265, 265, 0.9);
-    display:flex;
+    display: flex;
     top: 70px;
     border-radius: 25px;
     position: absolute;
     width: auto;
     height: 30px;
     padding-left: 8px;
-    right: 150px; 
-    left:30px;
+    right: 150px;
+    left: 30px;
   }
 }

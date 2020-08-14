@@ -177,10 +177,17 @@ prediction_form.submit(function () {
       // $(".ajax-loading").css("display", "block");
 
       // add some logic for error message
-      var obj = $("#display_prediction").text(
-        "Approximate Journey Prediction: \n" + data
-      );
-      obj.html(obj.html().replace(/\n/g, "<br/>"));
+      document.getElementById("display_prediction").innerHTML =
+        "Approximate Journey Prediction: *" + data;
+      // obj = "Approximate Journey Prediction: \n" + data;
+      // obj.html(obj.html().replace(/\n/g, "<br/>"));
+
+      // var obj = $("#display_prediction").text(
+      //   "Approximate Journey Prediction: \n" + data
+      // );
+      // obj.html(obj.html().replace(/\n/g, "<br/>"));
+      // obj.html(obj.html().replace(/<hr>/g, "<hr>"));
+      // obj.html(obj.html().replace(/<span /g, "<span"));
     },
     error: function (error) {
       console.log("Something went wrong!");
@@ -236,7 +243,6 @@ function showAndLoadStartAndEndDrops(direction) {
   console.log(hd_routes[selected_route]);
   console.log(selected_route);
   let direction_1 = hd_routes[selected_route][direction];
-  
 
   // Save in all route stops into full route array (array of 'stop' objects) - pass to map.js to be mapped
   let full_route = hd_routes[selected_route][current_direction]["stops"];
@@ -680,15 +686,15 @@ $(".clickable-row").click(function () {
       <div class="menu-text">Route</div>
     </div>
   </div>
-  `
+  `;
   console.log($("#search-by-route-container").click());
   var someEvt = new MouseEvent("click");
-  openTab(someEvt, 'search-by-route-container', route_button_target);
+  openTab(someEvt, "search-by-route-container", route_button_target);
 
   // 3. Changing value of "Select Route";
-  console.log($('select#json-routes'));
-  $('select#json-routes').val(row_route_name).change();
-  
+  console.log($("select#json-routes"));
+  $("select#json-routes").val(row_route_name).change();
+
   // 4. Changing value of "Select Starting Point";
   $("select#json-starting-stops option").each(function () {
     // console.log("IN THIS PART:", $(this));
@@ -732,7 +738,6 @@ $(".clickable-row").click(function () {
   console.log('6. Click "Show Prediction"');
   // 6. Click "Show Prediction"
   $("#show-prediction").click();
-
 });
 
 // Delete a Row (from the DOM (rather than from the database))
