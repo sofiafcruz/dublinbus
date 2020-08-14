@@ -593,7 +593,6 @@ function stopsInfowindow(marker) {
   marker.addListener("click", function () {
     grabRealTimeContent(marker.title); // Makes a call to the RPTI API via the backend based on the stop number (marker.title)
     closeLastOpenedInfoWindow(lastOpenedInfoWindow);
-    // console.log(parsed_realtime_info); // Shows the array of objects that is gotten from 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + BusStopNumber
 
     let realtime_content = setWindowContentHTML(
       parsed_realtime_info,
@@ -681,7 +680,6 @@ const calculateAndRenderDirections = (
   // 2. a Callback function (which takes in the Result of the Directions Query and a status (to show if query to Google servers was successful))
   directionsService.route(request, (result, status) => {
     if (status == "OK") {
-      // console.log("here okay??");
       // server request is OK, set the renderer to use the result to display the directions on the renderer's designated map and panel.
       directionsDisplay.setMap(map);
 
@@ -847,7 +845,6 @@ function getRoutePolyline(path) {
     path[path.length - 1][0],
     path[path.length - 1][1]
   );
-  // console.log("start, finish", start, end);
   // get time of route
   var selectedRoute = document.getElementById("json-routes").value;
 
@@ -978,7 +975,7 @@ function showJourney(stopArray) {
     let long = stopArray[i]["long"];
     // skip stops that have 'N/A' stop locations
     if (lat == "N/A" || long == "N/A") {
-      console.log("we got a lat/long issue: ", lat, long);
+      // then we got a lat/long issue
       // skip current iteration
       continue;
     }
@@ -1074,7 +1071,6 @@ function filterDropdown() {
           parseInt(start_value)
         ) {
           var remove = json_starting_point_dropdown.options[i].cloneNode(true);
-          console.log("add:", remove);
           json_ending_point_dropdown.options.add(remove, count);
           count += 1;
         }
@@ -1125,7 +1121,6 @@ function filterRoute() {
     } else {
       // get lat long position for the new markers
       var temp = FullRouteMarkers[x].getPosition();
-      // console.log("checking", FullRouteMarkers[x].getPosition().lat());
       route_coordinates.push([temp.lat(), temp.lng()]);
 
       bounds.extend(temp);
@@ -1175,7 +1170,6 @@ function showJourneyOnMap(arrOfSelectedStopObjs, arrOfCoords) {
     markersArray[i].setMap(null);
   }
   // Clear out the existing stops
-  console.log("just above clearMarkers");
   clearMarkers();
 
   for (var i = 0; i < arrOfSelectedStopObjs.length; i++) {
@@ -1184,7 +1178,6 @@ function showJourneyOnMap(arrOfSelectedStopObjs, arrOfCoords) {
     let busLatLng = { lat: bus_stop_lat, lng: bus_stop_long }; // Bus Stop LatLng object
 
     var busStopIcon = {
-      // WAS THINKING MAYBE WE SHOULD HAVE A DIFFERENT ICON HERE TO HIGHLIGHT THE STOPS OF THE JOURNEY
       url: "./static/images/bus_stop_icon.svg",
       scaledSize: new google.maps.Size(25, 25),
       anchor: new google.maps.Point(12.5, 12.5),
@@ -1306,9 +1299,6 @@ $("#show-all-routes-serviced").click(function (e) {
   }
   all_searched_bus_stop_markers.length = 0;
 
-  // console.log(all_polylines);
-  // console.log(all_polylines.length);
-
   // iterate over the routes serviced
   for (var i = 0; i < routes_serviced.length; i++) {
     // console.log(routes_serviced[i]);
@@ -1320,7 +1310,6 @@ $("#show-all-routes-serviced").click(function (e) {
 
         // Focus on just 1 Direction of a given route (D1)
         let direction_1 = all_routes[route_num].D1;
-        // console.log(direction_1);
         // Iterate over all that directions stops to access each stop in order to render them
         var path_coords = [];
         for (index in direction_1["stops"]) {
