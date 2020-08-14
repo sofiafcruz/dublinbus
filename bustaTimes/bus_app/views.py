@@ -29,7 +29,6 @@ def index(request):
 
     json_dataset = requests.get(url).text
     json_temp = json.loads(json_dataset)
-    print(json_temp.keys())
 
     # This will be generated everytime there is a page load (wasteful?) - could in the future check for results 
     # Generate hourly for next 48 hours and use that if possible
@@ -106,19 +105,12 @@ def index(request):
     }
 
     if request.user.is_authenticated:
-        # Print in backend to show user logged in
-        print(f"User: {request.user} logged in...")
 
         # Populate favourite journeys
         user_id = request.user.pk
         user_username = request.user.username
         
         favourite_journeys = FavouriteJourney.objects
-        # print(favourite_journeys)
-        # print("====Favourite Journey Fields====")
-        # all_fields = FavouriteJourney._meta.get_fields()
-        # print(all_fields)
-        # print(f"====User: {user_username}'s favourite journeys====")
         users_favourite_journeys = favourite_journeys.filter(user=user_id)
         
         context["users_favourite_journeys"] = users_favourite_journeys
@@ -130,10 +122,8 @@ from django.core import serializers
 
 def leap_card_info(request):
     if request.method =='POST':
-        print(request.POST) # <QueryDict: {'csrfmiddlewaretoken': ['iGxFd71LhQcFutlpl65rExOFsGK2wgipLeIcQRtC83UhgAuuZ7YAj8kXq9cishIL'], 'inputUsername': ['X'], 'inputPassword': ['Y']}>
         leap_card_username = request.POST["inputUsername"]
         leap_card_password = request.POST["inputPassword"]
-        print(f"User entered the following credentials;\n=============================\nUsername: {leap_card_username}, Password: {leap_card_password}")
         # Pass the Username and Password into the leap card API call function
         users_leapcard_details = get_leap_card_details(leap_card_username, leap_card_password)
         balance = users_leapcard_details["balance"]
@@ -142,15 +132,9 @@ def leap_card_info(request):
 
 def make_rpti_realtime_api_request(request):
     if request.method =='GET':
-        print("IT'S A GET")
-        print(request.GET) # e.g. <QueryDict: {'csrfmiddlewaretoken': ['mfh1Pjs9WiIp0pDuCtQfKMDXNuDgoHVIPNsys3U0Nvq1MwMzguJopn9fLX5wkIl4'], 'inputStopNum': ['905']}>
         stopNum = request.GET["inputStopNum"] # Grabs the value of the inputStopNum key in the request.GET QueryDict
-    else:
-        print("Not a post or a get")
 
     real_time_url = 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + stopNum
-    print(real_time_url)
-
     # sending get request and saving the response as response object 
     r = requests.get(url = real_time_url) 
   
@@ -176,18 +160,9 @@ def make_rpti_realtime_api_request(request):
         d["scheduled_arrival_datetime"] = result["scheduledarrivaldatetime"]
         d["arrival_datetime"] = result["arrivaldatetime"]
         d["due"] = result["duetime"]
-        # print("==============START==============")
-        # print("Route:", result["route"])
-        # print("Direction:", result["direction"])
-        # print("Origin:", result["origin"])
-        # print("Destination:", result["destination"])
-        # print("Scheduled Date Time:", result["scheduledarrivaldatetime"])
-        # print("Arrival Date Time:", result["arrivaldatetime"])
-        # print("Due:", result["duetime"])
-        # print(d)
+
         realtime_info_response.append(d)
     
-    # print(realtime_info_response)
     json_string = json.dumps(realtime_info_response)
     return JsonResponse(json_string, safe=False)
     # return HttpResponse("Trying to access 3rd Party data")
@@ -229,26 +204,12 @@ def registerUserPopup(request):
         additional_info_form = AdditionalUserInfoForm()
 
         if request.method == 'POST':
-            # print("====BEFORE USER FORM DATA====")
-            # print(create_form.data)
-            # print("====BEFORE ADDITIONAL FORM DATA====")
-            # print(additional_info_form.data)
+
             # Post data = Username, Password, Confirmed password, email, AND Additional info
             # Render the form again and pass in the user data into the form
             create_form = CreateUserForm(request.POST)
             # ADDITIONAL_INFO
             additional_info_form = AdditionalUserInfoForm(request.POST)
-
-            # print("====USER FORM START====")
-            # print(create_form)
-            # print("====USER FORM DATA====")
-            # print(create_form.data)
-            # print("====USER FORM END====")
-            # print("====ADDITIONAL FORM START====")
-            # print(additional_info_form)
-            # print("====ADDITIONAL FORM DATA====")
-            # print(additional_info_form.data)
-            # print("====ADDITIONAL FORM END====")
             if create_form.is_valid() and additional_info_form.is_valid():
                 # Then save the User
                 user = create_form.save() 
@@ -260,21 +221,12 @@ def registerUserPopup(request):
 
                 # Show appropriate Success Message
                 username = create_form.cleaned_data["username"]
-                print(create_form.cleaned_data)
-                print(username)
                 messages.success(request, f"Account was created for: {username}")
 
                 # Then redirect them to the login page
                 return redirect('index')
             else:
                 messages.error(request, f"ERROR: in creating account")
-                print("-----USER-----")
-                print(create_form.errors)
-                print(create_form.is_valid())
-                print("-----ADDITIONAL INFO-----")
-                print(additional_info_form.errors)
-                print(additional_info_form.is_valid())
-                print("ERROR IN REGISTERING THE USER WITH THE POPUP METHOD")
             # Then redirect them to the login page
             return redirect('index')
 
@@ -297,13 +249,8 @@ def loginUserPopup(request):
                 login(request, user) # Saves user's ID in the session
                 return redirect('index')
             else:
-                print("Is none")
                 messages.error(request, f"ERROR: login credentials incorrect")
                 # Message below for debugging purposes
-                print("Someone tried to login and failed")
-                print("**************************************")
-                print(f"Tried logging in with;\nUsername: {username}\nPassword: {password}")
-                print("**************************************")
                 return redirect('index')
                 # return flash message
                 # messages.info(request, "Username OR password is incorrect")
@@ -316,32 +263,14 @@ def logoutUser(request):
 # FAVOURITE JOURNEY
 
 def save_route_journey(request):
-    print("Save Route Journey being called")
     favourite_journey_form = FavouriteJourneyForm()
     if request.method == 'POST':
-        # print("====DATA POSTED====")
-        # print(request.POST)
-        # print("====LOGGED IN USER'S NAME====")
-        # print(request.user)
-        # print("====EMPTY FORM====")
-        # print(favourite_journey_form)
-        # print("====EMPTY FORM DATA====")
-        # print(favourite_journey_form.data)
         # Filling in the form with the data submitted
         favourite_journey_form = FavouriteJourneyForm(request.POST)
-        # print("====FILLED FORM====")
-        # print(favourite_journey_form)
-        # print("====FILLED FORM DATA====")
-        # print(favourite_journey_form.data)
-        # I THINK THE ISSUE IS THAT WE ARE MISSING THE USER'S CREDENTIALS
-        print(favourite_journey_form.data)
+
         if favourite_journey_form.is_valid():
-            print("FAVOURITE JOURNEY FORM IS VALID :)")
             # And create the saved journey for the user
             favourite_journey = favourite_journey_form.save(commit=False)
-            print("++++++++++++++++++")
-            print("Saving Journey...")
-            print("++++++++++++++++++")
             favourite_journey.user = request.user
             favourite_journey.save()
             
@@ -351,10 +280,6 @@ def save_route_journey(request):
             # Then redirect them to the login page
             return redirect('index')
         else:
-            print("FAVOURITE JOURNEY FORM NOT VALID!!! :(")
-            # print("Either Form details missing OR journey already exists")
-            print(favourite_journey_form.errors.as_data())
-            print(favourite_journey_form.errors.as_data()['__all__'])
             
             # Generic Error Message
             messages.error(request, f"ERROR: in favouriting journey for: {request.user}... Did not save journey")
@@ -369,17 +294,13 @@ def save_route_journey(request):
             
 def delete_favourite_journey(request, pk):
     # Testing to see what the PK of the row you want to delete.
-    print("DELETE VIEW CALLED!")
-    print("PK of favourite journey instance attempting to delete:", pk)
     # Trying to delete the Record from the Model
     try:
         query = FavouriteJourney.objects.get(pk=pk)
         query.delete()
-        print("Deleted!")
         messages.success(request, f"Journey deleted successfully!")
         return redirect('index')
     except:
-        print("The Object you tried to delete doesn't appear to exist")
         messages.error(request, f"ERROR: Journey not deleted...")
         return redirect('index')
 
@@ -388,6 +309,9 @@ def delete_favourite_journey(request, pk):
 from bus_app.model_predictions.get_model_predictions import getModelPredictions
 
 def get_journey_prediction(request):
+    '''
+    Function takes in information from form on front end and queries the model
+    '''
     day_dict = {
             "Mon":0,
             "Tue":1,
@@ -407,15 +331,10 @@ def get_journey_prediction(request):
     end_stop = request.POST.get("end_stop")
     date_ = request.POST.get("date")
     time_=request.POST.get("choose-time")
-    print("DATE:   {}".format(date_))
-    print(start_stop)
-    print(end_stop)
-    print(time_)
 
     # This needs to be changed to be automatic (i.e. POST.get)
     # direction=1
     direction= int(request.POST.get("choose-direction"))
-    print("Direction:",direction)
     # Get stop number (from value text)
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     average_file = "historical_averages_full.json"
@@ -429,32 +348,18 @@ def get_journey_prediction(request):
     offset_count=0
     for option in historical_average_data[route_]["D{}".format(direction)]["order"][:int(start_stop)+1]:
         split_option=option.split("_")
-        print("OPTION: {}".format(split_option[0].strip()))
+
         if split_option[0].strip() in offset_list:
-            print("OFFSET INPLCACE: {}".format(split_option[0].strip()))
             offset_count +=1
 
-    
-    print("OFFSET SPLIT {}".format(offset_count))
     if int(start_stop)+offset_count < len(historical_average_data[route_]["D{}".format(direction)]["order"])-1:
         segment = historical_average_data[route_]["D{}".format(direction)]["order"][int(start_stop)+offset_count]
     else:
         # get second last segment
-        print("had to choose second last")
         segment = historical_average_data[route_]["D{}".format(direction)]["order"][-1]   
     # get segments including start and end stop - test the correct stop is being obtained
-    print("SEGMENT: {}".format(segment))
     split_segment=segment.split("_")
     start = split_segment[0].strip()
-    print("START:  {}   ".format(start))
-
-    # read in route_,"D{}",["stops"], start_stop
-    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    # timetable_file = os.path.join(BASE_DIR, 'bus_app/static/timetable_dict.json')
-
-    # with open(timetable_file,) as outfile:
-    #     timetable_dict = json.load(outfile)
-    # next_time = timetable_dict[route_]["D{}".format(direction)]["stops"][]
 
 
     split_date = date_.split(" ")
@@ -489,7 +394,6 @@ def get_journey_prediction(request):
     Humidity = weather_array[5]
 
     prediction = getModelPredictions(route_,direction,start_stop,end_stop,date_,time_,Temperature,Rainfall,WindSpeed,Cloud,Visibility,Humidity,start)
-    print("Final_pred:  {}".format(prediction))
 
     return HttpResponse(prediction)
 
@@ -515,7 +419,6 @@ def updateUserPopup(request):
             # LEAPCARD
             update_leapcard_username_form = UpdateLeapCardUsernameForm(request.POST)
 
-            print(request.POST)
             # if update_username_form.is_valid() and update_email_form.is_valid() and update_leapcard_username_form.is_valid():
             if update_user_form.is_valid() and update_leapcard_username_form.is_valid():
 
@@ -528,17 +431,6 @@ def updateUserPopup(request):
 
                 # the Leap Card Username
                 updated_leapcard_username = update_leapcard_username_form.cleaned_data['leapcard_username']
-
-                print("/////////////////////////")
-                print("ORIGINAL...")
-                print(user.username)
-                print(user.email)
-                print(user.additionaluserinfo.leapcard_username)
-                print("UPDATED...")
-                print(updated_username)
-                print(updated_email)
-                print(updated_leapcard_username)
-                print("/////////////////////////")
 
                 # Then update with the posted form data 
 
@@ -561,13 +453,6 @@ def updateUserPopup(request):
                 messages.success(request, f"Details were updated")
             else:
                 messages.error(request, f"ERROR: problem in updating details")
-                print("-----Username or Email Error-----")
-                print(update_user_form.errors)
-                print(update_user_form.errors.as_data())
-                
-                print("-----Leap Card Username Error-----")
-                print(update_leapcard_username_form.errors)
-                print(update_leapcard_username_form.errors.as_data())
             # Then redirect them to the login page
             return redirect('index')
 
@@ -609,7 +494,6 @@ def create_news_cache(timeout_seconds=600):
         nonlocal cache
         nonlocal last_timestamp
         if cache and cache['state'] == 1 and is_not_expire():
-            print('get from cache')
             return cache
         else:
             cache = get_news_from_remote()
