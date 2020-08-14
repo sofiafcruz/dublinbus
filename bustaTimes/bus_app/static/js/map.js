@@ -912,7 +912,6 @@ function getRoutePolyline(path) {
       var event = new Event("change");
       element.dispatchEvent(event);
     } else if (favourites_check.length == 1) {
-      / remove element from the array
       favourites_check.pop();
       // trigger an on change event
       var element = document.getElementById("json-ending-stops");
