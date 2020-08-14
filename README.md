@@ -21,7 +21,7 @@ This application was built as part of the 2020 Summer Project designed by Univer
 - AJAX
 - JQuery
 
-## Overview:
+## Overview
 - We, as University College Dublin Computer Science Conversion Masters students, were provided with historical Dublin Bus data (2018) which was explored, cleaned and modelled in line with CRISP-DM methodology.
 - Historical data was scraped from Dark Sky API and Met Eireann. Forecasted weather data was scraped from the Dark Sky weather API to embed in the predictive models.
 - Prediction models were then generated from each bus trip by combining both bus and corresponding weather data.
@@ -112,14 +112,14 @@ For sending Emails for password reset:
 `EMAIL_PASS=YOUR_ENV_VAR`
 
 ## API Reference
-[Dark Sky] (https://darksky.net/dev/docs “Dark Sky API Documentation”)
-[Google Maps] (https://developers.google.com/maps/documentation/javascript/overview “Google Maps API Documentation”)
-[Google Directions] (https://developers.google.com/maps/documentation/directions/overview “Google Directions API Documentation”)
-[Google Places] (https://developers.google.com/places/web-service/overview “Google Places API Documentation”)
-[Google Geocoding] (https://developers.google.com/maps/documentation/geocoding/overview “Google Geocoding API Documentation”)
-[Leap Card] (https://github.com/skhg/pyleapcard “Leap Card Python Library”)
-[RTPI] (https://data.smartdublin.ie/dataset/c9df9a0b-d17a-40ff-a5d4-01da0cf08617/resource/4b9f2c4f-6bf5-4958-a43a-f12dab04cf61/download/rtpirestapispecification.pdf “RPTI Docuemntation”)
-[GTFS - Timetable and stop name info] (https://www.transportforireland.ie/transitData/PT_Data.html "GTFS")
+[Dark Sky](https://darksky.net/dev/docs “Dark Sky API Documentation”)
+[Google Maps](https://developers.google.com/maps/documentation/javascript/overview “Google Maps API Documentation”)
+[Google Directions](https://developers.google.com/maps/documentation/directions/overview “Google Directions API Documentation”)
+[Google Places](https://developers.google.com/places/web-service/overview “Google Places API Documentation”)
+[Google Geocoding](https://developers.google.com/maps/documentation/geocoding/overview “Google Geocoding API Documentation”)
+[Leap Card](https://github.com/skhg/pyleapcard “Leap Card Python Library”)
+[RTPI](https://data.smartdublin.ie/dataset/c9df9a0b-d17a-40ff-a5d4-01da0cf08617/resource/4b9f2c4f-6bf5-4958-a43a-f12dab04cf61/download/rtpirestapispecification.pdf “RPTI Docuemntation”)
+[GTFS - Timetable and stop name info](https://www.transportforireland.ie/transitData/PT_Data.html "GTFS")
 
 
 
@@ -177,6 +177,6 @@ For Backend Testing (Views, Models etc):
 - Boheng Ding (Maintenance Lead)
 
 ## Acknowledgements
-We would also like to thank Dr. Gavin McArdle, Asst Prof. Soumyabrata Dev, Prof. Pádraig Cunningham and Dr. Félix Balado
+We would also like to thank Dr. Gavin McArdle, Asst Prof. Soumyabrata Dev, Prof. Pádraig Cunningham and Dr. Félix Balado.
 
 We would also like to thank Dublin Bus for providing the historical dataset on which our models were trained.
