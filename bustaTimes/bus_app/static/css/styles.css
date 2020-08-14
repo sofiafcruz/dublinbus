@@ -75,6 +75,8 @@ body {
   width: 2.2rem;
 }
 
+/* Styles for the journey timeline */
+/* ------- START ------- */
 #journey-details {
   font-size: 0.75rem;
   margin-top: 30px;
@@ -172,6 +174,7 @@ body {
 .undefined-step {
   border-left-style: solid;
 }
+/* ------- END ------- */
 
 .attractions-summary {
   text-align: justify;
@@ -481,28 +484,6 @@ select,
 #favourites-table {
   width: 100%;
 }
-/* 
-#favourites-table td,
-#favourites-table th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#favourites-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-#favourites-table tr:hover {
-  background-color: #ddd;
-}
-
-#favourites-table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: lightskyblue;
-  color: white;
-} */
 
 /* Make favourites popup bigger when on a large screen (XL) */
 @media (min-width: 768px) {
@@ -589,7 +570,6 @@ select,
 }
 
 /* ---  news top bar  --- */
-
 .news-top-bar {
   background-color: rgb(265, 265, 265, 0.9);
   display:flex;
@@ -601,7 +581,6 @@ select,
   padding-left: 8px;
   right: 200px;
   left: 450px;
-
 }
 
 #news-top-bar-content {
@@ -626,17 +605,16 @@ select,
 
 /* Styles for mobile (news top bar) */
 @media (max-width: 850px) {
-.news-top-bar {
-  background-color: rgb(265, 265, 265, 0.9);
-  display:flex;
-  top: 70px;
-  border-radius: 25px;
-  position: absolute;
-  width: auto;
-  height: 30px;
-  padding-left: 8px;
-  right: 150px; 
-  left:30px;
-}
-
+  .news-top-bar {
+    background-color: rgb(265, 265, 265, 0.9);
+    display:flex;
+    top: 70px;
+    border-radius: 25px;
+    position: absolute;
+    width: auto;
+    height: 30px;
+    padding-left: 8px;
+    right: 150px; 
+    left:30px;
+  }
 }

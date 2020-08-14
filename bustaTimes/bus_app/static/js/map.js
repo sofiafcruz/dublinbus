@@ -160,12 +160,6 @@ function initMap() {
     icon: icon,
   });
 
-  // Set a marker for the bus stop that was searched
-  // searched_bus_stop_marker = new google.maps.Marker({
-  //   position: null,
-  //   map: map,
-  // });
-
   // Add marker on DOUBLE click (Will be used later for adding origin and destination points)
   map.addListener("dblclick", function (e) {
     placeDestinationMarker(e.latLng, map, destinationMarker);
@@ -451,6 +445,7 @@ function attractionsInfowindow(marker, title) {
   });
 }
 
+// Displays the directions to the selected attraction
 function calcRouteToAttraction(latitude, longitude) {
   closeLastOpenedInfoWindow(lastOpenedInfoWindow);
 
@@ -475,6 +470,7 @@ function calcRouteToAttraction(latitude, longitude) {
 }
 
 // ================================ OTHER ==============================================
+// Centers the map in Dublin
 function setMapDublin() {
   map.setCenter(new google.maps.LatLng(53.346, -6.28));
   map.setZoom(14);
@@ -729,6 +725,8 @@ const calculateAndRenderDirections = (
 
     var timeline = `<div class="timeline">`;
 
+    // Loops through the journey steps and displays them in a timeline
+    // It takes into consideration what the means of transportation (walking, bus, train, tram) needed for the given search
     steps.forEach(function (step, index) {
       if (step.travel_mode == "WALKING") {
         timeline +=
@@ -786,6 +784,7 @@ const calculateAndRenderDirections = (
       `<h6>Arrival Time: ${arrival_time}</h6></div>` +
       `</div>`;
 
+    // Add the timeline to the page
     document.getElementById("journey-details").innerHTML = timeline;
   });
 };

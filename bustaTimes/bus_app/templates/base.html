@@ -291,9 +291,8 @@
             <input type="checkbox" class="custom-control-input news-switch" id="customSwitch5" onchange="hideTopBar()">
             <label class="custom-control-label" for="customSwitch5"><img src="./static/images/news_icon.png" alt="News" style="width:40px;"></label>
         </div>
-         
         
-        <!-- ***** Menu Tabs ***** -->
+        <!-- ***** Search Menu Tabs ***** -->
         <div id="search-menu-container" class="Search-Menu-Container">
             <div id="mobile-close-btn" onclick="hideMenu()" value="true"><span id="hide-arrow">&#8227;</span></div>
                 <h3 id="menu-title" style="margin-bottom:10px;">Plan Your Trip </h3>
@@ -328,14 +327,17 @@
                 <div id='home-search-container' class="container centre-and-padding tabcontent display-container">
                     <!-- Form containing "Origin" and "Destination" text inputs -->
                     <form>
+                        <!-- Origin input -->
                         <div class="form-group">
                             <label for="origin" class="menu-label">Origin:</label>
                             <input type="text" class="form-control form-control-sm" id="origin-home-search" aria-describedby="origin" placeholder="Choose starting point" required>
+                            <!-- Switch button to use user's location for start position -->
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input users-location-switch" id="customSwitch2" onchange="fillUsersLocation()">
                                 <label class="custom-control-label text-muted caption" for="customSwitch2"><small>Use Current Location</small></label>
                             </div>
                         </div>
+                        <!-- Destination input -->
                         <div class="form-group">
                             <label for="destination" class="menu-label">Destination:</label>
                             <input type="text" class="form-control form-control-sm" id="destination-home-search" placeholder="Choose destination" required>
@@ -392,25 +394,18 @@
                                     <option id="prediction-date-5"></option>
                                 </select>
                             </div>
+                            <!-- Choose Time -->
                             <div id="time-selector-container" class="md-form md-outline input-with-post-icon timepicker" twelvehour="true">
                                 <label for="choose-time">Select a time:</label>
                                 <input type="time" id="choose-time" name="choose-time">
                             </div>
-                            <!-- Show Prediction -->
+                            <!-- Show Prediction Button -->
                             {% if user.is_authenticated %}
                                 <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="showSaveJourneyBtn(); calculateFare()"><br>
                             {% else %}
                                 <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="calculateFare()" style="margin-top:15px; margin-bottom:20px;"><br>
                             {% endif %}
                         </div>
-
-                        <!-- Show Prediction -->
-                        {% if user.is_authenticated %}
-                        <input type="submit" id="show-prediction" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="showSaveJourneyBtn(); calculateFare()"><br>
-                        {% else %}
-                        <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="calculateFare()" style="margin-top:15px; margin-bottom:20px;"><br>
-                        {% endif %}
-
                     </form>
                             
                     {% if user.is_authenticated %}
@@ -439,8 +434,6 @@
 
                     <!-- Displays the estimated Adult and Child fares for the journey -->
                     <div id="fare-table"></div>
-                    
-                    <!-- <div id="routes-directions-panel"></div> -->
                 </div>
                 
                 
@@ -490,9 +483,10 @@
         </div>
     </div>
     
-    <!-- Connected JS script needs to be down here (rather than in the <head> section) or else can't "see" html elements -->
+    
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
     <script>
+        // Function hides and shows the newly clicked tab
         function openTab(evt, tabContainer) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
@@ -534,8 +528,6 @@
         my_image.src = 'someimage2.jpg';
 
         }
-
-
     </script>
     <script type="text/javascript" src="{% static 'js/weather.js' %}"></script> 
     
@@ -545,7 +537,5 @@
     src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&libraries=places&callback=initMap">
     </script>
     <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
-
-    
 </body>
 </html>
