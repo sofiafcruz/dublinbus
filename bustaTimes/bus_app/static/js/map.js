@@ -987,7 +987,7 @@ function checkRouteLine(routes, selectedRoute) {
 }
 // Function to map the entire route
 function showJourney(stopArray) {
-  console.log(")))))))))))))))))))))CALLED BITCH!")
+  console.log(")))))))))))))))))))))CALLED BITCH!");
   console.log("FullRouteMarkers2.0", FullRouteMarkers);
   console.log("IN SHOWJOURNEY");
   // Need to make sure all other route stops are gone FINITO -  do try block to attempt to remove all other markers (i.e. previous routes)
@@ -1066,7 +1066,6 @@ function showJourney(stopArray) {
       position: busLatLng,
       map: map,
       icon: busStopIcon,
-      label: i.toString(),
     });
     // console.log("what does a marker look like:", RouteMark);
     // Push each marker of the journey to the array
@@ -1089,7 +1088,7 @@ function filterDropdown() {
   // if start index is equal to or greater than stop index - need to do whats done below i.e. empty stop dropdown and replace it with new slice (automatically make stop the last stop - will help wiht polyliens)
   // if you have a small slice then put start index back to the start - how does the end index options go back again (while maintaining current value?)
   // Get route selected
-  console.log("==================HERE=====================")
+  console.log("==================HERE=====================");
   var selected_route = document.getElementById("json-routes").value;
   // get first stop
   var json_starting_point_dropdown = document.getElementById(

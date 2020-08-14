@@ -6,6 +6,16 @@ from django.conf import settings
 import json
 import datetime
 
+# The function of this script is to:
+# 1. take in the information necessary for the models from the frontend
+# 2. Preprocess that information so that it is in the suitable format for model querying
+# 3. Find next suitable journey from timetable information
+# 4. Return appropriate information to the frontend of the app
+
+
+# Set of dictionaries for data preprocessing
+
+# convert day of the week to integer representation
 day_dict = {
     "Mon":0,
     "Tue":1,
@@ -15,6 +25,7 @@ day_dict = {
     "Sat":5,
     "Sun":6
 }
+# convert integer representation of day to string version
 reverse_day_dict={
     0:"Monday",
     1:"Tuesday",
@@ -25,7 +36,7 @@ reverse_day_dict={
     6:"Sunday",
 
 }
-
+# convert month of the year to integer representation
 month_dict = {
     "Jan":1,
     "Feb":2,
@@ -40,7 +51,7 @@ month_dict = {
     "Nov":11,
     "Dec":12
 }
-
+# Dictionary for deciphering appropriate time slot for a given hour of the day
 time_slot={
     'morn':[6,7,8,9,10,11],
     'afternoon':[12,13,14,15],
@@ -51,12 +62,11 @@ time_slot={
 # def get_seconds()
 
 def comparison(test,query):
-    print("test: ",test)
-    print("query: ",query)
+    '''
+    Function takes in two times (test and query) HH:MM format and returns 'test' if it is later in the day, or 'None' otherwise
+    '''
     if query[:2]=="00":
         query="24:{}".format(query[3:]) 
-    # if query[:2]=="01":
-    #     query="25:{}".format(query[3:])
     if int(test[:2]) > int(query[:2]):
         return test
     elif int(test[:2]) == int(query[:2]) and int(test[3:]) > int(query[3:]):
@@ -65,28 +75,26 @@ def comparison(test,query):
         return "None"
 
 def get_timetable_info(route,direction,time,day,stop):
-    # want to open up the dicitonary look at the given route, day, directoin
-    print(route)
-    print(direction)
-    print(time)
-    print("day: ",day)
-    print(type(day))
+    '''
+    Function compares input time (frontend) against timetable to get the next closest departure time
+    '''
+    # want to open up the dicitonary look at the given route, day, direction
+
+    # As mon-fri (0-4) have the same timetable, they can all be set to 0
     if day in [0,1,2,3,4]:
         day=0
 
-    print(stop)
+    # Read in json file containing timetable information
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     name = os.path.join(BASE_DIR, 'static/timetable_dict.json')
     with open(name) as outfile:
         timetable_dict = json.load(outfile)
     # need to search for closest time within that list
-    print("day times:")
-    # print(timetable_dict[route]["D{}".format(direction)]["stops"][stop]["days"][str(day)][0])
     time_list=timetable_dict[route]["D{}".format(direction)]["stops"][stop]["days"][str(day)]
     # get larger times, then get min of that list
     greater_list = [t[:5] for t in time_list if comparison(t[:5],time) != "None"]
-    # I HAVE NOT ACCOUNTED FOR IF THE NEXT DAY CONTAINS NO JOURNEy - currently just returns 'none'
-    print("LIST: ", greater_list)
+
+    # If the list is empty, meaning there are now next suitable times, look at the following day
     if len(greater_list)==0:
         try:
             if day ==5:
@@ -95,24 +103,20 @@ def get_timetable_info(route,direction,time,day,stop):
                 next_day=0
             
             answer = timetable_dict[route]["D{}".format(direction)]["stops"][stop]["days"][str(next_day)][0][:5]
-            print("NEXT DAY:    ", answer)
             return answer, True
         except:
-            print("couldn't find anythin")
             return "None",False
     else: 
         answer = min(greater_list)
-        # answer = min(time_list, key=lambda t: abs(query - datetime.datetime.strptime(t[0:5], "%H:%M")))
-        print("Same day: ",answer)
         return answer, False
-    # for time in time_list:
-    #     print(type())
+
 
 
 
 def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,wind,cloud,visibility,humidity,stop_name):
-    print("{} \n {} \n{} \n {} \n{} \n {} \n{} \n {} \n{} \n {} \n".format(route,start_stop,end_stop,date,time,temp,rain,wind,cloud,visibility))
-    # preprocessing - get day,month and bank holiday from date (for now BH = 0)
+    '''
+    Function takes in all relevant journey information, queries the model, offsets the total journey time appropriately and returns the journey time prediction
+    '''
     # split on empty space
     split_date = date.split(" ")
     day_temp = split_date[0].strip()
@@ -120,16 +124,21 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     day = day_dict[day_temp]
     month = month_dict[month_temp]
 
-    # These need to be updated to dynamic variables and direction needs
-    bank_hol = 0
+    # list of [days,month] that are bank holidays
+    bank_holidays=[[1,1],[17,3],[2,4],[7,5],[4,6],[6,8],[29,10],[25,12],[26,12]]
+    if [day,month] in bank_holidays:
+        bank_hol = 1
+    else:
+        bank_hol = 0
     
-    print("Hour beforehand:  {}".format(time))
-     # Get starting time (using timetable_dict)
+     # list of routes for which no timetable information is available
     no_timetable_route_list=['116', '118','16d','130','120','25d','25x', '31d', '32x','33e','39x','41a','42d','46e', '51d','51x','68x','70d','77x']
+
 
     if route in no_timetable_route_list:
          next_day=False
     else:
+        # search for the next appropriate time on the timetable
         time,next_day = get_timetable_info(route,direction,time,day,stop_name)
         if time =="None":
             return "Error in obtaining journey time, please pick another time"
@@ -137,7 +146,7 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     # print("DAY OUTSIDE:  ",day)
     if "24" in time[:2]:
         time="00:{}".format(time[3:])
-    # print("time after:  {}".format(processed_time))
+
     # round hour to closest number
     split_hour = time.split(":")
     hr = int(split_hour[0])
@@ -145,27 +154,19 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
     if minut > 30:
         hr +=1
     hour = str(hr)
-    print("HOUR  {}   \n    TIME:  {}".format(hour,time))
 
-   
-
-
-
-
-    # Make copy of model_dict and change the values according to inputted values 
-    # parameters = model_dict.copy()
+    # read in json file with information about model parameters required for a given route
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     name = os.path.join(BASE_DIR, 'static/model_metrics_cv.json')
     with open(name) as outfile:
         model_params = json.load(outfile)
 
+    # Get list of parameters specific for that route and direction
     param_list = model_params[route]["direction_{}".format(direction)]['cols']
-    print(param_list)
     parameters={}
     for elem in param_list:
         if elem != "Unnamed: 0" and elem != 'trip_time':
             parameters[elem] =0
-    print("dictionary:", parameters)
 
     # Use the current weather info
     parameters["temp"] = float(temp)
@@ -198,70 +199,55 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
         parameters["hour_{}".format(hour)] = 1
     except:
         pass
-    
+
+    # Create a df for the model input information
     column_headers = []
     row = []
     for key in parameters:
         column_headers.append(key)
         row.append(parameters[key])
     row_embedded = [row]
-    # print(column_headers)
-    # print(row_embedded)
+
     # Make df out of values
     formatted_parameters = pd.DataFrame(row_embedded,columns=column_headers)
-    print("formatted parameters: ",formatted_parameters.columns)
-    # print('FORMATTED PARAMETERS',formatted_parameters.shape)
-    # print(formatted_parameters)
-    # print(formatted_parameters.dtypes)
-    # print(formatted_parameters)
 
     # Select correct model using route
     model_name = "{}_D{}.sav".format(route,direction)
     print(model_name)
 
     try:
+         # try opening the model pickle file
         model = os.path.join(BASE_DIR, 'static/model_files/{}'.format(model_name))
-    # file = open(test,'rb')
         with open(model, 'rb') as p:
             loaded_model = pickle.load(p)
 
     # Use the loaded pickled model to make predictions 
         prediction = loaded_model.predict(formatted_parameters)
-        print(prediction[0])
-
-    # USES JUST HISTORICAL AVERAGE - FOR COMPARISON
-        # average_file = "historical_average.json"
-        # hist = os.path.join(BASE_DIR, 'static/{}'.format(average_file))
-        # with open(hist,) as fp:
-        #     historical_average_data = json.load(fp)
-        # segments = historical_average_data[route]["direction_{}".format(direction)]["order"]
-        # # get segments including start and end stop
-        # journey_segments = segments[int(start_stop):int(end_stop)]
-        # offset = 0
-        # for key in historical_average_data[route]["direction_{}".format(direction)]["segments"]:
-        #     # if key not in journey_segments:
-        #         # offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key])
-        #     if key in journey_segments:
-        #         offset+=float(historical_average_data[route]["direction_{}".format(direction)]["segments"][key][1])
         
         average_file = "historical_averages_full.json"
         hist = os.path.join(BASE_DIR, 'static/{}'.format(average_file))
         with open(hist,) as fp:
             historical_average_data = json.load(fp)
         
+        # get list of all sections on a given route (i.e. section is between two stops)
         segments = historical_average_data[route]["D{}".format(direction)]["order"]
-        # get segments including start and end stop
+        # splice list to get only the segments relevant to the journey prediction being requested
         journey_segments = segments[int(start_stop):int(end_stop)]
         offset = 0
         if hour=="24":
             hour=0
+
         # Loop through each segment and find appropriate time slot and add up % of all appropriate segments
         slot = 'N/A'
-        print("Hour: ",hour)
         for key in time_slot:
             if int(hour) in time_slot[key]:
                 slot=key
-        print("slot:  ",slot)
+
+        # get rmse value
+        rmse = int(model_params[route]["direction_{}".format(direction)]['cv']["rmse"]/60)
+        if rmse ==0:
+            rmse=1
+
         # if it is a valid time slot
         if slot !='N/A':
             # times with 'NaN' are not valid i.e. time isn't appropriate
@@ -272,37 +258,36 @@ def getModelPredictions(route,direction,start_stop,end_stop,date,time,temp,rain,
                         offset+=float(historical_average_data[route]["D{}".format(direction)]["segments"][seg][slot][1])
             else:
                 # This is for if the time is in a time slot (i.e. not early hours of morning) but not valid for this journey
-                # return some kind of error message which lists valid times? [or returns some kind of timetable]
-                print("FIRST invalid time please select a time")
                 return "sorry there is no journey information available for route {} at {}".format(route,time)
         else:
-            # This is for a time outside dublin bus hours - limit clock?
-            print("SECOND not a valid time")
+            # This is for a time outside dublin bus hours
             return "sorry there is no journey information available for route {} at {}".format(route,time)
 
-        print("OFFSET AMOUNT: ",offset)
-        # final_pred = prediction[0]-offset
         final_pred = prediction[0]*offset
         final = final_pred//60
 
         # if next_day = True it means this must be stated, otherwise just return back the next bus time
         if route in  no_timetable_route_list:
-            message="There is timetable available for this route"
-        else:   
-            if next_day:
-                message ="Next journey is at: {} -  {}".format(time,reverse_day_dict[day+1])
+            message="There is timetable available for this route <hr> <small id='little_text' class=text-muted> * Journey predictions for the entire route (i.e. end to end) should be accurate within {} {}, shorter journey predictions may show greater levels of variance </small>".format(rmse,minute)
+        else:
+            if rmse==1:
+                minute="minute"
             else:
-                message ="Next journey is at: {}".format(time)
+                minute="minutes"
+            if next_day:
+                message ="Next journey is at: <br> {} -  {} <hr> <small id='little_text' class=text-muted> * Journey predictions for the entire route (i.e. end to end) should be accurate within {} {}, shorter journey predictions may show greater levels of variance </small>".format(time,reverse_day_dict[day+1],rmse,minute)
+            else:
+                message ="Next journey is at: {} <hr> <small id='little_text'  class=text-muted> * Journey predictions for the entire route (i.e. end to end) should be accurate within {} {}, shorter journey predictions may show greater levels of variance </small>".format(time,rmse,minute)
 
         
             
         if int(final)<1:
             final=" < 1"
-            return " {} minute  \n ".format(final) + message
+            return " {} minute  <br> ".format(final) + message
 
         # return some info on next bus available??
 
-        return "{} minutes  \n".format(int(final)) + message
+        return "{} minutes  <br> ".format(int(final)) + message
         
 
 
