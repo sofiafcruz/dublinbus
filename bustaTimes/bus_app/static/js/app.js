@@ -674,8 +674,8 @@ $(".clickable-row").click(function () {
   // 2. Click the "Search by Route" image tab; (FOR SOME REASON THEY'RE NOT WORKING!)
 
   $("#search-by-route-container").click(); // Needed to load the JSON file
-  // $("#search-by-route-img").click();
-  openTab(event, 'search-by-route-container');
+  $("#search-by-route-img").click();
+  // openTab(event, 'search-by-route-container');
   // $("#search-by-route-nav").click();
   //
   // $("#search-by-route-nav").click();
@@ -691,15 +691,15 @@ $(".clickable-row").click(function () {
   $("select#json-starting-stops option").each(function () {
     // console.log("IN THIS PART:", $(this));
     if ($(this).text() == row_origin_stop) {
-      // $(this).attr("selected", "selected");
-      console.log($(this));
-      console.log($(this.parentNode));
-      console.log($(this).text());
-      console.log($(this).val());
-      let stop_value = $(this).val();
-      console.log("START:", stop_value);
-      // $(this).val(stop_value).change();
-      $(this.parentNode).val(stop_value).change();
+      $(this).attr("selected", "selected");
+      // console.log($(this));
+      // console.log($(this.parentNode));
+      // console.log($(this).text());
+      // console.log($(this).val());
+      // let stop_value = $(this).val();
+      // console.log("START:", stop_value);
+      // // $(this).val(stop_value).change();
+      // $(this.parentNode).val(stop_value).change();
       // $(this.parentNode).val(row_origin_stop).change();
       // $(this).val(row_origin_stop).change();
     }
@@ -710,16 +710,16 @@ $(".clickable-row").click(function () {
   $("select#json-ending-stops option").each(function () {
     // console.log($(this).text());
     if ($(this).text() == row_destination_stop) {
-      // $(this).attr("selected", "selected");
-      console.log($(this));
-      console.log($(this.parentNode));
-      console.log($(this).text());
-      console.log($(this).val());
-      let stop_value = $(this).val();
-      console.log("END:", stop_value);
-      // $(this).val(stop_value).change();
-      $(this.parentNode).val(stop_value).change();
-      // $(this.parentNode).val(row_destination_stop).change();
+      $(this).attr("selected", "selected");
+      // console.log($(this));
+      // console.log($(this.parentNode));
+      // console.log($(this).text());
+      // console.log($(this).val());
+      // let stop_value = $(this).val();
+      // console.log("END:", stop_value);
+      // // $(this).val(stop_value).change();
+      // $(this.parentNode).val(stop_value).change();
+      // // $(this.parentNode).val(row_destination_stop).change();
       // $(this).val(row_destination_stop).change();
     }
   });
@@ -729,7 +729,7 @@ $(".clickable-row").click(function () {
   // element.dispatchEvent(event);
 
   console.log('6. Click "Show Prediction"');
-  // 6. Click "Show Journey"
+  // 6. Click "Show Prediction"
   $("#show-prediction").click();
 
 });
