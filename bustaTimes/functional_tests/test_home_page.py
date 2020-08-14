@@ -17,13 +17,6 @@ class TestHomePage(StaticLiveServerTestCase):
             username="test_username",
             password="test_password",
         )
-        # Create Unsaved User for purposes of testing
-        # NOT WORKING AS I WAS HOPING!!! (E.G. CAN'T REGISTER THIS USER AS THEY 'Already exist')
-        # unsaved_user = User.objects.create(
-        #     username="unsaved_username",
-        #     password="unsaved_password",
-        #     email="unsaved_email@gmail.com",
-        # )
         # Reset Password
         self.password_reset_href = '/password_reset/' # href of "Forgot password?" link
         self.password_reset_url = self.live_server_url + reverse('password_reset') # redirected password_reset page url
