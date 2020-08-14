@@ -27,7 +27,7 @@ This application was built as part of the 2020 Summer Project designed by Univer
 - Prediction models were then generated from each bus trip by combining both bus and corresponding weather data.
 - A single page application was built to host these predictions with a seamless user experience in mind. The responsive web design was applied to this app, in order to provide the best user experience for different devices. The application is composed of two main components: The Map component (where journeys, bus markers etc are rendered) and a Query Component (Menu Container) that stores the main features of the application. The main features are described in more detail below.
 
-## MainFeatures:
+## Main Features
 ### Search by Location
 
 Users can plan journeys by inputting desired origin and destination points. The journey of interest as recommended by Google maps is rendered on screen and accompanied by a timeline designed by us.
@@ -44,7 +44,7 @@ Users can search a specific bus stop (filtered using Regex). And be shown all th
 
 Users can check their leap card balance if they are registered with leap card by supplying valid credentials (username and password) to this section.
 
-## Sub Features:
+## Sub Features
 ### News Feed Info Bar
 
 The news bar displays the latest news headlines from the Dublin Bus News Centre as well as its last updated date. By clicking the news headline, users will be redirected to the official website of Dublin Bus, displaying the full text of the news article.
@@ -112,14 +112,14 @@ For sending Emails for password reset:
 `EMAIL_PASS=YOUR_ENV_VAR`
 
 ## API Reference
-[Dark Sky](https://darksky.net/dev/docs “Dark Sky API Documentation”)
-[Google Maps](https://developers.google.com/maps/documentation/javascript/overview “Google Maps API Documentation”)
-[Google Directions](https://developers.google.com/maps/documentation/directions/overview “Google Directions API Documentation”)
-[Google Places](https://developers.google.com/places/web-service/overview “Google Places API Documentation”)
-[Google Geocoding](https://developers.google.com/maps/documentation/geocoding/overview “Google Geocoding API Documentation”)
-[Leap Card](https://github.com/skhg/pyleapcard “Leap Card Python Library”)
-[RTPI](https://data.smartdublin.ie/dataset/c9df9a0b-d17a-40ff-a5d4-01da0cf08617/resource/4b9f2c4f-6bf5-4958-a43a-f12dab04cf61/download/rtpirestapispecification.pdf “RPTI Docuemntation”)
-[GTFS - Timetable and stop name info](https://www.transportforireland.ie/transitData/PT_Data.html "GTFS")
+[Dark Sky](https://darksky.net/dev/docs)
+[Google Maps](https://developers.google.com/maps/documentation/javascript/overview)
+[Google Directions](https://developers.google.com/maps/documentation/directions/overview)
+[Google Places](https://developers.google.com/places/web-service/overview)
+[Google Geocoding](https://developers.google.com/maps/documentation/geocoding/overview)
+[Leap Card](https://github.com/skhg/pyleapcard)
+[RTPI](https://data.smartdublin.ie/dataset/c9df9a0b-d17a-40ff-a5d4-01da0cf08617/resource/4b9f2c4f-6bf5-4958-a43a-f12dab04cf61/download/rtpirestapispecification.pdf)
+[GTFS - Timetable and stop name info](https://www.transportforireland.ie/transitData/PT_Data.html)
 
 
 
