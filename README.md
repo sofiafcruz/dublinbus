@@ -113,12 +113,19 @@ For sending Emails for password reset:
 
 ## API Reference
 [Dark Sky](https://darksky.net/dev/docs)
+
 [Google Maps](https://developers.google.com/maps/documentation/javascript/overview)
+
 [Google Directions](https://developers.google.com/maps/documentation/directions/overview)
+
 [Google Places](https://developers.google.com/places/web-service/overview)
+
 [Google Geocoding](https://developers.google.com/maps/documentation/geocoding/overview)
+
 [Leap Card](https://github.com/skhg/pyleapcard)
+
 [RTPI](https://data.smartdublin.ie/dataset/c9df9a0b-d17a-40ff-a5d4-01da0cf08617/resource/4b9f2c4f-6bf5-4958-a43a-f12dab04cf61/download/rtpirestapispecification.pdf)
+
 [GTFS - Timetable and stop name info](https://www.transportforireland.ie/transitData/PT_Data.html)
 
 
