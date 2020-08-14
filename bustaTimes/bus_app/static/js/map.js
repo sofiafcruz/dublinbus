@@ -1129,7 +1129,6 @@ function filterDropdown() {
       }
     } else {
       console.log("B needs to reduce");
-
       // remove all options up to and including start value in end dropdown options
       // start from the first index but check the value each time
       var count = 0;

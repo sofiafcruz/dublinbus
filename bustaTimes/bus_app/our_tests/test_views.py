@@ -94,7 +94,7 @@ class TestViews(TestCase):
     
     def test_index_uses_correct_template(self):
         response = self.client.get(self.home_url)
-        self.assertTemplateUsed(response, 'base.html')
+        self.assertTemplateUsed(response, 'index.html')
 
     # =================================
     # 2. make_rpti_realtime_api_request
@@ -104,27 +104,6 @@ class TestViews(TestCase):
         response = self.client.get(self.rpti_url, self.stop_num)
         # Ensure status is OK
         self.assertEqual(response.status_code, 200)
-    
-    # def test_make_rpti_realtime_api_request_GET_macthes_API_response(self):
-    #     # DECIDED TO STOP CONTINUING WITH THIS
-    #     real_time_url = 'https://data.smartdublin.ie/cgi-bin/rtpi/realtimebusinformation?type=day&stopid=' + str(self.stop_num["inputStopNum"])
-    #     byte_response = requests.get(real_time_url)
-
-    #     parsed_to_json = json.loads(byte_response.content)
-
-    #     results = parsed_to_json["results"]
-
-    #     print(results)
-
-    #     # response = self.client.get(self.rpti_url, self.stop_num)
-    #     # print(response)
-    #     # print(response.content)
-    #     # print(type(response.content))
-
-    #     # self.assertEquals(
-    #     #     str(response.content),
-    #     #     str(results)
-    #     # )
     
     # ====================
     # 3. registerUserPopup
@@ -137,8 +116,8 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         # Make sure user is NOT logged in (as they are returned to home page and must login separately)
         self.assertFalse(response.context['user'].is_authenticated)
-        # Ensure the template returned is the home page (base.html)
-        self.assertTemplateUsed(response, 'base.html')
+        # Ensure the template returned is the home page (index.html)
+        self.assertTemplateUsed(response, 'index.html')
 
     def test_registerUserPopup_POST_is_unsuccessful(self):
         # Send registration data
@@ -147,8 +126,8 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         # Make sure user is NOT logged in!!
         self.assertFalse(response.context['user'].is_authenticated)
-        # Ensure the template returned is the home page (base.html)
-        self.assertTemplateUsed(response, 'base.html')
+        # Ensure the template returned is the home page (index.html)
+        self.assertTemplateUsed(response, 'index.html')
 
     # =================
     # 4. loginUserPopup
@@ -162,8 +141,8 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         # Make sure user is NOT logged in
         self.assertFalse(response.context['user'].is_authenticated)
-        # Ensure the template returned is the home page (base.html)
-        self.assertTemplateUsed(response, 'base.html')
+        # Ensure the template returned is the home page (index.html)
+        self.assertTemplateUsed(response, 'index.html')
     
     def test_loginUserPopup_POST_registered_user(self):
         # Send login data
@@ -173,8 +152,8 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         # Make sure user IS logged in
         self.assertTrue(response.context['user'].is_authenticated)
-        # Ensure the template returned is the home page (base.html)
-        self.assertTemplateUsed(response, 'base.html')
+        # Ensure the template returned is the home page (index.html)
+        self.assertTemplateUsed(response, 'index.html')
 
     # =====================
     # 5. save_route_journey

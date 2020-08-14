@@ -81,7 +81,6 @@ function lazyInitTopBar() {
             }
         }
     }
-    //console.log('send request to server')
     request.send();
     setTimeout(abortRequest, 10000);
 }
@@ -89,7 +88,6 @@ function lazyInitTopBar() {
 // The content of news bar
 function initTopBar(rtn) {
     createTopBar();
-    //console.log("init top bar");
     var topBarContent = document.getElementById("news-top-bar-content");
     // Set the colour of the news title in accordance with the theme colour; open a new page redirecting users to news on Dublin Bus website
     topBarContent.innerHTML = "<nobr><a href='{0}'target='_blank'style='color:rgb(111, 173, 193)'>{1}</a>-{2}</nobr>".format(rtn['href'], rtn['title'], rtn['time']);
@@ -98,7 +96,6 @@ function initTopBar(rtn) {
 
 // Content scrolling when the width of the news bar is too narrow.
 function startTopBarScroll() {
-    //console.log("start top bar");
     intervalVar = setInterval(scrollTopBar, 50);
 }
 
