@@ -407,9 +407,56 @@ def get_journey_prediction(request):
     end_stop = request.POST.get("end_stop")
     date_ = request.POST.get("date")
     time_=request.POST.get("choose-time")
+    print("DATE:   {}".format(date_))
+    print(start_stop)
+    print(end_stop)
+    print(time_)
 
     # This needs to be changed to be automatic (i.e. POST.get)
-    direction=1
+    # direction=1
+    direction= int(request.POST.get("choose-direction"))
+    print("Direction:",direction)
+    # Get stop number (from value text)
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    average_file = "historical_averages_full.json"
+    hist = os.path.join(BASE_DIR, 'bus_app/static/{}'.format(average_file))
+    with open(hist,) as fp:
+        historical_average_data = json.load(fp)
+
+    # Need to search in historical data for non existent in frontend file (only in historical)
+    offset_list = ['349', '401', '2567', '2576', '4529', '4678', '5034', '6058', '6333', '7293', '7404', '7405', '7457', '7475', '7479', '7484', '7485', '7486', '7487', '7490', '7492', '7500', '7501', '7502', '7503', '7504', '7537', '7538', '7539', '7540', '7541', '7542', '7544', '7546', '7547', '7566', '7567', '7617', '7620', '7621', '7626', '7627', '7638','7647', '7653', '7655', '7658', '7659', '7668', '7669']    
+    # count offset numbers up to starting stop - then add to index - loopin
+    offset_count=0
+    for option in historical_average_data[route_]["D{}".format(direction)]["order"][:int(start_stop)+1]:
+        split_option=option.split("_")
+        print("OPTION: {}".format(split_option[0].strip()))
+        if split_option[0].strip() in offset_list:
+            print("OFFSET INPLCACE: {}".format(split_option[0].strip()))
+            offset_count +=1
+
+    
+    print("OFFSET SPLIT {}".format(offset_count))
+    if int(start_stop)+offset_count < len(historical_average_data[route_]["D{}".format(direction)]["order"])-1:
+        segment = historical_average_data[route_]["D{}".format(direction)]["order"][int(start_stop)+offset_count]
+    else:
+        # get second last segment
+        print("had to choose second last")
+        segment = historical_average_data[route_]["D{}".format(direction)]["order"][-1]   
+    # get segments including start and end stop - test the correct stop is being obtained
+    print("SEGMENT: {}".format(segment))
+    split_segment=segment.split("_")
+    start = split_segment[0].strip()
+    print("START:  {}   ".format(start))
+
+    # read in route_,"D{}",["stops"], start_stop
+    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # timetable_file = os.path.join(BASE_DIR, 'bus_app/static/timetable_dict.json')
+
+    # with open(timetable_file,) as outfile:
+    #     timetable_dict = json.load(outfile)
+    # next_time = timetable_dict[route_]["D{}".format(direction)]["stops"][]
+
+
     split_date = date_.split(" ")
     day_string = split_date[0].strip()
     day = day_dict[day_string]
@@ -441,7 +488,7 @@ def get_journey_prediction(request):
     Visibility = weather_array[4]
     Humidity = weather_array[5]
 
-    prediction = getModelPredictions(route_,direction,start_stop,end_stop,date_,time_,Temperature,Rainfall,WindSpeed,Cloud,Visibility,Humidity)
+    prediction = getModelPredictions(route_,direction,start_stop,end_stop,date_,time_,Temperature,Rainfall,WindSpeed,Cloud,Visibility,Humidity,start)
     print("Final_pred:  {}".format(prediction))
 
     return HttpResponse(prediction)

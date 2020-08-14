@@ -211,11 +211,13 @@ prediction_form.submit(function () {
 // Display div containing filled drop down options of bus stops
 // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
 function showAndLoadStartAndEndDrops(direction) {
+  console.log("IN SHOW AND LOAD");
+  console.log("DIRECTION ", direction);
   current_direction = direction;
-  console.log("show_and_load fxn check");
+
   // Grab the route option selected
   var selected_route = document.getElementById("json-routes").value;
-  // console.log(selected_route);
+  console.log("CHECK SELECTED ROUTE ", selected_route);
 
   // Target the starting and ending stops select dropdowns
   var json_starting_point_dropdown = document.getElementById(
@@ -244,7 +246,7 @@ function showAndLoadStartAndEndDrops(direction) {
     showJourney(full_route);
   });
   // displayEntireRoute(full_route);
-
+  console.log("AFTER SHOW JOURNEY");
   // Grab the selected Route's Origin (From) and Destination (To) data
   let origin = direction_1["origin"];
   let destination = direction_1["destination"];
@@ -292,6 +294,7 @@ function showAndLoadStartAndEndDrops(direction) {
       json_ending_point_dropdown.options[stops.length - 2].selected = true;
     }
   }
+  console.log("AT END OF SHOWANDLOAD");
   // At the end, make sure to display the container holding the starting and ending stop dropdowns (as it's initially hidden)
   $("#stops-dropdowns-container").css("display", "block");
 }
@@ -644,21 +647,39 @@ $(".clickable-row").click(function () {
   console.log(row_origin_stop);
   console.log(row_destination_stop);
 
+  console.log("trying to print all: ", $(this).children());
+  console.log("trying to print 0: ", $(this).children()[0].textContent);
+  console.log("trying to print 1: ", $(this).children()[1].textContent);
+  // let row_route_name = $(this).children()[2].textContent;
+  // let row_origin_stop = $(this).children()[3].textContent;
+  // let row_destination_stop = $(this).children()[4].textContent;
+
+  console.log("ROUTE NAME:", row_route_name);
+  console.log("ORIGIN STOP:", row_origin_stop);
+  console.log("DEST STOP:", row_destination_stop);
+
   // =====Changing Search by Route Options=====
 
   console.log("1. Close PopUp");
   // 1. Close PopUp
   $("#close-favourites-popup").click();
-  
 
   console.log("2. Click the 'Search by Route' image tab");
+  console.log("CLOSE POPUP");
+  // $("#search-by-route-img").click();
+  var element = document.getElementById("search-by-route-img");
+  var event = new Event("clickEvent");
+  element.dispatchEvent(event);
+
   // 2. Click the "Search by Route" image tab; (FOR SOME REASON THEY'RE NOT WORKING!)
 
   $("#search-by-route-container").click(); // Needed to load the JSON file
   // $("#search-by-route-img").click();
   openTab(event, 'search-by-route-container');
   // $("#search-by-route-nav").click();
-  
+  //
+  // $("#search-by-route-nav").click();
+  console.log("CLICK SEARCH-BY-ROUTE-CONTAINER");
 
   console.log("3. Changing value of 'Select Route'");
   // 3. Changing value of "Select Route";
@@ -668,7 +689,7 @@ $(".clickable-row").click(function () {
   console.log('4. Changing value of "Select Starting Point"');
   // 4. Changing value of "Select Starting Point";
   $("select#json-starting-stops option").each(function () {
-    // console.log($(this).text());
+    // console.log("IN THIS PART:", $(this));
     if ($(this).text() == row_origin_stop) {
       // $(this).attr("selected", "selected");
       console.log($(this));
@@ -702,39 +723,15 @@ $(".clickable-row").click(function () {
       // $(this).val(row_destination_stop).change();
     }
   });
+  // // Now the values are changed but the 'on change' issues aren't solved - force on change
+  // var element = document.getElementById("json-starting-stops");
+  // var event = new Event("change");
+  // element.dispatchEvent(event);
 
   console.log('6. Click "Show Prediction"');
   // 6. Click "Show Journey"
   $("#show-prediction").click();
 
-  // OTHER OPTIONS TO CONSIDER:
-  // - The Value of the journey? (to determine the number of stops?)
-  // - Set Adult/Child/Student
-  // - Set Payment Mode (for fare calculator)
-
-  // Trying to access all the TD elements in the clicked row;
-  // ()
-  // Option 1
-  // console.log("Iteration: Option 1")
-  // $(this).find('td').each (function(index, td) {
-  //   console.log(index, td.textContent);
-  //   // ROW FORMAT
-  //   // ==========
-  //   // 0. #
-  //   // 1. PK
-  //   // 2. Route Name/Num
-  //   // 3. Start
-  //   // 4. End
-  //   // 5. # Stops
-  //   // 6. Date Saved
-  //   // 7. Summary
-  //   // 8. Delete
-  // });
-
-  // Option 2
-  // $.each(this.cells, function(){
-  //   console.log('Option 2');
-  // });
 });
 
 // Delete a Row (from the DOM (rather than from the database))
@@ -1068,9 +1065,11 @@ $("#change-direction").click(function (e) {
   if (current_direction === "D1") {
     console.log("Switching to D2");
     current_direction = "D2";
+    document.getElementById("hidden_directon").value = "2";
   } else {
     console.log("Switching to D1");
     current_direction = "D1";
+    document.getElementById("hidden_directon").value = "1";
   }
   showAndLoadStartAndEndDrops(current_direction);
 });

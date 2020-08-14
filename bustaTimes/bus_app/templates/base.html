@@ -353,89 +353,96 @@
                     
                     <form id="route_prediction_form" action="get_journey_prediction" method="POST">
                         {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
-                    <select name="route" onchange="showAndLoadStartAndEndDrops('D1')" id="json-routes" class="form-control form-control-sm">
-                        <option value="" disabled selected>Select a Route</option>
-                    </select>
+                        <select name="route" onchange="showAndLoadStartAndEndDrops('D1')" id="json-routes" class="form-control form-control-sm">
+                            <option value="" disabled selected>Select a Route</option>
+                        </select>
     
-                    <!-- Hidden input which contains weather info -->
-                    <input type="text" id="hidden_weather" name="model_weather" style="display:none">
+                        <!-- Hidden input which contains weather info -->
+                        <input type="text" id="hidden_weather" name="model_weather" style="display:none">
 
-                    <!-- Select "Starting Point" and "Ending Point" div (initially hidden) -->
-                    <div id="stops-dropdowns-container" style="display: none;">
-                        <!-- From Origin to Destination header -->
-                        <div id="origin-to-destination-div">
-                            <p id="origin-to-destination-header"></p>
+                        <!-- Select "Starting Point" and "Ending Point" div (initially hidden) -->
+                        <div id="stops-dropdowns-container" style="display: none;">
+                            <!-- From Origin to Destination header -->
+                            <div id="origin-to-destination-div">
+                                <p id="origin-to-destination-header"></p>
+                            </div>
+                            <!-- Switch Direction button -->
+                            <div class="container">
+                                <input type="image" src="./static/images/change-direction.svg" id="change-direction" alt="Change Direction" style="height: 30px;" />
+                                <input type="text" id="hidden_directon" name="choose-direction" style="display:none", value="1">
+                            </div>
+                            <!-- Starting Point Dropdown -->
+                            <div>
+                                <label for="starting-dropdown">Select Start Stop:</label>
+                                <select name="start_stop" id="json-starting-stops" class="form-control form-control-sm" onchange="filterDropdown()"></select>
+                            </div>
+                            <!-- Ending Point Dropdown -->
+                            <div>
+                                <label for="ending-dropdown">Select End Stop:</label>
+                                <select name="end_stop" id="json-ending-stops" class="form-control form-control-sm" onchange="filterRoute()"></select>
+                            </div>
+                            <!-- Choose Date Dropdown -->
+                            <div id="date-selector-container">
+                                <label for="date-dropdown">Select Date:</label>
+                                <select name="date" id="date-selector" class="form-control form-control-sm">
+                                    <option id="prediction-date-1"></option>
+                                    <option id="prediction-date-2"></option>
+                                    <option id="prediction-date-3"></option>
+                                    <option id="prediction-date-4"></option>
+                                    <option id="prediction-date-5"></option>
+                                </select>
+                            </div>
+                            <div id="time-selector-container" class="md-form md-outline input-with-post-icon timepicker" twelvehour="true">
+                                <label for="choose-time">Select a time:</label>
+                                <input type="time" id="choose-time" name="choose-time">
+                            </div>
+                            <!-- Show Prediction -->
+                            {% if user.is_authenticated %}
+                                <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="showSaveJourneyBtn(); calculateFare()"><br>
+                            {% else %}
+                                <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="calculateFare()" style="margin-top:15px; margin-bottom:20px;"><br>
+                            {% endif %}
                         </div>
-                        <!-- Switch Direction button -->
-                        <div class="container">
-                            <input type="image" src="./static/images/change-direction.svg" id="change-direction" alt="Change Direction" style="height: 30px;" />
-                        </div>
-                        <!-- Starting Point Dropdown -->
-                        <div>
-                            <label for="starting-dropdown">Select Start Stop:</label>
-                            <select name="start_stop" id="json-starting-stops" class="form-control form-control-sm" onchange="filterDropdown()"></select>
-                        </div>
-                        <!-- Ending Point Dropdown -->
-                        <div>
-                            <label for="ending-dropdown">Select End Stop:</label>
-                            <select name="end_stop" id="json-ending-stops" class="form-control form-control-sm" onchange="filterRoute()"></select>
-                        </div>
-                        <!-- Choose Date Dropdown -->
-                        <div id="date-selector-container">
-                            <label for="date-dropdown">Select Date:</label>
-                            <select name="date" id="date-selector" class="form-control form-control-sm">
-                                <option id="prediction-date-1"></option>
-                                <option id="prediction-date-2"></option>
-                                <option id="prediction-date-3"></option>
-                                <option id="prediction-date-4"></option>
-                                <option id="prediction-date-5"></option>
-                            </select>
-                        </div>
-                        <div id="time-selector-container" class="md-form md-outline input-with-post-icon timepicker" twelvehour="true">
-                            <label for="choose-time">Select a time:</label>
-                            <input type="time" id="choose-time" name="choose-time">
-                        </div>
+
                         <!-- Show Prediction -->
                         {% if user.is_authenticated %}
                         <input type="submit" id="show-prediction" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="showSaveJourneyBtn(); calculateFare()"><br>
                         {% else %}
                         <input type="submit" class="btn btn-outline-* btn-submit" value="Show Prediction" onclick="calculateFare()" style="margin-top:15px; margin-bottom:20px;"><br>
                         {% endif %}
+
                     </form>
-                          
-                       
-                    
                             
-                        {% if user.is_authenticated %}
-                            <!-- <button id="show-journey" class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn(); calculateFare();" style="margin-top:15px;">Show Journey</button> -->
-                            <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
-                                {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
+                    {% if user.is_authenticated %}
+                        <!-- <button id="show-journey" class='btn btn-outline-* btn-submit' onclick="generateStopArray(); showSaveJourneyBtn(); calculateFare();" style="margin-top:15px;">Show Journey</button> -->
+                        <form id="save-journey-form" action="{% url 'save_route_journey' %}" method="POST">
+                            {% csrf_token %} <!-- csrf_token required in all form POSTs (for security reasons) -->
 
-                                <!-- Form for saving Favourite Journey Details (Hidden) -->
-                                <input type="hidden" id="route-name-input" name="route_name">
-                                <input type="hidden" id="starting-stop-input" name="origin_stop">
-                                <input type="hidden" id="ending-stop-input" name="destination_stop">
-                                <input type="hidden" id="stop-count-input" name="stops_count">
-                                <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey">
-                                <!-- <div id="save-journey" style="display:none;">
-                                <button type="submit" style="padding: none;border: none;background:none;outline: none;"><img src="./static/images/star_empty.svg" id="favourite_icon" class="material-icons"></button> -->
-                                
-                            </div>
-                                <!-- <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey"> -->
-                            </form>
-                        {% else %}
-                       
-                            <!-- <button class='btn btn-outline-* btn-submit' onclick="generateStopArray(); calculateFare();" style="margin-top:15px;">Show Journey</button> -->
-                        {% endif %}
-
-                        <div id="display_prediction"></div>
-
-                        <!-- Displays the estimated Adult and Child fares for the journey -->
-                        <div id="fare-table"></div>
+                            <!-- Form for saving Favourite Journey Details (Hidden) -->
+                            <input type="hidden" id="route-name-input" name="route_name">
+                            <input type="hidden" id="starting-stop-input" name="origin_stop">
+                            <input type="hidden" id="ending-stop-input" name="destination_stop">
+                            <input type="hidden" id="stop-count-input" name="stops_count">
+                            <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey">
+                            <!-- <div id="save-journey" style="display:none;">
+                            <button type="submit" style="padding: none;border: none;background:none;outline: none;"><img src="./static/images/star_empty.svg" id="favourite_icon" class="material-icons"></button> -->
+                            
                         
-                        <!-- <div id="routes-directions-panel"></div> -->
-                    </div>
+                            <!-- <input id="save-journey" type="submit" class='btn btn-outline-dark'style="margin-top:15px; display:none;" value="Save Journey"> -->
+                        </form>
+                    {% else %}
+                    
+                        <!-- <button class='btn btn-outline-* btn-submit' onclick="generateStopArray(); calculateFare();" style="margin-top:15px;">Show Journey</button> -->
+                    {% endif %}
+
+                    <div id="display_prediction"></div>
+
+                    <!-- Displays the estimated Adult and Child fares for the journey -->
+                    <div id="fare-table"></div>
+                    
+                    <!-- <div id="routes-directions-panel"></div> -->
                 </div>
+                
                 
                 <!-- ********** Search by Bus Stop Menu ********** -->
                 <div id='bus-stop-search-container' class="container centre-and-padding tabcontent">
@@ -479,7 +486,7 @@
                     
                     <!-- Link to register a leap card (Sometimes doesn't work and not sure why?) -->
                     <small class="text-muted"><a target="_blank" href="https://www.leapcard.ie/en/NavigationPages/CardRegistration.aspx">Not registered on Leap Card?</a></small>
-                </div>
+            </div>
         </div>
     </div>
     
