@@ -44,6 +44,7 @@ var all_searched_bus_stop_markers = [];
 var all_polylines = []; // List to store all the generated polylines (for Search by Bus Stop)
 var route_polyline; // store current polyline object
 var route_coordinates = []; // list to store current coordinates - for route poyline adjustment
+var favourites_check = [];
 
 // List of colours for polylines
 var polyline_colours = [
@@ -945,6 +946,23 @@ function getRoutePolyline(path) {
       console.log("polyline in variable:", route_polyline);
       console.log("END OF POLYLINE THREAD");
     }
+
+    // here if favourites has been clicked - trigger the even change here
+    if (favourites_check.length == 2) {
+      console.log("TRIGGERING FIRST CHANGE");
+      favourites_check.pop();
+      var element = document.getElementById("json-starting-stops");
+      var event = new Event("change");
+      element.dispatchEvent(event);
+    } else if (favourites_check.length == 1) {
+      console.log("TRIGGERING SECOND CHANGE");
+      favourites_check.pop();
+      var element = document.getElementById("json-ending-stops");
+      var event = new Event("change");
+      element.dispatchEvent(event);
+    } else {
+      console.log(" SHOULD BE EMPTY", favourites_check.length);
+    }
   });
 }
 function checkRouteLine(routes, selectedRoute) {
@@ -1579,3 +1597,11 @@ function hideMenu() {
     document.getElementById("hide-arrow").style.transform = "rotate(180deg)";
   }
 }
+// create an onlick event that creates populates a global variable with "start" and "end"
+$(".clickable-row").click(function () {
+  console.log("IM IN MAP>JS ON CLILCK");
+  favourites_check.length = 0;
+  favourites_check.push("End");
+  favourites_check.push("Start");
+  console.log("CHECK THE FV CHECK", favourites_check);
+});

@@ -211,11 +211,13 @@ prediction_form.submit(function () {
 // Display div containing filled drop down options of bus stops
 // (Has to be outside of on-load ($(document).ready) to allow for on click event to call this function)
 function showAndLoadStartAndEndDrops(direction) {
-  current_direction = direction;
   console.log("IN SHOW AND LOAD");
+  console.log("DIRECTION ", direction);
+  current_direction = direction;
+
   // Grab the route option selected
   var selected_route = document.getElementById("json-routes").value;
-  // console.log(selected_route);
+  console.log("CHECK SELECTED ROUTE ", selected_route);
 
   // Target the starting and ending stops select dropdowns
   var json_starting_point_dropdown = document.getElementById(
@@ -633,31 +635,41 @@ function populateInputWithStop(clicked_busstop_searchname) {
 // ========== Favourites Popup Table Functionality ==========
 $(".clickable-row").click(function () {
   console.log("Row in Favourites Table clicked!");
+  console.log("trying to print all: ", $(this).children());
+  console.log("trying to print 0: ", $(this).children()[0].textContent);
+  console.log("trying to print 1: ", $(this).children()[1].textContent);
+  let row_route_name = $(this).children()[0].textContent;
+  let row_origin_stop = $(this).children()[1].textContent;
+  let row_destination_stop = $(this).children()[2].textContent;
+  // let row_route_name = $(this).children()[2].textContent;
+  // let row_origin_stop = $(this).children()[3].textContent;
+  // let row_destination_stop = $(this).children()[4].textContent;
 
-  let row_route_name = $(this).children()[2].textContent;
-  let row_origin_stop = $(this).children()[3].textContent;
-  let row_destination_stop = $(this).children()[4].textContent;
-
-  console.log(row_route_name);
-  console.log(row_origin_stop);
-  console.log(row_destination_stop);
+  console.log("ROUTE NAME:", row_route_name);
+  console.log("ORIGIN STOP:", row_origin_stop);
+  console.log("DEST STOP:", row_destination_stop);
 
   // =====Changing Search by Route Options=====
 
   // 1. Close PopUp
   $("#close-favourites-popup").click();
-
+  console.log("CLOSE POPUP");
+  // $("#search-by-route-img").click();
+  var element = document.getElementById("search-by-route-img");
+  var event = new Event("clickEvent");
+  element.dispatchEvent(event);
   // 2. Click the "Search by Route" image tab; (FOR SOME REASON THEY'RE NOT WORKING!)
   $("#search-by-route-container").click(); // Needed to load the JSON file
-  // $("#search-by-route-img").click();
+  //
   // $("#search-by-route-nav").click();
+  console.log("CLICK SEARCH-BY-ROUTE-CONTAINER");
 
   // 3. Changing value of "Select Route";
   $("select#json-routes").val(row_route_name).change();
 
   // 4. Changing value of "Select Starting Point";
   $("select#json-starting-stops option").each(function () {
-    // console.log($(this).text());
+    // console.log("IN THIS PART:", $(this));
     if ($(this).text() == row_origin_stop) {
       $(this).attr("selected", "selected");
     }
@@ -670,9 +682,13 @@ $(".clickable-row").click(function () {
       $(this).attr("selected", "selected");
     }
   });
+  // // Now the values are changed but the 'on change' issues aren't solved - force on change
+  // var element = document.getElementById("json-starting-stops");
+  // var event = new Event("change");
+  // element.dispatchEvent(event);
 
   // 6. Click "Show Journey"
-  $("#show-journey").click();
+  // $("#show-journey").click();
 
   // OTHER OPTIONS TO CONSIDER:
   // - The Value of the journey? (to determine the number of stops?)
