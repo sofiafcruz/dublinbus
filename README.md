@@ -4,7 +4,7 @@
 
 ## Demo
 
-<img src="bustaTimes/bus_app/static/images/demo.gif" alt="App Demo" width="50%">
+<img src="bustaTimes/bus_app/static/images/demo.gif" alt="App Demo" width="70%" style="margin:auto">
 
 ## About
 
