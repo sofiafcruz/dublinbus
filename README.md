@@ -2,6 +2,10 @@
 
 <img src="bustaTimes/bus_app/static/images/logo.png" alt="Busta Times Logo" width="50%">
 
+## Demo
+
+<img src="bustaTimes/bus_app/static/images/demo.gif" alt="App Demo" width="50%">
+
 ## About
 
 ### The Problem
