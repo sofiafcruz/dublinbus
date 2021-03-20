@@ -10,7 +10,7 @@ coverage==5.2.1
 Django==3.1.6
 django-cors-headers==3.4.0
 django-debug-toolbar==2.2
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 Faker==4.1.0
 idna==2.10
 joblib==0.16.0
